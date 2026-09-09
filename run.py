@@ -1,6 +1,7 @@
 """Development entrypoint:  python run.py
 For production use a WSGI server, e.g.:  gunicorn "app:create_app()"  """
 import os
+
 from app import create_app
 
 app = create_app()

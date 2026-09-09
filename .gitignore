@@ -3,6 +3,13 @@ venv/
 __pycache__/
 *.pyc
 
+# Test / lint artefacts
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
 # Env & secrets
 .env
 

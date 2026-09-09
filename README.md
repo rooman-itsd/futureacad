@@ -13,9 +13,14 @@ serves a password-protected admin dashboard.
 .
 ├── run.py                # dev entrypoint
 ├── config.py             # env-driven config
-├── requirements.txt
+├── requirements.txt      # pinned — CI installs exactly what prod runs
+├── requirements-dev.txt  # + pytest, ruff
+├── pyproject.toml        # pytest + ruff config
 ├── .env.example          # copy to .env
+├── DEPLOY.md             # Lightsail deployment runbook
 ├── instance/             # SQLite db (auto-created, gitignored)
+├── deploy/               # nginx, systemd, gunicorn, provision.sh
+├── tests/                # pytest suite
 └── app/
     ├── __init__.py       # app factory, error pages, security headers
     ├── routes.py         # public pages + /api/contact
@@ -67,40 +72,46 @@ and a honeypot, **stored in the database, and emailed** to `LEAD_NOTIFY`.
 View/export them at `/admin`.
 
 The data layer auto-selects its backend:
-- **Local** → SQLite (`instance/futureacad.db`), zero setup.
-- **Vercel** → Postgres, used automatically whenever `POSTGRES_URL` is present.
+- **SQLite** (`instance/futureacad.db`) — the default, zero setup. Used in
+  production on Lightsail too.
+- **Postgres** — used automatically whenever `POSTGRES_URL` is present.
 
-## Deploy to Vercel (Postgres + email)
-
-1. **Push to GitHub**, then in Vercel: *Add New → Project → import the repo.*
-   The included `vercel.json` + `api/index.py` configure the Python build.
-
-2. **Add Postgres** — in the project, *Storage → Create → Postgres* (free tier),
-   connect it to the project. Vercel injects `POSTGRES_URL` automatically; the
-   app creates the `leads` table on first boot.
-
-3. **Set Environment Variables** (Project → Settings → Environment Variables):
-   | Key | Value |
-   |-----|-------|
-   | `SECRET_KEY` | output of `python -c "import secrets;print(secrets.token_hex(32))"` |
-   | `ADMIN_USERNAME` | your admin user |
-   | `ADMIN_PASSWORD` | a strong password |
-   | `SESSION_COOKIE_SECURE` | `1` |
-   | `SMTP_HOST` | `smtp.gmail.com` |
-   | `SMTP_PORT` | `587` |
-   | `SMTP_USER` | your Gmail address |
-   | `SMTP_PASSWORD` | Gmail **App Password** (16 chars) |
-   | `SMTP_FROM` | your Gmail address |
-   | `LEAD_NOTIFY` | inbox that should receive leads |
-
-4. **Deploy.** Every contact submission is saved to Postgres **and** emailed to
-   `LEAD_NOTIFY`. Admin dashboard + CSV export run against Postgres.
-
-> CLI alternative: `npm i -g vercel && vercel` (then `vercel --prod`).
-
-## Deploy elsewhere (Render / Railway / VPS)
-Runs as a normal WSGI app — SQLite works with a persistent disk:
+## Tests
 ```bash
-gunicorn "app:create_app()" -b 0.0.0.0:8000   # Linux
-waitress-serve --listen=0.0.0.0:8000 "app:create_app"   # Windows
+pip install -r requirements-dev.txt
+pytest                      # 79 tests, coverage gate at 85%
+ruff check .
+```
+Postgres-backed tests are skipped unless `TEST_POSTGRES_URL` is set:
+```bash
+docker run --rm -d -p 55432:5432 -e POSTGRES_PASSWORD=pg postgres:16
+TEST_POSTGRES_URL=postgres://postgres:pg@127.0.0.1:55432/postgres pytest
+```
+
+## Deployment
+Production runs on **AWS Lightsail** (ap-south-1) behind nginx, with
+GitHub Actions for CI/CD. See **[DEPLOY.md](DEPLOY.md)** for the full runbook:
+instance setup, DNS, TLS, secrets, and the release/rollback flow.
+
+- **CI** (`.github/workflows/ci.yml`) — ruff, pytest against SQLite *and*
+  Postgres, plus a real gunicorn boot smoke test.
+- **CD** (`.github/workflows/deploy.yml`) — runs only after CI passes. Ships an
+  atomic release, restarts via systemd, polls `/healthz`, and rolls back
+  automatically if the new release is unhealthy.
+
+Application secrets live in **AWS SSM Parameter Store** (`/futureacad/prod/*`,
+SecureString/KMS). A systemd oneshot fetches them into `/run/futureacad/env` —
+**tmpfs, so decrypted secrets stay in RAM and never touch disk** — before the app
+starts. GitHub Actions holds only the SSH deploy credentials; application secrets
+never pass through CI. Rotate by updating the parameter and restarting
+`futureacad-secrets`, with no redeploy.
+
+`create_app()` refuses to boot in production while `SECRET_KEY` or
+`ADMIN_PASSWORD` are still the dev placeholders.
+
+## Run elsewhere
+Any WSGI host works:
+```bash
+gunicorn "app:create_app()" -b 0.0.0.0:8000                 # Linux
+waitress-serve --listen=0.0.0.0:8000 "app:create_app"       # Windows
 ```

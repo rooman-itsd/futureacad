@@ -1,9 +1,0 @@
-venv/
-instance/
-.env
-__pycache__/
-*.pyc
-*.db
-*.db-wal
-*.db-shm
-app/static/js/_main_reference.js

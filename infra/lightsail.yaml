@@ -1,0 +1,316 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  FutureAcad production infrastructure on Amazon Lightsail (ap-south-1).
+  Creates the instance, a static IP, the read-only IAM user the instance uses to
+  read its secrets from SSM, and the non-secret SSM configuration parameters.
+
+  NOT created here, deliberately: the SecureString secrets. CloudFormation does
+  not support SecureString parameters, and secrets do not belong in a template
+  that lives in git. Seed them with `bash deploy/seed-ssm.sh`.
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label: {default: Instance}
+        Parameters: [InstanceName, BundleId, BlueprintId, AvailabilityZone, KeyPairName]
+      - Label: {default: Application configuration (non-secret)}
+        Parameters: [SsmPathPrefix, AppRoot, SmtpHost, SmtpPort, SmtpFrom, LeadNotify]
+      - Label: {default: Backups}
+        Parameters: [EnableAutoSnapshots, SnapshotTimeUtc]
+
+Parameters:
+  InstanceName:
+    Type: String
+    Default: futureacad-prod
+    AllowedPattern: '^[a-zA-Z0-9][\w\-.]*[a-zA-Z0-9]$'
+    Description: Lightsail instance name.
+
+  BundleId:
+    Type: String
+    Default: micro_3_1
+    AllowedValues: [nano_3_1, micro_3_1, small_3_1, medium_3_1]
+    Description: >-
+      Plan. micro_3_1 = $7/mo, 1 GB RAM, 2 vCPU, 40 GB SSD, 1024 GB transfer in
+      Mumbai. nano_3_1 ($5) has only 512 MB and risks OOM during pip install.
+      Do not use an *_ipv6_* bundle: IPv4-only visitors could not reach the site.
+
+  BlueprintId:
+    Type: String
+    Default: ubuntu_24_04
+    Description: OS blueprint. Ubuntu 24.04 LTS ships Python 3.12, which CI targets.
+
+  AvailabilityZone:
+    Type: String
+    Default: ap-south-1a
+    Description: Must be in the stack's region. The static IP must share this AZ.
+
+  KeyPairName:
+    Type: String
+    Default: ''
+    Description: >-
+      Lightsail key pair for the initial ubuntu@ SSH login. Leave blank to use
+      the regional default key pair (downloadable from the Lightsail console).
+      WARNING: Lightsail resource names share ONE namespace per region across
+      resource types, so this must NOT equal InstanceName or the instance fails
+      to create with "Some names are already in use". Use e.g. <instance>-key.
+
+  SsmPathPrefix:
+    Type: String
+    Default: /futureacad/prod
+    AllowedPattern: '^/[a-zA-Z0-9._/-]+[^/]$'
+    Description: SSM path holding this environment's parameters (no trailing slash).
+
+  AppRoot:
+    Type: String
+    Default: /var/www/futureacad
+    Description: Application root on the instance. Must match deploy/provision.sh.
+
+  SmtpHost:
+    Type: String
+    Default: ''
+    Description: >-
+      SES SMTP endpoint, e.g. email-smtp.ap-south-1.amazonaws.com. Leave blank
+      to disable lead notification email; leads are still stored and shown at /admin.
+
+  SmtpPort:
+    Type: String
+    Default: '587'
+    AllowedValues: ['587', '2587', '25', '465']
+
+  SmtpFrom:
+    Type: String
+    Default: no-reply@futureacad.ae
+
+  LeadNotify:
+    Type: String
+    Default: ''
+    Description: Inbox that receives new leads. Must be SES-verified while in sandbox.
+
+  EnableAutoSnapshots:
+    Type: String
+    Default: 'true'
+    AllowedValues: ['true', 'false']
+    Description: >-
+      Daily automatic snapshots, ~$1/month. This is the ONLY copy of your leads
+      on a single instance. Strongly recommended.
+
+  SnapshotTimeUtc:
+    Type: String
+    Default: '19:00'
+    AllowedPattern: '^([01][0-9]|2[0-3]):00$'
+    Description: Snapshot time in UTC, HH:00. 19:00 UTC = 00:30 IST.
+
+Conditions:
+  UseKeyPair: !Not [!Equals [!Ref KeyPairName, '']]
+  WantSnapshots: !Equals [!Ref EnableAutoSnapshots, 'true']
+  HasSmtp: !Not [!Equals [!Ref SmtpHost, '']]
+
+Resources:
+  # ---------------------------------------------------------------- instance --
+  Instance:
+    Type: AWS::Lightsail::Instance
+    Properties:
+      InstanceName: !Ref InstanceName
+      BlueprintId: !Ref BlueprintId
+      BundleId: !Ref BundleId
+      AvailabilityZone: !Ref AvailabilityZone
+      KeyPairName: !If [UseKeyPair, !Ref KeyPairName, !Ref 'AWS::NoValue']
+      AddOns:
+        !If
+          - WantSnapshots
+          - - AddOnType: AutoSnapshot
+              Status: Enabled
+              AutoSnapshotAddOnRequest:
+                SnapshotTimeOfDay: !Ref SnapshotTimeUtc
+          - !Ref 'AWS::NoValue'
+      Networking:
+        # Specifying ports replaces the defaults entirely, so every port the
+        # instance needs must be listed here.
+        Ports:
+          - FromPort: 22
+            ToPort: 22
+            Protocol: tcp
+            Cidrs: ['0.0.0.0/0']
+            CommonName: SSH
+          - FromPort: 80
+            ToPort: 80
+            Protocol: tcp
+            Cidrs: ['0.0.0.0/0']
+            Ipv6Cidrs: ['::/0']
+            CommonName: HTTP
+          - FromPort: 443
+            ToPort: 443
+            Protocol: tcp
+            Cidrs: ['0.0.0.0/0']
+            Ipv6Cidrs: ['::/0']
+            CommonName: HTTPS
+      UserData: !Sub |
+        #!/bin/bash
+        # First-boot prep only. The real setup is deploy/provision.sh, which is
+        # idempotent and run over SSH; this just front-loads the slow package
+        # installs so provisioning is quick.
+        set -eux
+        export DEBIAN_FRONTEND=noninteractive
+        apt-get update -qq
+        apt-get install -y -qq python3 python3-venv python3-pip nginx \
+          certbot python3-certbot-nginx ufw fail2ban curl rsync unzip jq sqlite3
+
+        # AWS CLI v2 — required to read secrets from SSM.
+        if ! command -v aws >/dev/null 2>&1; then
+          case "$(dpkg --print-architecture)" in
+            amd64) U=https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip ;;
+            arm64) U=https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip ;;
+          esac
+          curl -fsSL "$U" -o /tmp/awscliv2.zip
+          unzip -q -o /tmp/awscliv2.zip -d /tmp
+          /tmp/aws/install --update
+          rm -rf /tmp/aws /tmp/awscliv2.zip
+        fi
+
+        mkdir -p ${AppRoot}
+        echo "cloudformation-userdata-complete $(date -Is)" > /var/log/futureacad-bootstrap.log
+      Tags:
+        - Key: Project
+          Value: futureacad
+        - Key: Environment
+          Value: production
+        - Key: ManagedBy
+          Value: cloudformation
+
+  # --------------------------------------------------------------- static IP --
+  # A separate resource by design: an instance cannot attach its own static IP,
+  # and the instance must be running before the attach succeeds.
+  StaticIp:
+    Type: AWS::Lightsail::StaticIp
+    DependsOn: Instance
+    Properties:
+      StaticIpName: !Sub '${InstanceName}-ip'
+      AttachedTo: !Ref InstanceName
+
+  # -------------------------------------------------- IAM user for the instance --
+  # Lightsail cannot use IAM instance roles, so the instance authenticates with
+  # this user's access key (created out-of-band, never stored in CloudFormation).
+  InstanceUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Sub '${InstanceName}-ssm-reader'
+      Policies:
+        - PolicyName: ReadAppSecretsFromSsm
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: ReadOnlyThisEnvironmentsParameters
+                Effect: Allow
+                Action:
+                  - ssm:GetParametersByPath
+                  - ssm:GetParameters
+                  - ssm:GetParameter
+                Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter${SsmPathPrefix}/*'
+              - Sid: DecryptSecureStringsViaSsmOnly
+                Effect: Allow
+                Action: kms:Decrypt
+                # Resource must be '*' because the AWS-managed aws/ssm key ARN is
+                # not knowable in-template. The ViaService condition means this
+                # grant is usable ONLY for SSM decryption, and the statement above
+                # already limits reads to one parameter path.
+                Resource: '*'
+                Condition:
+                  StringEquals:
+                    kms:ViaService: !Sub 'ssm.${AWS::Region}.amazonaws.com'
+      Tags:
+        - Key: Project
+          Value: futureacad
+        - Key: ManagedBy
+          Value: cloudformation
+
+  # ------------------------------------------- non-secret SSM configuration --
+  # Secrets are NOT here: CloudFormation cannot create SecureString parameters,
+  # and a template in git is the wrong home for them. See deploy/seed-ssm.sh.
+  ParamDatabase:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub '${SsmPathPrefix}/DATABASE'
+      Type: String
+      Value: !Sub '${AppRoot}/shared/instance/futureacad.db'
+      Description: SQLite path. Inside shared/ so it survives every release.
+
+  ParamProxyHops:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub '${SsmPathPrefix}/PROXY_HOPS'
+      Type: String
+      Value: '1'
+      Description: One proxy in front of the app (nginx), so ProxyFix trusts one hop.
+
+  ParamSessionCookieSecure:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub '${SsmPathPrefix}/SESSION_COOKIE_SECURE'
+      Type: String
+      Value: '1'
+      Description: Session cookie restricted to HTTPS.
+
+  ParamSmtpHost:
+    Type: AWS::SSM::Parameter
+    Condition: HasSmtp
+    Properties:
+      Name: !Sub '${SsmPathPrefix}/SMTP_HOST'
+      Type: String
+      Value: !Ref SmtpHost
+
+  ParamSmtpPort:
+    Type: AWS::SSM::Parameter
+    Condition: HasSmtp
+    Properties:
+      Name: !Sub '${SsmPathPrefix}/SMTP_PORT'
+      Type: String
+      Value: !Ref SmtpPort
+
+  ParamSmtpFrom:
+    Type: AWS::SSM::Parameter
+    Condition: HasSmtp
+    Properties:
+      Name: !Sub '${SsmPathPrefix}/SMTP_FROM'
+      Type: String
+      Value: !Ref SmtpFrom
+
+  ParamLeadNotify:
+    Type: AWS::SSM::Parameter
+    Condition: HasSmtp
+    Properties:
+      Name: !Sub '${SsmPathPrefix}/LEAD_NOTIFY'
+      Type: String
+      Value: !Ref LeadNotify
+
+Outputs:
+  InstanceNameOut:
+    Description: Lightsail instance name.
+    Value: !Ref InstanceName
+
+  PublicIp:
+    Description: Static IP — put this in the DNS A records and GitHub's LIGHTSAIL_HOST.
+    Value: !GetAtt StaticIp.IpAddress
+
+  SshCommand:
+    Description: Initial SSH login (before the deploy user exists).
+    Value: !Sub
+      - 'ssh -i ~/.ssh/${Key}.pem ${User}@${Ip}'
+      - Key: !If [UseKeyPair, !Ref KeyPairName, !Sub 'LightsailDefaultKey-${AWS::Region}']
+        User: !GetAtt Instance.UserName
+        Ip: !GetAtt StaticIp.IpAddress
+
+  InstanceIamUserName:
+    Description: Create an access key for this user, then put it in /etc/futureacad/aws.env.
+    Value: !Ref InstanceUser
+
+  CreateAccessKeyCommand:
+    Description: Mints the instance's SSM credentials. Deliberately not done in CFN.
+    Value: !Sub 'aws iam create-access-key --user-name ${InstanceUser}'
+
+  SsmPath:
+    Description: Where the app's parameters live.
+    Value: !Ref SsmPathPrefix
+
+  SeedSecretsCommand:
+    Description: Seed the SecureString secrets CloudFormation cannot create.
+    Value: 'bash deploy/seed-ssm.sh'

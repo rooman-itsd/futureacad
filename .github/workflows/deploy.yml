@@ -1,27 +1,131 @@
-name: Deploy to server
+name: Deploy to Lightsail
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+  workflow_dispatch:      # manual re-deploy from the Actions tab
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false     # never interrupt a half-finished deploy
+
+env:
+  APP_ROOT: /var/www/futureacad
+  SERVICE: futureacad
 
 jobs:
+  # CD must never outrun CI: this calls the exact same pipeline.
+  ci:
+    uses: ./.github/workflows/ci.yml
+
   deploy:
-    runs-on: self-hosted
+    name: Release to Lightsail
+    needs: ci
+    runs-on: ubuntu-latest
+    environment: production
     steps:
-      - name: Pull latest code
-        run: |
-          cd /var/www/futureacad
-          git pull origin main
+      - uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Build release tarball
         run: |
-          cd /var/www/futureacad
-          source venv/bin/activate
-          pip install -r requirements.txt
+          echo "${GITHUB_SHA}" > RELEASE_SHA
+          tar czf /tmp/release.tar.gz \
+            --exclude='.git' --exclude='.github' --exclude='tests' \
+            --exclude='deploy' --exclude='__pycache__' --exclude='*.pyc' \
+            --exclude='instance' --exclude='.env' \
+            app config.py run.py requirements.txt RELEASE_SHA
+          ls -lh /tmp/release.tar.gz
 
-      - name: Restart app
+      - name: Configure SSH
         run: |
-          pkill -f "gunicorn.*app:create_app" || true
-          cd /var/www/futureacad
-          source venv/bin/activate
-          gunicorn --bind 127.0.0.1:5000 --daemon "app:create_app()"
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          if [ -n "${{ secrets.SSH_KNOWN_HOSTS }}" ]; then
+            echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          else
+            echo "::warning::SSH_KNOWN_HOSTS not set — trusting the key on first sight"
+            ssh-keyscan -H "${{ secrets.LIGHTSAIL_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+          fi
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Upload release
+        env:
+          HOST: ${{ secrets.LIGHTSAIL_HOST }}
+          USER: ${{ secrets.DEPLOY_USER }}
+        run: scp /tmp/release.tar.gz "$USER@$HOST:/tmp/release.tar.gz"
+
+      - name: Activate release, restart, health-check, roll back on failure
+        env:
+          HOST: ${{ secrets.LIGHTSAIL_HOST }}
+          USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          ssh "$USER@$HOST" APP_ROOT="$APP_ROOT" SERVICE="$SERVICE" SHA="$GITHUB_SHA" 'bash -euo pipefail -s' <<'REMOTE'
+            RELEASES="$APP_ROOT/releases"
+            NEW="$RELEASES/$SHA"
+            PREV=$(readlink -f "$APP_ROOT/current" 2>/dev/null || true)
+
+            echo "==> Unpacking $SHA"
+            rm -rf "$NEW" && mkdir -p "$NEW"
+            tar xzf /tmp/release.tar.gz -C "$NEW"
+            rm -f /tmp/release.tar.gz
+
+            # Shared state must survive releases: DB lives outside the release dir.
+            ln -sfn "$APP_ROOT/shared/instance" "$NEW/instance"
+
+            echo "==> Installing dependencies"
+            "$APP_ROOT/venv/bin/pip" install --quiet --upgrade pip
+            "$APP_ROOT/venv/bin/pip" install --quiet -r "$NEW/requirements.txt"
+
+            echo "==> Refreshing secrets from SSM"
+            # Re-fetch so rotated parameters take effect on deploy. Fails the
+            # deploy before the symlink swap if SSM/KMS is unreachable.
+            sudo systemctl restart "$SERVICE-secrets"
+
+            echo "==> Activating"
+            ln -sfn "$NEW" "$APP_ROOT/current"
+            sudo systemctl restart "$SERVICE"
+
+            echo "==> Health check"
+            ok=0
+            for i in $(seq 1 20); do
+              if curl -fsS --max-time 3 http://127.0.0.1:8000/healthz | grep -q '"ok"'; then
+                ok=1; break
+              fi
+              sleep 2
+            done
+
+            if [ "$ok" != "1" ]; then
+              echo "!! Health check failed after restart"
+              sudo journalctl -u "$SERVICE-secrets" -n 20 --no-pager || true
+              sudo journalctl -u "$SERVICE" -n 40 --no-pager || true
+              if [ -n "$PREV" ] && [ -d "$PREV" ] && [ "$PREV" != "$NEW" ]; then
+                echo "==> Rolling back to $(basename "$PREV")"
+                ln -sfn "$PREV" "$APP_ROOT/current"
+                "$APP_ROOT/venv/bin/pip" install --quiet -r "$PREV/requirements.txt" || true
+                sudo systemctl restart "$SERVICE"
+                sleep 3
+                curl -fsS --max-time 3 http://127.0.0.1:8000/healthz \
+                  && echo "Rollback healthy — site is serving the previous release." \
+                  || echo "!! Rollback also unhealthy — manual intervention needed."
+              else
+                echo "!! No previous release to roll back to."
+              fi
+              exit 1
+            fi
+
+            echo "==> Healthy. Pruning old releases (keeping 5)."
+            cd "$RELEASES" && ls -1dt */ | tail -n +6 | xargs -r rm -rf
+            echo "==> Deployed $SHA"
+          REMOTE
+
+      - name: Verify the public site responds over HTTPS
+        if: success()
+        run: |
+          for i in $(seq 1 5); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' https://futureacad.ae/healthz || echo 000)
+            echo "attempt $i: $code"
+            [ "$code" = "200" ] && exit 0
+            sleep 3
+          done
+          echo "::warning::public HTTPS health check did not return 200 (DNS or TLS may still be pending)"
