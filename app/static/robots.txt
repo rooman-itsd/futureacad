@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Keep the leads dashboard out of search indexes.
+Disallow: /admin
+Disallow: /admin/

@@ -1,0 +1,53 @@
+[Unit]
+Description=FutureAcad Flask site (gunicorn)
+Documentation=https://github.com/rooman-itsd/futureacad
+After=network-online.target futureacad-secrets.service
+Wants=network-online.target
+# Secrets must be in place before the app starts. If the SSM fetch fails, the
+# app does not start at all rather than booting with a missing SECRET_KEY.
+Requires=futureacad-secrets.service
+
+[Service]
+# gunicorn does not implement sd_notify, so Type=exec (not notify) is correct.
+# systemctl restart therefore returns before the app is ready — the deploy
+# workflow polls /healthz rather than trusting the exit of restart.
+Type=exec
+User=futureacad
+Group=futureacad
+
+# `current` is a symlink swapped atomically by the deploy workflow.
+WorkingDirectory=/var/www/futureacad/current
+
+# Secrets come from AWS SSM Parameter Store, written to tmpfs by
+# futureacad-secrets.service. Nothing secret is stored on disk, and nothing
+# secret passes through CI. systemd reads this as root, before dropping
+# privileges to the futureacad user.
+EnvironmentFile=/run/futureacad/env
+
+ExecStart=/var/www/futureacad/venv/bin/gunicorn \
+    --config /var/www/futureacad/shared/gunicorn.conf.py \
+    "app:create_app()"
+ExecReload=/bin/kill -s HUP $MAINPID
+
+Restart=always
+RestartSec=3
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+# Hardening: the app only ever needs to write its SQLite directory.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+ReadWritePaths=/var/www/futureacad/shared/instance
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=futureacad
+
+[Install]
+WantedBy=multi-user.target

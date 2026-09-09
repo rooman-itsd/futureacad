@@ -1,0 +1,19 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers --cov=app --cov=config --cov-report=term-missing --cov-fail-under=85"
+
+[tool.coverage.run]
+omit = ["app/data.py"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+exclude = ["venv", ".venv", "app/static"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "C4", "S"]
+# S101 (assert) is expected in tests; handled per-file below.
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "S105", "S106"]

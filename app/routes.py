@@ -1,10 +1,11 @@
 """Public site routes + contact API."""
 import re
-from flask import Blueprint, render_template, request, jsonify
 
-from .data import PROJECTS
+from flask import Blueprint, jsonify, render_template, request
+
 from . import db
-from .utils import valid_csrf, send_lead_email
+from .data import PROJECTS
+from .utils import send_lead_email, valid_csrf
 
 main = Blueprint("main", __name__)
 
@@ -60,8 +61,11 @@ def api_contact():
         return jsonify(ok=False, error="Name, email, and message are required."), 400
     if not EMAIL_RE.match(email):
         return jsonify(ok=False, error="Please enter a valid email address."), 400
+
+    fields = {"name": name, "email": email, "phone": phone,
+              "company": company, "interest": interest, "message": message}
     for field, limit in MAX.items():
-        if len(locals().get(field, "")) > limit:
+        if len(fields[field]) > limit:
             return jsonify(ok=False, error="One of the fields is too long."), 400
 
     lead = {"name": name, "email": email, "phone": phone, "company": company,

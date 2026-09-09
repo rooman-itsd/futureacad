@@ -3,13 +3,28 @@ import csv
 import hmac
 import io
 from functools import wraps
-from flask import (Blueprint, render_template, request, redirect, url_for,
-                   session, flash, current_app, Response)
+
+from flask import (
+    Blueprint,
+    Response,
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 
 from . import db
 from .utils import valid_csrf
 
 admin = Blueprint("admin", __name__)
+
+
+def _utf8(value):
+    """Encode to bytes for constant-time comparison (accepts non-ASCII input)."""
+    return str(value).encode("utf-8")
 
 
 def login_required(view):
@@ -41,8 +56,9 @@ def login():
 
         username = request.form.get("username", "")
         password = request.form.get("password", "")
-        ok_user = hmac.compare_digest(username, current_app.config["ADMIN_USERNAME"])
-        ok_pass = hmac.compare_digest(password, current_app.config["ADMIN_PASSWORD"])
+        # compare_digest rejects str with non-ASCII chars, so compare bytes.
+        ok_user = hmac.compare_digest(_utf8(username), _utf8(current_app.config["ADMIN_USERNAME"]))
+        ok_pass = hmac.compare_digest(_utf8(password), _utf8(current_app.config["ADMIN_PASSWORD"]))
         if ok_user and ok_pass:
             session["admin"] = username
             session.permanent = True

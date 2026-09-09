@@ -1,0 +1,118 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:        # lets deploy.yml gate on this same pipeline
+
+env:
+  PYTHON_VERSION: "3.12"   # matches Ubuntu 24.04 on Lightsail
+
+jobs:
+  lint:
+    name: Lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - run: pip install -r requirements-dev.txt
+      - name: ruff check
+        run: ruff check .
+
+  test:
+    name: Tests (SQLite + Postgres)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: pg
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - run: pip install -r requirements-dev.txt
+      - name: pytest (coverage gate 85%)
+        env:
+          TEST_POSTGRES_URL: postgres://postgres:pg@127.0.0.1:5432/postgres
+        run: pytest
+
+  smoke:
+    name: Boot under gunicorn
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - run: pip install -r requirements.txt
+
+      - name: Refuse to boot without SECRET_KEY
+        run: |
+          # No SECRET_KEY / ADMIN_PASSWORD set: --preload makes gunicorn evaluate
+          # the app factory up front, so the guard aborts startup with exit 1.
+          set +e
+          out=$(gunicorn "app:create_app()" -b 127.0.0.1:8001 --preload 2>&1)
+          rc=$?
+          set -e
+          echo "$out"
+          if [ "$rc" -eq 0 ]; then
+            echo "::error::app booted with the dev SECRET_KEY — the guard is broken"
+            exit 1
+          fi
+          echo "$out" | grep -q "Refusing to start" || {
+            echo "::error::exited non-zero but not via the secrets guard"; exit 1; }
+          echo "Guard held: refused to serve with placeholder secrets."
+
+      - name: Serve and exercise every route
+        env:
+          SECRET_KEY: ci-smoke-test-secret
+          ADMIN_USERNAME: ci@example.com
+          ADMIN_PASSWORD: ci-smoke-password
+          DATABASE: /tmp/ci-smoke.db
+        run: |
+          gunicorn "app:create_app()" -b 127.0.0.1:8000 --workers 2 \
+            --pid /tmp/g.pid --log-file /tmp/gunicorn.log --daemon
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:8000/healthz >/dev/null 2>&1 && break
+            sleep 1
+          done
+
+          fail=0
+          for path in / /about /services /work /contact /healthz /admin/login; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8000$path")
+            printf '%-16s %s\n' "$path" "$code"
+            [ "$code" = "200" ] || fail=1
+          done
+          code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8000/nope)
+          [ "$code" = "404" ] || fail=1
+
+          # Full contact round-trip: fetch CSRF, submit, expect it stored.
+          tok=$(curl -s -c /tmp/j http://127.0.0.1:8000/contact \
+                | grep -oE 'data-csrf="[^"]+' | sed 's/data-csrf="//')
+          body=$(curl -s -b /tmp/j -X POST http://127.0.0.1:8000/api/contact \
+                 -H 'Content-Type: application/json' -H "X-CSRFToken: $tok" \
+                 -d '{"name":"CI","email":"ci@example.com","message":"smoke"}')
+          echo "contact -> $body"
+          echo "$body" | grep -q '"ok":true' || fail=1
+
+          if [ "$fail" != "0" ]; then
+            echo "::error::smoke test failed"; cat /tmp/gunicorn.log; exit 1
+          fi
+          kill "$(cat /tmp/g.pid)" || true
