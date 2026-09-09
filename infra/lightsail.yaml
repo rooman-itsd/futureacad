@@ -50,6 +50,9 @@ Parameters:
     Description: >-
       Lightsail key pair for the initial ubuntu@ SSH login. Leave blank to use
       the regional default key pair (downloadable from the Lightsail console).
+      WARNING: Lightsail resource names share ONE namespace per region across
+      resource types, so this must NOT equal InstanceName or the instance fails
+      to create with "Some names are already in use". Use e.g. <instance>-key.
 
   SsmPathPrefix:
     Type: String
@@ -291,8 +294,9 @@ Outputs:
   SshCommand:
     Description: Initial SSH login (before the deploy user exists).
     Value: !Sub
-      - 'ssh -i ~/LightsailDefaultKey-${AWS::Region}.pem ${User}@${Ip}'
-      - User: !GetAtt Instance.UserName
+      - 'ssh -i ~/.ssh/${Key}.pem ${User}@${Ip}'
+      - Key: !If [UseKeyPair, !Ref KeyPairName, !Sub 'LightsailDefaultKey-${AWS::Region}']
+        User: !GetAtt Instance.UserName
         Ip: !GetAtt StaticIp.IpAddress
 
   InstanceIamUserName:
