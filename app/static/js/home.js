@@ -68,21 +68,20 @@
   }
 
   /* ---- Background videos: play only while in view ----
-     Saves battery/data on mobile and keeps the rest of the page light.
-     Honours reduced-motion by leaving the poster frame in place. ---- */
+     Saves battery/data on mobile and keeps the rest of the page light. ---- */
   (function () {
     ['finaleVideo', 'mindVideo'].forEach((id) => {
       const v = document.getElementById(id);
       if (!v) return;
-      v.playsInline = true; v.muted = true; // inline autoplay on iOS (set in JS, not markup)
-      if (prefersReduced) { try { v.pause(); } catch (e) {} return; }
+      v.playsInline = true; v.muted = true;
+      if (id === 'finaleVideo' && prefersReduced) { try { v.pause(); } catch (e) {} return; }
       if (!('IntersectionObserver' in window)) { v.play().catch(() => {}); return; }
       const io = new IntersectionObserver((entries) => {
         entries.forEach((en) => {
-          if (en.isIntersecting) { if (v.readyState === 0) v.load(); v.play().catch(() => {}); }
+          if (en.isIntersecting) { v.play().catch(() => {}); }
           else { try { v.pause(); } catch (e) {} }
         });
-      }, { threshold: 0.15 });
+      }, { threshold: 0.05 });
       io.observe(v);
     });
   })();
