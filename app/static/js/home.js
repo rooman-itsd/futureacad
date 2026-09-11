@@ -65,22 +65,24 @@
     buildSkyline();
   }
 
-  /* ---- Finale background video: play only while in view ----
+  /* ---- Background videos: play only while in view ----
      Saves battery/data on mobile and keeps the rest of the page light.
      Honours reduced-motion by leaving the poster frame in place. ---- */
   (function () {
-    const v = document.getElementById('finaleVideo');
-    if (!v) return;
-    v.playsInline = true; v.muted = true; // inline autoplay on iOS (set in JS, not markup)
-    if (prefersReduced) { try { v.pause(); } catch (e) {} return; }
-    if (!('IntersectionObserver' in window)) { v.play().catch(() => {}); return; }
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((en) => {
-        if (en.isIntersecting) { if (v.readyState === 0) v.load(); v.play().catch(() => {}); }
-        else { try { v.pause(); } catch (e) {} }
-      });
-    }, { threshold: 0.15 });
-    io.observe(v);
+    ['finaleVideo', 'mindVideo'].forEach((id) => {
+      const v = document.getElementById(id);
+      if (!v) return;
+      v.playsInline = true; v.muted = true; // inline autoplay on iOS (set in JS, not markup)
+      if (prefersReduced) { try { v.pause(); } catch (e) {} return; }
+      if (!('IntersectionObserver' in window)) { v.play().catch(() => {}); return; }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) { if (v.readyState === 0) v.load(); v.play().catch(() => {}); }
+          else { try { v.pause(); } catch (e) {} }
+        });
+      }, { threshold: 0.15 });
+      io.observe(v);
+    });
   })();
 
   /* ---- Preloader ---- */

@@ -123,6 +123,15 @@ body.nav-open .nav__toggle span:nth-child(3){transform:translateY(-6.5px) rotate
 @keyframes drip{0%{transform:translateY(-14px)}60%,100%{transform:translateY(46px)}}
 
 /* ---------- Scene 2 — holo dashboards ---------- */
+.scene2__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;
+  opacity:.35;
+  -webkit-mask-image:radial-gradient(110% 90% at 50% 50%,#000 40%,transparent 95%);
+          mask-image:radial-gradient(110% 90% at 50% 50%,#000 40%,transparent 95%)}
+.scene2__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(120% 90% at 50% 50%,rgba(5,6,10,.4),rgba(5,6,10,.82) 80%),
+    linear-gradient(180deg,rgba(5,6,10,.8),transparent 25%,transparent 75%,rgba(5,6,10,.8))}
+.scene--2 > :not(.scene2__video):not(.scene2__scrim):not(.scene__bg){position:relative;z-index:2}
 .scene2__copy{max-width:560px;margin-bottom:64px}
 .holo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:100%}
 @media(max-width:900px){.holo-grid{grid-template-columns:repeat(2,1fr)}}
