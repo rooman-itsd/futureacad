@@ -111,8 +111,19 @@ chmod 440 /etc/sudoers.d/futureacad-deploy
 visudo -cf /etc/sudoers.d/futureacad-deploy
 
 log "9/10 Configuring nginx"
-install -o root -g root -m 644 "$SRC/nginx.conf" /etc/nginx/sites-available/futureacad
-ln -sfn /etc/nginx/sites-available/futureacad /etc/nginx/sites-enabled/futureacad
+# certbot --nginx rewrites this file in place to add the TLS listeners. Blindly
+# reinstalling the HTTP-only template would silently remove HTTPS, so once a
+# certificate has been deployed we leave the live config alone.
+NGINX_SITE=/etc/nginx/sites-available/futureacad
+if [ -f "$NGINX_SITE" ] && grep -q "managed by Certbot" "$NGINX_SITE"; then
+  echo "Certbot-managed config detected — leaving it in place."
+  echo "To re-apply the template you must re-run certbot afterwards:"
+  echo "  sudo install -m 644 $SRC/nginx.conf $NGINX_SITE"
+  echo "  sudo certbot --nginx -d $DOMAIN -d www.$DOMAIN"
+else
+  install -o root -g root -m 644 "$SRC/nginx.conf" "$NGINX_SITE"
+fi
+ln -sfn "$NGINX_SITE" /etc/nginx/sites-enabled/futureacad
 rm -f /etc/nginx/sites-enabled/default
 nginx -t
 systemctl reload nginx
