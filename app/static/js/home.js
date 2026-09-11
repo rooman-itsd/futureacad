@@ -60,6 +60,8 @@
 
   function revealAll() {
     document.querySelectorAll('.reveal-up').forEach((el) => el.classList.add('is-in'));
+    const initial = document.querySelector('.scene--1 .title-xl:not(.title-morph)');
+    if (initial) initial.style.display = 'none';
     const morph = document.querySelector('.title-morph');
     if (morph) morph.style.opacity = 1;
     buildSkyline();
