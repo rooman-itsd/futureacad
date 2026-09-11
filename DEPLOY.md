@@ -242,6 +242,17 @@ sudo certbot --nginx -d futureacad.ae -d www.futureacad.ae
 certbot rewrites the nginx site to add the 443 listener and HTTP redirect, and
 installs a renewal timer. `SESSION_COOKIE_SECURE` is already `1` in SSM.
 
+Two things to know afterwards:
+
+- **`provision.sh` will not overwrite a certbot-managed nginx config.** It
+  detects the "managed by Certbot" marker and skips the template, because
+  reinstalling the HTTP-only version would silently remove HTTPS. If you do need
+  to re-apply the template, re-run certbot immediately after.
+- **Until HTTPS is live, the contact form and admin login will not work.** The
+  session cookie is `Secure`, so browsers accept it but never send it back over
+  plain HTTP, and the CSRF check then fails. This is correct behaviour, not a
+  bug — finish TLS before testing forms.
+
 ## Step 12 — Backups
 
 Lightsail → instance → **Snapshots → Enable automatic snapshots** (~$1/month,
