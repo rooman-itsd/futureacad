@@ -58,29 +58,212 @@
     addEventListener('resize', draw);
   }
 
+  /* ---- Dynamic data bars (Scene Capabilities background) ---- */
+  function buildDynamicCapsBars() {
+    const host = document.getElementById('scene-caps');
+    if (!host || host.dataset.barsBuilt) return;
+    host.dataset.barsBuilt = '1';
+
+    const staticBg = host.querySelector('.bg--enterprise');
+    if (staticBg) staticBg.style.display = 'none';
+
+    const c = document.createElement('canvas');
+    c.className = 'caps-bars-canvas';
+    c.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;' +
+      'opacity:0.28;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%);' +
+      'mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%);';
+    host.insertBefore(c, host.firstChild);
+
+    const ctx = c.getContext('2d');
+    let w = 0, h = 0;
+    let animId = null;
+    let isVisible = false;
+
+    const numBars = 22;
+    const barData = [];
+    for (let i = 0; i < numBars; i++) {
+      const seed = Math.abs(Math.sin(i * 12.9898 + 78.233) * 43758.5453 % 1);
+      barData.push({
+        baseRatio: 0.3 + seed * 0.46,
+        speed: 0.001 + (i % 5) * 0.00035,
+        phase: i * 0.65,
+        amp: 0.07 + (i % 3) * 0.035,
+        pulseOffset: (i * 23) % 100,
+        pulseSpeed: 0.07 + (i % 4) * 0.03
+      });
+    }
+
+    function resize() {
+      w = c.width = host.offsetWidth;
+      h = c.height = host.offsetHeight;
+      if (!animId && !prefersReduced && isVisible) {
+        animId = requestAnimationFrame(render);
+      } else {
+        draw(performance.now());
+      }
+    }
+
+    function draw(time) {
+      if (!w || !h) return;
+      ctx.clearRect(0, 0, w, h);
+      const ground = h;
+      const colW = w / numBars;
+      const barW = Math.max(colW * 0.78, 12);
+
+      for (let i = 0; i < numBars; i++) {
+        const d = barData[i];
+        const osc = prefersReduced ? 0 : Math.sin(time * d.speed + d.phase) * d.amp;
+        const currentRatio = Math.max(0.15, Math.min(0.88, d.baseRatio + osc));
+        const barH = h * currentRatio;
+        const x = i * colW + (colW - barW) * 0.5;
+        const y = ground - barH;
+
+        const grad = ctx.createLinearGradient(0, y, 0, ground);
+        grad.addColorStop(0, 'rgba(160, 185, 255, 0.18)');
+        grad.addColorStop(0.5, 'rgba(106, 168, 255, 0.07)');
+        grad.addColorStop(1, 'rgba(10, 15, 30, 0.02)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, y, barW, barH);
+
+        ctx.fillStyle = 'rgba(106, 168, 255, 0.55)';
+        ctx.fillRect(x, y, barW, 2);
+
+        ctx.fillStyle = 'rgba(160, 195, 255, 0.32)';
+        const dotSpacing = 16;
+        for (let dy = y + 12; dy < ground - 10; dy += dotSpacing) {
+          const dotSeed = Math.sin(i * 3.7 + dy * 0.28) * 0.5 + 0.5;
+          if (dotSeed > 0.45) {
+            ctx.fillRect(x + barW * 0.24, dy, 2.5, 2.5);
+          }
+          if (dotSeed > 0.65) {
+            ctx.fillRect(x + barW * 0.58, dy, 2.5, 2.5);
+          }
+        }
+
+        if (!prefersReduced) {
+          const pulseY = ground - ((time * d.pulseSpeed + d.pulseOffset * 8) % barH);
+          if (pulseY > y && pulseY < ground) {
+            ctx.fillStyle = 'rgba(106, 168, 255, 0.75)';
+            ctx.fillRect(x, pulseY, barW, 2);
+          }
+        }
+      }
+    }
+
+    // Ambient drift at 60fps buys nothing visible and competes with scrolling
+    // for the main thread, so redraw at ~30fps.
+    const FRAME_MS = 1000 / 30;
+    let lastDraw = 0;
+    function render(time) {
+      if (!isVisible) {
+        animId = null;
+        return;
+      }
+      if (time - lastDraw >= FRAME_MS) {
+        lastDraw = time;
+        draw(time);
+      }
+      animId = requestAnimationFrame(render);
+    }
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          isVisible = e.isIntersecting;
+          if (isVisible) {
+            if (!animId && !prefersReduced) {
+              animId = requestAnimationFrame(render);
+            }
+          } else {
+            if (animId) {
+              cancelAnimationFrame(animId);
+              animId = null;
+            }
+          }
+        });
+      }, { rootMargin: '100px 0px' });
+      io.observe(host);
+    } else {
+      isVisible = true;
+      if (!prefersReduced) animId = requestAnimationFrame(render);
+    }
+
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+  }
+
   function revealAll() {
     document.querySelectorAll('.reveal-up').forEach((el) => el.classList.add('is-in'));
+    const s2Title = document.querySelector('.scene2__title');
+    if (s2Title) {
+      s2Title.style.opacity = '1';
+      s2Title.style.transform = 'none';
+      s2Title.style.filter = 'none';
+    }
+    document.querySelectorAll('.scene2__title .line').forEach((el) => {
+      el.style.transform = 'none';
+    });
+    // Only reveal them — the viewport observer owns loading and playback, so
+    // calling play() here would pull every clip down at once.
+    ['#mindVideo', '#buildingVideo', '#talentVideo'].forEach((sel) => {
+      const v = document.querySelector(sel);
+      if (v) v.style.opacity = '1';
+    });
+    const s3Title = document.querySelector('.scene3__title');
+    if (s3Title) {
+      s3Title.style.opacity = '1';
+      s3Title.style.transform = 'none';
+      s3Title.style.filter = 'none';
+    }
+    document.querySelectorAll('.scene3__title .line').forEach((el) => {
+      el.style.transform = 'none';
+    });
+    const initial = document.querySelector('.scene--1 .title-xl:not(.title-morph)');
+    if (initial) initial.style.display = 'none';
     const morph = document.querySelector('.title-morph');
     if (morph) morph.style.opacity = 1;
     buildSkyline();
+    buildDynamicCapsBars();
   }
 
-  /* ---- Finale background video: play only while in view ----
-     Saves battery/data on mobile and keeps the rest of the page light.
-     Honours reduced-motion by leaving the poster frame in place. ---- */
+  /* ---- Background videos: fetch and decode only around the viewport ----
+     The clips total ~14MB. With preload="none" in the markup none of that
+     is on the critical path; each one starts buffering a screen ahead of
+     itself and only decodes frames while it is actually visible. ---- */
   (function () {
-    const v = document.getElementById('finaleVideo');
-    if (!v) return;
-    v.playsInline = true; v.muted = true; // inline autoplay on iOS (set in JS, not markup)
-    if (prefersReduced) { try { v.pause(); } catch (e) {} return; }
-    if (!('IntersectionObserver' in window)) { v.play().catch(() => {}); return; }
-    const io = new IntersectionObserver((entries) => {
+    const vids = Array.prototype.slice.call(document.querySelectorAll('video[data-bg]'));
+    if (!vids.length) return;
+    vids.forEach((v) => { v.playsInline = true; v.muted = true; });
+
+    if (!('IntersectionObserver' in window)) {
+      vids.forEach((v) => { v.preload = 'auto'; v.play().catch(() => {}); });
+      return;
+    }
+
+    // Stage 1 — start buffering one viewport before the clip scrolls in.
+    const warm = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
-        if (en.isIntersecting) { if (v.readyState === 0) v.load(); v.play().catch(() => {}); }
+        if (!en.isIntersecting) return;
+        const v = en.target;
+        if (v.preload !== 'auto') { v.preload = 'auto'; v.load(); }
+        warm.unobserve(v);
+      });
+    }, { rootMargin: '100% 0px' });
+
+    // Stage 2 — only run a decoder while the clip is on screen.
+    const playPause = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        const v = en.target;
+        if (en.isIntersecting) { v.play().catch(() => {}); }
         else { try { v.pause(); } catch (e) {} }
       });
-    }, { threshold: 0.15 });
-    io.observe(v);
+    }, { threshold: 0.05 });
+
+    vids.forEach((v) => {
+      if (prefersReduced && v.id === 'finaleVideo') { try { v.pause(); } catch (e) {} return; }
+      warm.observe(v);
+      playPause.observe(v);
+    });
   })();
 
   /* ---- Preloader ---- */
@@ -131,6 +314,109 @@
     beat('#scene-eco', { camZ: 58, hue: 0.60, twist: 2.7, nodeSize: 2.0, lineOpacity: 0.16, camX: 6, camY: -3 });
     beat('#scene6', { camZ: 90, hue: 0.62, twist: 3.0, nodeSize: 1.6, lineOpacity: 0.08, camX: 0, camY: 8 });
 
+    const mindVid = document.getElementById('mindVideo');
+    if (mindVid) {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '#scene2',
+          start: 'top 90%',
+          end: 'bottom 10%',
+          scrub: true,
+          onEnter: () => mindVid.play().catch(() => {}),
+          onEnterBack: () => mindVid.play().catch(() => {}),
+          onLeave: () => mindVid.pause(),
+          onLeaveBack: () => mindVid.pause(),
+        }
+      })
+      .fromTo(mindVid, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power1.out' })
+      .to(mindVid, { opacity: 1, duration: 0.5 })
+      .to(mindVid, { opacity: 0, duration: 0.25, ease: 'power1.in' });
+    }
+
+    const bldVid = document.getElementById('buildingVideo');
+    if (bldVid) {
+      bldVid.loop = true;
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '#scene3',
+          start: 'top 85%',
+          end: 'bottom 15%',
+          scrub: true,
+          onEnter: () => bldVid.play().catch(() => {}),
+          onEnterBack: () => bldVid.play().catch(() => {}),
+          onLeave: () => bldVid.pause(),
+          onLeaveBack: () => bldVid.pause(),
+        }
+      })
+      .fromTo(bldVid, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power1.out' })
+      .to(bldVid, { opacity: 1, duration: 0.5 })
+      .to(bldVid, { opacity: 0, duration: 0.25, ease: 'power1.in' });
+    }
+
+    const talentVid = document.getElementById('talentVideo');
+    if (talentVid) {
+      talentVid.loop = true;
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '#scene4',
+          start: 'top 85%',
+          end: 'bottom 15%',
+          scrub: true,
+          onEnter: () => talentVid.play().catch(() => {}),
+          onEnterBack: () => talentVid.play().catch(() => {}),
+          onLeave: () => talentVid.pause(),
+          onLeaveBack: () => talentVid.pause(),
+        }
+      })
+      .fromTo(talentVid, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power1.out' })
+      .to(talentVid, { opacity: 1, duration: 0.5 })
+      .to(talentVid, { opacity: 0, duration: 0.25, ease: 'power1.in' });
+    }
+
+    if (document.querySelector('.scene--3 .scene3__title')) {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.scene--3 .scene3__copy',
+          start: 'top 82%',
+          toggleActions: 'play none none none'
+        }
+      })
+      .fromTo('.scene--3 .scene3__title',
+        { opacity: 0, y: 35, filter: 'blur(8px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out' }
+      )
+      .from('.scene--3 .scene3__title .line',
+        { yPercent: 110, duration: 1, ease: 'power4.out', stagger: 0.12 },
+        '<'
+      )
+      .to('.scene--3 .scene3__title .word-glowing',
+        { textShadow: '0 0 45px rgba(106,168,255,1)', repeat: 1, yoyo: true, duration: 0.8 },
+        '-=0.3'
+      );
+    }
+
+    if (document.querySelector('.scene--2 .scene2__title')) {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.scene--2 .scene2__copy',
+          start: 'top 82%',
+          toggleActions: 'play none none none'
+        }
+      })
+      .fromTo('.scene--2 .scene2__title',
+        { opacity: 0, y: 40, filter: 'blur(8px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out' }
+      )
+      .from('.scene--2 .scene2__title .line',
+        { yPercent: 110, duration: 1, ease: 'power4.out', stagger: 0.1 },
+        '<'
+      )
+      .to('.scene--2 .scene2__title .word-built',
+        { textShadow: '0 0 40px rgba(106,168,255,.9)', repeat: 1, yoyo: true, duration: 0.7 },
+        '-=0.3'
+      );
+    }
+
     gsap.from('.holo', { y: 60, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08,
       scrollTrigger: { trigger: '#holoGrid', start: 'top 78%' } });
 
@@ -153,10 +439,13 @@
       gsap.from(el, { y: 70, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 84%' } });
     });
 
-    gsap.to('#progress span', { width: '100%', ease: 'none',
+    // scaleX rather than width: this runs on every scroll tick, and width
+    // forces a layout pass where a transform is composite-only.
+    gsap.to('#progress span', { scaleX: 1, ease: 'none',
       scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.3 } });
 
     buildSkyline();
+    buildDynamicCapsBars();
     ScrollTrigger.refresh();
     window.addEventListener('load', () => ScrollTrigger.refresh());
   });
