@@ -1,6 +1,49 @@
 {% extends "base.html" %}
 {% block body_class %}is-home{% endblock %}
 
+{% block head %}
+<style>
+  /* Remove flashing/holo animation and any movement/drift on platforms already live image */
+  .scene--eco .scene__media::before {
+    display: none !important;
+  }
+  .scene--eco .scene__media img {
+    animation: none !important;
+    transform: none !important;
+  }
+  .scene--eco .scene__media:hover {
+    transform: none !important;
+  }
+
+  /* Scene 2 class video in place of picture */
+  .scene2__media-video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    filter: brightness(1.06) contrast(1.02) saturate(.98);
+  }
+
+  /* Ecosystem frontpage video */
+  .scene--eco .scene__media video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 18px;
+    filter: brightness(1.04) contrast(1.02);
+  }
+  /* Scene 4 lecture video in place of picture */
+  .scene4__media-video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    filter: brightness(1.06) contrast(1.02) saturate(.98);
+  }
+</style>
+{% endblock %}
+
 {% block preloader %}
 <div class="preloader" id="preloader">
   <img class="preloader__logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="FutureAcad" />
@@ -31,17 +74,20 @@
   <!-- SCENE 2 — The AI Universe -->
   <section class="scene scene--2" id="scene2">
     <div class="scene__bg bg--intelligence"></div>
-    <video class="scene2__video" id="mindVideo" autoplay muted loop playsinline preload="auto">
-      <source src="{{ url_for('static', filename='video/Middle Part.mp4', v='5') }}" type="video/mp4" />
+    <video class="scene2__video" id="mindVideo" data-bg muted loop playsinline preload="none">
+      <source src="{{ url_for('static', filename='video/Refine_the_existing_FUTUREACAD_clean.mp4', v='1') }}" type="video/mp4" />
     </video>
     <div class="scene2__scrim"></div>
     <div class="scene__index">01 / INTELLIGENCE</div>
     <div class="scene__lead">
       <div class="scene2__copy">
-        <h2 class="title-lg reveal-up">A mind, not<br>a machine.</h2>
+        <h2 class="title-lg scene2__title">
+          <span class="line" data-line>A <strong class="word-built">mind</strong>, not</span>
+          <span class="line" data-line>a machine.</span>
+        </h2>
         <p class="lede reveal-up">Move through a living neural intelligence. Agents, language models, vision, and automation — orchestrated as one enterprise brain.</p>
       </div>
-      <div class="scene__media reveal-up"><img src="{{ url_for('static', filename='img/ai-2.jpg') }}" alt="An AI capability map — strategy, machine learning, vision, automation" loading="lazy" /></div>
+      <div class="scene__media reveal-up"><video class="scene2__media-video" id="classVideo" data-bg loop muted playsinline preload="none" poster="{{ url_for('static', filename='img/class-poster.jpg') }}"><source src="{{ url_for('static', filename='video/class.mp4') }}" type="video/mp4" /></video></div>
     </div>
     <div class="holo-grid" id="holoGrid">
       <article class="holo" data-tilt><span class="holo__tag">AGENTS</span><span class="holo__val">Autonomous</span><span class="holo__sub">Goal-driven workflows that act, not wait.</span></article>
@@ -55,14 +101,19 @@
 
   <!-- SCENE 3 — Engineering the Future -->
   <section class="scene scene--3" id="scene3">
-    <div class="scene__bg bg--enterprise"></div>
+    <video class="scene3__video" id="buildingVideo" data-bg muted loop playsinline preload="none">
+      <source src="{{ url_for('static', filename='video/Building.mp4', v='2') }}" type="video/mp4" />
+    </video>
+    <div class="scene3__scrim"></div>
     <div class="scene__index">02 / ENTERPRISE</div>
-    <div class="scene__lead">
+    <div class="scene__lead scene__lead--center">
       <div class="scene3__copy">
-        <h2 class="title-lg reveal-up">We build the<br>city beneath<br>the software.</h2>
+        <h2 class="scene3__title">
+          <span class="line" data-line>We build the <strong class="word-glowing">city</strong></span>
+          <span class="line" data-line>beneath the <strong class="word-glowing">software</strong>.</span>
+        </h2>
         <p class="lede reveal-up">Every node becomes code. Every service becomes a tower. Roads of data, skylines of architecture — enterprise systems you can feel.</p>
       </div>
-      <div class="scene__media reveal-up"><img src="{{ url_for('static', filename='img/ai-3.jpg') }}" alt="A live system architecture — cloud, data pipeline, microservices" loading="lazy" /></div>
     </div>
     <ul class="metrics" id="metrics3">
       <li><span class="metrics__n" data-count="99.99" data-suffix="%">0</span><span class="metrics__l">Uptime engineered</span></li>
@@ -73,7 +124,10 @@
 
   <!-- SCENE 4 — Global Talent -->
   <section class="scene scene--4" id="scene4">
-    <div class="scene__bg bg--talent"></div>
+    <video class="scene4__video" id="talentVideo" data-bg muted loop playsinline preload="none">
+      <source src="{{ url_for('static', filename='video/Talent1.mp4', v='1') }}" type="video/mp4" />
+    </video>
+    <div class="scene4__scrim"></div>
     <div class="scene__index">03 / TALENT</div>
     <div class="scene__lead">
       <div class="scene4__copy">
@@ -85,7 +139,7 @@
           <span><i class="dot dot--route"></i>Live routes</span>
         </div>
       </div>
-      <div class="scene__media reveal-up"><img src="{{ url_for('static', filename='img/ai-1.jpg') }}" alt="A global AI strategy session in Dubai" loading="lazy" /></div>
+      <div class="scene__media reveal-up"><video class="scene4__media-video" id="lectureVideo" data-bg loop muted playsinline preload="none"><source src="{{ url_for('static', filename='video/Lecture.mp4') }}" type="video/mp4" /></video></div>
     </div>
   </section>
 
@@ -128,7 +182,7 @@
         <h2 class="title-lg reveal-up">Platforms<br>already live.</h2>
         <p class="lede reveal-up">Not concepts — products in production, used every day. A working ecosystem spanning enterprise software, education, and AI.</p>
       </div>
-      <div class="scene__media reveal-up"><img src="{{ url_for('static', filename='img/ai-4.jpg') }}" alt="A FutureAcad engineer building and training AI models" loading="lazy" /></div>
+      <div class="scene__media reveal-up"><video class="eco__video" id="ecoVideo" data-bg loop muted playsinline preload="none"><source src="{{ url_for('static', filename='video/frontpage.mp4') }}" type="video/mp4" /></video></div>
     </div>
     <div class="eco" id="eco">
       {% for p in projects %}
@@ -169,7 +223,7 @@
 
   <!-- SCENE 6 — The Future / Dubai -->
   <section class="scene scene--6" id="scene6">
-    <video class="finale__video" id="finaleVideo" muted loop preload="none"
+    <video class="finale__video" id="finaleVideo" data-bg muted loop playsinline preload="none"
            poster="{{ url_for('static', filename='video/finale-poster.jpg') }}">
       <source src="{{ url_for('static', filename='video/finale.mp4') }}" type="video/mp4" />
     </video>

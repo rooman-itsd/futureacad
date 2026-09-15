@@ -23,7 +23,10 @@
     camera.position.set(0, 0, 60);
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setSize(innerWidth, innerHeight, false); // false = don't write inline px size; CSS 100% controls display (avoids 100vw scrollbar overflow)
-    renderer.setPixelRatio(Math.min(devicePixelRatio, isTouch ? 1.5 : 2)); // lighter fill-rate on mobile GPUs
+    // Fill-rate is the bottleneck here, not geometry: this is a full-screen
+    // additively-blended field, so rendering it at native 2x on a retina/4K
+    // panel costs 4x the pixels for a soft glow nobody can tell apart.
+    renderer.setPixelRatio(Math.min(devicePixelRatio, isTouch ? 1.25 : 1.5));
 
     const NODES = isTouch ? 260 : 520;
     const SPREAD = 130;
@@ -91,11 +94,41 @@
     //     away, revealing the simple gradient background. Pause rendering
     //     once hidden to keep the rest of the page light & smooth. ---
     let visible = true;
-    function updateFade() {
-      const span = innerHeight * 0.9;                 // fade across ~one viewport
+    let lastO = -1;
+    let fadeQueued = false;
+    let hidden = false;
+    // A transparent full-screen canvas is still a layer the compositor has to
+    // consider under every blended video below the hero. visibility:hidden
+    // takes it out of the picture entirely for the rest of the page.
+    function setHidden(h) {
+      if (h === hidden) return;
+      hidden = h;
+      canvas.style.visibility = h ? 'hidden' : '';
+    }
+    function applyFade() {
+      fadeQueued = false;
+      if (!document.body.classList.contains('is-home')) {
+        canvas.style.opacity = '0';
+        setHidden(true);
+        visible = false;
+        return;
+      }
+      const span = innerHeight * 0.85;                 // fade across hero section
       const o = Math.max(0, Math.min(1, 1 - window.scrollY / span));
-      canvas.style.opacity = o.toFixed(3);
+      // Writing on every scroll event restarts the opacity transition each
+      // time, which reads as flicker. Only write on a visible change, and
+      // batch it into the frame.
+      if (Math.abs(o - lastO) > 0.004) {
+        lastO = o;
+        canvas.style.opacity = o.toFixed(3);
+      }
       visible = o > 0.01;
+      setHidden(!visible);
+    }
+    function updateFade() {
+      if (fadeQueued) return;
+      fadeQueued = true;
+      requestAnimationFrame(applyFade);
     }
     addEventListener('scroll', updateFade, { passive: true });
     addEventListener('resize', updateFade);

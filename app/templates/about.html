@@ -2,23 +2,213 @@
 {% block title %}About — FutureAcad{% endblock %}
 {% block description %}FutureAcad is a Deep Tech Initiative by Rooman — building Artificial Intelligence, enterprise software, and global talent networks from Dubai.{% endblock %}
 
+{% block head %}
+<style>
+  .about-highlight {
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(100deg, var(--blue-bright) 0%, #ffffff 50%, var(--blue-bright) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: aboutShimmer 5s ease-in-out infinite;
+  }
+  @keyframes aboutShimmer {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 200% center; }
+  }
+  .stat__infinity {
+    display: inline-block;
+    animation: infFloat 3s ease-in-out infinite;
+  }
+  @keyframes infFloat {
+    0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 10px rgba(106,168,255,0.4)); }
+    50% { transform: translateY(-4px) scale(1.06); filter: drop-shadow(0 0 20px rgba(106,168,255,0.85)); }
+  }
+  .pillar__h {
+    transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+  }
+  .pillar:hover .pillar__h {
+    transform: translateX(4px);
+    color: #fff;
+    text-shadow: 0 0 24px rgba(106,168,255,0.6);
+  }
+  /* About Hero Section */
+  .page--about-hero {
+    position: relative;
+    overflow: visible;
+    min-height: 84vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 22vh;
+    padding-bottom: 12vh;
+    max-width: 1360px;
+    width: 100%;
+  }
+  .about-hero__canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 130%;
+    min-height: 520px;
+    max-width: 100vw;
+    pointer-events: none;
+    z-index: 0;
+    -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, #000 35%, transparent 82%);
+    mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, #000 35%, transparent 82%);
+  }
+  .about-hero__content {
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+    width: 100%;
+  }
+  .about-hero__content .page__title {
+    max-width: none;
+    /* "A deep tech company," is nowrap below, so it has to fit the 1360px
+       shell on one line — 9.2vw/134px overflowed the viewport from ~1360px up. */
+    font-size: clamp(56px, 8.2vw, 110px);
+    font-weight: 200;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: #ffffff;
+  }
+  .page--about-hero .about-highlight {
+    background: none;
+    -webkit-text-fill-color: initial;
+    color: #ffffff;
+    font-weight: 200;
+    animation: none;
+  }
+  .about-hero__line {
+    display: inline;
+  }
+  @media (min-width: 680px) {
+    .about-hero__line {
+      display: inline-block;
+      white-space: nowrap;
+    }
+  }
+  .about-hero__content .page__lede {
+    max-width: min(52ch, 58vw);
+    margin-top: 32px;
+    font-size: clamp(18px, 1.8vw, 24px);
+    line-height: 1.62;
+    color: var(--pearl-dim);
+    font-weight: 300;
+  }
+  .about-hero__visual {
+    position: absolute;
+    /* Lines the robot up with the lede's first line ("...we pair frontier")
+       rather than floating low at the frame edge. Stays absolute on purpose:
+       in flow it would narrow the content column and push the nowrap headline
+       off-screen again. The caps hold the position once the 1360px shell
+       stops growing. */
+    top: 36%;
+    right: clamp(24px, 8.5vw, 130px);
+    transform: translateY(-44%);
+    width: clamp(230px, 24vw, 350px);
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .about-hero__glow {
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(61,124,255,0.22) 0%, rgba(61,124,255,0.05) 50%, transparent 72%);
+    filter: blur(28px);
+    pointer-events: none;
+    z-index: 1;
+    will-change: transform;
+    transform: translateZ(0);
+    animation: robotGlowPulse 6s ease-in-out infinite alternate;
+  }
+  @keyframes robotGlowPulse {
+    0% { transform: scale(0.92) translateZ(0); opacity: 0.6; }
+    100% { transform: scale(1.08) translateZ(0); opacity: 0.95; }
+  }
+  .about-hero__video {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+    max-height: 520px;
+    object-fit: contain;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    will-change: transform;
+    transform: translateZ(0);
+    filter: hue-rotate(-22deg) contrast(1.15) brightness(0.92) saturate(1.15);
+    -webkit-mask-image: radial-gradient(ellipse 68% 74% at 50% 50%, #000 40%, rgba(0,0,0,0.5) 65%, transparent 85%);
+    mask-image: radial-gradient(ellipse 68% 74% at 50% 50%, #000 40%, rgba(0,0,0,0.5) 65%, transparent 85%);
+  }
+
+  @media (max-width: 1024px) {
+    .page--about-hero {
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: 18vh;
+      padding-bottom: 8vh;
+      min-height: auto;
+    }
+    .about-hero__content {
+      max-width: 100%;
+    }
+    .about-hero__visual {
+      position: relative;
+      top: auto;
+      right: auto;
+      transform: none;
+      width: 100%;
+      max-width: 340px;
+      min-height: 340px;
+      margin-top: 32px;
+      align-self: center;
+    }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<header class="page">
-  <div class="page__kicker reveal-up">WHO WE ARE</div>
-  <h1 class="page__title reveal-up">A deep tech company,<br>not a vendor.</h1>
-  <p class="page__lede reveal-up">FutureAcad is a Deep Tech Initiative by Rooman. We pair frontier Artificial Intelligence with enterprise-grade engineering and a global talent network — turning ambition into systems that run in production.</p>
+<header class="page page--about-hero">
+  <canvas class="about-hero__canvas" id="aboutCanvas" aria-hidden="true"></canvas>
+  <div class="about-hero__content">
+    <div class="page__kicker reveal-up">WHO WE ARE</div>
+    <h1 class="page__title reveal-up">
+      <span class="about-hero__line">A <span class="about-highlight">deep tech</span> company,</span><br>
+      <span class="about-hero__line">not a vendor.</span>
+    </h1>
+    <p class="page__lede reveal-up">FutureAcad is a Deep Tech Initiative by Rooman. We pair frontier Artificial Intelligence with enterprise-grade engineering and a global talent network — turning ambition into systems that run in production.</p>
+  </div>
+  <div class="about-hero__visual reveal-up" aria-hidden="true">
+    <div class="about-hero__glow"></div>
+    <video class="about-hero__video" autoplay loop muted playsinline preload="auto">
+      <source src="{{ url_for('static', filename='video/Robot.mp4') }}" type="video/mp4" />
+    </video>
+  </div>
 </header>
 
 <section class="stats">
-  <div class="stat reveal-up"><span class="stat__n">25+</span><span class="stat__l">Years of Rooman heritage</span></div>
-  <div class="stat reveal-up"><span class="stat__n">7</span><span class="stat__l">Live platforms shipped</span></div>
-  <div class="stat reveal-up"><span class="stat__n">3</span><span class="stat__l">Continents served</span></div>
-  <div class="stat reveal-up"><span class="stat__n">∞</span><span class="stat__l">Problems worth solving</span></div>
+  <div class="stat reveal-up"><span class="stat__n" data-count="25" data-suffix="+">25+</span><span class="stat__l">Years of Rooman heritage</span></div>
+  <div class="stat reveal-up"><span class="stat__n" data-count="7">7</span><span class="stat__l">Live platforms shipped</span></div>
+  <div class="stat reveal-up"><span class="stat__n" data-count="3">3</span><span class="stat__l">Continents served</span></div>
+  <div class="stat reveal-up"><span class="stat__n stat__infinity">∞</span><span class="stat__l">Problems worth solving</span></div>
 </section>
 
 <section class="split">
   <div class="reveal-up">
-    <h3>Built on a quarter-century of trust.</h3>
+    <h3>Built on a <span class="about-highlight">quarter-century</span> of trust.</h3>
   </div>
   <div class="reveal-up">
     <p>Rooman has spent over two decades training engineers, building enterprise software, and connecting talent to opportunity. FutureAcad is what comes next — that experience, aimed squarely at Artificial Intelligence.</p>
@@ -27,7 +217,7 @@
 </section>
 
 <section class="section">
-  <h2 class="section__title reveal-up">What we believe.</h2>
+  <h2 class="section__title reveal-up">What we <span class="about-highlight">believe</span>.</h2>
   <p class="section__sub reveal-up">Three convictions shape everything we build.</p>
   <div class="pillars">
     <article class="pillar reveal-up" data-tilt><span class="pillar__no">01</span><h3 class="pillar__h">Intelligence is infrastructure.</h3><p class="pillar__p">AI isn't a feature you bolt on. It's a layer your whole business should run on — governed, observable, and owned by you.</p></article>
@@ -42,3 +232,207 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 </section>
 {% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  'use strict';
+
+  // --- High-Performance About Constellation (Zero per-frame allocations) ---
+  const canvas = document.getElementById('aboutCanvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      let width = 0, height = 0, dpr = 1, animationId = null, isVisible = true;
+      const mouse = { x: -9999, y: -9999, radius: 160 };
+      const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const PARTICLE_COUNT = isTouch ? 24 : 42;
+      const CONNECT_DIST = 140;
+      const CONNECT_DIST_SQ = CONNECT_DIST * CONNECT_DIST;
+      const particles = [];
+
+      const majorSprite = document.createElement('canvas');
+      majorSprite.width = majorSprite.height = 64;
+      const sCtx1 = majorSprite.getContext('2d');
+      const g1 = sCtx1.createRadialGradient(32, 32, 2, 32, 32, 32);
+      g1.addColorStop(0, '#ffffff');
+      g1.addColorStop(0.18, 'rgba(160, 200, 255, 0.95)');
+      g1.addColorStop(0.45, 'rgba(61, 124, 255, 0.35)');
+      g1.addColorStop(1, 'rgba(61, 124, 255, 0)');
+      sCtx1.fillStyle = g1;
+      sCtx1.beginPath(); sCtx1.arc(32, 32, 32, 0, Math.PI * 2); sCtx1.fill();
+
+      const minorSprite = document.createElement('canvas');
+      minorSprite.width = minorSprite.height = 24;
+      const sCtx2 = minorSprite.getContext('2d');
+      const g2 = sCtx2.createRadialGradient(12, 12, 1, 12, 12, 12);
+      g2.addColorStop(0, '#ffffff');
+      g2.addColorStop(0.35, 'rgba(106, 168, 255, 0.9)');
+      g2.addColorStop(1, 'rgba(61, 124, 255, 0)');
+      sCtx2.fillStyle = g2;
+      sCtx2.beginPath(); sCtx2.arc(12, 12, 12, 0, Math.PI * 2); sCtx2.fill();
+
+      class Particle {
+        constructor(w, h, isMajor) {
+          this.reset(w, h, isMajor);
+        }
+        reset(w, h, isMajor) {
+          this.x = Math.random() * w;
+          this.y = Math.random() * h;
+          this.isMajor = isMajor;
+          this.size = isMajor ? 52 : 16;
+          const speed = isMajor ? 0.25 : 0.35;
+          const angle = Math.random() * Math.PI * 2;
+          this.vx = Math.cos(angle) * speed;
+          this.vy = Math.sin(angle) * speed;
+        }
+        update(w, h) {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < -20) this.x = w + 20;
+          else if (this.x > w + 20) this.x = -20;
+          if (this.y < -20) this.y = h + 20;
+          else if (this.y > h + 20) this.y = -20;
+
+          if (mouse.x > 0 && mouse.y > 0) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < mouse.radius && dist > 0.1) {
+              const force = (1 - dist / mouse.radius) * 0.8;
+              this.x -= (dx / dist) * force;
+              this.y -= (dy / dist) * force;
+            }
+          }
+        }
+      }
+
+      function initParticles() {
+        particles.length = 0;
+        const majorCount = Math.floor(PARTICLE_COUNT * 0.25);
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          particles.push(new Particle(width, height, i < majorCount));
+        }
+      }
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        width = rect.width || window.innerWidth;
+        height = rect.height || 540;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        if (particles.length === 0) {
+          initParticles();
+        } else {
+          particles.forEach(p => {
+            if (p.x > width) p.x = Math.random() * width;
+            if (p.y > height) p.y = Math.random() * height;
+          });
+        }
+      }
+
+      function loop() {
+        if (!isVisible) return;
+        ctx.clearRect(0, 0, width, height);
+
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(106, 168, 255, 0.22)';
+        ctx.lineWidth = 1;
+        const len = particles.length;
+        for (let i = 0; i < len; i++) {
+          const p1 = particles[i];
+          for (let j = i + 1; j < len; j++) {
+            const p2 = particles[j];
+            const dx = p1.x - p2.x, dy = p1.y - p2.y;
+            if (dx * dx + dy * dy < CONNECT_DIST_SQ) {
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+            }
+          }
+        }
+        ctx.stroke();
+
+        for (let i = 0; i < len; i++) {
+          const p = particles[i];
+          if (!prefersReduced) p.update(width, height);
+          const sprite = p.isMajor ? majorSprite : minorSprite;
+          const half = p.size / 2;
+          ctx.drawImage(sprite, p.x - half, p.y - half, p.size, p.size);
+        }
+
+        if (!prefersReduced) {
+          animationId = requestAnimationFrame(loop);
+        }
+      }
+
+      const heroSection = canvas.closest('.page') || canvas.parentElement;
+      if (heroSection) {
+        heroSection.addEventListener('mousemove', function (e) {
+          const rect = canvas.getBoundingClientRect();
+          mouse.x = e.clientX - rect.left;
+          mouse.y = e.clientY - rect.top;
+        }, { passive: true });
+        heroSection.addEventListener('mouseleave', function () {
+          mouse.x = -9999;
+          mouse.y = -9999;
+        });
+      }
+
+      if ('IntersectionObserver' in window && heroSection) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              if (!isVisible) {
+                isVisible = true;
+                if (!prefersReduced) animationId = requestAnimationFrame(loop);
+              }
+            } else {
+              isVisible = false;
+              if (animationId) cancelAnimationFrame(animationId);
+            }
+          });
+        }, { threshold: 0.05 });
+        observer.observe(heroSection);
+      }
+
+      window.addEventListener('resize', resize, { passive: true });
+      resize();
+      loop();
+    }
+  }
+
+  // --- Stats Counter Animation ---
+  if (typeof gsap === 'undefined') return;
+
+  var countEls = document.querySelectorAll('.stat__n[data-count]');
+  if (countEls.length && typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.create({
+      trigger: '.stats',
+      start: 'top 85%',
+      once: true,
+      onEnter: function () {
+        countEls.forEach(function (el) {
+          var target = parseFloat(el.getAttribute('data-count'));
+          var suffix = el.getAttribute('data-suffix') || '';
+          var obj = { val: 0 };
+          gsap.to(obj, {
+            val: target,
+            duration: 1.8,
+            ease: 'power2.out',
+            onUpdate: function () {
+              el.textContent = Math.round(obj.val) + suffix;
+            }
+          });
+        });
+      }
+    });
+  }
+})();
+</script>
+{% endblock %}
+
