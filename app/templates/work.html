@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Work — FutureAcad{% endblock %}
-{% block description %}Platforms built by FutureAcad & Rooman — CRM, ERP, Startup Varsity, AI Tutor, BlueLinked, Omnis and more. Products in production.{% endblock %}
+{% block description %}Platforms built by FutureAcad — CRM, ERP, Startup Varsity, AI Tutor, BlueLinked, Omnis and more. Products in production.{% endblock %}
 
 {% block head %}
 <style>
@@ -20,8 +20,8 @@
     50% { background-position: 200% center; }
   }
   .eco__row:hover .eco__name {
-    color: #fff;
-    text-shadow: 0 0 20px rgba(106,168,255,0.7);
+    color: var(--c-primary);
+    text-shadow: none;
     transform: translateX(4px);
   }
   .eco__name {
@@ -32,8 +32,8 @@
     transition: opacity 0.3s var(--ease), text-shadow 0.3s ease, color 0.3s ease;
   }
   .partners span:hover {
-    color: #ffffff;
-    text-shadow: 0 0 16px var(--blue-bright);
+    color: var(--c-primary);
+    text-shadow: none;
   }
 
   /* Work Hero Constellation Animation */
@@ -73,7 +73,7 @@
   .work-hero .work-highlight {
     background: none;
     -webkit-text-fill-color: initial;
-    color: #ffffff;
+    color: #82BAC4;
     font-weight: 200;
     animation: none;
   }
@@ -82,7 +82,7 @@
     margin-top: 32px;
     font-size: clamp(18px, 1.8vw, 24px);
     line-height: 1.62;
-    color: var(--pearl-dim);
+    color: #C9D3E2;
     font-weight: 300;
   }
 </style>
@@ -99,8 +99,15 @@
 <section class="section">
   <div class="eco" id="eco">
     {% for p in projects %}
-    <a class="eco__row" href="{{ p.url }}" target="_blank" rel="noopener">
-      <span class="eco__num">{{ '%02d' % loop.index }}</span><span class="eco__name">{{ p.name }}</span>
+    <a class="eco__row" data-glow href="{{ p.url }}" target="_blank" rel="noopener">
+      <span class="eco__num">{{ '%02d' % loop.index }}</span>
+      {% if p.img %}
+      <span class="eco__shot" aria-hidden="true">
+        <img src="{{ url_for('static', filename=p.img) }}" alt="" loading="lazy"
+             decoding="async" width="1280" height="800" />
+      </span>
+      {% endif %}
+      <span class="eco__name">{{ p.name }}</span>
       <span class="eco__desc">{{ p.desc }}</span><span class="eco__host">{{ p.host }}</span><span class="eco__arrow"></span></a>
     {% endfor %}
   </div>
@@ -112,21 +119,73 @@
   <div class="stat reveal-up"><span class="stat__n" data-count="4.2" data-decimals="1" data-suffix="M">4.2M</span><span class="stat__l">Daily LLM decisions · EU fintech</span></div>
 </section>
 
-<section class="section">
-  <div class="section__head reveal-up">
-    <div class="page__kicker">THE NETWORK BEHIND IT</div>
-    <h2 class="section__title">Backed by <span class="work-highlight">Rooman</span>.</h2>
-    <p class="section__sub">Every FutureAcad build stands on a quarter-century engineering network — the one that trains, certifies and places talent across the world.</p>
-  </div>
-  <div class="partners reveal-up">
-    <span>Microsoft</span><span>Cisco</span><span>AWS</span><span>Google</span><span>Red&nbsp;Hat</span><span>VMware</span>
+<section class="section fa-feature-section">
+  <div class="fa-feature reveal-up">
+
+    <div class="fa-feature__panel">
+      <span class="fa-feature__kicker">THE NETWORK BEHIND IT</span>
+      <h2 class="fa-feature__title">Backed by 25 years.</h2>
+      <p class="fa-feature__lede">Every FutureAcad build stands on a quarter-century engineering
+        network — the one that trains, certifies and places talent across the world.</p>
+      <ul class="fa-feature__marks" aria-label="Technology partners">
+        <li>Microsoft</li><li>Cisco</li><li>AWS</li>
+        <li>Google</li><li>Red&nbsp;Hat</li><li>VMware</li>
+      </ul>
+      <a class="fa-feature__link" href="{{ url_for('main.about') }}">
+        <span>How that heritage shows up</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="fa-feature__grid stats">
+      <div class="fa-fact stat">
+        <span class="stat__n fa-fact__n" data-count="1.3" data-decimals="1" data-suffix="M">1.3M</span>
+        <span class="stat__l fa-fact__l">Engineers trained</span>
+      </div>
+      <div class="fa-fact stat">
+        <span class="stat__n fa-fact__n" data-count="1000" data-format="comma" data-suffix="+">1,000+</span>
+        <span class="stat__l fa-fact__l">Companies hiring from us</span>
+      </div>
+      <div class="fa-fact stat">
+        <span class="stat__n fa-fact__n" data-count="13">13</span>
+        <span class="stat__l fa-fact__l">International markets</span>
+      </div>
+      <div class="fa-fact stat">
+        <span class="stat__n fa-fact__n" data-count="25" data-suffix="+">25+</span>
+        <span class="stat__l fa-fact__l">Years of engineering heritage</span>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<section class="stats">
-  <div class="stat reveal-up"><span class="stat__n" data-count="1.3" data-decimals="1" data-suffix="M">1.3M</span><span class="stat__l">Engineers trained</span></div>
-  <div class="stat reveal-up"><span class="stat__n" data-count="1000" data-format="comma" data-suffix="+">1,000+</span><span class="stat__l">Companies hiring from us</span></div>
-  <div class="stat reveal-up"><span class="stat__n" data-count="13">13</span><span class="stat__l">International markets</span></div>
+<section class="fa-logoloop-section" aria-label="Training and certification partners">
+  <p class="fa-logoloop__label">Trained and certified with</p>
+  <div class="fa-logoloop" data-logoloop data-speed="58" role="region"
+       aria-label="Partner marks, scrolling">
+    <div class="fa-logoloop__track">
+      <ul class="fa-logoloop__list">
+        {% for pt in partners %}
+        <li class="fa-logoloop__item" data-slug="{{ pt.slug }}">
+          {% if pt.img %}
+          <img src="{{ url_for('static', filename=pt.img) }}" alt="{{ pt.name }}"
+               loading="lazy" decoding="async" draggable="false" />
+          {% else %}
+          {% if pt.colors %}
+          <span class="fa-logoloop__mark" aria-label="{{ pt.name }}">
+            {%- for ch in pt.name -%}
+            <span aria-hidden="true" style="color:{{ pt.colors[loop.index0 % pt.colors|length] }}">{{ ch }}</span>
+            {%- endfor -%}
+          </span>
+          {% else %}
+          <span class="fa-logoloop__mark">{{ pt.name }}</span>
+          {% endif %}
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 </section>
 
 <section class="cta-band">
@@ -137,6 +196,7 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/logoloop.js') }}"></script>
 <script>
 (function () {
   'use strict';

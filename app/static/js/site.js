@@ -78,8 +78,16 @@
   window.__faLenis = lenis;
 
   /* ---- GSAP-powered reveals + nav, with graceful fallbacks ---- */
+  // Every reveal variant resolves to the same resting state.
+  const REVEALS = [
+    ['.reveal-up',    { y: 50, opacity: 0 }],
+    ['.reveal-left',  { x: -46, opacity: 0 }],
+    ['.reveal-right', { x: 46, opacity: 0 }],
+    ['.reveal-in',    { scale: 0.96, opacity: 0 }],
+  ];
   function revealAllStatic() {
-    document.querySelectorAll('.reveal-up').forEach((el) => el.classList.add('is-in'));
+    document.querySelectorAll('.reveal-up,.reveal-left,.reveal-right,.reveal-in')
+      .forEach((el) => el.classList.add('is-in'));
   }
 
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
@@ -96,12 +104,26 @@
     if (prefersReduced) {
       revealAllStatic();
     } else {
-      gsap.utils.toArray('.reveal-up').forEach((el) => {
-        gsap.fromTo(el, { y: 50, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 1, ease: 'power3.out',
-          // once: these never play in reverse, so without it every element on
-          // the page keeps a live trigger re-checking itself on every scroll.
-          scrollTrigger: { trigger: el, start: 'top 86%', once: true }
+      // Transform + opacity only, one-shot, and BATCHED: one trigger per group
+      // instead of one per element. Measured — giving every element its own
+      // trigger meant ~20 tweens starting in the same frame during a fast
+      // scroll, which showed up as dropped frames. Batching also reads better,
+      // since a row resolves as one gesture instead of separate pops.
+      //
+      // No clearProps and no class flip here either: GSAP's inline transform
+      // already beats the CSS initial state, and toggling a class that also
+      // sets transform made the two fight and forced a recalc mid-tween.
+      REVEALS.forEach(([sel, from]) => {
+        const els = gsap.utils.toArray(sel);
+        if (!els.length) return;
+        gsap.set(els, from);
+        ScrollTrigger.batch(els, {
+          start: 'top 86%',
+          once: true,
+          onEnter: (batch) => gsap.to(batch, {
+            x: 0, y: 0, scale: 1, opacity: 1,
+            duration: 0.9, ease: 'power3.out', stagger: 0.08, overwrite: true,
+          }),
         });
       });
     }
@@ -122,11 +144,29 @@
     window.addEventListener('load', () => ScrollTrigger.refresh());
   }
 
-  /* ---- Nav: shrink on scroll ---- */
+  /* ---- Nav: shrink on scroll, and take a surface past the hero ----
+     Two separate thresholds. The bar shrinks almost immediately, but it only
+     gains a background once the dark hero has gone by, because that is the
+     point where the page behind it turns light and light nav text would
+     otherwise be sitting on nothing. */
   const nav = document.getElementById('nav');
   if (nav) {
-    const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 40);
+    const hero = document.querySelector('.scene--1, .page');
+    let solidAt = 120;
+    const measure = () => {
+      solidAt = hero
+        ? Math.max(60, hero.getBoundingClientRect().height - nav.offsetHeight - 8)
+        : 120;
+    };
+    const onScroll = () => {
+      const y = window.scrollY;
+      nav.classList.toggle('nav--scrolled', y > 40);
+      nav.classList.toggle('nav--solid', y > solidAt);
+    };
+    measure();
     onScroll();
     addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', () => { measure(); onScroll(); }, { passive: true });
+    addEventListener('load', () => { measure(); onScroll(); });
   }
 })();

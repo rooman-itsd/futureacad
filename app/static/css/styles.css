@@ -55,15 +55,18 @@ a{color:inherit;text-decoration:none}
 /* ---------- Nav ---------- */
 .nav{position:fixed;top:0;left:0;width:100%;z-index:100;display:flex;align-items:center;justify-content:space-between;
   padding:20px clamp(20px,5vw,64px);transition:padding .5s var(--ease),background .5s}
-/* Near-opaque rather than 55% + blur: the bar is fixed, so a translucent one
-   forces the compositor to redraw it against moving content every frame. */
-.nav--scrolled{padding-top:14px;padding-bottom:14px;background:rgba(5,6,10,.92);
-  border-bottom:1px solid rgba(160,185,255,.08)}
+/* --scrolled only shrinks the bar. The background lives on --solid, which
+   is applied further down the page; see the nav treatment near the bottom. */
+.nav--scrolled{padding-top:14px;padding-bottom:14px}
 .nav__brand{display:flex;align-items:center;z-index:102}
 /* Transparent wordmark cutout — scales cleanly in the bar */
 .nav__logo{display:block}
-.nav__logo img{height:30px;width:auto;display:block}
-@media(max-width:560px){.nav__logo img{height:26px}}
+.nav__logo{position:relative;display:block}
+.nav__logo-img{height:30px;width:auto;display:block;transition:opacity .45s ease}
+.nav__logo-img--dark{position:absolute;inset:0;opacity:0}
+.nav--solid .nav__logo-img{opacity:0}
+.nav--solid .nav__logo-img--dark{opacity:1}
+@media(max-width:560px){.nav__logo-img{height:26px}}
 .nav__dot{color:var(--blue-bright)}
 .nav__links{display:flex;align-items:center;gap:clamp(16px,2.4vw,38px);font-size:13px;letter-spacing:.08em;color:var(--pearl-dim)}
 .nav__links a{position:relative;transition:color .3s}
@@ -95,15 +98,11 @@ body.nav-open .nav__toggle span:nth-child(3){transform:translateY(-6.5px) rotate
 .scene{position:relative;z-index:2;min-height:100vh;width:100%;max-width:1280px;margin-inline:auto;
   display:flex;flex-direction:column;justify-content:center;
   padding:16vh clamp(22px,5vw,56px)}
-.scene__index{align-self:flex-start;margin-bottom:38px;font-family:var(--mono);font-size:12px;
-  letter-spacing:.42em;color:var(--blue-bright);opacity:.7}
-.scene--5 .scene__index,.scene--6 .scene__index{align-self:center}
 
 /* ---------- Typography ---------- */
 .title-xl{font-weight:200;line-height:.95;letter-spacing:-.03em;font-size:clamp(48px,11vw,160px)}
 .title-xl em{font-style:normal;font-weight:300;color:var(--pearl-dim)}
-.title-lg{font-weight:200;line-height:1.02;letter-spacing:-.025em;font-size:clamp(38px,6.5vw,92px)}
-.title-lg.center,.title-xl.center{text-align:center}
+
 .kicker{font-family:var(--mono);font-size:clamp(11px,1.1vw,13px);letter-spacing:.5em;color:var(--blue-bright);margin-bottom:34px}
 .lede{max-width:30ch;margin-top:30px;font-size:clamp(15px,1.4vw,19px);line-height:1.6;color:var(--pearl-dim);font-weight:300}
 .line{display:block;padding-bottom:.12em}
@@ -132,156 +131,45 @@ body.nav-open .nav__toggle span:nth-child(3){transform:translateY(-6.5px) rotate
   animation:drip 1.8s var(--ease) infinite}
 @keyframes drip{0%{transform:translateY(-14px)}60%,100%{transform:translateY(46px)}}
 
-/* ---------- Scene 2 — holo dashboards ---------- */
-.scene2__video{position:absolute;top:-8vh;left:50%;transform:translateX(-50%);width:100vw;height:calc(100% + 16vh);object-fit:cover;z-index:0;pointer-events:none;
-  mix-blend-mode:screen;
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,1) 20%,rgba(0,0,0,1) 80%,transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,1) 20%,rgba(0,0,0,1) 80%,transparent 100%)}
-.scene2__scrim{position:absolute;top:-8vh;left:50%;transform:translateX(-50%);width:100vw;height:calc(100% + 16vh);z-index:1;pointer-events:none;
-  background:
-    linear-gradient(180deg,transparent 0%,rgba(5,6,10,.35) 20%,rgba(5,6,10,.35) 75%,rgba(5,6,10,.7) 90%,transparent 100%),
-    radial-gradient(130% 90% at 50% 50%,transparent 25%,rgba(5,6,10,.55));
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%)}
-.scene3__video{position:absolute;top:0;left:50%;transform:translateX(-50%);width:100vw;height:100%;object-fit:cover;object-position:center bottom;z-index:0;pointer-events:none;
-  mix-blend-mode:screen;
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,1) 15%,rgba(0,0,0,1) 85%,transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,1) 15%,rgba(0,0,0,1) 85%,transparent 100%)}
-.scene3__scrim{position:absolute;top:0;left:50%;transform:translateX(-50%);width:100vw;height:100%;z-index:1;pointer-events:none;
-  background:
-    linear-gradient(180deg,transparent 0%,rgba(5,6,10,.4) 15%,rgba(5,6,10,.4) 75%,rgba(5,6,10,.75) 90%,transparent 100%),
-    radial-gradient(130% 90% at 50% 50%,transparent 25%,rgba(5,6,10,.55));
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 15%,#000 85%,transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0%,#000 15%,#000 85%,transparent 100%)}
-.scene4__video{position:absolute;top:0;left:50%;transform:translateX(-50%);width:100vw;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none;
-  mix-blend-mode:screen;
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,1) 15%,rgba(0,0,0,1) 85%,transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,1) 15%,rgba(0,0,0,1) 85%,transparent 100%)}
-.scene4__scrim{position:absolute;top:0;left:50%;transform:translateX(-50%);width:100vw;height:100%;z-index:1;pointer-events:none;
-  background:
-    linear-gradient(180deg,transparent 0%,rgba(5,6,10,.4) 15%,rgba(5,6,10,.4) 75%,rgba(5,6,10,.75) 90%,transparent 100%),
-    radial-gradient(130% 90% at 50% 50%,transparent 25%,rgba(5,6,10,.55));
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 15%,#000 85%,transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0%,#000 15%,#000 85%,transparent 100%)}
-.scene--2{padding-bottom:12vh}
-.scene--3{padding-top:12vh;padding-bottom:12vh}
-.scene--2 > :not(.scene2__video):not(.scene2__scrim):not(.scene__bg),
-.scene--3 > :not(.scene3__video):not(.scene3__scrim):not(.scene__bg),
-.scene--4 > :not(.scene4__video):not(.scene4__scrim):not(.scene__bg){position:relative;z-index:2}
-.scene2__copy{max-width:560px;margin-bottom:64px}
-.scene2__title{position:relative}
-.holo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;width:100%}
-@media(max-width:900px){.holo-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.holo-grid{grid-template-columns:1fr}}
-.holo{position:relative;padding:26px 24px 30px;border-radius:18px;background:linear-gradient(160deg,rgba(28,34,52,.94),rgba(14,18,30,.94));
-  border:1px solid var(--glass-line);transform-style:preserve-3d;transition:transform .4s var(--ease),box-shadow .4s,border-color .4s;
-  display:flex;flex-direction:column;gap:8px;overflow:hidden}
-.holo::before{content:"";position:absolute;inset:0;background:radial-gradient(140px 140px at var(--mx,50%) var(--my,0%),rgba(106,168,255,.22),transparent 70%);
-  opacity:0;transition:opacity .4s}
-.holo:hover::before{opacity:1}
-.holo:hover{border-color:var(--blue);box-shadow:0 30px 80px -30px rgba(61,124,255,.6)}
-.holo__tag{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--blue-bright)}
-.holo__val{font-size:26px;font-weight:300;letter-spacing:-.01em}
-.holo__sub{font-size:13px;color:var(--pearl-dim);line-height:1.5}
-
-/* ---------- Scene 3 — metrics ---------- */
-.scene--3 .scene__index{align-self:center}
-.scene--3 .scene__lead{display:flex;justify-content:center;text-align:center;width:100%}
-.scene3__copy{max-width:760px;margin-inline:auto;margin-bottom:60px;text-align:center}
-.scene3__copy .lede{margin-inline:auto;color:var(--pearl);opacity:.92;text-shadow:0 2px 12px rgba(0,0,0,.6)}
-.scene3__title{
-  font-weight:200;
-  line-height:1.02;
-  letter-spacing:-.025em;
-  font-size:clamp(38px,6.5vw,92px);
-  color:var(--pearl);
-  position:relative;
-}
-.word-glowing{
-  font-weight:600;
-  color:#fff;
-  position:relative;
-  background:linear-gradient(90deg,var(--blue-bright),#fff);
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.scene--3 .metrics{justify-content:center}
-.metrics{list-style:none;display:flex;flex-wrap:wrap;gap:clamp(24px,6vw,90px)}
-.metrics li{display:flex;flex-direction:column;gap:8px}
-.metrics__n{font-size:clamp(46px,7vw,96px);font-weight:200;letter-spacing:-.03em;
-  background:linear-gradient(180deg,#fff,var(--chrome));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.metrics__l{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--pearl-dim);text-transform:uppercase}
-
-/* ---------- Scene 4 — globe ---------- */
-.scene--4{align-items:flex-start}
-.scene4__copy{max-width:520px}
-.globe-legend{display:flex;gap:26px;margin-top:34px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--pearl-dim)}
-.globe-legend span{display:flex;align-items:center;gap:9px}
-.dot{width:9px;height:9px;border-radius:50%}
-.dot--dev{background:var(--blue-bright);box-shadow:0 0 10px var(--blue-bright)}
-.dot--client{background:#ffd479;box-shadow:0 0 10px #ffd479}
-.dot--route{background:#fff;box-shadow:0 0 10px #fff}
-
-/* ---------- Scene 5 — portals ---------- */
-.portals{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;width:100%;margin:64px auto 0}
-@media(max-width:820px){.portals{grid-template-columns:1fr;max-width:480px}}
-.portal{border-radius:20px;overflow:hidden;border:1px solid var(--glass-line);
-  background:linear-gradient(165deg,rgba(26,32,50,.94),rgba(10,12,20,.96));
-  transition:transform .4s var(--ease),box-shadow .4s;transform-style:preserve-3d}
-.portal:hover{box-shadow:0 40px 90px -40px rgba(61,124,255,.55)}
-.portal header{display:flex;justify-content:space-between;align-items:baseline;padding:22px 24px;border-bottom:1px solid var(--glass-line)}
-.portal header span{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--pearl-dim)}
-.portal header b{font-size:30px;font-weight:300;color:var(--blue-bright)}
-.portal__body{padding:24px}
-.bar{display:flex;align-items:flex-end;gap:8px;height:96px;margin-bottom:18px}
-.bar i{flex:1;height:var(--h);background:linear-gradient(180deg,var(--blue-bright),rgba(61,124,255,.15));border-radius:4px 4px 0 0;
-  transform:scaleY(0);transform-origin:bottom;transition:transform .9s var(--ease)}
-.portal.in .bar i{transform:scaleY(1)}
-.portal.in .bar i:nth-child(1){animation:barPulse1 2.8s ease-in-out infinite .9s}
-.portal.in .bar i:nth-child(2){animation:barPulse2 2.3s ease-in-out infinite 1.0s}
-.portal.in .bar i:nth-child(3){animation:barPulse3 3.1s ease-in-out infinite .85s}
-.portal.in .bar i:nth-child(4){animation:barPulse4 2.5s ease-in-out infinite 1.05s}
-.portal.in .bar i:nth-child(5){animation:barPulse5 2.9s ease-in-out infinite .95s}
-.portal:hover .bar i:nth-child(1){animation-duration:1.6s}
-.portal:hover .bar i:nth-child(2){animation-duration:1.3s}
-.portal:hover .bar i:nth-child(3){animation-duration:1.7s}
-.portal:hover .bar i:nth-child(4){animation-duration:1.4s}
-.portal:hover .bar i:nth-child(5){animation-duration:1.6s}
-.bar--down i{background:linear-gradient(180deg,#ffd479,rgba(255,212,121,.12))}
 @keyframes barPulse1{0%,100%{transform:scaleY(1);filter:drop-shadow(0 0 4px rgba(61,124,255,.35))}50%{transform:scaleY(.74);filter:drop-shadow(0 0 1px transparent)}}
 @keyframes barPulse2{0%,100%{transform:scaleY(.82);filter:drop-shadow(0 0 2px transparent)}50%{transform:scaleY(1.04);filter:drop-shadow(0 0 6px rgba(61,124,255,.45))}}
 @keyframes barPulse3{0%,100%{transform:scaleY(1.02);filter:drop-shadow(0 0 5px rgba(61,124,255,.4))}50%{transform:scaleY(.76);filter:drop-shadow(0 0 2px transparent)}}
 @keyframes barPulse4{0%,100%{transform:scaleY(.84);filter:drop-shadow(0 0 2px transparent)}50%{transform:scaleY(1.03);filter:drop-shadow(0 0 6px rgba(61,124,255,.45))}}
 @keyframes barPulse5{0%,100%{transform:scaleY(1);filter:drop-shadow(0 0 4px rgba(61,124,255,.35))}50%{transform:scaleY(.78);filter:drop-shadow(0 0 1px transparent)}}
 /* Chart bar heights (kept in CSS, not inline) */
-.bar--a i:nth-child(1){--h:45%}.bar--a i:nth-child(2){--h:60%}.bar--a i:nth-child(3){--h:52%}.bar--a i:nth-child(4){--h:78%}.bar--a i:nth-child(5){--h:90%}
-.bar--b i:nth-child(1){--h:90%}.bar--b i:nth-child(2){--h:74%}.bar--b i:nth-child(3){--h:55%}.bar--b i:nth-child(4){--h:40%}.bar--b i:nth-child(5){--h:29%}
-.bar--c i:nth-child(1){--h:30%}.bar--c i:nth-child(2){--h:48%}.bar--c i:nth-child(3){--h:66%}.bar--c i:nth-child(4){--h:82%}.bar--c i:nth-child(5){--h:96%}
-.portal__body p{font-size:13.5px;line-height:1.55;color:var(--pearl-dim)}
 
-/* ---------- Scene Ecosystem — live platform index ---------- */
-.scene--eco{align-items:flex-start}
-.scene--eco .lede{margin-bottom:18px}
-.eco{width:100%;margin-top:40px;border-top:1px solid var(--glass-line)}
-.eco__row{position:relative;display:grid;grid-template-columns:54px 1fr auto 40px;align-items:center;gap:clamp(14px,3vw,40px);
-  padding:clamp(20px,3vh,30px) 10px;border-bottom:1px solid var(--glass-line);overflow:hidden;
-  transition:padding-left .5s var(--ease),color .4s}
-.eco__row::before{content:"";position:absolute;inset:0;z-index:-1;
-  background:linear-gradient(90deg,rgba(61,124,255,.16),transparent 75%);transform:translateX(-101%);transition:transform .6s var(--ease)}
-.eco__row:hover::before{transform:translateX(0)}
-.eco__row:hover{padding-left:26px}
-.eco__num{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--blue-bright);opacity:.7}
-.eco__name{font-size:clamp(24px,3.8vw,50px);font-weight:200;letter-spacing:-.02em;line-height:1;white-space:nowrap}
-.eco__desc{justify-self:end;text-align:right;font-size:14px;color:var(--pearl-dim);max-width:340px;line-height:1.4}
-.eco__host{display:none;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--blue-bright)}
-.eco__arrow{justify-self:end;width:24px;height:24px;border-radius:50%;border:1px solid var(--glass-line);position:relative;
-  transition:border-color .4s,background .4s}
-.eco__arrow::after{content:"";position:absolute;top:50%;left:50%;width:7px;height:7px;border-top:1.5px solid var(--pearl);
-  border-right:1.5px solid var(--pearl);transform:translate(-60%,-50%) rotate(45deg);transition:transform .4s}
-.eco__row:hover .eco__arrow{border-color:var(--blue-bright);background:rgba(61,124,255,.2)}
+/* ---------- Live platform index (work page) ---------- */
+.eco{width:100%;margin-top:40px;border-top:1px solid var(--c-secondary)}
+.eco__row{position:relative;display:grid;grid-template-columns:54px auto 1fr auto 40px;align-items:center;
+  gap:clamp(14px,3vw,40px);padding:clamp(20px,3vh,30px) 10px;
+  border-bottom:1px solid var(--c-secondary);overflow:hidden;
+  transition:padding-left .4s var(--ease),background .3s var(--ease)}
+.eco__row:hover{padding-left:26px;background:var(--c-soft)}
+/* A screenshot of the live product at the head of each row. The 16:10 box
+   is fixed so a row's height never depends on a capture's proportions. */
+.eco__shot{display:block;width:clamp(72px,7vw,104px);aspect-ratio:16/10;overflow:hidden;
+  border-radius:9px;border:1px solid rgba(0,96,120,.2);background:var(--c-sky);line-height:0;
+  box-shadow:0 1px 2px rgba(23,52,61,.05)}
+.eco__shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;
+  transition:transform .5s var(--ease)}
+.eco__row:hover .eco__shot img{transform:scale(1.07)}
+@media(max-width:700px){.eco__shot{display:none}}
+@media(prefers-reduced-motion:reduce){
+  .eco__shot img{transition:none}
+  .eco__row:hover .eco__shot img{transform:none}
+}
+.eco__num{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.2em;color:var(--c-primary)}
+.eco__name{font-size:clamp(24px,3.8vw,48px);font-weight:300;letter-spacing:-.02em;line-height:1;
+  white-space:nowrap;color:var(--c-primary)}
+.eco__desc{justify-self:end;text-align:right;font-size:14.5px;color:var(--c-ink-soft);max-width:340px;line-height:1.5}
+.eco__host{display:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--c-primary)}
+.eco__arrow{justify-self:end;width:26px;height:26px;border-radius:50%;border:1px solid var(--c-secondary);
+  position:relative;transition:border-color .3s,background .3s}
+.eco__arrow::after{content:"";position:absolute;top:50%;left:50%;width:7px;height:7px;
+  border-top:1.6px solid var(--c-primary);border-right:1.6px solid var(--c-primary);
+  transform:translate(-60%,-50%) rotate(45deg);transition:transform .3s}
+.eco__row:hover .eco__arrow{border-color:var(--c-primary);background:#fff}
 .eco__row:hover .eco__arrow::after{transform:translate(-60%,-50%) rotate(45deg) scale(1.1)}
-.eco__row:hover .eco__name{color:#fff}
 @media(max-width:780px){
   .eco__row{grid-template-columns:34px 1fr 28px;row-gap:4px}
   .eco__desc{display:none}
@@ -290,28 +178,6 @@ body.nav-open .nav__toggle span:nth-child(3){transform:translateY(-6.5px) rotate
   .eco__host{display:block;grid-column:2;grid-row:2;justify-self:start}
   .eco__arrow{grid-column:3;grid-row:1/3;align-self:center}
 }
-
-/* ---------- Scene 6 — finale ---------- */
-.scene--6{align-items:center;justify-content:flex-end;text-align:center;padding-bottom:10vh;min-height:120vh}
-/* Ambient video background + readability scrim (keeps white text legible). */
-.finale__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
-.finale__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:
-    linear-gradient(180deg,rgba(5,6,10,.74),rgba(5,6,10,.48) 40%,rgba(5,6,10,.92)),
-    radial-gradient(120% 90% at 50% 52%,transparent,rgba(5,6,10,.55))}
-.skyline{position:absolute;bottom:0;left:0;width:100%;height:46vh;z-index:1;
-  background:linear-gradient(180deg,transparent,rgba(5,6,10,.4));pointer-events:none}
-.finale{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:30px}
-.finale__logo{width:min(380px,76vw);height:auto;
-  filter:drop-shadow(0 0 45px rgba(61,124,255,.3))}
-.cta{position:relative;display:inline-flex;align-items:center;gap:14px;padding:18px 38px;border-radius:50px;font-size:15px;
-  letter-spacing:.04em;background:linear-gradient(120deg,var(--blue),var(--blue-bright));color:#fff;font-weight:500;
-  box-shadow:0 18px 50px -16px rgba(61,124,255,.85);transition:transform .3s var(--ease),box-shadow .3s;overflow:hidden}
-.cta::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.4),transparent);
-  transform:translateX(-120%);transition:transform .7s var(--ease)}
-.cta:hover::after{transform:translateX(120%)}
-.cta:hover{box-shadow:0 26px 70px -16px rgba(61,124,255,1)}
-.finale__foot{font-family:var(--mono);font-size:11px;letter-spacing:.32em;color:var(--pearl-dim);margin-top:8px}
 
 /* ---------- Progress rail ---------- */
 .progress{position:fixed;top:0;left:0;width:100%;height:2px;z-index:200;background:transparent}
@@ -329,117 +195,114 @@ body.nav-open .nav__toggle span:nth-child(3){transform:translateY(-6.5px) rotate
 
 /* ============================================================
    INNER PAGES (About / Services / Work / Contact)
+   Same palette as the home redesign: white ground, midnight-green
+   type, sky-blue hairlines, seashell for soft fills.
    ============================================================ */
-.page{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:22vh clamp(22px,5vw,56px) 12vh}
+.page{position:relative;max-width:1180px;margin:0 auto;padding:clamp(140px,20vh,210px) clamp(22px,5vw,56px) clamp(56px,10vh,110px)}
 .page--tight{padding-bottom:4vh}
-.page__kicker{font-family:var(--mono);font-size:12px;letter-spacing:.42em;color:var(--blue-bright);margin-bottom:26px}
-.page__title{font-weight:200;line-height:1.0;letter-spacing:-.03em;font-size:clamp(40px,7vw,104px);max-width:16ch}
-.page__lede{max-width:60ch;margin-top:30px;font-size:clamp(16px,1.5vw,21px);line-height:1.6;color:var(--pearl-dim);font-weight:300}
-.section{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:8vh clamp(22px,5vw,56px)}
-.section__title{font-weight:200;font-size:clamp(30px,4.5vw,60px);letter-spacing:-.02em;line-height:1.05;margin-bottom:8px}
-.section__sub{color:var(--pearl-dim);max-width:54ch;line-height:1.6;margin-bottom:48px;font-weight:300}
+.page__kicker{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;
+  font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--c-primary);margin-bottom:22px}
+.page__title{font-weight:300;line-height:1.06;letter-spacing:-.028em;font-size:clamp(40px,7vw,96px);
+  max-width:16ch;color:var(--c-primary)}
+.page__lede{max-width:60ch;margin-top:26px;font-size:clamp(16.5px,1.4vw,20px);line-height:1.68;
+  color:var(--c-ink);font-weight:400}
+.section{position:relative;max-width:1180px;margin:0 auto;padding:clamp(56px,8vh,96px) clamp(22px,5vw,56px)}
+.section__title{font-weight:300;font-size:clamp(30px,4.5vw,56px);letter-spacing:-.022em;line-height:1.1;
+  margin-bottom:10px;color:var(--c-primary)}
+.section__sub{color:var(--c-ink-soft);max-width:54ch;line-height:1.68;margin-bottom:44px;font-weight:400}
+.section__note{position:relative;margin-top:56px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--c-ink-soft)}
 
-/* feature / pillar grid (glass, no generic cards) */
-.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+/* feature / pillar grid */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--fa-gap)}
 @media(max-width:900px){.pillars{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.pillars{grid-template-columns:1fr}}
 .pillars--4{grid-template-columns:repeat(4,1fr)}
 @media(max-width:1000px){.pillars--4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.pillars--4{grid-template-columns:1fr}}
-.pillar__meta{display:block;margin-top:16px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--blue-bright);opacity:.9}
-.section__note{position:relative;z-index:1;margin-top:60px;font-family:var(--mono);font-size:12px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--pearl-dim)}
+.pillar{position:relative;padding:30px 28px 34px;border-radius:var(--fa-r);overflow:hidden;
+  background:#fff;border:1px solid var(--c-secondary);
+  transition:transform .3s var(--ease),border-color .3s var(--ease),background .3s var(--ease)}
+.pillar:hover{transform:translateY(-3px);border-color:var(--c-primary);background:var(--c-soft)}
+.pillar__no{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.22em;color:var(--c-primary)}
+.pillar__h{font-size:22px;font-weight:600;margin:14px 0 10px;letter-spacing:-.008em;color:var(--c-primary)}
+.pillar__p{font-size:15px;line-height:1.66;color:var(--c-ink-soft)}
+.pillar__meta{display:block;margin-top:16px;font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--c-primary)}
+
 /* Partner / certification wordmarks */
 .partners{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(26px,5vw,60px);
   max-width:1080px;margin:26px auto 0;padding:0 clamp(22px,5vw,56px)}
-.partners span{font-weight:600;font-size:clamp(17px,1.9vw,25px);letter-spacing:.01em;color:var(--pearl);
-  opacity:.5;transition:opacity .3s var(--ease)}
-.partners span:hover{opacity:.92}
-.pillar{position:relative;padding:32px 28px 38px;border-radius:18px;overflow:hidden;
-  background:linear-gradient(160deg,rgba(26,32,50,.92),rgba(12,15,26,.94));border:1px solid var(--glass-line);
-  transition:transform .4s var(--ease),border-color .4s,box-shadow .4s}
-.pillar::before{content:"";position:absolute;inset:0;background:radial-gradient(160px 160px at var(--mx,50%) var(--my,0%),rgba(106,168,255,.18),transparent 70%);opacity:0;transition:opacity .4s}
-.pillar:hover::before{opacity:1}
-.pillar:hover{border-color:var(--blue);box-shadow:0 30px 80px -34px rgba(61,124,255,.55)}
-.pillar__no{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--blue-bright)}
-.pillar__h{font-size:24px;font-weight:200;margin:14px 0 10px;letter-spacing:-.01em}
-.pillar__p{font-size:14.5px;line-height:1.6;color:var(--pearl-dim)}
+.partners span{font-weight:600;font-size:clamp(17px,1.9vw,25px);letter-spacing:.01em;color:var(--c-primary);
+  opacity:.62;transition:opacity .3s var(--ease)}
+.partners span:hover{opacity:1}
 
 /* stat strip */
-.stats{display:flex;flex-wrap:wrap;gap:clamp(28px,6vw,84px);padding:7vh clamp(22px,5vw,56px);max-width:1180px;margin:0 auto;
-  border-top:1px solid var(--glass-line);border-bottom:1px solid var(--glass-line)}
+.stats{display:flex;flex-wrap:wrap;gap:clamp(28px,6vw,84px);padding:clamp(44px,7vh,80px) clamp(22px,5vw,56px);
+  max-width:1180px;margin:0 auto;border-top:1px solid var(--c-secondary);border-bottom:1px solid var(--c-secondary)}
 .stat{display:flex;flex-direction:column;gap:8px}
-.stat__n{font-size:clamp(40px,6vw,82px);font-weight:200;letter-spacing:-.03em;
-  background:linear-gradient(180deg,#fff,var(--chrome));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.stat__l{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--pearl-dim);text-transform:uppercase}
+.stat__n{font-size:clamp(40px,6vw,76px);font-weight:300;letter-spacing:-.03em;color:var(--c-primary)}
+.stat__l{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;
+  color:var(--c-ink-soft);text-transform:uppercase}
 
 /* split content row */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);align-items:center;
-  max-width:1180px;margin:0 auto;padding:8vh clamp(22px,5vw,56px)}
+  max-width:1180px;margin:0 auto;padding:clamp(56px,8vh,96px) clamp(22px,5vw,56px)}
 @media(max-width:820px){.split{grid-template-columns:1fr;gap:30px}}
-.split h3{font-size:clamp(26px,3.5vw,46px);font-weight:200;letter-spacing:-.02em;line-height:1.08}
-.split p{color:var(--pearl-dim);line-height:1.7;font-weight:300;margin-top:18px}
+.split h3{font-size:clamp(26px,3.5vw,44px);font-weight:300;letter-spacing:-.02em;line-height:1.12;color:var(--c-primary)}
+.split p{color:var(--c-ink-soft);line-height:1.7;font-weight:400;margin-top:18px}
 
 /* ---------- CTA banner (reused) ---------- */
-.cta-band{position:relative;z-index:2;text-align:center;padding:16vh clamp(22px,5vw,56px)}
-.cta-band h2{font-weight:200;font-size:clamp(34px,6vw,84px);letter-spacing:-.03em;line-height:1.02;margin-bottom:36px}
+.cta-band{position:relative;text-align:center;padding:clamp(72px,14vh,150px) clamp(22px,5vw,56px)}
+.cta-band h2{font-weight:300;font-size:clamp(34px,6vw,72px);letter-spacing:-.03em;line-height:1.06;
+  margin-bottom:34px;color:var(--c-primary)}
 
 /* ---------- Contact form ---------- */
 .contact{display:grid;grid-template-columns:0.9fr 1.1fr;gap:clamp(30px,6vw,80px);
-  max-width:1180px;margin:0 auto;padding:6vh clamp(22px,5vw,56px) 12vh;align-items:start}
+  max-width:1180px;margin:0 auto;padding:clamp(36px,6vh,64px) clamp(22px,5vw,56px) clamp(64px,12vh,130px);align-items:start}
 @media(max-width:820px){.contact{grid-template-columns:1fr}}
-.contact__aside h2{font-weight:200;font-size:clamp(30px,4vw,54px);letter-spacing:-.02em;line-height:1.05}
-.contact__aside p{color:var(--pearl-dim);line-height:1.7;margin-top:20px;font-weight:300;max-width:36ch}
-.contact__meta{margin-top:40px;display:flex;flex-direction:column;gap:16px;font-family:var(--mono);font-size:13px;letter-spacing:.06em;color:var(--pearl-dim)}
-.contact__meta a{color:var(--blue-bright)}
+.contact__aside h2{font-weight:300;font-size:clamp(30px,4vw,50px);letter-spacing:-.02em;line-height:1.1;color:var(--c-primary)}
+.contact__aside p{color:var(--c-ink-soft);line-height:1.7;margin-top:20px;font-weight:400;max-width:36ch}
+.contact__meta{margin-top:38px;display:flex;flex-direction:column;gap:16px;font-family:var(--mono);
+  font-size:13px;letter-spacing:.04em;color:var(--c-ink-soft)}
+.contact__meta a{color:var(--c-primary);font-weight:600}
+.contact__meta a:hover{color:var(--c-coral)}
 /* Let grid items + form controls shrink below intrinsic width (prevents
    mobile horizontal overflow that overflow-x:hidden would otherwise clip). */
 .contact>*,.field,.field--row>*,.form{min-width:0}
 .field input,.field select,.field textarea{max-width:100%;min-width:0}
 .form{display:grid;gap:20px}
 .field{display:flex;flex-direction:column;gap:9px}
-.field label{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--pearl-dim);text-transform:uppercase}
-.field__opt{letter-spacing:.1em;opacity:.6;text-transform:none}
-.field input,.field select,.field textarea{width:100%;padding:15px 16px;background:rgba(160,185,255,.05);
-  border:1px solid var(--glass-line);border-radius:12px;color:var(--pearl);font-family:var(--font);font-size:15px;
-  transition:border-color .3s,background .3s;outline:none}
-.field textarea{resize:vertical;min-height:130px;line-height:1.5}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);background:rgba(61,124,255,.06)}
-.field select option{background:#0a0c14}
+.field label{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.18em;
+  color:var(--c-primary);text-transform:uppercase}
+.field__opt{letter-spacing:.08em;opacity:.7;text-transform:none}
+.field input,.field select,.field textarea{width:100%;padding:15px 16px;background:#fff;
+  border:1px solid var(--c-secondary);border-radius:12px;color:var(--c-ink);font-family:var(--font);font-size:15.5px;
+  transition:border-color .25s,background .25s,box-shadow .25s;outline:none}
+.field textarea{resize:vertical;min-height:130px;line-height:1.55}
+.field input::placeholder,.field textarea::placeholder{color:#7A8794}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--c-primary);
+  background:var(--c-soft);box-shadow:0 0 0 3px rgba(0,96,120,.12)}
+.field select option{background:#fff;color:var(--c-ink)}
 .field--row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 @media(max-width:520px){.field--row{grid-template-columns:1fr}}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .form button{justify-self:start}
-.form__status{min-height:20px;font-size:14px;color:var(--pearl-dim)}
-.form__status--ok{color:#5fd08a}
-.form__status--error{color:#ff7a7a}
-.form.is-sent .field,.form.is-sent button{opacity:.5;pointer-events:none}
+.form__status{min-height:20px;font-size:14.5px;color:var(--c-ink-soft)}
+.form__status--ok{color:#1B7A4B}
+.form__status--error{color:var(--c-coral-dp)}
+.form.is-sent .field,.form.is-sent button{opacity:.55;pointer-events:none}
 
-/* ---------- Footer ---------- */
-.footer{position:relative;z-index:2;border-top:1px solid var(--glass-line);max-width:1280px;margin:0 auto;
-  padding:60px clamp(22px,5vw,56px);display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
-@media(max-width:720px){.footer{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.footer{grid-template-columns:1fr}}
-.footer__brand img{height:30px;width:auto;margin-bottom:18px}
-.footer__brand p{color:var(--pearl-dim);font-size:13.5px;line-height:1.6;max-width:32ch;font-weight:300}
-.footer__col h4{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--blue-bright);text-transform:uppercase;margin-bottom:18px}
-.footer__col a{display:block;color:var(--pearl-dim);font-size:14px;margin-bottom:12px;transition:color .3s}
-.footer__col a:hover{color:var(--pearl)}
-.footer__bottom{max-width:1280px;margin:0 auto;padding:24px clamp(22px,5vw,56px) 50px;display:flex;justify-content:space-between;
-  flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--pearl-dim);
-  border-top:1px solid var(--glass-line)}
-
-/* button used outside the finale */
-.btn{position:relative;display:inline-flex;align-items:center;gap:14px;padding:16px 34px;border-radius:50px;font-size:15px;
-  letter-spacing:.04em;background:linear-gradient(120deg,var(--blue),var(--blue-bright));color:#fff;font-weight:500;
-  box-shadow:0 18px 50px -18px rgba(61,124,255,.85);transition:transform .3s var(--ease),box-shadow .3s;overflow:hidden}
-.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.4),transparent);
-  transform:translateX(-120%);transition:transform .7s var(--ease)}
-.btn:hover::after{transform:translateX(120%)}
-.btn:hover{box-shadow:0 26px 70px -18px rgba(61,124,255,1)}
-.btn--ghost{background:none;border:1px solid var(--glass-line);box-shadow:none;color:var(--pearl)}
-.btn--ghost:hover{border-color:var(--blue);box-shadow:none}
+/* Shared button — same shape and behaviour as .fa-btn */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 30px;
+  border-radius:40px;border:1px solid var(--c-primary);background:var(--c-primary);color:#fff;
+  font-size:15px;font-weight:600;letter-spacing:.01em;
+  transition:background .25s var(--ease),border-color .25s var(--ease),color .25s var(--ease)}
+.btn svg{transition:transform .25s var(--ease)}
+.btn:hover{background:var(--c-primary-dk);border-color:var(--c-primary-dk)}
+.btn:hover svg{transform:translateX(3px)}
+.btn--ghost{background:#fff;color:var(--c-primary)}
+.btn--ghost:hover{background:var(--c-soft);color:var(--c-primary);border-color:var(--c-primary)}
 
 /* ---------- Nav right cluster ---------- */
 .nav__right{display:flex;align-items:center;gap:clamp(12px,2vw,22px)}
@@ -447,91 +310,11 @@ body.nav-open .nav__toggle span:nth-child(3){transform:translateY(-6.5px) rotate
 /* ---------- Per-section themed background motifs ----------
    Faint, edge-masked imagery behind each scene (shown over the
    simple background once the hero's neural canvas has faded). */
-.scene__bg{position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background-size:cover;background-position:center;opacity:.2;
-  -webkit-mask-image:radial-gradient(125% 95% at 50% 50%,#000 30%,transparent 80%);
-          mask-image:radial-gradient(125% 95% at 50% 50%,#000 30%,transparent 80%)}
-.bg--intelligence{background-image:url(/static/img/bg-intelligence.png);
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%);
-          mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%)}
-.bg--enterprise{background-image:url(/static/img/bg-enterprise.png);opacity:.18;background-position:center top;
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%);
-          mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%)}
-.bg--talent{background-image:url(/static/img/bg-talent.png);opacity:.24}
-.bg--proof{background-image:url(/static/img/bg-proof.png);opacity:.14;background-position:center bottom}
-.bg--ecosystem{background-image:url(/static/img/bg-ecosystem.png);opacity:.22}
-
 
 /* ---------- Home scenes: copy + framed image fills the empty side ---------- */
-.scene__lead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:clamp(28px,5vw,72px);align-items:center;width:100%}
-.scene__lead .scene2__copy,
-.scene__lead .scene3__copy,
-.scene__lead .scene4__copy,
-.scene__lead .eco__copy{margin-bottom:0;max-width:none}
-.scene__lead .eco__copy .lede{max-width:42ch}
-.scene--eco .scene__lead{margin-bottom:18px}
+
 /* No card frame — the image dissolves into the dark on all four edges and is
    darkened + blue-graded so it lives inside the palette, not on top of it. */
-.scene__media{position:relative;
-  -webkit-mask-image:linear-gradient(to right,transparent,#000 7%,#000 95%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 95%,transparent);
-  -webkit-mask-composite:source-in;
-          mask-image:linear-gradient(to right,transparent,#000 7%,#000 95%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 95%,transparent);
-          mask-composite:intersect}
-.scene__media img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;
-  filter:brightness(1.06) contrast(1.02) saturate(.98)}
-.scene__media::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:
-    linear-gradient(105deg,rgba(5,6,10,.5),rgba(5,6,10,.05) 24%,transparent 44%),
-    radial-gradient(130% 120% at 60% 40%,rgba(61,124,255,.1),transparent 62%)}
-/* Dynamic motion for Scene Ecosystem picture */
-.scene--eco .scene__media{overflow:hidden;border-radius:18px;
-  box-shadow:0 20px 70px -20px rgba(61,124,255,.25);transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
-.scene--eco .scene__media:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 30px 90px -20px rgba(61,124,255,.5)}
-.scene--eco .scene__media img{animation:mediaLivingDrift 14s ease-in-out infinite alternate;will-change:transform}
-.scene--eco .scene__media::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;
-  background:
-    radial-gradient(220px 220px at 76% 28%,rgba(106,168,255,.45),transparent 70%),
-    linear-gradient(110deg,transparent 20%,rgba(106,168,255,.18) 45%,rgba(255,255,255,.32) 50%,rgba(106,168,255,.18) 55%,transparent 80%);
-  background-size:100% 100%, 250% 250%;background-position:0 0, -150% 0;mix-blend-mode:screen;animation:neuralHoloLive 6s ease-in-out infinite}
-@keyframes mediaLivingDrift{
-  0%{transform:scale(1) translate(0, 0)}
-  35%{transform:scale(1.06) translate(-1.8%, -1.2%)}
-  70%{transform:scale(1.04) translate(1.4%, -1.8%)}
-  100%{transform:scale(1.07) translate(-1%, 0.8%)}
-}
-@keyframes neuralHoloLive{
-  0%{background-position:0 0, -150% 0;opacity:.4}
-  35%{background-position:0 0, 150% 0;opacity:.9}
-  70%{background-position:0 0, 150% 0;opacity:.5}
-  100%{background-position:0 0, -150% 0;opacity:.4}
-}
-@media(prefers-reduced-motion:reduce){
-  .scene--eco .scene__media img{animation:none}
-  .scene--eco .scene__media::before{display:none}
-}
-.scene--2 .scene__lead{margin-bottom:56px}
-@media(max-width:860px){
-  .scene__lead{grid-template-columns:1fr;gap:30px}
-  .scene__media{max-width:620px;margin-top:6px}
-}
-
-/* ---------- Capabilities scene (home) ---------- */
-.scene--caps{align-items:flex-start}
-.caps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(28px,4vw,58px);width:100%;
-  margin:46px 0 44px;border-top:1px solid var(--glass-line);padding-top:46px}
-.cap{display:flex;flex-direction:column;gap:12px;min-width:0}
-.cap__no{font-family:var(--mono);font-size:11px;letter-spacing:.34em;color:var(--blue-bright);opacity:.85}
-.cap__h{font-weight:200;font-size:clamp(21px,2.3vw,29px);letter-spacing:-.01em;line-height:1.1}
-.cap__p{color:var(--pearl-dim);line-height:1.62;font-weight:300;font-size:clamp(14px,1.05vw,16px)}
-.caps__link{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);
-  font-size:13px;letter-spacing:.16em;color:var(--pearl);text-decoration:none;padding:14px 28px;
-  border:1px solid var(--glass-line);border-radius:40px;
-  transition:border-color .3s var(--ease),transform .3s var(--ease),background .3s}
-.caps__link:hover{border-color:var(--blue);background:rgba(61,124,255,.08)}
-.caps__link svg{transition:transform .3s var(--ease)}
-.caps__link:hover svg{transform:translateX(4px)}
-@media(max-width:820px){.caps{grid-template-columns:1fr;gap:32px;margin-top:38px;padding-top:38px}}
 
 /* ---------- Touch devices: a little extra headroom ----------
    The glass surfaces above already ship without backdrop-filter for everyone
@@ -540,4 +323,1372 @@ body.nav-open .nav__toggle span:nth-child(3){transform:translateY(-6.5px) rotate
    which is what made scrolling stick and flicker). These two are the last
    per-frame costs worth dropping on mobile GPUs. */
 html.is-touch .nav__links{-webkit-backdrop-filter:none;backdrop-filter:none}
-html.is-touch .scene__media{filter:none}
+
+/* ============================================================
+   LAUNCH DESIGN SYSTEM  (.fa-*)
+   Everything below the home hero, plus the site footer.
+
+   Namespaced on purpose: the hero (.scene--1, .title-xl, .kicker,
+   .word-built, .scroll-hint) keeps the dark cinematic treatment and
+   nothing here can reach it. Below the hero the page sits on a white
+   surface (.fa-canvas) that covers the fixed dark background stack.
+
+   Palette — midnight green leads, everything else supports:
+   roughly 70% white/soft neutrals, 20% midnight green, 10% accents.
+   ============================================================ */
+:root{
+  --c-primary:#006078;      /* Midnight Green — primary */
+  --c-primary-dk:#004858;   /* Deep Teal — dark variation */
+  --c-secondary:#82BAC4;    /* Sky Blue — icons, diagrams, hairlines */
+  --c-soft:#FAFEED;         /* Seashell — soft section ground */
+  --c-pink:#FFD4D1;         /* Tea Rose — soft warm accent */
+  --c-coral:#E37C78;        /* Light Coral — fills, dots, rules, borders.
+                               2.71:1 on warm white, so it never sets text. */
+  --c-coral-tx:#D95F5B;   /* display text only */
+  --c-coral-dp:#B8332D;     /* small critical text: 6.0:1 on warm white */     /* same coral hue, darkened the minimum needed to
+                               clear 3:1 at display size (3.10:1). */
+  --c-sky:#E4F0F3;          /* Sky Blue tint, usable as a surface: 6.4:1 */
+  --c-canvas:#FAFAF7;       /* Warm White — the page ground */
+  --c-ink:#17343D;          /* Ink — body copy, 13.3:1 on warm white */
+  --c-ink-soft:#354A53;   /* secondary copy; 8.4-9.3:1 on the light grounds */
+
+  --fa-shell:1280px;
+  --fa-pad:clamp(20px,5vw,64px);
+  --fa-gap:clamp(14px,1.5vw,20px);
+  --fa-r:18px;
+  --fa-r-lg:24px;
+}
+
+/* The white surface below the hero. z-index 3 clears the fixed
+   .bg-simple / #world / .vignette layers (0, 1, 2) that the hero needs. */
+.fa-canvas{position:relative;z-index:3;background:var(--c-canvas)}
+
+/* ---- Shell + rhythm ---- */
+.fa-section{position:relative;padding-block:clamp(56px,6.5vw,96px)}
+.fa-section--tight{padding-block:clamp(44px,5vw,72px)}
+.fa-section--soft{background:var(--c-soft)}
+/* Was #fff. Against the warm white page ground (#FAFAF7) pure white is
+   almost indistinguishable, so two blocks totalling ~2,600px of the home
+   page read as one flat expanse. Sky Blue tint is already in the palette,
+   already used on cards, and is cool against the warm ground, which is what
+   makes the band read as a deliberate change rather than a printing error. */
+.fa-section--white{background:var(--c-sky)}
+.fa-section--rose{background:var(--c-pink)}
+/* The dark anchor band. Everything inside flips polarity. */
+.fa-section--dark{background:var(--c-primary)}
+.fa-section--dark .fa-h2,.fa-section--dark .fa-h3,.fa-section--dark .fa-h4{color:#fff}
+.fa-section--dark .fa-lede{color:#DCEAEE}
+.fa-section--dark .fa-p{color:#C3D9DE}
+.fa-section--dark .fa-eyebrow{color:var(--c-pink)}
+.fa-section--dark .fa-accent{color:var(--c-pink)}
+.fa-section--dark .fa-checks li{color:#DCEAEE}
+.fa-section--dark .fa-checks li::before{border-color:var(--c-secondary)}
+.fa-section--dark .fa-link{color:#fff}
+.fa-section--dark .fa-link:hover{color:var(--c-pink)}
+.fa-section--dark .fa-row__media{border-color:rgba(130,186,196,.4);background:var(--c-primary-dk)}
+.fa-section--dark .fa-row__badge{background:var(--c-primary-dk);border-color:rgba(130,186,196,.45);color:#fff}
+.fa-section--dark .fa-stat__n{color:#fff}
+.fa-section--dark .fa-stat__l{color:var(--c-secondary)}
+.fa-section--dark .fa-stat{border-left-color:rgba(130,186,196,.35)}
+.fa-shell{max-width:var(--fa-shell);margin-inline:auto;padding-inline:var(--fa-pad)}
+
+/* ---- Type scale ---- */
+.fa-eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);
+  font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--c-primary);margin-bottom:18px}
+/* Section headings are set in ink rather than the brand teal, so the
+   coloured word in each one is the only thing carrying colour. The
+   dark-band override above already flips them to white. */
+.fa-h2{font-size:clamp(31px,4.2vw,56px);font-weight:300;line-height:1.1;
+  letter-spacing:-.022em;color:var(--c-ink);margin:0}
+.fa-h3{font-size:clamp(19px,1.55vw,23px);font-weight:500;line-height:1.28;
+  letter-spacing:-.008em;color:var(--c-ink);margin:0}
+.fa-h4{font-size:clamp(17px,1.2vw,19px);font-weight:600;line-height:1.32;
+  color:var(--c-ink);margin:0}
+.fa-lede{font-size:clamp(16.5px,1.25vw,19px);line-height:1.68;color:var(--c-ink);
+  font-weight:400;margin:0;max-width:60ch}
+.fa-p{font-size:clamp(15px,1.02vw,16.5px);line-height:1.68;color:var(--c-ink-soft);
+  font-weight:400;margin:0}
+.fa-accent{color:var(--c-coral-tx);font-weight:600}
+
+/* ---- Cards ----
+   Default: white with a sky-blue hairline. Variants below carry the
+   soft / pink / coral / featured treatments. Differentiation comes from
+   border + ground, not shadow. */
+.fa-card{position:relative;display:flex;flex-direction:column;gap:12px;min-width:0;
+  padding:clamp(22px,2.2vw,32px);border:1px solid var(--c-secondary);
+  border-radius:var(--fa-r);background:#fff;overflow:hidden;
+  transition:transform .3s var(--ease),border-color .3s var(--ease),background .3s var(--ease)}
+.fa-card:hover{transform:translateY(-3px);border-color:var(--c-primary);background:var(--c-soft)}
+.fa-card__tag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--c-primary)}
+.fa-card__icon{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;
+  border:1px solid var(--c-secondary);background:var(--c-soft);color:var(--c-primary);flex:none}
+.fa-card__icon svg{width:20px;height:20px}
+
+/* Soft (seashell) */
+.fa-card--soft{background:var(--c-soft);border-color:var(--c-primary)}
+.fa-card--soft:hover{background:#fff;border-color:var(--c-primary)}
+/* Tea rose */
+.fa-card--pink{background:var(--c-pink);border-color:var(--c-secondary)}
+.fa-card--pink:hover{background:var(--c-pink);border-color:var(--c-primary)}
+.fa-card--pink .fa-card__icon{background:#fff;border-color:var(--c-secondary)}
+/* Tea rose keeps a pink-family label so the tint reads as intentional */
+.fa-card--pink .fa-card__tag{color:var(--c-primary)}
+.fa-card--pink .fa-checks li::before{border-color:var(--c-primary)}
+.fa-card--pink .fa-link:hover{color:var(--c-primary)}
+/* White with a coral hairline */
+.fa-card--coral{border-color:var(--c-coral)}
+.fa-card--coral .fa-card__icon{border-color:var(--c-coral);color:var(--c-coral)}
+
+/* Featured — the one dark card in the grid */
+.fa-card--feature{background:var(--c-primary);border-color:var(--c-primary);
+  padding:clamp(26px,2.8vw,40px);gap:16px}
+.fa-card--feature:hover{background:var(--c-primary-dk);border-color:var(--c-primary-dk);
+  transform:translateY(-3px)}
+.fa-card--feature .fa-h3{font-size:clamp(23px,2.1vw,31px);font-weight:400;color:#fff}
+.fa-card--feature .fa-card__tag{color:var(--c-pink)}
+.fa-card--feature .fa-p{color:#E4EFF2}
+.fa-card--feature .fa-checks li{color:#E4EFF2}
+.fa-card--feature .fa-checks li::before{border-color:var(--c-secondary)}
+.fa-card--feature .fa-link{color:#fff}
+.fa-card--feature .fa-link:hover{color:var(--c-secondary)}
+
+/* Inline link / CTA inside cards */
+.fa-link{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;margin-top:auto;
+  padding-top:6px;font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--c-primary);transition:color .25s}
+.fa-link svg{width:16px;height:16px;transition:transform .25s var(--ease)}
+.fa-link:hover{color:var(--c-coral)}
+.fa-link:hover svg{transform:translateX(4px)}
+
+/* Checklist */
+.fa-checks{list-style:none;display:flex;flex-direction:column;gap:11px;margin:4px 0 0;padding:0}
+.fa-checks li{position:relative;padding-left:27px;font-size:clamp(14.5px,1vw,16px);
+  line-height:1.6;color:var(--c-ink);font-weight:400}
+/* A chevron rather than a tick. A tick reads as "done", which is wrong for
+   a capability list, and it is the most over-used mark on the web. The
+   chevron matches the arrow already used on links and buttons. */
+.fa-checks li::before{content:"";position:absolute;left:2px;top:.46em;width:7px;height:7px;
+  border-top:1.8px solid var(--c-coral);border-right:1.8px solid var(--c-coral);
+  transform:rotate(45deg)}
+
+/* ---- Buttons ---- */
+.fa-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:52px;padding:0 30px;border-radius:40px;border:1px solid var(--c-primary);
+  background:var(--c-primary);color:#fff;font-size:15px;font-weight:600;letter-spacing:.01em;
+  transition:background .25s var(--ease),border-color .25s var(--ease),color .25s var(--ease)}
+.fa-btn svg{width:18px;height:18px;transition:transform .25s var(--ease)}
+.fa-btn:hover{background:var(--c-primary-dk);border-color:var(--c-primary-dk)}
+.fa-btn:hover svg{transform:translateX(3px)}
+.fa-btn--ghost{background:#fff;color:var(--c-primary)}
+.fa-btn--ghost:hover{background:var(--c-soft);color:var(--c-primary);border-color:var(--c-primary)}
+/* On the midnight-green CTA the polarity flips */
+.fa-cta .fa-btn{background:#fff;border-color:#fff;color:var(--c-primary)}
+.fa-cta .fa-btn:hover{background:var(--c-soft);border-color:var(--c-soft)}
+.fa-cta .fa-btn--ghost{background:transparent;border-color:rgba(255,255,255,.55);color:#fff}
+.fa-cta .fa-btn--ghost:hover{background:rgba(255,255,255,.1);border-color:#fff;color:#fff}
+
+/* ---- Intro / value proposition ---- */
+.fa-intro{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:clamp(28px,5vw,80px);align-items:start}
+.fa-intro__aside{display:flex;flex-direction:column;gap:22px;padding-top:6px}
+.fa-values{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,44px);
+  margin-top:clamp(40px,4.5vw,64px);padding-top:clamp(32px,3.5vw,48px);
+  border-top:1px solid var(--c-secondary)}
+.fa-value{display:flex;flex-direction:column;gap:9px;min-width:0}
+.fa-value__n{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.24em;
+  color:var(--c-primary)}
+
+/* ---- Bento ---- */
+.fa-bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--fa-gap)}
+.fa-bento__a{grid-column:span 4;grid-row:span 2}
+.fa-bento__b,.fa-bento__c,.fa-bento__d{grid-column:span 2}
+.fa-bento__e{grid-column:span 4}
+.fa-bento__wide{grid-column:span 6}
+.fa-caps-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2vw,34px);
+  width:100%;margin-top:4px}
+.fa-cap{display:flex;flex-direction:column;gap:7px;min-width:0}
+.fa-cap__t{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--c-primary)}
+.fa-cap__v{font-size:clamp(16px,1.2vw,18px);font-weight:600;color:var(--c-primary)}
+.fa-cap__s{font-size:14.5px;line-height:1.55;color:var(--c-ink-soft);font-weight:400}
+
+/* ---- Alternating detail rows ---- */
+.fa-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(30px,5vw,78px);align-items:center}
+.fa-row--flip .fa-row__media{order:-1}
+.fa-row__copy{display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+.fa-row__media{position:relative;border-radius:var(--fa-r-lg);overflow:hidden;
+  border:1px solid var(--c-secondary);background:var(--c-soft)}
+.fa-row__media video,.fa-row__media img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+/* Inside the featured bento cell a 4/3 clip makes the column tall enough to
+   leave the two cards beside it half empty. */
+.fa-row__media--wide video,.fa-row__media--wide img{aspect-ratio:16/9}
+.fa-card--feature .fa-row__media{border-color:rgba(130,186,196,.45);background:var(--c-primary-dk)}
+.fa-row__badge{position:absolute;left:16px;bottom:16px;z-index:2;display:inline-flex;
+  align-items:center;gap:8px;padding:9px 15px;border-radius:40px;
+  border:1px solid var(--c-secondary);background:#fff;
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--c-primary)}
+
+/* ---- Process ---- */
+.fa-process{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--fa-gap);
+  position:relative;margin-top:clamp(36px,4vw,56px);list-style:none;padding:0}
+.fa-process::before{content:"";position:absolute;left:0;right:0;top:26px;height:1px;
+  background:var(--c-secondary)}
+.fa-step{position:relative;display:flex;flex-direction:column;gap:10px;min-width:0}
+.fa-step__n{position:relative;z-index:1;width:52px;height:52px;border-radius:50%;
+  display:grid;place-items:center;flex:none;
+  border:1px solid var(--c-secondary);background:#fff;
+  font-family:var(--mono);font-size:13px;font-weight:600;color:var(--c-primary)}
+.fa-section--soft .fa-step__n{background:var(--c-soft)}
+.fa-step__t{font-size:clamp(17px,1.3vw,20px);font-weight:600;color:var(--c-primary);margin-top:6px}
+.fa-step__p{font-size:14.5px;line-height:1.62;color:var(--c-ink-soft);font-weight:400}
+
+/* ---- Differentiators + stats ---- */
+.fa-why{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+  gap:clamp(30px,5vw,80px);align-items:start}
+.fa-why__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--fa-gap)}
+/* Four reasons, four surfaces, so the block is not one colour repeated.
+   Each card carries a soft wash that drifts behind the copy and an accent
+   rule that runs the width of the card on hover. Transform and width only. */
+.fa-why__grid .fa-card{--wy-surface:#fff;--wy-edge:rgba(0,96,120,.26);
+  --wy-accent:var(--c-primary);--wy-title:var(--c-primary-dk);--wy-body:#354A53;
+  position:relative;overflow:hidden;background:var(--wy-surface);
+  border-color:var(--wy-edge);
+  transition:transform .4s var(--ease),border-color .4s ease,box-shadow .4s ease}
+.fa-why__grid .fa-card:nth-child(2){--wy-surface:var(--c-sky);--wy-edge:rgba(0,72,88,.26)}
+.fa-why__grid .fa-card:nth-child(3){--wy-surface:#FFF3F1;--wy-edge:rgba(184,51,45,.3);
+  --wy-accent:#B8332D;--wy-body:#4A3330}
+.fa-why__grid .fa-card:nth-child(4){--wy-surface:var(--c-soft);--wy-edge:rgba(107,100,18,.32);
+  --wy-accent:#6B6412;--wy-body:#414B23}
+.fa-why__grid .fa-card::before{content:"";position:absolute;top:0;left:0;
+  height:3px;width:28px;background:var(--wy-accent);
+  transition:width .45s var(--ease);z-index:2}
+.fa-why__grid .fa-card::after{content:"";position:absolute;top:-80px;right:-80px;
+  width:200px;height:200px;border-radius:50%;background:var(--wy-accent);
+  opacity:.08;filter:blur(40px);pointer-events:none;
+  animation:whyCardDrift 11s ease-in-out infinite alternate}
+@keyframes whyCardDrift{
+  from{transform:translate3d(0,0,0) scale(1)}
+  to{transform:translate3d(-30px,26px,0) scale(1.2)}}
+.fa-why__grid .fa-card:hover{transform:translateY(-6px);border-color:var(--wy-accent);
+  box-shadow:0 2px 6px rgba(23,52,61,.05),0 22px 46px -24px rgba(0,72,88,.45)}
+.fa-why__grid .fa-card:hover::before{width:100%}
+.fa-why__grid .fa-card:hover::after{animation-duration:3.6s;opacity:.15}
+.fa-why__grid .fa-card > *{position:relative;z-index:1}
+.fa-why__grid .fa-card__icon{color:var(--wy-accent);border-color:var(--wy-accent);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.fa-why__grid .fa-card:hover .fa-card__icon{transform:rotate(-6deg) scale(1.08);
+  box-shadow:0 8px 18px -8px rgba(0,72,88,.5)}
+.fa-why__grid .fa-card .fa-h4{color:var(--wy-title)}
+.fa-why__grid .fa-card .fa-p{color:var(--wy-body)}
+@media(prefers-reduced-motion:reduce){
+  .fa-why__grid .fa-card,.fa-why__grid .fa-card::before,
+  .fa-why__grid .fa-card__icon{transition:none}
+  .fa-why__grid .fa-card::after{animation:none}
+  .fa-why__grid .fa-card:hover{transform:none}
+  .fa-why__grid .fa-card:hover .fa-card__icon{transform:none}
+}
+.fa-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,2.5vw,40px)}
+.fa-stat{display:flex;flex-direction:column;gap:8px;padding-left:clamp(16px,2vw,30px);
+  border-left:1px solid var(--c-secondary);min-width:0}
+.fa-stat:first-child{border-left:0;padding-left:0}
+.fa-stat__n{font-size:clamp(34px,4vw,56px);font-weight:300;line-height:1;letter-spacing:-.03em;
+  color:var(--c-primary)}
+.fa-stat__l{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--c-ink-soft);line-height:1.5}
+.fa-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--fa-gap);
+  margin-top:clamp(34px,4vw,54px)}
+/* Large numerals, so coral clears the 3:1 large-text bar on white */
+.fa-result__v{font-size:clamp(34px,3.6vw,48px);font-weight:400;letter-spacing:-.03em;
+  line-height:1;color:var(--c-coral-tx)}
+
+/* ---- Ecosystem ---- */
+.fa-eco{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--fa-gap)}
+.fa-eco__card{gap:9px;padding:clamp(18px,1.8vw,24px)}
+.fa-eco__card .fa-h4{font-size:18px}
+.fa-eco__host{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--c-primary);
+  opacity:.75;word-break:break-word}
+.fa-eco__card .fa-p{font-size:14.5px}
+.fa-eco__card::after{content:"";position:absolute;right:16px;top:18px;width:7px;height:7px;
+  border-top:1.6px solid var(--c-secondary);border-right:1.6px solid var(--c-secondary);
+  transform:rotate(45deg);transition:transform .25s var(--ease),border-color .25s}
+.fa-eco__card:hover::after{border-color:var(--c-coral);transform:rotate(45deg) translate(2px,-2px)}
+
+/* ---- CTA band — the one large midnight-green block ---- */
+/* Tall enough for the clip behind it to actually read as footage rather than
+   a texture strip; the copy stays centred in whatever height that gives. */
+.fa-cta{position:relative;overflow:hidden;border-radius:var(--fa-r-lg);
+  background:var(--c-primary);display:grid;place-items:center;
+  min-height:clamp(440px,60vh,660px);
+  padding:clamp(64px,8vw,120px) clamp(24px,4vw,64px);text-align:center}
+/* Desaturated and sunk under a heavy midnight-green wash: the clip reads as
+   motion and texture, the band still reads as one solid brand colour, and
+   white text keeps its contrast wherever the footage happens to be bright. */
+/* The clip plays in its own colours — no tint, no desaturation. */
+.fa-cta__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  z-index:0;pointer-events:none}
+/* Neutral darkening only, so nothing shifts the footage's hue. Lighter at the
+   edges, heaviest across the middle band where the headline and buttons sit —
+   tuned against measured pixels so white copy still clears AA. */
+.fa-cta__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(6,10,14,.3),rgba(6,10,14,.54) 30%,rgba(6,10,14,.54) 76%,rgba(6,10,14,.34))}
+.fa-cta__inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;
+  gap:22px;max-width:760px;margin-inline:auto}
+.fa-cta h2{font-size:clamp(32px,5vw,64px);font-weight:300;line-height:1.06;
+  letter-spacing:-.03em;color:#fff;margin:0}
+.fa-cta .fa-lede{text-align:center;color:#DCEAEE}
+/* Sky blue on midnight green is only ~3.4:1 — too low for 11px text, so this
+   label uses a light tint instead (~7:1). */
+.fa-cta__foot{font-family:var(--mono);font-size:11px;letter-spacing:.24em;
+  text-transform:uppercase;color:#C6DCE2;margin:6px 0 0}
+.fa-cta__actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:6px}
+
+/* ---- Footer ---- */
+.fa-footer{position:relative;z-index:3;background:var(--c-primary);overflow:hidden}
+.fa-footer__grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(30px,4vw,64px);padding-block:clamp(48px,6vw,78px)}
+.fa-footer__logo{height:30px;width:auto;display:block;margin-bottom:20px}
+.fa-footer__about{font-size:15px;line-height:1.7;color:#D3E4E9;font-weight:400;max-width:38ch}
+.fa-footer h3{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--c-pink);margin:0 0 18px}
+.fa-footer__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px}
+.fa-footer__list a,.fa-footer__list span{font-size:15px;line-height:1.5;color:#fff;
+  font-weight:400;transition:color .25s}
+.fa-footer__list a:hover{color:var(--c-secondary)}
+.fa-footer__list a{display:inline-flex;align-items:flex-start;gap:9px}
+.fa-footer__list svg{width:15px;height:15px;color:var(--c-secondary);flex:none;margin-top:3px}
+.fa-footer__mark{display:block;width:100%;height:auto;margin-top:clamp(10px,2vw,26px);
+  fill:rgba(255,255,255,.07);user-select:none;pointer-events:none}
+.fa-footer__bottom{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;
+  align-items:center;padding-block:22px 40px;border-top:1px solid rgba(255,255,255,.18);
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:#C6DCE2}
+.fa-footer__bottom a{color:#fff;transition:color .25s}
+.fa-footer__bottom a:hover{color:var(--c-secondary)}
+
+/* ---- Focus visibility (keyboard users) ---- */
+.fa-canvas a:focus-visible,.fa-canvas button:focus-visible,.fa-footer a:focus-visible{
+  outline:2px solid var(--c-coral);outline-offset:3px;border-radius:6px}
+.fa-footer a:focus-visible{outline-color:var(--c-pink)}
+
+/* ============================================================
+   Responsive — the bento and grids collapse in deliberate steps
+   ============================================================ */
+@media(max-width:1100px){
+  .fa-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px}
+  .fa-stat:nth-child(3){border-left:0;padding-left:0}
+  .fa-eco{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fa-process{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:34px}
+  .fa-process::before{display:none}
+}
+@media(max-width:1024px){
+  .fa-bento{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fa-bento__a{grid-column:span 2;grid-row:auto}
+  .fa-bento__b,.fa-bento__c{grid-column:span 1}
+  /* Nothing is left to pair with D at two columns, so let it run full width
+     rather than sit beside a hole. */
+  .fa-bento__d,.fa-bento__e,.fa-bento__wide{grid-column:span 2}
+  .fa-intro,.fa-why{grid-template-columns:1fr;gap:26px}
+  .fa-row{grid-template-columns:1fr;gap:28px}
+  .fa-row--flip .fa-row__media{order:0}
+  .fa-caps-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:768px){
+  .fa-values{grid-template-columns:1fr;gap:24px}
+  .fa-results{grid-template-columns:1fr}
+  .fa-why__grid{grid-template-columns:1fr}
+  .fa-process{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fa-footer__grid{grid-template-columns:1fr 1fr}
+  .fa-footer__brand{grid-column:1 / -1}
+}
+@media(max-width:560px){
+  .fa-bento,.fa-eco{grid-template-columns:1fr}
+  .fa-bento__a,.fa-bento__b,.fa-bento__c,.fa-bento__d,.fa-bento__e,.fa-bento__wide{grid-column:span 1}
+  .fa-caps-row,.fa-process{grid-template-columns:1fr}
+  .fa-stats{grid-template-columns:1fr;gap:22px}
+  .fa-stat{border-left:0;padding-left:0;border-top:1px solid var(--c-secondary);padding-top:18px}
+  .fa-stat:first-child{border-top:0;padding-top:0}
+  .fa-footer__grid{grid-template-columns:1fr}
+  .fa-footer__bottom{justify-content:flex-start}
+  .fa-cta__actions{flex-direction:column;align-items:stretch;width:100%}
+}
+
+/* Cards already lift on hover; on touch that transform just fights scrolling */
+html.is-touch .fa-card:hover{transform:none}
+
+/* ============================================================
+   Global chrome, rethemed to the palette
+   The nav overlays both the dark hero and the white page, so its
+   transparent top state (what sits over the hero) is left exactly as
+   it was — only the scrolled state is restyled, and by then the
+   viewer is heading into the white content.
+   ============================================================ */
+/* Inner pages open on white, so their nav can never use the transparent
+   light-on-dark state — it carries the solid treatment from the top. Home
+   keeps the transparent state over its hero and only switches on scroll. */
+/* The bar is transparent over the dark hero on every page, and only takes a
+   surface once it has travelled past it. That is the whole reason the switch
+   is tied to hero height rather than a fixed 40px: light nav text sitting on
+   a transparent bar over the warm-white canvas would be unreadable, so the
+   bar must gain its background at exactly the point the page turns light. */
+.nav{background:transparent;border-bottom:1px solid transparent;
+  transition:padding .5s var(--ease),background .45s ease,border-color .45s ease}
+/* A tinted light blue, not white, and still see-through. */
+.nav--solid{background:rgba(214,233,238,.86);
+  -webkit-backdrop-filter:saturate(170%) blur(16px);
+  backdrop-filter:saturate(170%) blur(16px);
+  border-bottom:1px solid rgba(0,96,120,.20);
+  box-shadow:0 1px 2px rgba(23,52,61,.04),0 10px 30px -24px rgba(0,72,88,.5)}
+/* These were written for the old always-teal bar. They still describe the
+   transparent state correctly, which sits over the dark hero, so they are
+   scoped to :not(.nav--solid) - otherwise they out-order the light-bar
+   rules below and the CTA stays a pale glass pill on a pale blue bar. */
+.nav:not(.nav--solid) .nav__links{color:#D3E4E9}
+.nav:not(.nav--solid) .nav__links a:hover,
+.nav:not(.nav--solid) .nav__links a.is-active{color:#fff}
+.nav:not(.nav--solid) .nav__links a:not(.nav__cta)::after{background:var(--c-pink)}
+.nav:not(.nav--solid) .nav__cta{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.5)}
+.nav:not(.nav--solid) .nav__cta:hover{background:#fff;color:var(--c-primary)!important;border-color:#fff}
+.nav:not(.nav--solid) .nav__toggle span{background:#fff}
+
+/* Light-blue bar state, last so it wins cleanly. */
+.nav--solid .nav__links,.nav--solid .nav__links a{color:var(--c-ink-soft)}
+.nav--solid .nav__links a:hover,.nav--solid .nav__links a.is-active{color:var(--c-primary)}
+.nav--solid .nav__links a:not(.nav__cta)::after{background:var(--c-coral)}
+.nav--solid .nav__cta{background:var(--c-primary);border-color:var(--c-primary);color:#fff!important}
+.nav--solid .nav__cta:hover{background:var(--c-primary-dk);border-color:var(--c-primary-dk);color:#fff!important}
+.nav--solid .nav__toggle span{background:var(--c-ink)}
+body.nav-open .nav__toggle span{background:var(--pearl)}
+
+/* Scroll rail: invisible at the top of the hero (scaleX 0), so this only
+   ever paints once the viewer is into the palette's territory. */
+.progress span{background:var(--c-primary);box-shadow:none}
+
+/* ============================================================
+   Journey — zigzag process track
+   Node centres sit at a FIXED fraction of the track height because
+   --zig is derived from --node, so the dotted connector (an SVG with
+   preserveAspectRatio:none) lines up at every breakpoint without
+   measuring anything.
+   ============================================================ */
+.fa-journey{position:relative;overflow:hidden;margin-top:clamp(34px,4vw,54px);
+  border:1px solid var(--c-secondary);border-radius:var(--fa-r-lg);
+  background:var(--c-pink);
+  padding:clamp(34px,4.5vw,60px) clamp(18px,3vw,46px) clamp(30px,4vw,52px)}
+.fa-journey__wrap{--node:clamp(68px,6.6vw,92px);--zig:calc(var(--node) * 1.15);position:relative}
+.fa-journey__track{position:relative;z-index:1;display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(6px,1.4vw,18px);
+  align-items:start;list-style:none;margin:0;padding:0}
+.fa-journey__line{position:absolute;left:0;right:0;top:0;
+  height:calc(var(--zig) + var(--node));width:100%;pointer-events:none;overflow:visible}
+.fa-journey__line polyline{fill:none;stroke:var(--c-secondary);stroke-width:2;
+  stroke-dasharray:1 8;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.75}
+.fa-journey__step{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;
+  text-align:center;gap:11px}
+.fa-journey__step:nth-child(odd){margin-top:var(--zig)}
+.fa-journey__node{position:relative;width:var(--node);height:var(--node);border-radius:50%;
+  background:#fff;border:1px solid var(--c-secondary);display:grid;place-items:center;
+  box-shadow:0 10px 24px -14px rgba(0,96,120,.45);
+  transition:transform .3s var(--ease),border-color .3s var(--ease)}
+.fa-journey__step:hover .fa-journey__node{transform:translateY(-3px);border-color:var(--c-primary)}
+.fa-journey__node > svg{width:42%;height:42%;color:var(--c-primary)}
+.fa-journey__badge{position:absolute;top:-4px;right:-4px;width:27px;height:27px;border-radius:50%;
+  background:var(--c-primary);color:#fff;display:grid;place-items:center;
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0}
+.fa-journey__img{display:block;width:60%;height:60%;object-fit:contain;margin:auto}
+.fa-journey__t{font-size:clamp(16px,1.25vw,19px);font-weight:600;color:var(--c-primary)}
+.fa-journey__p{font-size:14px;line-height:1.55;color:var(--c-ink-soft);max-width:17ch}
+
+@media(max-width:900px){
+  /* The zigzag needs five columns to read; below that it becomes a plain
+     stack and the connector would point at nothing. */
+  .fa-journey__track{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:30px}
+  .fa-journey__step:nth-child(odd){margin-top:0}
+  .fa-journey__line{display:none}
+  .fa-journey__p{max-width:26ch}
+}
+@media(max-width:520px){.fa-journey__track{grid-template-columns:1fr}}
+
+/* ---- Featured card watermark glyph ---- */
+.fa-card__watermark{position:absolute;right:-42px;bottom:-52px;width:230px;height:230px;
+  color:#fff;opacity:.09;pointer-events:none;z-index:0}
+.fa-card--feature > *:not(.fa-card__watermark){position:relative;z-index:1}
+
+/* ---- Media with an overlapping copy panel ---- */
+.fa-stack{position:relative;display:block}
+.fa-stack__media{position:relative;border-radius:var(--fa-r-lg);overflow:hidden;
+  border:1px solid var(--c-secondary);background:var(--c-soft)}
+.fa-stack__media img,.fa-stack__media video{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.fa-stack__panel{position:relative;z-index:2;margin:-22% 0 0 clamp(18px,4vw,64px);
+  background:var(--c-primary);color:#fff;border-radius:var(--fa-r-lg);
+  padding:clamp(24px,2.6vw,36px);box-shadow:0 20px 50px -30px rgba(0,96,120,.6)}
+.fa-stack__panel .fa-h3{color:#fff}
+.fa-stack__panel p{font-size:15.5px;line-height:1.68;color:#DCEAEE;margin:10px 0 0}
+.fa-stack__panel .fa-link{color:#fff;margin-top:16px}
+.fa-stack__panel .fa-link:hover{color:var(--c-secondary)}
+@media(max-width:560px){.fa-stack__panel{margin:-14% 0 0 0}}
+
+/* ============================================================
+   Editorial detail — small, quiet marks that give the page
+   rhythm without adding another colour band. Sky blue carries
+   structure; coral appears once or twice per screen at most.
+   ============================================================ */
+/* Two-tone display heading: the statement splits across colours. */
+.fa-display{margin:0;font-weight:300;line-height:1.02;letter-spacing:-.03em;
+  font-size:clamp(38px,5.6vw,80px)}
+.fa-display span{display:block}
+.fa-display__a{color:var(--c-ink)}
+.fa-display__b{color:var(--c-coral-tx)}
+.fa-section--dark .fa-display__a{color:#fff}
+.fa-section--dark .fa-display__b{color:var(--c-pink)}
+
+/* Hairline rule with a coral cap — sits under an eyebrow or beside a heading. */
+.fa-rule{display:block;width:100%;height:1px;border:0;margin:0;
+  background:var(--c-secondary);position:relative}
+.fa-rule::after{content:"";position:absolute;left:0;top:-1px;width:56px;height:3px;
+  background:var(--c-coral);border-radius:2px}
+
+/* Small network motif — dots joined by thin lines, the brand's own language. */
+.fa-net{display:block;width:clamp(120px,14vw,190px);height:auto;color:var(--c-secondary)}
+.fa-net circle{fill:currentColor}
+.fa-net line{stroke:currentColor;stroke-width:1}
+.fa-net .fa-net__hot{fill:var(--c-coral)}
+
+/* A quiet dot field for corners of dark bands and soft sections. */
+.fa-dotfield{position:absolute;pointer-events:none;color:var(--c-secondary);opacity:.5}
+.fa-section--dark .fa-dotfield{opacity:.38}
+
+/* Number/label pair used beside section headings. */
+.fa-tick{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);
+  font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--c-ink-soft)}
+.fa-tick::before{content:"";width:22px;height:1px;background:var(--c-coral)}
+
+/* Intro: pull the two columns together and hang a rule between them. */
+.fa-intro{gap:clamp(24px,3.4vw,56px);align-items:end}
+.fa-intro__aside{gap:18px;padding-top:0;position:relative}
+.fa-values{margin-top:clamp(30px,3.4vw,48px);padding-top:clamp(26px,2.8vw,38px)}
+.fa-value{position:relative;padding-left:18px}
+.fa-value::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:2px;
+  background:var(--c-secondary);border-radius:2px}
+.fa-value:first-child::before{background:var(--c-coral)}
+
+@media(max-width:1024px){.fa-intro{align-items:start}}
+
+/* ============================================================
+   Motion
+   Everything here is transform/opacity only and one-shot. No
+   infinite loops, no scroll-linked work — that combination is
+   what made scrolling stutter before.
+   ============================================================ */
+.reveal-left{opacity:0;transform:translateX(-46px)}
+.reveal-right{opacity:0;transform:translateX(46px)}
+.reveal-in{opacity:0;transform:scale(.96)}
+.reveal-left.is-in,.reveal-right.is-in,.reveal-in.is-in{opacity:1;transform:none}
+
+/* Media settles from a slight overscale as it arrives, then answers hover. */
+.fa-row__media img,.fa-row__media video{transition:transform .7s var(--ease)}
+.fa-row__media:hover img,.fa-row__media:hover video{transform:scale(1.035)}
+
+/* Card icons lift with their card rather than sitting still. */
+.fa-card__icon{transition:transform .3s var(--ease),border-color .3s var(--ease),
+  background .3s var(--ease)}
+.fa-card:hover .fa-card__icon{transform:translateY(-3px) scale(1.06);border-color:var(--c-primary)}
+
+/* The journey connector draws itself left to right once, then stops. */
+.fa-journey__line{clip-path:inset(0 100% 0 0)}
+.fa-journey__line.is-drawn{clip-path:inset(0 0 0 0);transition:clip-path 1.1s var(--ease)}
+
+
+
+@media (prefers-reduced-motion:reduce){
+  .reveal-left,.reveal-right,.reveal-in{opacity:1;transform:none}
+  .fa-journey__line{clip-path:none}
+  .fa-row__media:hover img,.fa-row__media:hover video,
+  .fa-card:hover .fa-card__icon{transform:none}
+}
+
+/* ============================================================
+   Colour + depth pass
+   Brand gradients (midnight green -> deep teal, tea rose -> seashell),
+   coloured icon chips, and layered shadows so cards sit above the
+   page instead of reading as outlines on flat ground.
+   ============================================================ */
+
+/* ---- Depth: two-layer shadow, tight + soft ---- */
+.fa-card,.pillar{box-shadow:0 1px 2px rgba(23,52,61,.05),0 10px 26px -18px rgba(0,96,120,.30)}
+.fa-card:hover,.pillar:hover{box-shadow:0 2px 6px rgba(23,52,61,.07),0 22px 44px -22px rgba(0,96,120,.42)}
+.fa-row__media,.fa-journey{box-shadow:0 2px 8px rgba(23,52,61,.06),0 26px 54px -30px rgba(0,96,120,.34)}
+
+/* ---- Featured card: the brand gradient ---- */
+.fa-card--feature{background:linear-gradient(145deg,#006078 0%,#00556B 45%,#004858 100%);
+  border-color:#004858;box-shadow:0 3px 10px rgba(23,52,61,.10),0 28px 56px -26px rgba(0,72,88,.62)}
+.fa-card--feature:hover{background:linear-gradient(145deg,#00687F 0%,#005B71 45%,#004E5E 100%)}
+
+/* ---- Sky-tinted card, so Sky Blue appears as a surface not just a line ---- */
+.fa-card--sky{background:var(--c-sky);border-color:var(--c-secondary)}
+.fa-card--sky:hover{background:#EDF6F8;border-color:var(--c-primary)}
+.fa-card--sky .fa-card__icon{background:#fff;border-color:var(--c-secondary)}
+
+/* ---- Icon chips carry the accent instead of all matching ---- */
+.fa-card__icon{background:var(--c-sky);border-color:var(--c-secondary);color:var(--c-primary)}
+.fa-card--soft .fa-card__icon{background:#fff;border-color:var(--c-primary)}
+.fa-card--pink .fa-card__icon{background:#fff;border-color:var(--c-coral);color:var(--c-coral-tx)}
+.fa-card--coral .fa-card__icon{background:var(--c-pink);border-color:var(--c-coral);color:var(--c-coral-tx)}
+.fa-card--feature .fa-card__icon{background:rgba(255,255,255,.14);
+  border-color:rgba(130,186,196,.5);color:#fff}
+
+/* ---- CTA + footer: the same gradient, so the page closes on brand ---- */
+.fa-cta{background:linear-gradient(150deg,#006078 0%,#00566C 50%,#004858 100%)}
+.fa-footer{background:linear-gradient(180deg,#006078 0%,#004858 100%)}
+
+/* ---- Journey panel: warm brand wash ---- */
+.fa-journey{background:linear-gradient(125deg,var(--c-pink) 0%,#FFF1EF 38%,var(--c-soft) 100%);
+  border-color:var(--c-coral)}
+.fa-journey__node{box-shadow:0 2px 6px rgba(23,52,61,.08),0 12px 26px -14px rgba(0,96,120,.45)}
+
+/* ---- Numbers carry colour ---- */
+.fa-stat__n{color:var(--c-coral-tx)}
+.fa-section--soft .fa-stat{border-left-color:var(--c-coral)}
+.fa-journey__t,.fa-step__t{color:var(--c-primary)}
+
+/* ---- Eyebrows sit in a tinted pill so they register as labels ---- */
+.fa-eyebrow{padding:7px 14px 7px 12px;border-radius:40px;background:var(--c-sky);
+  border:1px solid var(--c-secondary)}
+.fa-section--soft .fa-eyebrow{background:#fff}
+.fa-section--dark .fa-eyebrow{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.28)}
+
+/* ---- Links get a coral underline on hover ---- */
+.fa-link{position:relative}
+.fa-link::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;
+  background:var(--c-coral);transition:width .3s var(--ease)}
+.fa-link:hover::after{width:calc(100% - 24px)}
+.fa-section--dark .fa-link::after{background:var(--c-pink)}
+
+html.is-touch .fa-card:hover,html.is-touch .pillar:hover{box-shadow:0 1px 2px rgba(23,52,61,.05)}
+
+/* ============================================================
+   Card treatments from the reference set
+   A filled accent card carrying an oversized watermark, small
+   circular icon badges pinned top-right, and tinted siblings.
+   All fills come from the brand palette.
+   ============================================================ */
+
+/* Filled accent card — white copy on Light Coral. */
+/* Deepest point of the coral hue that still carries white text: #E37C78
+   itself is only 2.83:1, which fails for every size. #CF312B is 5.09:1
+   and still reads as the same warm accent. */
+.fa-card--filled{background:#CF312B;border-color:#CF312B}
+.fa-card--filled:hover{background:#C22E28;border-color:#C22E28}
+.fa-card--filled .fa-h3,.fa-card--filled .fa-h4{color:#fff}
+.fa-card--filled .fa-card__tag{color:#fff;opacity:.92}
+.fa-card--filled .fa-p{color:#fff;opacity:.94}
+.fa-card--filled .fa-checks li{color:#fff;opacity:.94}
+.fa-card--filled .fa-checks li::before{border-color:#fff}
+.fa-card--filled .fa-link{color:#fff}
+.fa-card--filled .fa-link::after{background:#fff}
+.fa-card--filled .fa-link:hover{color:#fff;opacity:.85}
+
+/* Oversized watermark, bleeding off the lower corner. */
+.fa-card__mark{position:absolute;right:-34px;bottom:-44px;width:210px;height:210px;
+  color:#fff;opacity:.2;pointer-events:none;z-index:0}
+.fa-card--filled > *:not(.fa-card__mark){position:relative;z-index:1}
+
+/* Small circular icon badge pinned to the corner, as in the reference. */
+.fa-card{padding-right:clamp(22px,2.2vw,32px)}
+.fa-card__badge{position:absolute;top:16px;right:16px;z-index:2;width:34px;height:34px;
+  border-radius:50%;display:grid;place-items:center;flex:none;
+  border:1px solid var(--c-secondary);background:#fff;color:var(--c-primary);
+  transition:transform .3s var(--ease),border-color .3s var(--ease)}
+.fa-card__badge svg{width:16px;height:16px}
+.fa-card:hover .fa-card__badge{transform:rotate(8deg) scale(1.08);border-color:var(--c-primary)}
+.fa-card--filled .fa-card__badge{background:rgba(255,255,255,.22);
+  border-color:rgba(255,255,255,.55);color:#fff}
+.fa-card--soft .fa-card__badge{border-color:var(--c-primary)}
+.fa-card--pink .fa-card__badge{border-color:var(--c-coral);color:var(--c-coral-tx)}
+/* Keep the badge clear of the heading. */
+.fa-card__tag{padding-right:42px}
+
+/* Live product screenshot at the head of each ecosystem card. */
+.fa-eco__shot{display:block;margin:-4px 0 4px;border-radius:12px;overflow:hidden;
+  border:1px solid var(--c-secondary);background:var(--c-soft);line-height:0}
+.fa-eco__shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top center;
+  transition:transform .5s var(--ease)}
+.fa-eco__card:hover .fa-eco__shot img{transform:scale(1.04)}
+.fa-eco__card{padding-top:clamp(16px,1.6vw,20px)}
+.fa-eco__card::after{top:auto;bottom:18px}
+
+/* ============================================================
+   Inner-page heroes — same ground as the home hero
+   The first section of About / Services / Work / Contact opens on
+   the hero's dark treatment, then the page drops onto the warm
+   white body. The band is painted full-bleed by a ::before so it
+   spans the viewport while the copy stays in the 1180px column.
+   ============================================================ */
+.page{position:relative;isolation:isolate;color:#fff}
+.page::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:50%;
+  width:100vw;transform:translateX(-50%);pointer-events:none;
+  background:
+    radial-gradient(100% 70% at 50% -12%,rgba(61,124,255,.12),transparent 55%),
+    radial-gradient(70% 60% at 82% 112%,rgba(61,124,255,.06),transparent 60%),
+    radial-gradient(120% 90% at 50% 40%,transparent 40%,rgba(2,3,7,.55) 80%,rgba(2,3,7,.92) 100%),
+    var(--obsidian)}
+.page__title{color:#fff}
+.page__lede{color:#C9D3E2}
+.page__kicker{color:var(--c-secondary)}
+/* Buttons sitting in the dark band flip polarity. */
+.page .btn{background:#fff;border-color:#fff;color:var(--c-primary)}
+.page .btn:hover{background:var(--c-soft);border-color:var(--c-soft)}
+.page .btn--ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.page .btn--ghost:hover{background:rgba(255,255,255,.12);border-color:#fff;color:#fff}
+
+/* ============================================================
+   Statement collage
+   A dark band with a centred pull-quote and product tiles
+   scattered around it. The tiles are real screenshots of our own
+   live platforms, so the claim is surrounded by its own evidence.
+   ============================================================ */
+.fa-collage{position:relative;overflow:hidden;background:var(--obsidian);
+  padding-block:clamp(72px,10vw,150px)}
+.fa-collage::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(100% 70% at 50% -10%,rgba(0,96,120,.35),transparent 58%),
+    radial-gradient(70% 60% at 82% 112%,rgba(227,124,120,.12),transparent 62%)}
+.fa-collage__inner{position:relative;z-index:2;max-width:760px;margin-inline:auto;
+  padding-inline:var(--fa-pad);text-align:center}
+.fa-collage__quote{position:relative;margin:0;font-size:clamp(24px,3.1vw,42px);
+  font-weight:300;line-height:1.28;letter-spacing:-.02em;color:#fff}
+.fa-collage__quote::before,.fa-collage__quote::after{content:"\201C";
+  color:var(--c-coral);font-size:1.4em;line-height:0;vertical-align:-.28em;font-weight:700}
+.fa-collage__quote::after{content:"\201D"}
+.fa-collage__by{margin:22px 0 0;font-family:var(--mono);font-size:12px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--c-secondary)}
+.fa-collage__cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  margin-top:30px;min-height:50px;padding:0 30px;border-radius:40px;
+  background:var(--c-coral);border:1px solid var(--c-coral);color:#1A0B0A;
+  font-size:14px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  transition:background .25s var(--ease),border-color .25s var(--ease),transform .25s var(--ease)}
+.fa-collage__cta:hover{background:#EE918D;border-color:#EE918D;transform:translateY(-2px)}
+
+/* The scatter. Each tile is placed by percentage so it tracks the band. */
+.fa-collage__tiles{position:absolute;inset:0;z-index:1;pointer-events:none}
+.fa-collage__tile{position:absolute;border-radius:12px;overflow:hidden;
+  border:1px solid rgba(130,186,196,.28);box-shadow:0 18px 40px -20px rgba(0,0,0,.85);
+  opacity:.9}
+/* The image sizes itself rather than inheriting a percentage height: once the
+   tile becomes a static grid item its height comes from aspect-ratio, which a
+   height:100% child cannot resolve against — that rendered empty boxes. */
+.fa-collage__tile img{display:block;width:100%;height:auto;aspect-ratio:16/11;
+  object-fit:cover;object-position:top center}
+.fa-collage__tile:nth-child(1){left:3%;top:16%;width:15%;aspect-ratio:16/11}
+.fa-collage__tile:nth-child(2){left:13%;top:58%;width:13%;aspect-ratio:16/11}
+.fa-collage__tile:nth-child(3){left:23%;top:4%;width:12%;aspect-ratio:16/11}
+.fa-collage__tile:nth-child(4){right:3%;top:20%;width:15%;aspect-ratio:16/11}
+.fa-collage__tile:nth-child(5){right:14%;top:62%;width:13%;aspect-ratio:16/11}
+.fa-collage__tile:nth-child(6){right:24%;top:6%;width:12%;aspect-ratio:16/11}
+
+@media(max-width:1100px){
+  .fa-collage__tile:nth-child(3),.fa-collage__tile:nth-child(6){display:none}
+  .fa-collage__tile:nth-child(1){width:18%;top:10%}
+  .fa-collage__tile:nth-child(4){width:18%;top:12%}
+}
+@media(max-width:820px){
+  /* Absolutely-placed tiles would sit under the copy at this width, so the
+     scatter becomes a strip below it instead of overlapping. */
+  .fa-collage__tiles{position:relative;inset:auto;display:grid;
+    grid-template-columns:repeat(3,1fr);gap:12px;margin:0 auto 30px;
+    max-width:560px;padding-inline:var(--fa-pad)}
+  .fa-collage__tile{position:static;width:auto!important;top:auto!important;
+    left:auto!important;right:auto!important;aspect-ratio:auto}
+  .fa-collage__tile:nth-child(n+4){display:none}
+  .fa-collage__tile:nth-child(3){display:block}
+}
+
+/* ---- Collage tiles reveal on hover ----
+   Gated behind (hover:hover) so touch devices — which can never fire it —
+   keep the tiles visible instead of losing them entirely. Transform and
+   opacity only, and the stagger is pure transition-delay, so nothing here
+   runs until the pointer is actually over the band. */
+@media (hover:hover) and (min-width:821px){
+  .fa-collage__tile{opacity:0;transform:scale(.92) translateY(10px);
+    transition:opacity .5s var(--ease),transform .55s var(--ease)}
+  .fa-collage:hover .fa-collage__tile,
+  .fa-collage:focus-within .fa-collage__tile{opacity:.92;transform:none}
+  /* fan outward from the quote rather than all at once */
+  .fa-collage:hover .fa-collage__tile:nth-child(1),
+  .fa-collage:focus-within .fa-collage__tile:nth-child(1){transition-delay:0s}
+  .fa-collage:hover .fa-collage__tile:nth-child(4),
+  .fa-collage:focus-within .fa-collage__tile:nth-child(4){transition-delay:.06s}
+  .fa-collage:hover .fa-collage__tile:nth-child(2),
+  .fa-collage:focus-within .fa-collage__tile:nth-child(2){transition-delay:.12s}
+  .fa-collage:hover .fa-collage__tile:nth-child(5),
+  .fa-collage:focus-within .fa-collage__tile:nth-child(5){transition-delay:.18s}
+  .fa-collage:hover .fa-collage__tile:nth-child(3),
+  .fa-collage:focus-within .fa-collage__tile:nth-child(3){transition-delay:.24s}
+  .fa-collage:hover .fa-collage__tile:nth-child(6),
+  .fa-collage:focus-within .fa-collage__tile:nth-child(6){transition-delay:.3s}
+  /* a hint that the band is interactive before you reach it */
+  .fa-collage__inner{transition:transform .5s var(--ease)}
+  .fa-collage:hover .fa-collage__inner{transform:translateY(-4px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .fa-collage__tile{opacity:.92;transform:none;transition:none}
+  .fa-collage:hover .fa-collage__inner{transform:none}
+}
+
+/* ---- Journey: colour travels the path on click ----
+   The dotted line is the route; this one is the trip. Length is measured in
+   JS and written to --len, because the SVG scales non-uniformly and a
+   guessed dasharray would under- or overshoot. */
+.fa-journey{cursor:pointer}
+.fa-journey:focus-visible{outline:2px solid var(--c-primary);outline-offset:4px}
+.fa-journey__line .fa-journey__fill{fill:none;stroke:var(--c-coral);stroke-width:3;
+  stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:1;
+  stroke-dasharray:var(--len,2000);stroke-dashoffset:var(--len,2000)}
+.fa-journey.is-travelled .fa-journey__line .fa-journey__fill{stroke-dashoffset:0;
+  transition:stroke-dashoffset 1.9s cubic-bezier(.4,0,.2,1)}
+
+/* A short dash running the length of the connector, so light travels from
+   one node to the next. --len is the connector's true pixel length, already
+   measured by the page script for the click sweep; non-scaling-stroke means
+   dash units are screen pixels, not the SVG's user units, so it has to be
+   the measured value rather than getTotalLength(). Three of them, offset in
+   time, read as flow rather than as one repeating blip. */
+.fa-journey__line .fa-journey__pulse{
+  fill:none;stroke:var(--c-coral);stroke-width:3;stroke-linecap:round;
+  vector-effect:non-scaling-stroke;opacity:.9;
+  stroke-dasharray:22px calc(var(--len,2000px) - 22px);
+  animation:faJourneyPulse 4.6s linear infinite}
+.fa-journey__line .fa-journey__pulse--b{stroke:var(--c-primary);animation-delay:-1.55s;opacity:.7}
+.fa-journey__line .fa-journey__pulse--c{stroke:var(--c-secondary);animation-delay:-3.1s;opacity:.7}
+@keyframes faJourneyPulse{
+  from{stroke-dashoffset:var(--len,2000px)}
+  to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){
+  .fa-journey__line .fa-journey__pulse{animation:none;opacity:0}}
+
+/* Nodes light up as the colour reaches them. */
+.fa-journey.is-travelled .fa-journey__node{border-color:var(--c-coral);
+  box-shadow:0 2px 8px rgba(227,124,120,.3),0 14px 30px -14px rgba(227,124,120,.65);
+  transition:border-color .45s var(--ease),box-shadow .45s var(--ease)}
+.fa-journey.is-travelled .fa-journey__step:nth-child(1) .fa-journey__node{transition-delay:.15s}
+.fa-journey.is-travelled .fa-journey__step:nth-child(2) .fa-journey__node{transition-delay:.55s}
+.fa-journey.is-travelled .fa-journey__step:nth-child(3) .fa-journey__node{transition-delay:.95s}
+.fa-journey.is-travelled .fa-journey__step:nth-child(4) .fa-journey__node{transition-delay:1.35s}
+.fa-journey.is-travelled .fa-journey__step:nth-child(5) .fa-journey__node{transition-delay:1.75s}
+
+@media (prefers-reduced-motion:reduce){
+  .fa-journey.is-travelled .fa-journey__line .fa-journey__fill{stroke-dashoffset:0;transition:none}
+  .fa-journey.is-travelled .fa-journey__node{transition:none;transition-delay:0s}
+}
+
+/* ============================================================
+   Marquee card rows
+   Two full-bleed rows travelling in opposite directions, cards
+   running off both edges. Transform-only so it stays on the
+   compositor, paused on hover/focus so the copy is readable, and
+   only animated while the section is on screen — the earlier
+   scroll stutter came from effects that ran regardless.
+   ============================================================ */
+.fa-marquee{position:relative;width:100vw;margin-left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;gap:clamp(14px,1.6vw,22px);overflow:hidden}
+.fa-marquee__row{overflow:hidden}
+/* Spacing is a trailing margin on each item, not flex `gap`. A track of N
+   items has only N-1 gaps, so a -50% translate lands half a gap short of
+   the next copy and the loop jumps by that much on every wrap. With a
+   margin on every item the repeat distance is exactly half the track. */
+.fa-marquee__track{display:flex;width:max-content;will-change:transform}
+.fa-marquee__track > *{margin-right:clamp(14px,1.6vw,22px)}
+/* The rows travel continuously. The animation is declared unconditionally
+   so it also runs when scripting is unavailable; the observer only ever
+   pauses it. Pausing via play-state rather than removing the animation
+   matters — dropping the declaration rewinds the track to 0%, which read
+   as a visible jump every time the section came back into view. */
+.fa-marquee__track{animation:faMarqL 46s linear infinite}
+/* Travel is one exact copy of the content, measured in px by the script.
+   The 50% fallback is what a -50% translate gives when script is
+   unavailable: the markup ships two copies, so it still loops. */
+@keyframes faMarqL{from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(calc(-1 * var(--fa-marq-shift,50%)),0,0)}}
+/* Off screen only. There is deliberately no hover pause. */
+.fa-marquee.is-idle .fa-marquee__track{animation-play-state:paused}
+/* Keyboard focus does still stop it: the image cards are links, and a row
+   that slides a link out from under someone tabbing through is unusable.
+   :has(:focus-visible) rather than :focus-within — a plain :focus-within
+   also matches the focus a mouse click leaves on a link, which froze the
+   row for the rest of the visit. :focus-visible is only set when the
+   browser decides focus should be shown, i.e. keyboard navigation. */
+.fa-marquee:has(:focus-visible) .fa-marquee__track{animation-play-state:paused}
+
+/* Text card in the moving row */
+.fa-marq-card{flex:0 0 clamp(250px,22vw,300px);display:flex;flex-direction:column;gap:9px;
+  padding:clamp(20px,1.8vw,26px);border-radius:var(--fa-r);background:#fff;
+  border:1px solid var(--c-secondary);
+  box-shadow:0 1px 2px rgba(23,52,61,.05),0 10px 26px -18px rgba(0,96,120,.3);
+  transition:border-color .3s var(--ease),transform .3s var(--ease)}
+.fa-marq-card:hover{border-color:var(--c-primary);transform:translateY(-3px)}
+.fa-marq-card__n{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.2em;
+  color:var(--c-coral-tx)}
+.fa-marq-card__phase{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--c-primary);opacity:.8}
+.fa-marq-card h3{font-size:19px;font-weight:600;line-height:1.25;color:var(--c-primary);margin:0}
+.fa-marq-card p{font-size:14.5px;line-height:1.6;color:var(--c-ink-soft);margin:0}
+
+@media (prefers-reduced-motion:reduce){
+  /* No travel; the rows become plain scrollable strips. */
+  .fa-marquee__track{animation:none}
+  .fa-marquee__row{overflow-x:auto;scrollbar-width:none}
+  .fa-marquee__row::-webkit-scrollbar{display:none}
+}
+
+/* ============================================================
+   Border glow
+   A cone of light on the rim, aimed where the pointer is. The
+   script writes --cursor-angle and --edge-proximity; everything
+   else is a conic gradient masked down to the border ring, so it
+   composites without touching the card's own background.
+   ============================================================ */
+[data-glow]{--cursor-angle:0deg;--edge-proximity:0;--cone-spread:26;
+  --glow-a:rgba(130,186,196,.95);--glow-b:rgba(0,96,120,.55);
+  position:relative}
+[data-glow]::after{content:"";position:absolute;inset:-1px;border-radius:inherit;
+  padding:1.6px;pointer-events:none;z-index:3;
+  background:conic-gradient(from calc(var(--cursor-angle) - (var(--cone-spread) * 1deg)),
+    transparent 0deg,
+    var(--glow-b) calc(var(--cone-spread) * .55deg),
+    var(--glow-a) calc(var(--cone-spread) * 1deg),
+    var(--glow-b) calc(var(--cone-spread) * 1.45deg),
+    transparent calc(var(--cone-spread) * 2deg));
+  /* Punch the middle out so only the ring paints. */
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  opacity:calc(var(--edge-proximity) / 100);
+  transition:opacity .3s ease}
+/* The bloom that spills outside the rim. */
+[data-glow]::before{content:"";position:absolute;inset:-7px;border-radius:inherit;
+  pointer-events:none;z-index:0;filter:blur(11px);
+  background:conic-gradient(from calc(var(--cursor-angle) - (var(--cone-spread) * 1deg)),
+    transparent 0deg,
+    var(--glow-a) calc(var(--cone-spread) * 1deg),
+    transparent calc(var(--cone-spread) * 2deg));
+  opacity:calc(var(--edge-proximity) / 260);
+  transition:opacity .3s ease}
+/* Warm rim for the cards that already carry a warm accent. */
+[data-glow].glow--warm{--glow-a:rgba(227,124,120,.95);--glow-b:rgba(184,51,45,.5)}
+@media(prefers-reduced-motion:reduce){
+  [data-glow]::before,[data-glow]::after{display:none}
+}
+
+/* ============================================================
+   Particle field
+   Drifting dots, some of them four-point sparkles. Transform and
+   opacity only: a WebGL point cloud was tried first and measured
+   65ms a frame on this machine's integrated GPU against 16ms
+   without, because point clouds are fill-rate bound. This costs
+   nothing by comparison.
+   ============================================================ */
+.fa-particles{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.fa-particles__dot{position:absolute;border-radius:50%;pointer-events:none;
+  /* No will-change: an animated transform is promoted anyway, and hinting it
+     on forty-odd elements pins that many permanent compositor layers. */
+  animation-name:faDotDrift,faDotTwinkle;
+  animation-timing-function:ease-in-out;
+  animation-iteration-count:infinite;
+  animation-direction:alternate}
+/* The sparkle is a background image set by the script, so this only has to
+   stop the round-dot radius applying. See the note in particles.js for why
+   it is not a clip-path. */
+.fa-particles__dot--star{border-radius:0;background-color:transparent}
+@keyframes faDotDrift{
+  from{transform:translate3d(0,0,0) scale(.8)}
+  to{transform:translate3d(var(--dx,40px),var(--dy,40px),0) scale(1.35)}}
+/* Animates up to the dot's own opacity, so depth survives the twinkle. */
+@keyframes faDotTwinkle{
+  from{opacity:calc(var(--o,.6) * .3)}
+  to{opacity:var(--o,.6)}}
+.fa-particles.is-idle .fa-particles__dot{animation-play-state:paused}
+/* Content is lifted above the background field, which stays at z-index 0. */
+.fa-section > *:not(.fa-particles),
+.why-section > *:not(.fa-particles){position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){.fa-particles{display:none}}
+
+/* ============================================================
+   Logo loop
+   A travelling row of partner marks. The track is offset by the
+   script; everything here is layout plus the edge fade that lets
+   marks arrive and leave without a hard cut.
+   ============================================================ */
+.fa-logoloop-section{padding-block:clamp(34px,4.5vw,60px)}
+.fa-logoloop__label{text-align:center;margin:0 0 clamp(16px,2vw,24px);
+  font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--c-ink-soft)}
+.fa-logoloop{position:relative;width:100vw;margin-left:50%;transform:translateX(-50%);
+  overflow:hidden;
+  /* Fades the two ends into the page rather than cutting marks off square. */
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+.fa-logoloop__track{display:flex;width:max-content;will-change:transform}
+.fa-logoloop__list{display:flex;align-items:center;list-style:none;margin:0;padding:0}
+/* Marks sit straight on the page, no tile. That needs every file to be
+   transparent, so the two that arrived on a solid brand plate had it flooded
+   out; Cisco's artwork was white underneath and was repainted in its own
+   cyan, which is a reversal of the lockup rather than a redrawing of it.
+   Heights are set per mark because optical weight is not pixel height: a
+   stacked glyph-over-wordmark needs more room than a single-line wordmark
+   to read at the same size. */
+.fa-logoloop__item{display:flex;align-items:center;justify-content:center;flex:none;
+  margin-inline:clamp(20px,3vw,46px);height:clamp(50px,5vw,62px)}
+.fa-logoloop__item img{display:block;width:auto;max-width:none;
+  height:var(--mark-h,32px);object-fit:contain;
+  transition:opacity .3s ease,transform .3s var(--ease)}
+.fa-logoloop__item[data-slug="microsoft"]{--mark-h:clamp(33px,3.3vw,44px)}
+.fa-logoloop__item[data-slug="cisco"]{--mark-h:clamp(26px,2.6vw,35px)}
+.fa-logoloop__item[data-slug="aws"]{--mark-h:clamp(28px,2.9vw,39px)}
+.fa-logoloop__item[data-slug="red-hat"]{--mark-h:clamp(23px,2.2vw,30px)}
+.fa-logoloop__item[data-slug="vmware"]{--mark-h:clamp(34px,3.5vw,47px)}
+.fa-logoloop__item:hover img{transform:translateY(-2px)}
+/* A partner with no logo file keeps its wordmark, sized to sit level with
+   the marks either side of it. */
+.fa-logoloop__mark{font-family:var(--font);font-size:clamp(20px,2vw,27px);
+  font-weight:600;letter-spacing:-.015em;color:var(--c-primary);white-space:nowrap}
+@media(prefers-reduced-motion:reduce){
+  .fa-logoloop__item img{transition:none}
+  .fa-logoloop__item:hover img{transform:none}
+}
+/* Without script the row is a centred, wrapping, static line. */
+.fa-logoloop.is-static{width:auto;margin-left:0;transform:none;
+  -webkit-mask-image:none;mask-image:none}
+.fa-logoloop.is-static .fa-logoloop__track{width:auto;justify-content:center}
+.fa-logoloop.is-static .fa-logoloop__list{flex-wrap:wrap;justify-content:center}
+@media(prefers-reduced-motion:reduce){
+  .fa-logoloop__track{will-change:auto;transform:none!important}
+}
+
+/* ============================================================
+   Split feature
+   A tall statement panel beside a 2x2 grid of facts. Borrowed
+   structure, not styling: the panel is a solid brand surface
+   rather than a photo with an offset blob, the grid holds figures
+   instead of icon tiles, and the four cards each take a different
+   tint so the block is not one colour repeated.
+   ============================================================ */
+.fa-feature-section{padding-block:clamp(48px,7vw,96px)}
+.fa-feature{display:grid;grid-template-columns:1.05fr 1.25fr;gap:clamp(18px,2.2vw,30px);
+  max-width:1240px;margin-inline:auto;padding-inline:clamp(20px,5vw,48px);align-items:stretch}
+@media(max-width:940px){.fa-feature{grid-template-columns:1fr}}
+
+.fa-feature__panel{position:relative;overflow:hidden;display:flex;flex-direction:column;
+  gap:16px;padding:clamp(30px,3.4vw,46px);border-radius:26px;
+  background:var(--c-primary-dk);border:1px solid rgba(130,186,196,.34)}
+/* One soft wash, low and to the side, well clear of the text. */
+.fa-feature__panel::after{content:"";position:absolute;right:-120px;bottom:-140px;
+  width:320px;height:320px;border-radius:50%;background:var(--c-pink);
+  opacity:.2;filter:blur(70px);pointer-events:none}
+.fa-feature__panel > *{position:relative;z-index:1}
+.fa-feature__kicker{font-family:var(--mono);font-size:11.5px;font-weight:700;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--c-pink)}
+.fa-feature__title{font-size:clamp(28px,3.2vw,44px);font-weight:300;line-height:1.14;
+  letter-spacing:-.025em;color:#fff;margin:0}
+.fa-feature__lede{font-size:clamp(15px,1.1vw,17px);line-height:1.68;color:#C7DDE4;margin:0}
+.fa-feature__marks{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.fa-feature__marks li{font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--c-sky);
+  border:1px solid rgba(130,186,196,.45);border-radius:40px;padding:6px 13px}
+.fa-feature__link{margin-top:auto;display:inline-flex;align-items:center;gap:9px;
+  align-self:flex-start;font-size:14.5px;font-weight:600;color:var(--c-soft);
+  padding-top:10px;border-bottom:1px solid transparent;transition:border-color .3s ease,gap .3s var(--ease)}
+.fa-feature__link:hover{border-bottom-color:var(--c-pink);gap:14px}
+
+/* .stats is kept on the grid so the page's counter script still finds the
+   figures; these two-class rules win over its own layout. */
+.fa-feature__grid.stats{display:grid;grid-template-columns:repeat(2,1fr);
+  gap:clamp(14px,1.6vw,22px);margin:0;padding:0;max-width:none}
+@media(max-width:560px){.fa-feature__grid.stats{grid-template-columns:1fr}}
+.fa-fact.stat{--ft-surface:#fff;--ft-edge:rgba(0,96,120,.26);--ft-accent:var(--c-primary);
+  --ft-body:#354A53;
+  position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;
+  gap:8px;min-height:clamp(150px,15vw,192px);padding:clamp(20px,2vw,28px);
+  border-radius:20px;background:var(--ft-surface);border:1px solid var(--ft-edge);
+  transition:transform .4s var(--ease),box-shadow .4s ease}
+.fa-fact.stat:nth-child(2){--ft-surface:var(--c-sky);--ft-edge:rgba(0,72,88,.24);
+  --ft-accent:var(--c-primary-dk)}
+.fa-fact.stat:nth-child(3){--ft-surface:var(--c-pink);--ft-edge:rgba(158,42,36,.3);
+  --ft-accent:#9E2A24;--ft-body:#4A3330}
+.fa-fact.stat:nth-child(4){--ft-surface:var(--c-soft);--ft-edge:rgba(107,100,18,.3);
+  --ft-accent:#6B6412;--ft-body:#414B23}
+.fa-fact.stat::before{content:"";position:absolute;top:0;left:clamp(20px,2vw,28px);
+  width:26px;height:3px;border-radius:2px;background:var(--ft-accent);
+  transition:width .45s var(--ease)}
+.fa-fact.stat:hover{transform:translateY(-5px);
+  box-shadow:0 2px 6px rgba(23,52,61,.05),0 20px 42px -24px rgba(0,72,88,.45)}
+.fa-fact.stat:hover::before{width:calc(100% - 2 * clamp(20px,2vw,28px))}
+.fa-fact__n{font-family:Georgia,"Times New Roman",serif;font-size:clamp(34px,3.6vw,52px);
+  font-weight:400;line-height:1;letter-spacing:-.02em;color:var(--ft-accent);
+  font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"tnum" 1,"lnum" 1}
+.fa-fact__l{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ft-body);line-height:1.5;max-width:22ch}
+@media(prefers-reduced-motion:reduce){
+  .fa-fact.stat,.fa-fact.stat::before,.fa-feature__link{transition:none}
+  .fa-fact.stat:hover{transform:none}
+}
+
+/* ============================================================
+   Rotating text
+   Characters ride in from below, so each word needs its own
+   clipping box. Everything moves on transform and opacity only.
+   ============================================================ */
+/* position only. Forcing a display here would shrink-wrap the h3 and p
+   that use this; all the absolute outgoing run needs is the context. */
+.fa-rotate{position:relative}
+.fa-rotate.is-rotating{overflow:hidden}
+.fa-rotate__run{display:inline-flex;flex-wrap:wrap;white-space:pre-wrap}
+.fa-rotate__word{display:inline-flex;overflow:hidden;padding-bottom:.08em}
+.fa-rotate__cell{display:inline-block;will-change:transform,opacity}
+.fa-rotate__space{white-space:pre}
+/* The readable copy. Off screen, never animated, still announced. */
+.fa-rotate__sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ============================================================
+   Text loop
+   A sentence set on a curve and travelled end to end. Full bleed.
+   The SVG carries its own viewBox, so it scales with the page and
+   the geometry never needs measuring again on resize.
+   ============================================================ */
+.fa-loop{position:relative;width:100vw;margin-left:50%;transform:translateX(-50%);
+  overflow:hidden;line-height:0;background:var(--c-canvas)}
+.fa-loop svg{display:block;width:100%;height:auto}
+.fa-loop__text{font-family:var(--font)}
+/* Measured, never shown. visibility:hidden keeps it laid out, which
+   display:none would not, and getComputedTextLength needs the layout. */
+.fa-loop__measure{visibility:hidden}
+
+/* ============================================================
+   Expanding panel selector
+   One panel is open at a time: it carries an image and the full
+   copy, the rest collapse to a number and title. Flex-basis does
+   the expanding, so it animates without touching layout width of
+   the row itself.
+   ============================================================ */
+.fa-panels{display:flex;gap:6px;width:100%;margin-top:clamp(28px,3.4vw,46px);
+  border-radius:var(--fa-r);overflow:hidden;border:1px solid var(--c-secondary);
+  min-height:clamp(320px,34vw,420px)}
+.fa-panel{position:relative;flex:1 1 0;min-width:0;overflow:hidden;cursor:pointer;
+  background:var(--c-sky);border:0;text-align:left;padding:0;font:inherit;color:inherit;
+  transition:flex-grow .55s var(--ease),background .4s var(--ease);
+  display:flex;flex-direction:column;justify-content:flex-end}
+.fa-panel + .fa-panel{border-left:1px solid var(--c-secondary)}
+/* Each closed panel takes its own tint from the palette so the row is not a
+   single flat blue; the open one always goes midnight green. */
+.fa-panel:nth-child(1){background:var(--c-sky)}
+.fa-panel:nth-child(2){background:var(--c-soft)}
+.fa-panel:nth-child(3){background:var(--c-pink)}
+.fa-panel:nth-child(4){background:#DCEDF1}
+.fa-panel:nth-child(3) .fa-panel__glyph{color:var(--c-coral-tx)}
+.fa-panel:hover:not([aria-expanded="true"]){filter:brightness(1.03)}
+.fa-panel[aria-expanded="true"]{flex-grow:2.6;background:var(--c-primary)}
+.fa-panel:focus-visible{outline:2px solid var(--c-primary);outline-offset:-4px}
+
+/* Image only paints on the open panel. */
+.fa-panel__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transform:scale(1.06);transition:opacity .55s var(--ease),transform .7s var(--ease)}
+.fa-panel[aria-expanded="true"] .fa-panel__img{opacity:1;transform:none}
+.fa-panel__scrim{position:absolute;inset:0;opacity:0;transition:opacity .55s var(--ease);
+  background:linear-gradient(180deg,rgba(0,72,88,.35) 0%,rgba(0,56,70,.82) 68%,rgba(0,48,60,.94) 100%)}
+.fa-panel[aria-expanded="true"] .fa-panel__scrim{opacity:1}
+
+/* Faint watermark glyph on the closed panels, as in the reference. */
+.fa-panel__glyph{position:absolute;top:8%;left:50%;transform:translateX(-50%);
+  width:clamp(64px,7vw,104px);height:auto;color:var(--c-primary);opacity:.16;
+  transition:opacity .4s var(--ease)}
+.fa-panel[aria-expanded="true"] .fa-panel__glyph{opacity:0}
+
+.fa-panel__inner{position:relative;z-index:2;padding:clamp(20px,2vw,30px);
+  display:flex;flex-direction:column;gap:8px}
+.fa-panel__n{font-size:clamp(30px,3.4vw,46px);font-weight:700;line-height:1;
+  letter-spacing:-.03em;color:var(--c-primary)}
+.fa-panel__t{font-size:clamp(16px,1.5vw,21px);font-weight:600;line-height:1.24;
+  color:var(--c-primary);margin:0}
+.fa-panel__d{margin:0;font-size:15px;line-height:1.6;color:var(--c-ink-soft);
+  max-height:0;opacity:0;overflow:hidden;
+  transition:max-height .55s var(--ease),opacity .4s var(--ease),margin .4s var(--ease)}
+.fa-panel[aria-expanded="true"] .fa-panel__n,
+.fa-panel[aria-expanded="true"] .fa-panel__t{color:#fff}
+.fa-panel[aria-expanded="true"] .fa-panel__d{max-height:12em;opacity:1;margin-top:4px;color:#DCEAEE}
+
+@media(max-width:900px){
+  /* Side-by-side panels get too narrow to read a title, so they stack and
+     every panel shows its copy. */
+  .fa-panels{flex-direction:column;min-height:0}
+  .fa-panel + .fa-panel{border-left:0;border-top:1px solid var(--c-secondary)}
+  .fa-panel{flex:1 1 auto}
+  .fa-panel[aria-expanded="true"]{flex-grow:1}
+  .fa-panel__inner{padding:20px}
+  .fa-panel__glyph{display:none}
+  .fa-panel__d{max-height:none;opacity:1;margin-top:4px}
+  .fa-panel__img,.fa-panel__scrim{display:none}
+  .fa-panel[aria-expanded="true"]{background:var(--c-primary)}
+  .fa-panel[aria-expanded="true"] .fa-panel__d{color:#DCEAEE}
+  .fa-panel:not([aria-expanded="true"]) .fa-panel__d{color:var(--c-ink-soft)}
+}
+@media (prefers-reduced-motion:reduce){
+  .fa-panel,.fa-panel__img,.fa-panel__d,.fa-panel__scrim,.fa-panel__glyph{transition:none}
+}
+
+/* ---- Story card variants ----
+   Same four treatments the bento uses, so the marquee reads as part of the
+   system rather than a separate component. Label colours are set per variant
+   because coral fails on tea rose and on the green fill. */
+.fa-marq-card--a{background:var(--c-primary);border-color:var(--c-primary)}
+.fa-marq-card--a h3{color:#fff}
+.fa-marq-card--a p{color:#DCEAEE}
+.fa-marq-card--a .fa-marq-card__n{color:var(--c-pink)}
+.fa-marq-card--a .fa-marq-card__phase{color:var(--c-pink);opacity:1}
+.fa-marq-card--a:hover{background:var(--c-primary-dk);border-color:var(--c-primary-dk)}
+
+.fa-marq-card--b{background:var(--c-soft);border-color:var(--c-primary)}
+.fa-marq-card--b .fa-marq-card__n{color:var(--c-primary)}
+.fa-marq-card--b:hover{background:#fff}
+
+.fa-marq-card--c{background:var(--c-sky);border-color:var(--c-secondary)}
+.fa-marq-card--c .fa-marq-card__n{color:var(--c-primary)}
+.fa-marq-card--c:hover{background:#EDF6F8;border-color:var(--c-primary)}
+
+.fa-marq-card--d{background:var(--c-pink);border-color:var(--c-coral)}
+.fa-marq-card--d .fa-marq-card__n{color:var(--c-primary)}
+.fa-marq-card--d:hover{background:#FFE2E0;border-color:var(--c-primary)}
+
+/* ============================================================
+   "What we build" cards — colour + interaction
+   Each card takes its own tint, gains a number, and grows an
+   accent rule on hover/focus. Transform and colour only.
+   ============================================================ */
+.build-card{position:relative;overflow:hidden;counter-increment:buildcard;
+  transition:transform .3s var(--ease),border-color .3s var(--ease),
+             background .3s var(--ease),box-shadow .3s var(--ease)}
+.build-grid{counter-reset:buildcard}
+.build-card:nth-child(1){background:var(--c-sky);border-color:var(--c-secondary)}
+.build-card:nth-child(2){background:var(--c-soft);border-color:var(--c-primary)}
+.build-card:nth-child(3){background:var(--c-pink);border-color:var(--c-coral)}
+.build-card:nth-child(4){background:#DCEDF1;border-color:var(--c-secondary)}
+
+/* the number sits behind the copy as a quiet index */
+.build-card::before{content:counter(buildcard,decimal-leading-zero);
+  position:absolute;right:14px;bottom:2px;font-size:clamp(46px,4.6vw,68px);
+  font-weight:700;line-height:1;letter-spacing:-.04em;color:var(--c-primary);
+  opacity:.10;pointer-events:none;transition:opacity .3s var(--ease),transform .4s var(--ease)}
+/* accent rule that draws across on hover */
+.build-card::after{content:"";position:absolute;left:0;top:0;height:3px;width:0;
+  background:var(--c-coral);transition:width .45s var(--ease)}
+.build-card:hover,.build-card:focus-within{transform:translateY(-5px);
+  border-color:var(--c-primary);
+  box-shadow:0 2px 6px rgba(23,52,61,.07),0 22px 44px -22px rgba(0,96,120,.45)}
+.build-card:hover::after,.build-card:focus-within::after{width:100%}
+.build-card:hover::before,.build-card:focus-within::before{opacity:.2;transform:translateY(-4px)}
+.build-card__eyebrow{position:relative;display:inline-flex;align-items:center;gap:8px}
+.build-card__desc{position:relative;z-index:1}
+
+@media (prefers-reduced-motion:reduce){
+  .build-card,.build-card::before,.build-card::after{transition:none}
+  .build-card:hover,.build-card:focus-within{transform:none}
+}
+
+/* ============================================================
+   /services — SECTION 01, AI APPLICATIONS
+   Scoped to #ai-applications so disciplines 02 and 03 keep their
+   existing cards. Asymmetric bento: one dominant featured card,
+   two medium, three small. Palette only, no gradients.
+   ============================================================ */
+#ai-applications{background:var(--c-canvas);
+  padding-block:clamp(56px,7vw,104px)}
+#ai-applications > *{max-width:1280px;margin-inline:auto;
+  padding-inline:clamp(22px,4vw,48px)}
+#ai-applications .discipline-head{margin-bottom:clamp(26px,3vw,40px)}
+#ai-applications .discipline-eyebrow{display:inline-flex;align-items:center;gap:9px;
+  font-size:12.5px;font-weight:700;letter-spacing:.2em;color:var(--c-primary)}
+#ai-applications .discipline-headline{font-size:clamp(38px,5.4vw,74px);font-weight:300;
+  line-height:1.04;letter-spacing:-.03em;color:var(--c-ink);margin:14px 0 0}
+#ai-applications .service-highlight{color:var(--c-coral-tx);font-weight:600}
+#ai-applications .discipline-desc{color:var(--c-ink);font-size:clamp(16px,1.2vw,18.5px);
+  line-height:1.66;max-width:62ch;margin-top:18px}
+
+/* ---- Bento ---- */
+.svc-bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:clamp(14px,1.4vw,20px);margin-top:clamp(26px,3vw,40px)}
+.svc-card{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;
+  min-width:0;padding:clamp(26px,2.4vw,34px);border-radius:20px;border:1px solid var(--c-secondary);
+  background:#fff;text-decoration:none;
+  transition:transform .28s var(--ease),border-color .28s var(--ease),
+             background .28s var(--ease),box-shadow .28s var(--ease)}
+.svc-card:hover,.svc-card:focus-visible{transform:translateY(-4px);border-color:var(--c-primary);
+  background:var(--c-soft);box-shadow:0 2px 6px rgba(23,52,61,.06),0 18px 38px -22px rgba(0,96,120,.4)}
+.svc-card:focus-visible{outline:2px solid var(--c-primary);outline-offset:3px}
+
+.svc-card__tag{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--c-primary)}
+.svc-card__title{font-size:clamp(21px,1.9vw,27px);font-weight:600;line-height:1.22;
+  letter-spacing:-.012em;color:var(--c-primary);margin:0}
+.svc-card__desc{font-size:15.5px;line-height:1.66;color:var(--c-ink);margin:0}
+.svc-card__cta{margin-top:auto;padding-top:14px;display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--c-primary)}
+.svc-card__cta svg{width:16px;height:16px;transition:transform .28s var(--ease)}
+.svc-card:hover .svc-card__cta svg{transform:translateX(5px)}
+
+/* thin motif, top-right, instead of the repeated square icon */
+.svc-card__motif{position:absolute;top:18px;right:18px;width:42px;height:42px;
+  color:var(--c-secondary);opacity:.85;pointer-events:none;
+  transition:opacity .28s var(--ease),transform .35s var(--ease)}
+.svc-card:hover .svc-card__motif{opacity:1;transform:rotate(6deg) scale(1.06)}
+
+/* ---- Card treatments ---- */
+.svc-card--feature{grid-column:span 3;grid-row:span 2;
+  background:var(--c-primary);border-color:var(--c-primary);padding:clamp(30px,2.9vw,44px);gap:15px}
+.svc-card--feature:hover{background:var(--c-primary-dk);border-color:var(--c-primary-dk)}
+.svc-card--feature .svc-card__tag{color:var(--c-pink)}
+.svc-card--feature .svc-card__title{color:#fff;font-size:clamp(27px,2.7vw,40px);font-weight:400}
+.svc-card--feature .svc-card__desc{color:#DCEAEE;font-size:16.5px;max-width:46ch}
+.svc-card--feature .svc-card__cta{color:#fff}
+.svc-card--feature:hover .svc-net{opacity:.55}
+
+.svc-card--soft{grid-column:span 3;background:var(--c-soft);border-color:var(--c-secondary)}
+.svc-card--rose{grid-column:span 3;background:var(--c-pink);border-color:var(--c-coral)}
+.svc-card--rose .svc-card__motif{color:var(--c-coral-tx)}
+.svc-card--rose:hover{background:#FFE2E0;border-color:var(--c-coral-tx)}
+.svc-card--sm{grid-column:span 2}
+.svc-card--tint{grid-column:span 2;background:#EAF4F5;border-color:var(--c-secondary)}
+.svc-card--edge{grid-column:span 2;border-color:var(--c-coral)}
+.svc-card--edge .svc-card__motif{color:var(--c-coral-tx)}
+
+/* abstract connected-systems visual, featured card only */
+.svc-net{position:absolute;right:-30px;bottom:-26px;width:min(74%,330px);height:auto;
+  opacity:.4;pointer-events:none;transition:opacity .3s var(--ease)}
+.svc-net line{stroke:#82BAC4;stroke-width:1.1}
+.svc-net circle{fill:#82BAC4}
+.svc-net .svc-net__hub{fill:#fff}
+.svc-net .svc-net__ring{fill:none;stroke:#fff;stroke-width:1;opacity:.5}
+
+@media(max-width:1024px){
+  .svc-bento{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .svc-card--feature{grid-column:span 2;grid-row:auto}
+  .svc-card--soft,.svc-card--rose,.svc-card--sm,.svc-card--tint,.svc-card--edge{grid-column:span 1}
+  .svc-net{width:min(56%,260px)}
+}
+@media(max-width:620px){
+  .svc-bento{grid-template-columns:1fr}
+  .svc-card--feature,.svc-card--soft,.svc-card--rose,
+  .svc-card--sm,.svc-card--tint,.svc-card--edge{grid-column:span 1}
+  /* keep the featured card dominant without letting it run too tall */
+  .svc-card--feature .svc-card__title{font-size:26px}
+  .svc-net{width:60%;right:-18px;bottom:-18px}
+}
+@media (prefers-reduced-motion:reduce){
+  .svc-card,.svc-card__motif,.svc-card__cta svg,.svc-net{transition:none}
+  .svc-card:hover,.svc-card:focus-visible{transform:none}
+  .svc-card:hover .svc-card__motif{transform:none}
+}

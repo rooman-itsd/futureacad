@@ -4,7 +4,7 @@ import re
 from flask import Blueprint, jsonify, render_template, request
 
 from . import db
-from .data import PROJECTS
+from .data import PROJECTS, get_journey_icons, get_partners
 from .utils import send_lead_email, valid_csrf
 
 main = Blueprint("main", __name__)
@@ -15,11 +15,17 @@ MAX = {"name": 120, "email": 200, "phone": 40, "company": 160, "interest": 80, "
 
 @main.route("/")
 def home():
-    return render_template("index.html", active="home", projects=PROJECTS)
+    return render_template(
+        "index.html",
+        active="home",
+        projects=PROJECTS,
+        journey_icons=get_journey_icons(),
+    )
 
 
 @main.route("/about")
 def about():
+    # the story marquee shows the live platform screenshots
     return render_template("about.html", active="about")
 
 
@@ -30,7 +36,7 @@ def services():
 
 @main.route("/work")
 def work():
-    return render_template("work.html", active="work", projects=PROJECTS)
+    return render_template("work.html", active="work", projects=PROJECTS, partners=get_partners())
 
 
 @main.route("/contact")
