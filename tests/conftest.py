@@ -14,7 +14,7 @@ from config import Config
 CSRF_META_RE = re.compile(r'data-csrf="([^"]+)"')
 CSRF_INPUT_RE = re.compile(r'name="csrf_token" value="([^"]+)"')
 
-ADMIN_USER = "ceo@rooman.net"
+ADMIN_USER = "ceo@futureacad.ae"
 ADMIN_PASS = "test-only-password"
 
 

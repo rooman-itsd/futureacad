@@ -16,11 +16,11 @@
     --about-body-muted: #46535F;
     --about-blue: #006078;
     --about-blue-bright: #147C8F;
-    --about-blue-glow: rgba(0, 96, 120, 0.16);
+    --about-blue-glow: transparent;
     --about-card-bg: #ffffff;
     --about-card-hover: #FAFEED;
-    --about-border: #82BAC4;
-    --about-border-active: #006078;
+    --about-border: #E2E8F0;
+    --about-border-active: #94A3B8;
   }
 
   /* Text Shimmer Effect */
@@ -664,6 +664,1925 @@
   }
 
   /* ------------------------------------------------------------
+     4B. OUR TEAM & MANAGEMENT SECTION
+     Interactive Deep-Tech Organizational Map
+     ------------------------------------------------------------ */
+  .about-team-section {
+    position: relative;
+    z-index: 5;
+    padding: clamp(60px, 8vh, 110px) 0;
+  }
+  .about-team-header {
+    max-width: 780px;
+    margin-bottom: clamp(36px, 5vh, 52px);
+  }
+  
+  /* Section Entrance Animation */
+  .about-team-eyebrow {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .about-team-heading {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease 0.12s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
+  }
+  .about-team-lede {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease 0.24s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.24s;
+  }
+  .about-team-section.is-lit .about-team-eyebrow,
+  .about-team-section.is-lit .about-team-heading,
+  .about-team-section.is-lit .about-team-lede {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Organizational Architecture 5-Layer Banner */
+  .about-arch-wrap {
+    background: #ffffff;
+    border: 1px solid var(--about-border);
+    border-radius: 20px;
+    padding: clamp(20px, 3vw, 28px);
+    margin-bottom: clamp(32px, 4vw, 44px);
+    box-shadow: 0 10px 30px rgba(0, 96, 120, 0.05);
+    opacity: 0;
+    transform: scale(0.985);
+    transition: opacity 0.65s ease 0.18s, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.18s;
+  }
+  .about-team-section.is-lit .about-arch-wrap {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .about-arch-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--c-primary);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .about-arch-label svg {
+    flex-shrink: 0;
+    stroke: currentColor;
+  }
+  .about-arch-flow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  /* Layer Cards Multi-Color Tokens */
+  .about-arch-card:nth-child(1) {
+    --arch-accent: #006B78;
+    --arch-tint: #F2F9FA;
+    --arch-shadow: rgba(0, 0, 0, 0.07);
+  }
+  .about-arch-card:nth-child(2) {
+    --arch-accent: #3B82C4;
+    --arch-tint: #F4F8FC;
+    --arch-shadow: rgba(0, 0, 0, 0.07);
+  }
+  .about-arch-card:nth-child(3) {
+    --arch-accent: #8B5CF6;
+    --arch-tint: #F8F5FE;
+    --arch-shadow: rgba(0, 0, 0, 0.07);
+  }
+  .about-arch-card:nth-child(4) {
+    --arch-accent: #16A878;
+    --arch-tint: #F3FAF7;
+    --arch-shadow: rgba(0, 0, 0, 0.07);
+  }
+  .about-arch-card:nth-child(5) {
+    --arch-accent: #F27A72;
+    --arch-tint: #FEF7F6;
+    --arch-shadow: rgba(0, 0, 0, 0.07);
+  }
+
+  .about-arch-card {
+    position: relative;
+    overflow: hidden;
+    background: #eef7f8;
+    border: 1px solid rgba(0, 96, 120, 0.12);
+    border-radius: 12px;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                background-color 0.3s ease,
+                opacity 0.55s ease;
+  }
+  .about-team-section.is-lit .about-arch-card:nth-child(1) { transition-delay: 0.15s; }
+  .about-team-section.is-lit .about-arch-card:nth-child(2) { transition-delay: 0.25s; }
+  .about-team-section.is-lit .about-arch-card:nth-child(3) { transition-delay: 0.35s; }
+  .about-team-section.is-lit .about-arch-card:nth-child(4) { transition-delay: 0.45s; }
+  .about-team-section.is-lit .about-arch-card:nth-child(5) { transition-delay: 0.55s; }
+  .about-team-section.is-lit .about-arch-card {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .about-arch-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 28px;
+    background: var(--arch-accent, var(--c-primary));
+    border-radius: 12px 0 0 0;
+    transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1), height 0.3s ease;
+  }
+  .about-arch-card:hover {
+    transform: translateY(-5px);
+    background: var(--arch-tint, #f8fcfe);
+    border-color: var(--arch-accent, var(--c-primary));
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+  }
+  .about-arch-card:hover::before {
+    width: 100%;
+    height: 4px;
+    border-radius: 12px 12px 0 0;
+  }
+  .about-arch-card:hover .about-arch-layer::after {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+  .about-arch-card:focus-visible {
+    outline: none;
+    border-color: var(--arch-accent, var(--c-primary));
+    background: var(--arch-tint, #f8fcfe);
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--arch-accent, var(--c-primary));
+  }
+  .about-arch-flow:has(.about-arch-card:hover) .about-arch-card:not(:hover) {
+    opacity: 0.70;
+    transform: translateY(0);
+  }
+  .about-arch-layer {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--arch-accent, var(--c-primary));
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .about-arch-layer::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--arch-accent, var(--c-primary));
+    opacity: 0.85;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .about-arch-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--c-primary-dk);
+    line-height: 1.25;
+    margin: 0;
+  }
+  .about-arch-desc {
+    font-size: 12px;
+    line-height: 1.45;
+    color: #4a6068;
+    margin: 0;
+  }
+
+  /* Interactive Organizational Map Container */
+  .about-org-map {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--about-border);
+    border-radius: 28px;
+    padding: clamp(32px, 5vw, 64px) clamp(20px, 4vw, 56px);
+    box-shadow: 0 20px 48px rgba(0, 96, 120, 0.07);
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(0.985);
+    transition: opacity 0.65s ease 0.2s, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+  }
+  .about-team-section.is-lit .about-org-map {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Deep-Tech Technical Grid & Markings */
+  .about-org-grid-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: 
+      linear-gradient(to right, rgba(0, 96, 120, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 96, 120, 0.04) 1px, transparent 1px);
+    background-size: 36px 36px;
+    z-index: 0;
+  }
+  .about-org-grid-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 75% 65% at 50% 50%, transparent 45%, #ffffff 95%);
+  }
+  .about-org-meta {
+    position: absolute;
+    top: 20px;
+    right: 28px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: rgba(0, 96, 120, 0.38);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1;
+  }
+  .about-org-crosshair {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.45;
+  }
+  .about-org-crosshair--tl { top: 20px; left: 24px; border-top: 2px solid var(--c-primary); border-left: 2px solid var(--c-primary); }
+  .about-org-crosshair--br { bottom: 20px; right: 24px; border-bottom: 2px solid var(--c-primary); border-right: 2px solid var(--c-primary); }
+
+  /* 1. Leadership Panel (Light Orange Theme) */
+  .org-leadership-panel {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(145deg, #FFF8F1 0%, #FFEDD5 100%);
+    border: 1px solid rgba(249, 115, 22, 0.30);
+    border-radius: 20px;
+    padding: clamp(26px, 3.5vw, 38px);
+    color: var(--c-primary-dk);
+    box-shadow: 0 16px 36px rgba(234, 88, 12, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.65s ease 0.25s, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+  }
+  .org-leadership-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(249, 115, 22, 0.14) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+  .org-leadership-panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: linear-gradient(90deg, #EA580C, #F97316 45%, #FDBA74);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.35s;
+    z-index: 3;
+  }
+  .about-team-section.is-lit .org-leadership-panel {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .about-team-section.is-lit .org-leadership-panel::before {
+    transform: scaleX(1);
+  }
+  .org-leadership-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #EA580C;
+    margin-bottom: 12px;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+  }
+  .org-leadership-title {
+    font-size: clamp(22px, 2vw, 30px);
+    font-weight: 500;
+    color: var(--c-primary-dk);
+    margin-bottom: 14px;
+    line-height: 1.25;
+    position: relative;
+    z-index: 1;
+  }
+  .org-leadership-desc {
+    font-size: clamp(14px, 1.05vw, 16px);
+    line-height: 1.68;
+    color: #4A6068;
+    max-width: 74ch;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .org-leadership-roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .org-role-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    background: #ffffff;
+    border: 1px solid rgba(249, 115, 22, 0.24);
+    color: var(--c-primary-dk);
+    box-shadow: 0 2px 6px rgba(234, 88, 12, 0.04);
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+  }
+  .org-role-pill:hover {
+    background: #FFF7ED;
+    border-color: #EA580C;
+    color: #EA580C;
+    transform: translateY(-1px);
+  }
+
+  /* 3. Visual Connection System (SVG Lines) */
+  .org-connector-wrap {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .org-connector-wrap--converge {
+    height: 48px;
+  }
+  .org-connector-wrap--final {
+    height: 36px;
+  }
+  .org-connector {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .org-line {
+    fill: none;
+    stroke: rgba(0, 96, 120, 0.22);
+    stroke-width: 1.5;
+    stroke-dasharray: 260;
+    stroke-dashoffset: 260;
+    transition: stroke-dashoffset 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.32s,
+                stroke 0.3s ease, stroke-width 0.3s ease, filter 0.3s ease;
+  }
+  .org-connector-wrap--down .org-line {
+    transition: stroke-dashoffset 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.32s;
+  }
+  .org-connector-wrap--converge .org-line {
+    transition: stroke-dashoffset 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.78s;
+  }
+  .org-connector-wrap--final .org-line {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+    transition: stroke-dashoffset 0.65s cubic-bezier(0.22, 1, 0.36, 1) 1.05s;
+  }
+  .about-team-section.is-lit .org-line {
+    stroke-dashoffset: 0;
+  }
+
+  /* 2. Capability Nodes Grid (3 Columns) */
+  .about-nodes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 2.5vw, 28px);
+    position: relative;
+    z-index: 2;
+  }
+  .org-node {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--about-border);
+    border-radius: 18px;
+    padding: clamp(24px, 3vw, 32px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 96, 120, 0.05);
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.55s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  }
+  .about-team-section.is-lit .org-node:nth-child(1) { transition-delay: 0.48s; }
+  .about-team-section.is-lit .org-node:nth-child(2) { transition-delay: 0.60s; }
+  .about-team-section.is-lit .org-node:nth-child(3) { transition-delay: 0.72s; }
+  .about-team-section.is-lit .org-node {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Large Faint Background Number */
+  .org-node-num {
+    position: absolute;
+    right: 12px;
+    bottom: -10px;
+    font-family: var(--mono);
+    font-size: 88px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--node-num-color, rgba(0, 96, 120, 0.06));
+    pointer-events: none;
+    user-select: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+
+  /* Colored Accent Indicator Top Bar */
+  .org-node::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 38px;
+    background: var(--node-accent, var(--c-primary));
+    transition: width 0.35s var(--ease);
+  }
+
+  /* 6. Capability Node Hover Interaction */
+  .org-node:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.08);
+    border-color: var(--node-accent, var(--c-primary)) !important;
+  }
+  .org-node:hover::before {
+    width: 100%;
+  }
+  .org-node:hover .org-node-num {
+    transform: translateY(-4px);
+    color: var(--node-num-hover, rgba(0, 96, 120, 0.13));
+  }
+  .org-node:hover .org-tag-pill {
+    border-color: var(--node-accent, var(--c-primary));
+    background: var(--node-tag-hover, #ffffff);
+  }
+
+  /* Dim unrelated capability nodes when one is hovered */
+  .about-nodes-grid:has(.org-node:hover) .org-node:not(:hover) {
+    opacity: 0.65;
+    transform: translateY(0);
+  }
+
+  /* Connecting line highlight on capability node hover */
+  .about-org-map:has(.org-node--eng:hover) .org-line--eng {
+    stroke: #EAB308;
+    stroke-width: 2.4;
+    filter: none;
+  }
+  .about-org-map:has(.org-node--ai:hover) .org-line--ai {
+    stroke: #9333EA;
+    stroke-width: 2.4;
+    filter: none;
+  }
+  .about-org-map:has(.org-node--prod:hover) .org-line--prod {
+    stroke: #D95F5B;
+    stroke-width: 2.4;
+    filter: none;
+  }
+
+  .org-node-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .org-node-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .org-node-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--node-accent, var(--c-primary));
+  }
+  .org-node-title {
+    font-size: clamp(18px, 1.35vw, 22px);
+    font-weight: 500;
+    color: var(--c-primary-dk);
+    margin-bottom: 12px;
+    line-height: 1.3;
+    position: relative;
+    z-index: 1;
+  }
+  .org-node-desc {
+    font-size: clamp(13px, 0.95vw, 15px);
+    line-height: 1.62;
+    color: var(--about-body);
+    margin-bottom: 20px;
+    flex-grow: 1;
+    position: relative;
+    z-index: 1;
+  }
+  .org-node-roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+    position: relative;
+    z-index: 1;
+  }
+  .org-tag-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--c-sky);
+    color: var(--c-primary-dk);
+    border: 1px solid rgba(0, 96, 120, 0.12);
+    transition: background 0.22s ease, border-color 0.22s ease, color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+  }
+  .org-tag-pill:hover {
+    transform: translateY(-2px);
+    border-color: var(--node-accent, var(--c-primary));
+    background: var(--node-tag-hover, #ffffff);
+    box-shadow: 0 4px 10px rgba(0, 72, 88, 0.10);
+  }
+
+  /* Node 02 — Engineering (Golden Yellow) */
+  .org-node--eng {
+    --node-accent: #EAB308;
+    --node-num-color: rgba(234, 179, 8, 0.07);
+    --node-num-hover: rgba(202, 138, 4, 0.16);
+    --node-tag-hover: #FEFCE8;
+    background: #FFFEF5;
+    border-color: rgba(234, 179, 8, 0.24);
+  }
+  .org-node--eng .org-node-tag { color: #CA8A04; }
+
+  /* Node 03 — AI / Research (Vibrant Royal Purple) */
+  .org-node--ai {
+    --node-accent: #9333EA;
+    --node-num-color: rgba(147, 51, 234, 0.06);
+    --node-num-hover: rgba(147, 51, 234, 0.14);
+    --node-tag-hover: #FAF5FF;
+    background: #FAF8FF;
+    border-color: rgba(147, 51, 234, 0.22);
+  }
+  .org-node--ai .org-node-tag { color: #9333EA; }
+
+  /* Node 04 — Product / QA (Coral) */
+  .org-node--prod {
+    --node-accent: #D95F5B;
+    --node-num-color: rgba(217, 95, 91, 0.06);
+    --node-num-hover: rgba(217, 95, 91, 0.13);
+    --node-tag-hover: #FDF4F3;
+    background: #FFFAFA;
+    border-color: rgba(217, 95, 91, 0.20);
+  }
+  .org-node--prod .org-node-tag { color: #D95F5B; }
+
+  /* 4. Operations & Business Integration Layer */
+  .org-ops-layer {
+    position: relative;
+    z-index: 2;
+    background: #F4FAF6;
+    border: 1px solid rgba(16, 185, 129, 0.24);
+    border-radius: 20px;
+    padding: clamp(24px, 3.5vw, 36px);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.05);
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease 0.95s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.95s,
+                border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    overflow: hidden;
+  }
+  .about-team-section.is-lit .org-ops-layer {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .org-ops-layer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 42px;
+    background: #10B981;
+    transition: width 0.35s var(--ease);
+  }
+  .org-ops-layer:hover {
+    transform: translateY(-6px) scale(1.008);
+    border-color: #10B981;
+    box-shadow: 0 18px 38px rgba(16, 185, 129, 0.14);
+  }
+  .org-ops-layer:hover::before {
+    width: 100%;
+  }
+  .org-ops-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .org-ops-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #1B5E20;
+  }
+  .org-ops-num {
+    position: absolute;
+    right: 20px;
+    bottom: -15px;
+    font-family: var(--mono);
+    font-size: 88px;
+    font-weight: 800;
+    line-height: 1;
+    color: rgba(16, 185, 129, 0.06);
+    pointer-events: none;
+    user-select: none;
+  }
+  .org-ops-title {
+    font-size: clamp(19px, 1.5vw, 24px);
+    font-weight: 500;
+    color: var(--c-primary-dk);
+    margin-bottom: 8px;
+    line-height: 1.3;
+    position: relative;
+    z-index: 1;
+  }
+  .org-ops-desc {
+    font-size: clamp(13px, 1vw, 15px);
+    line-height: 1.62;
+    color: var(--about-body);
+    margin-bottom: 18px;
+    max-width: 82ch;
+    position: relative;
+    z-index: 1;
+  }
+  .org-ops-roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .org-ops-pill {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    background: #ffffff;
+    color: #1B5E20;
+    border: 1px solid rgba(16, 185, 129, 0.22);
+    transition: background 0.22s ease, border-color 0.22s ease, color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+  }
+  .org-ops-pill:hover {
+    transform: translateY(-2px);
+    background: #ECFDF5;
+    border-color: #10B981;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.12);
+  }
+  .org-ops-layer:hover .org-ops-pill {
+    border-color: #10B981;
+  }
+
+  /* 5. Production Outcomes Destination Element */
+  .org-outcomes-layer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 14px 28px;
+    background: var(--c-sky);
+    border: 1px solid rgba(0, 96, 120, 0.18);
+    border-radius: 40px;
+    max-width: 780px;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease 1.20s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.20s,
+                background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .about-team-section.is-lit .org-outcomes-layer {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .org-outcomes-layer:hover {
+    transform: translateY(-2px);
+    background: #e4f2f6;
+    border-color: var(--c-primary);
+    box-shadow: 0 8px 24px rgba(0, 72, 88, 0.10);
+  }
+  .org-outcomes-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--c-primary-dk);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .org-outcomes-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--c-primary);
+    animation: outcomesPulse 2.8s infinite ease-in-out;
+  }
+  @keyframes outcomesPulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.85;
+      box-shadow: 0 0 0 0 rgba(0, 96, 120, 0.45);
+    }
+    50% {
+      transform: scale(1.25);
+      opacity: 1;
+      box-shadow: 0 0 0 4px rgba(0, 96, 120, 0);
+    }
+  }
+  .org-outcomes-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--about-body);
+    padding: 4px 12px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 96, 120, 0.12);
+  }
+  .org-outcomes-item-icon {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #147C8F;
+  }
+
+  /* 9. Mobile Responsive Behavior */
+  @media (max-width: 1024px) {
+    .about-arch-flow {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 900px) {
+    .org-connector-wrap {
+      display: none;
+    }
+    .about-nodes-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .about-org-meta {
+      display: none;
+    }
+    .org-outcomes-layer {
+      border-radius: 20px;
+      justify-content: flex-start;
+      padding: 16px;
+    }
+  }
+  @media (max-width: 600px) {
+    .about-arch-flow {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-team-eyebrow,
+    .about-team-heading,
+    .about-team-lede,
+    .about-arch-wrap,
+    .about-arch-card,
+    .about-org-map,
+    .org-leadership-panel,
+    .org-line,
+    .org-node,
+    .org-ops-layer,
+    .org-outcomes-layer,
+    .org-outcomes-dot,
+    .org-role-pill,
+    .org-tag-pill,
+    .org-ops-pill {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      stroke-dashoffset: 0 !important;
+      animation: none !important;
+    }
+    .org-leadership-panel::before,
+    .about-arch-card::before,
+    .org-node::before,
+    .org-ops-layer::before {
+      transform: scaleX(1) !important;
+      width: 100% !important;
+    }
+    .about-arch-card:hover,
+    .org-node:hover,
+    .org-ops-layer:hover,
+    .org-outcomes-layer:hover,
+    .org-role-pill:hover,
+    .org-tag-pill:hover,
+    .org-ops-pill:hover {
+      transform: none !important;
+    }
+    .about-arch-flow:has(.about-arch-card:hover) .about-arch-card:not(:hover),
+    .about-nodes-grid:has(.org-node:hover) .org-node:not(:hover) {
+      opacity: 1 !important;
+    }
+  }
+
+  /* ------------------------------------------------------------
+     4C. OUR TECHNOLOGY & CAPABILITIES SECTION
+     Ecosystem Architecture & Interactive Map
+     ------------------------------------------------------------ */
+  .about-cap-section {
+    position: relative;
+    z-index: 5;
+    padding: clamp(60px, 8vh, 110px) 0;
+  }
+  .about-cap-header {
+    max-width: 780px;
+    margin-bottom: clamp(36px, 5vh, 52px);
+  }
+  .about-cap-eyebrow {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .about-cap-heading {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease 0.12s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
+  }
+  .about-cap-lede {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease 0.22s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.22s;
+  }
+  .about-cap-section.is-lit .about-cap-eyebrow,
+  .about-cap-section.is-lit .about-cap-heading,
+  .about-cap-section.is-lit .about-cap-lede {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* 1. Architecture Container Entrance */
+  .about-cap-ecosystem {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--about-border);
+    border-radius: 28px;
+    padding: clamp(36px, 5vw, 64px) clamp(20px, 4vw, 56px);
+    box-shadow: 0 20px 48px rgba(0, 96, 120, 0.07);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.65s ease 0.1s, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+  }
+  .about-cap-section.is-lit .about-cap-ecosystem {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Deep-Tech Technical Grid & Markings */
+  .about-cap-grid-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: 
+      radial-gradient(rgba(0, 96, 120, 0.08) 1px, transparent 1px),
+      linear-gradient(to right, rgba(0, 96, 120, 0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 96, 120, 0.025) 1px, transparent 1px);
+    background-size: 28px 28px, 56px 56px, 56px 56px;
+    z-index: 0;
+  }
+  .about-cap-grid-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 75% 65% at 50% 50%, transparent 45%, #ffffff 95%);
+  }
+  .about-cap-meta {
+    position: absolute;
+    top: 20px;
+    right: 28px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: rgba(0, 96, 120, 0.38);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1;
+  }
+  .about-cap-crosshair {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.45;
+  }
+  .about-cap-crosshair--tl { top: 20px; left: 24px; border-top: 2px solid var(--c-primary); border-left: 2px solid var(--c-primary); }
+  .about-cap-crosshair--tr { top: 20px; right: 24px; border-top: 2px solid var(--c-primary); border-right: 2px solid var(--c-primary); }
+  .about-cap-crosshair--bl { bottom: 20px; left: 24px; border-bottom: 2px solid var(--c-primary); border-left: 2px solid var(--c-primary); }
+  .about-cap-crosshair--br { bottom: 20px; right: 24px; border-bottom: 2px solid var(--c-primary); border-right: 2px solid var(--c-primary); }
+
+  /* 3-Column Ecosystem Grid */
+  .cap-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(260px, 340px) minmax(210px, 260px) minmax(260px, 340px);
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+  }
+
+  .cap-cell {
+    position: relative;
+    display: flex;
+  }
+  .cap-cell--top {
+    grid-column: 2;
+    grid-row: 1;
+    flex-direction: column;
+    align-items: center;
+  }
+  .cap-cell--left {
+    grid-column: 1;
+    grid-row: 2;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .cap-cell--hub {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+  }
+  .cap-cell--right {
+    grid-column: 3;
+    grid-row: 2;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .cap-cell--data {
+    grid-column: 2;
+    grid-row: 3;
+    flex-direction: column;
+    align-items: center;
+  }
+  .cap-cell--product {
+    grid-column: 2;
+    grid-row: 4;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* 2. Central Integration Core Node */
+  .cap-hub {
+    position: relative;
+    width: 194px;
+    height: 194px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #004858 0%, #003642 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 16px;
+    cursor: default;
+    opacity: 0;
+    transform: translateY(var(--hub-parallax-y, 0px)) scale(0.92);
+    transition: opacity 0.6s ease 0.24s,
+                transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.24s,
+                border-color 0.35s ease;
+  }
+  .about-cap-section.is-lit .cap-hub {
+    opacity: 1;
+    transform: translateY(var(--hub-parallax-y, 0px)) scale(1);
+  }
+  .cap-hub:hover {
+    transform: translateY(var(--hub-parallax-y, 0px)) scale(1.02);
+    box-shadow: none !important;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  .cap-hub:hover .cap-hub-orbit {
+    border-color: transparent;
+  }
+  .cap-grid:has(.cap-hub:hover) .cap-line {
+    stroke: #94A3B8;
+    stroke-width: 2px;
+  }
+
+  /* Animated orbit ring rotating around the central FutureAcad circle */
+  .cap-hub-orbit {
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    border: 1px dashed rgba(148, 163, 184, 0.45);
+    pointer-events: none;
+    animation: capOrbit 30s linear infinite;
+  }
+  .cap-orbit-dot {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #E06D53;
+  }
+  @keyframes capOrbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Inner FutureAcad text container remains completely static */
+  .cap-hub-core {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+    z-index: 2;
+    transform: none !important;
+  }
+  .cap-hub-kicker {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--c-pink);
+    text-transform: uppercase;
+  }
+  .cap-hub-brand {
+    font-size: 19px;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    line-height: 1.1;
+  }
+  .cap-hub-brand strong {
+    font-weight: 800;
+  }
+  .cap-hub-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: #C7DDE4;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* 3. Animated Connection Lines (SVG Stems) */
+  .cap-stem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    position: relative;
+    z-index: 1;
+  }
+  .cap-stem--vert {
+    width: 2px;
+    height: 48px;
+  }
+  .cap-stem--horiz {
+    width: 54px;
+    height: 2px;
+  }
+  .cap-stem-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .cap-line {
+    stroke: #CBD5E1;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                stroke 0.3s ease, stroke-width 0.3s ease;
+  }
+  .cap-stem--vert .cap-line {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+  }
+  .cap-stem--horiz .cap-line {
+    stroke-dasharray: 54;
+    stroke-dashoffset: 54;
+  }
+  .about-cap-section.is-lit .cap-line {
+    stroke-dashoffset: 0;
+  }
+  /* Sequential drawing of lines from center outwards */
+  .about-cap-section.is-lit .cap-line--ai { transition-delay: 0.40s; }
+  .about-cap-section.is-lit .cap-line--software { transition-delay: 0.52s; }
+  .about-cap-section.is-lit .cap-line--research { transition-delay: 0.64s; }
+  .about-cap-section.is-lit .cap-line--data { transition-delay: 0.76s; }
+  .about-cap-section.is-lit .cap-line--product { transition-delay: 0.88s; }
+
+  /* 4. Sequential Capability Cards Entrance */
+  .cap-card {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: none !important;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.3s ease,
+                background 0.3s ease;
+    cursor: default;
+    width: 100%;
+  }
+  .cap-cell--top .cap-card,
+  .cap-cell--data .cap-card,
+  .cap-cell--product .cap-card {
+    max-width: 360px;
+  }
+  .cap-cell--left .cap-card,
+  .cap-cell--right .cap-card {
+    max-width: 320px;
+  }
+
+  /* Exact requested sequential order: AI → Software → Research → Data → Product */
+  .about-cap-section.is-lit .cap-card--ai {
+    opacity: 1;
+    transform: translateY(var(--card-parallax-y, 0px));
+    transition-delay: 0.38s;
+  }
+  .about-cap-section.is-lit .cap-card--software {
+    opacity: 1;
+    transform: translateY(var(--card-parallax-y, 0px));
+    transition-delay: 0.50s;
+  }
+  .about-cap-section.is-lit .cap-card--research {
+    opacity: 1;
+    transform: translateY(var(--card-parallax-y, 0px));
+    transition-delay: 0.62s;
+  }
+  .about-cap-section.is-lit .cap-card--data {
+    opacity: 1;
+    transform: translateY(var(--card-parallax-y, 0px));
+    transition-delay: 0.74s;
+  }
+  .about-cap-section.is-lit .cap-card--product {
+    opacity: 1;
+    transform: translateY(var(--card-parallax-y, 0px));
+    transition-delay: 0.86s;
+  }
+
+  /* Card Content & Micro-Interactions */
+  .cap-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .cap-card-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--cap-accent, var(--c-primary));
+    text-transform: uppercase;
+    transition: filter 0.25s ease, letter-spacing 0.25s ease;
+  }
+  .cap-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cap-accent, var(--c-primary));
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .cap-title {
+    font-size: 16.5px;
+    font-weight: 700;
+    color: var(--c-primary-dk);
+    line-height: 1.3;
+    margin: 0;
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+  .cap-desc {
+    font-size: 13px;
+    line-height: 1.52;
+    color: #4a6068;
+    margin: 0;
+  }
+
+  /* Capability Accent Color Tokens */
+  /* 01 Artificial Intelligence → teal */
+  .cap-card--ai {
+    --cap-accent: #0D9488;
+    --cap-tint: #F0FDFA;
+  }
+  /* 02 Data & Intelligence → warm amber (no blue) */
+  .cap-card--data {
+    --cap-accent: #D97706;
+    --cap-tint: #FFFBEB;
+  }
+  /* 03 Software Engineering → coral */
+  .cap-card--software {
+    --cap-accent: #E06D53;
+    --cap-tint: #FDF6F4;
+  }
+  /* 04 Research & Innovation → green */
+  .cap-card--research {
+    --cap-accent: #10B981;
+    --cap-tint: #F3FAF6;
+  }
+  /* 05 Product & Experience → slate */
+  .cap-card--product {
+    --cap-accent: #475569;
+    --cap-tint: #F8FAFC;
+  }
+
+  /* 5. Capability Card Hover Effect — Absolutely no shadow/glow */
+  .cap-card:hover {
+    transform: translateY(calc(var(--card-parallax-y, 0px) - 6px)) scale(1.02);
+    background: var(--cap-tint, #ffffff);
+    border-color: var(--cap-accent, #CBD5E1);
+    box-shadow: none !important;
+  }
+  .cap-card:hover .cap-indicator {
+    transform: scale(1.3);
+    box-shadow: none !important;
+  }
+  .cap-card:hover .cap-card-tag {
+    filter: brightness(1.2);
+    letter-spacing: 0.15em;
+  }
+  .cap-card:hover .cap-title {
+    transform: translateY(-2px);
+    color: var(--cap-accent);
+  }
+
+  /* 6. Non-Hover Dimming Focus Effect */
+  .cap-grid:has(.cap-card:hover) .cap-card:not(:hover) {
+    opacity: 0.82;
+    transform: translateY(var(--card-parallax-y, 0px));
+    box-shadow: none !important;
+  }
+
+  /* 7. Connection-Aware Hover (Card + Line + Central Hub Accent) — No shadow/glow */
+  /* ARTIFICIAL INTELLIGENCE HOVER */
+  .cap-grid:has(.cap-card--ai:hover) .cap-line--ai {
+    stroke: #0D9488;
+    stroke-width: 2.5;
+    filter: none !important;
+  }
+  .cap-grid:has(.cap-card--ai:hover) .cap-hub {
+    border-color: #0D9488;
+    box-shadow: none !important;
+  }
+
+  /* SOFTWARE ENGINEERING HOVER */
+  .cap-grid:has(.cap-card--software:hover) .cap-line--software {
+    stroke: #E06D53;
+    stroke-width: 2.5;
+    filter: none !important;
+  }
+  .cap-grid:has(.cap-card--software:hover) .cap-hub {
+    border-color: #E06D53;
+    box-shadow: none !important;
+  }
+
+  /* RESEARCH & INNOVATION HOVER */
+  .cap-grid:has(.cap-card--research:hover) .cap-line--research {
+    stroke: #10B981;
+    stroke-width: 2.5;
+    filter: none !important;
+  }
+  .cap-grid:has(.cap-card--research:hover) .cap-hub {
+    border-color: #10B981;
+    box-shadow: none !important;
+  }
+
+  /* DATA & INTELLIGENCE HOVER */
+  .cap-grid:has(.cap-card--data:hover) .cap-line--data {
+    stroke: #D97706;
+    stroke-width: 2.5;
+    filter: none !important;
+  }
+  .cap-grid:has(.cap-card--data:hover) .cap-hub {
+    border-color: #D97706;
+    box-shadow: none !important;
+  }
+
+  /* PRODUCT & EXPERIENCE HOVER */
+  .cap-grid:has(.cap-card--product:hover) .cap-line--product {
+    stroke: #475569;
+    stroke-width: 2.5;
+    filter: none !important;
+  }
+  .cap-grid:has(.cap-card--product:hover) .cap-hub {
+    border-color: #475569;
+    box-shadow: none !important;
+  }
+
+  /* 8. Tablet & Mobile Responsive Behavior */
+  @media (max-width: 980px) {
+    .about-cap-meta {
+      display: none;
+    }
+    .cap-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .cap-cell {
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+    .cap-cell--hub {
+      order: 1;
+      padding: 0 0 12px 0;
+    }
+    .cap-cell--top {
+      order: 2;
+    }
+    .cap-cell--right {
+      order: 3;
+      flex-direction: column;
+    }
+    .cap-cell--left {
+      order: 4;
+      flex-direction: column;
+    }
+    .cap-cell--data {
+      order: 5;
+    }
+    .cap-cell--product {
+      order: 6;
+    }
+    .cap-stem--horiz {
+      display: none;
+    }
+    .cap-cell--right::before,
+    .cap-cell--left::before {
+      content: "";
+      width: 2px;
+      height: 36px;
+      background: rgba(0, 96, 120, 0.22);
+    }
+    .cap-stem--vert {
+      height: 36px;
+    }
+    .cap-card {
+      max-width: 100% !important;
+    }
+    .cap-hub {
+      width: 174px;
+      height: 174px;
+    }
+  }
+
+  /* Disable hover transformation on touch devices */
+  @media (hover: none) {
+    .cap-card:hover {
+      transform: none !important;
+    }
+    .cap-grid:has(.cap-card:hover) .cap-card:not(:hover) {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
+  /* 9. Accessibility — prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .about-cap-eyebrow,
+    .about-cap-heading,
+    .about-cap-lede,
+    .about-cap-ecosystem,
+    .cap-hub,
+    .cap-card,
+    .cap-line,
+    .cap-hub-orbit {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      stroke-dashoffset: 0 !important;
+      animation: none !important;
+    }
+    .cap-card:hover,
+    .cap-hub:hover {
+      transform: none !important;
+    }
+    .cap-grid:has(.cap-card:hover) .cap-card:not(:hover) {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
+  /* ------------------------------------------------------------
+     4D. WHAT WE BUILD SECTION (Product Showcase)
+     ------------------------------------------------------------ */
+  .about-build-section {
+    position: relative;
+    z-index: 5;
+    padding: clamp(60px, 8vh, 110px) 0;
+  }
+  .about-build-transition {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: clamp(40px, 6vh, 64px);
+  }
+  .about-build-trans-line {
+    width: 64px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--c-primary), transparent);
+    opacity: 0.6;
+  }
+
+  .about-build-header-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: clamp(36px, 5vh, 52px);
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .about-build-header {
+    max-width: 780px;
+  }
+  .about-build-eyebrow {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .about-build-heading {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease 0.12s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
+  }
+  .about-build-lede {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease 0.22s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.22s;
+  }
+  .about-build-section.is-lit .about-build-eyebrow,
+  .about-build-section.is-lit .about-build-heading,
+  .about-build-section.is-lit .about-build-lede {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Subtle Progress Indicator */
+  .about-build-progress {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(8px, 1.2vw, 14px);
+    padding: 7px 16px;
+    border-radius: 20px;
+    background: #ffffff;
+    border: 1px solid var(--about-border);
+    box-shadow: 0 4px 14px rgba(0, 96, 120, 0.04);
+  }
+  .build-prog-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.45;
+    transition: opacity 0.3s ease;
+  }
+  .build-prog-item.is-active {
+    opacity: 1;
+  }
+  .build-prog-no {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--c-primary-dk);
+  }
+  .build-prog-item.is-active .build-prog-no {
+    color: var(--c-primary);
+  }
+  .build-prog-bar {
+    width: 20px;
+    height: 2px;
+    background: rgba(0, 96, 120, 0.2);
+    border-radius: 2px;
+    transition: background 0.3s ease, width 0.3s ease;
+  }
+  .build-prog-item.is-active .build-prog-bar {
+    background: var(--c-primary);
+    width: 32px;
+  }
+
+  /* Product Showcase Stack */
+  .about-build-stack {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(32px, 4vw, 48px);
+  }
+
+  /* Horizontal Product Showcase Panel */
+  .build-panel {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--about-border);
+    border-radius: 24px;
+    padding: clamp(30px, 4vw, 48px);
+    box-shadow: 0 16px 40px rgba(0, 96, 120, 0.05);
+    display: grid;
+    grid-template-columns: 1.05fr 1.15fr;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.35s ease, background 0.35s ease;
+  }
+  .build-panel--reverse {
+    grid-template-columns: 1.15fr 1.05fr;
+  }
+  .build-panel--reverse .build-panel__content {
+    order: 2;
+  }
+  .build-panel--reverse .build-panel__visual {
+    order: 1;
+  }
+
+  /* Subtle accent line associated with each product */
+  .build-panel__accent-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 3px;
+    background: var(--panel-accent, var(--c-primary));
+    transition: width 0.4s var(--ease);
+  }
+  .build-panel:hover .build-panel__accent-line {
+    width: 100%;
+  }
+
+  .build-panel:hover {
+    border-color: rgba(0, 96, 120, 0.32);
+    box-shadow: 0 22px 52px rgba(0, 72, 88, 0.10);
+    background: var(--panel-tint, #ffffff);
+  }
+
+  /* Entrance Transitions per Panel */
+  .build-panel__no,
+  .build-panel__status,
+  .build-panel__title,
+  .build-panel__desc,
+  .build-panel__value,
+  .build-panel__tags,
+  .build-panel__actions {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .build-panel__visual {
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 0.65s ease 0.25s, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+  }
+
+  .build-panel.is-lit .build-panel__no,
+  .build-panel.is-lit .build-panel__status {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+  }
+  .build-panel.is-lit .build-panel__title {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+  }
+  .build-panel.is-lit .build-panel__desc {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
+  }
+  .build-panel.is-lit .build-panel__value {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.4s;
+  }
+  .build-panel.is-lit .build-panel__tags,
+  .build-panel.is-lit .build-panel__actions {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.5s;
+  }
+  .build-panel.is-lit .build-panel__visual {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Content Typography & Layout */
+  .build-panel__content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .build-panel__kicker {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 2px;
+  }
+  .build-panel__no {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--panel-accent, var(--c-primary));
+    text-transform: uppercase;
+  }
+  .build-panel__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: #007A5A;
+    background: #EAF7F2;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  .build-panel__status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10B981;
+    box-shadow: 0 0 6px #10B981;
+  }
+  .build-panel__title {
+    font-size: clamp(26px, 2.5vw, 36px);
+    font-weight: 700;
+    color: var(--c-primary-dk);
+    line-height: 1.18;
+    margin: 0;
+  }
+  .build-panel__desc {
+    font-size: clamp(14px, 1.05vw, 16px);
+    line-height: 1.6;
+    color: var(--about-body);
+    margin: 0;
+  }
+  .build-panel__value {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 96, 120, 0.1);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 4px;
+  }
+  .build-panel__value-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--panel-accent, var(--c-primary));
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .build-panel__value-text {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #4a6068;
+    margin: 0;
+  }
+  .build-panel__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .build-tag {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 96, 120, 0.15);
+    color: var(--c-primary-dk);
+  }
+  .build-panel__actions {
+    margin-top: 8px;
+  }
+  .build-panel__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--c-primary-dk);
+    background: #ffffff;
+    border: 1px solid rgba(0, 96, 120, 0.24);
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  }
+  .build-panel__btn:hover {
+    background: var(--c-primary-dk);
+    color: #ffffff;
+    border-color: var(--c-primary-dk);
+    transform: translateY(-2px);
+  }
+
+  /* Product Visual Area */
+  .build-panel__visual {
+    position: relative;
+    width: 100%;
+  }
+  .build-visual-frame {
+    background: #ffffff;
+    border: 1px solid rgba(0, 96, 120, 0.18);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 16px 36px rgba(0, 72, 88, 0.08);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .build-panel:hover .build-visual-frame {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 0 24px 48px rgba(0, 72, 88, 0.15);
+    border-color: var(--panel-accent, var(--c-primary));
+  }
+  .build-visual-bar {
+    background: #F4F7F9;
+    border-bottom: 1px solid rgba(0, 96, 120, 0.1);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .build-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(0, 96, 120, 0.25);
+  }
+  .build-dot:nth-child(1) { background: #E06D53; }
+  .build-dot:nth-child(2) { background: #F59E0B; }
+  .build-dot:nth-child(3) { background: #10B981; }
+  .build-url {
+    margin-left: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(0, 96, 120, 0.5);
+    letter-spacing: 0.05em;
+  }
+  .build-visual-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #00222B;
+  }
+  .build-visual-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.5s var(--ease);
+  }
+  .build-panel:hover .build-visual-img-wrap img {
+    transform: scale(1.03);
+  }
+  .build-visual-overlay {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    pointer-events: none;
+  }
+  .build-overlay-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: rgba(0, 34, 43, 0.85);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(4px);
+  }
+  .build-overlay-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #10B981;
+    box-shadow: 0 0 6px #10B981;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 980px) {
+    .build-panel,
+    .build-panel--reverse {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 24px;
+    }
+    .build-panel--reverse .build-panel__content {
+      order: 1;
+    }
+    .build-panel--reverse .build-panel__visual {
+      order: 2;
+    }
+    .about-build-progress {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-build-eyebrow,
+    .about-build-heading,
+    .about-build-lede,
+    .build-panel__no,
+    .build-panel__status,
+    .build-panel__title,
+    .build-panel__desc,
+    .build-panel__value,
+    .build-panel__tags,
+    .build-panel__actions,
+    .build-panel__visual,
+    .build-visual-frame {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+    .build-panel:hover .build-visual-frame {
+      transform: none !important;
+    }
+  }
+
+  /* ------------------------------------------------------------
      5. HOW WE WORK SECTION (4 Editorial Blocks)
      ------------------------------------------------------------ */
   .about-work-section {
@@ -1274,8 +3193,8 @@
   <div class="about-shell">
     <div class="about-proof-grid">
       <div class="about-proof-item">
-        <span class="about-proof-num"><span class="stat__n" data-count="25">25</span><span class="suffix">+</span></span>
-        <span class="about-proof-label">Years of FutureAcad Heritage</span>
+        <span class="about-proof-num"><span class="stat__n" data-count="2025">2025</span></span>
+        <span class="about-proof-label">Established Deep Tech Startup</span>
       </div>
       <div class="about-proof-item">
         <span class="about-proof-num"><span class="stat__n" data-count="7">7</span></span>
@@ -1302,7 +3221,7 @@
       <span class="about-eyebrow">OUR STORY</span>
       <h2 id="storyHeading" class="about-heading-main">A startup built for what comes next.</h2>
       <p class="about-body-text">
-        Great technology isn't invented in a vacuum. FutureAcad is the direct evolution of two and a half decades solving mission-critical problems for global industries.
+        Established in 2025, FutureAcad is a deep tech startup launching production-grade platforms built to solve mission-critical challenges across global industries.
       </p>
     </div>
 
@@ -1311,51 +3230,51 @@
         <div class="fa-marquee__track">
         <article class="fa-marq-card fa-marq-card--a">
           <span class="fa-marq-card__n">01</span>
-          <span class="fa-marq-card__phase">THE GENESIS</span>
-          <h3>FutureAcad Foundation</h3>
-          <p>Began with a mandate to bridge technological gaps — training engineers, deploying enterprise networks, and building digital capability across India and international markets.</p>
+          <span class="fa-marq-card__phase">THE FOUNDATION</span>
+          <h3>Established in 2025</h3>
+          <p>Founded as a modern deep tech startup in Dubai, architected to bridge cutting-edge artificial intelligence, sovereign systems, and enterprise execution.</p>
         </article>
         <article class="fa-marq-card fa-marq-card--b">
           <span class="fa-marq-card__n">02</span>
-          <span class="fa-marq-card__phase">PROVEN SCALE</span>
-          <h3>25+ Years of Heritage</h3>
-          <p>Built an enduring reputation across 3 continents, shipping operational platforms, cultivating over 1 million technical minds, and cementing partnerships with world-class enterprises.</p>
+          <span class="fa-marq-card__phase">PRODUCT DEVELOPMENT</span>
+          <h3>Engineering the Suite</h3>
+          <p>Built a robust portfolio of live platforms spanning enterprise LLM orchestration, AI recruitment, adaptive learning systems, and high-performance operations.</p>
         </article>
         <article class="fa-marq-card fa-marq-card--c">
           <span class="fa-marq-card__n">03</span>
-          <span class="fa-marq-card__phase">THE CONVERGENCE</span>
-          <h3>Engineering + Talent</h3>
-          <p>Integrated high-availability software development with borderless elite talent networks — enabling rapid technical execution with enterprise-grade quality and governance.</p>
+          <span class="fa-marq-card__phase">THE LAUNCH</span>
+          <h3>Launching Live Products</h3>
+          <p>Deploying our built solutions into enterprise workflows — empowering organizations with battle-tested automation, sovereign security, and high reliability.</p>
         </article>
         <article class="fa-marq-card fa-marq-card--d">
           <span class="fa-marq-card__n">04</span>
-          <span class="fa-marq-card__phase">TODAY & BEYOND</span>
-          <h3>FutureAcad Deep Tech</h3>
-          <p>Pairing frontier Artificial Intelligence with sovereign cloud architecture and global engineering muscle — turning transformative ambition into production systems.</p>
+          <span class="fa-marq-card__phase">SCALE &amp; BEYOND</span>
+          <h3>Global Deep Tech Impact</h3>
+          <p>Expanding across international markets with frontier Artificial Intelligence, high-availability architecture, and global engineering talent.</p>
         </article>
         <article class="fa-marq-card fa-marq-card--a" aria-hidden="true">
           <span class="fa-marq-card__n">01</span>
-          <span class="fa-marq-card__phase">THE GENESIS</span>
-          <h3>FutureAcad Foundation</h3>
-          <p>Began with a mandate to bridge technological gaps — training engineers, deploying enterprise networks, and building digital capability across India and international markets.</p>
+          <span class="fa-marq-card__phase">THE FOUNDATION</span>
+          <h3>Established in 2025</h3>
+          <p>Founded as a modern deep tech startup in Dubai, architected to bridge cutting-edge artificial intelligence, sovereign systems, and enterprise execution.</p>
         </article>
         <article class="fa-marq-card fa-marq-card--b" aria-hidden="true">
           <span class="fa-marq-card__n">02</span>
-          <span class="fa-marq-card__phase">PROVEN SCALE</span>
-          <h3>25+ Years of Heritage</h3>
-          <p>Built an enduring reputation across 3 continents, shipping operational platforms, cultivating over 1 million technical minds, and cementing partnerships with world-class enterprises.</p>
+          <span class="fa-marq-card__phase">PRODUCT DEVELOPMENT</span>
+          <h3>Engineering the Suite</h3>
+          <p>Built a robust portfolio of live platforms spanning enterprise LLM orchestration, AI recruitment, adaptive learning systems, and high-performance operations.</p>
         </article>
         <article class="fa-marq-card fa-marq-card--c" aria-hidden="true">
           <span class="fa-marq-card__n">03</span>
-          <span class="fa-marq-card__phase">THE CONVERGENCE</span>
-          <h3>Engineering + Talent</h3>
-          <p>Integrated high-availability software development with borderless elite talent networks — enabling rapid technical execution with enterprise-grade quality and governance.</p>
+          <span class="fa-marq-card__phase">THE LAUNCH</span>
+          <h3>Launching Live Products</h3>
+          <p>Deploying our built solutions into enterprise workflows — empowering organizations with battle-tested automation, sovereign security, and high reliability.</p>
         </article>
         <article class="fa-marq-card fa-marq-card--d" aria-hidden="true">
           <span class="fa-marq-card__n">04</span>
-          <span class="fa-marq-card__phase">TODAY & BEYOND</span>
-          <h3>FutureAcad Deep Tech</h3>
-          <p>Pairing frontier Artificial Intelligence with sovereign cloud architecture and global engineering muscle — turning transformative ambition into production systems.</p>
+          <span class="fa-marq-card__phase">SCALE &amp; BEYOND</span>
+          <h3>Global Deep Tech Impact</h3>
+          <p>Expanding across international markets with frontier Artificial Intelligence, high-availability architecture, and global engineering talent.</p>
         </article>
         </div>
       </div>
@@ -1372,13 +3291,13 @@
       <div class="about-foundation-left">
         <span class="about-eyebrow">OUR FOUNDATION</span>
         <h2 id="foundationHeading" class="about-heading-main">
-          Built on a <span class="about-highlight">quarter-century</span> of trust.
+          Built for <span class="about-highlight">real production</span> trust.
         </h2>
         <p class="about-body-text">
-          FutureAcad has spent over two decades training engineers, building enterprise software, and connecting talent to opportunity.
+          Established in 2025 as a deep tech startup, FutureAcad engineers and launches proprietary platforms built to empower global enterprises and tech talent.
         </p>
         <p class="about-body-text" style="margin-top: 16px;">
-          What comes next is that accumulated institutional experience, aimed squarely at Artificial Intelligence and modern deep tech.
+          We pair frontier Artificial Intelligence with sovereign cloud architecture and global engineering muscle.
         </p>
       </div>
 
@@ -1392,6 +3311,743 @@
           We believe real innovation isn't judged by demo presentations. It is validated in production logs, latency benchmarks, uptime metrics, and tangible enterprise impact.
         </p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     OUR TEAM & MANAGEMENT SECTION — INTERACTIVE ORGANIZATIONAL MAP
+     ============================================================ -->
+<section class="about-team-section" aria-labelledby="teamHeading">
+  <div class="about-shell">
+    <div class="about-team-header">
+      <span class="about-eyebrow about-team-eyebrow">OUR TEAM &amp; MANAGEMENT</span>
+      <h2 id="teamHeading" class="about-heading-main about-team-heading">The people behind the systems.</h2>
+      <p class="about-body-text about-team-lede">
+        FutureAcad brings together specialized teams across technology, artificial intelligence, research, product, quality, delivery, operations and business — working together to turn ambitious ideas into production-ready systems.
+      </p>
+    </div>
+
+    <!-- ORGANIZATIONAL ARCHITECTURE 5-LAYER BANNER -->
+    <div class="about-arch-wrap">
+      <div class="about-arch-label">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <span>ORGANIZATIONAL ARCHITECTURE</span>
+      </div>
+
+      <div class="about-arch-flow">
+        <div class="about-arch-card">
+          <span class="about-arch-layer">LAYER 01</span>
+          <h4 class="about-arch-title">Leadership &amp; Governance</h4>
+          <p class="about-arch-desc">Strategic vision, enterprise oversight, and governance</p>
+        </div>
+
+        <div class="about-arch-card">
+          <span class="about-arch-layer">LAYER 02</span>
+          <h4 class="about-arch-title">Tech, AI &amp; Product</h4>
+          <p class="about-arch-desc">Engineering, model research, and UI/UX architecture</p>
+        </div>
+
+        <div class="about-arch-card">
+          <span class="about-arch-layer">LAYER 03</span>
+          <h4 class="about-arch-title">Quality &amp; Delivery</h4>
+          <p class="about-arch-desc">QA validation, automation testing, and program coordination</p>
+        </div>
+
+        <div class="about-arch-card">
+          <span class="about-arch-layer">LAYER 04</span>
+          <h4 class="about-arch-title">Operations &amp; Business</h4>
+          <p class="about-arch-desc">Enterprise alliances, client relations, and operational scaling</p>
+        </div>
+
+        <div class="about-arch-card">
+          <span class="about-arch-layer">LAYER 05</span>
+          <h4 class="about-arch-title">Production Outcomes</h4>
+          <p class="about-arch-desc">Mission-critical deployment and continuous reliability</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERACTIVE ORGANIZATIONAL MAP -->
+    <div class="about-org-map">
+      <!-- Deep-Tech Background Grid & Technical Coordinate Markings -->
+      <div class="about-org-grid-bg" aria-hidden="true"></div>
+      <span class="about-org-crosshair about-org-crosshair--tl" aria-hidden="true"></span>
+      <span class="about-org-crosshair about-org-crosshair--br" aria-hidden="true"></span>
+
+      <!-- 1. LEADERSHIP PANEL -->
+      <div class="org-leadership-panel">
+        <span class="org-leadership-badge">01 — LEADERSHIP &amp; MANAGEMENT</span>
+        <h3 class="org-leadership-title">Coordinating Strategy, Technology &amp; Operational Scale</h3>
+        <p class="org-leadership-desc">
+          Leadership coordinates the company's strategic, technology, product, operational and business direction. Operating across cross-functional domains, leadership aligns deep-tech execution with enterprise governance and long-term organizational objectives.
+        </p>
+        <div class="org-leadership-roles">
+          <span class="org-role-pill">Founder &amp; Executive Leadership</span>
+          <span class="org-role-pill">Technology Leadership</span>
+          <span class="org-role-pill">AI &amp; Research Leadership</span>
+          <span class="org-role-pill">Product Leadership</span>
+          <span class="org-role-pill">Operations Leadership</span>
+          <span class="org-role-pill">Business &amp; Partnerships</span>
+          <span class="org-role-pill">People &amp; HR</span>
+        </div>
+      </div>
+
+      <!-- 3. CONNECTING LINES: Leadership → 3 Capability Nodes -->
+      <div class="org-connector-wrap org-connector-wrap--down" aria-hidden="true">
+        <svg class="org-connector" viewBox="0 0 900 48" preserveAspectRatio="none">
+          <path class="org-line org-line--eng" d="M 450,0 C 450,24 150,24 150,48" />
+          <path class="org-line org-line--ai" d="M 450,0 L 450,48" />
+          <path class="org-line org-line--prod" d="M 450,0 C 450,24 750,24 750,48" />
+        </svg>
+      </div>
+
+      <!-- 2. CAPABILITY NODES (Engineering, AI / Research, Product / QA) -->
+      <div class="about-nodes-grid">
+        <!-- 02 — ENGINEERING & DEVELOPMENT -->
+        <article class="org-node org-node--eng">
+          <span class="org-node-num">02</span>
+          <div class="org-node-top">
+            <span class="org-node-tag">02 / ENGINEERING</span>
+            <span class="org-node-dot" aria-hidden="true"></span>
+          </div>
+          <h3 class="org-node-title">Engineering &amp; Development</h3>
+          <p class="org-node-desc">
+            Engineers design, build and maintain the software, AI and infrastructure that power FutureAcad's production systems.
+          </p>
+          <div class="org-node-roles">
+            <span class="org-tag-pill">Software Developers</span>
+            <span class="org-tag-pill">Frontend Developers</span>
+            <span class="org-tag-pill">Backend Developers</span>
+            <span class="org-tag-pill">Full-Stack Developers</span>
+            <span class="org-tag-pill">AI/ML Engineers</span>
+            <span class="org-tag-pill">Cloud / DevOps Engineers</span>
+          </div>
+        </article>
+
+        <!-- 03 — AI, RESEARCH & INNOVATION -->
+        <article class="org-node org-node--ai">
+          <span class="org-node-num">03</span>
+          <div class="org-node-top">
+            <span class="org-node-tag">03 / RESEARCH</span>
+            <span class="org-node-dot" aria-hidden="true"></span>
+          </div>
+          <h3 class="org-node-title">AI, Research &amp; Innovation</h3>
+          <p class="org-node-desc">
+            Research and AI teams explore emerging technologies and translate promising ideas into practical, production-ready capabilities.
+          </p>
+          <div class="org-node-roles">
+            <span class="org-tag-pill">AI Researchers</span>
+            <span class="org-tag-pill">ML Researchers</span>
+            <span class="org-tag-pill">Research Associates</span>
+            <span class="org-tag-pill">Data Scientists</span>
+            <span class="org-tag-pill">Applied AI Engineers</span>
+          </div>
+        </article>
+
+        <!-- 04 — PRODUCT, DESIGN & QUALITY -->
+        <article class="org-node org-node--prod">
+          <span class="org-node-num">04</span>
+          <div class="org-node-top">
+            <span class="org-node-tag">04 / PRODUCT &amp; QA</span>
+            <span class="org-node-dot" aria-hidden="true"></span>
+          </div>
+          <h3 class="org-node-title">Product, Design &amp; Quality</h3>
+          <p class="org-node-desc">
+            Product, design and quality functions ensure that every system is usable, reliable and ready for real-world deployment.
+          </p>
+          <div class="org-node-roles">
+            <span class="org-tag-pill">Product Management</span>
+            <span class="org-tag-pill">UI/UX Design</span>
+            <span class="org-tag-pill">QA</span>
+            <span class="org-tag-pill">Software Testing</span>
+            <span class="org-tag-pill">Automation Testing</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- 3. CONNECTING LINES: Capability Nodes → Operations Layer -->
+      <div class="org-connector-wrap org-connector-wrap--converge" aria-hidden="true">
+        <svg class="org-connector" viewBox="0 0 900 48" preserveAspectRatio="none">
+          <path class="org-line org-line--eng" d="M 150,0 C 150,24 450,24 450,48" />
+          <path class="org-line org-line--ai" d="M 450,0 L 450,48" />
+          <path class="org-line org-line--prod" d="M 750,0 C 750,24 450,24 450,48" />
+        </svg>
+      </div>
+
+      <!-- 4. OPERATIONS & BUSINESS INTEGRATION LAYER -->
+      <div class="org-ops-layer">
+        <span class="org-ops-num">05</span>
+        <div class="org-ops-top">
+          <span class="org-ops-badge">05 / OPERATIONS &amp; BUSINESS</span>
+        </div>
+        <h3 class="org-ops-title">Operations &amp; Business Execution</h3>
+        <p class="org-ops-desc">
+          Operations and business teams connect internal execution with enterprise relationships, partnerships, people and day-to-day organizational needs.
+        </p>
+        <div class="org-ops-roles">
+          <span class="org-ops-pill">Operations</span>
+          <span class="org-ops-pill">Business Development</span>
+          <span class="org-ops-pill">Enterprise Partnerships</span>
+          <span class="org-ops-pill">Client Relations</span>
+          <span class="org-ops-pill">HR / Recruitment</span>
+          <span class="org-ops-pill">Administration</span>
+          <span class="org-ops-pill">Project &amp; Program Management</span>
+          <span class="org-ops-pill">Delivery Management</span>
+        </div>
+      </div>
+
+      <!-- 3. CONNECTING LINE: Operations → Production Outcomes -->
+      <div class="org-connector-wrap org-connector-wrap--final" aria-hidden="true">
+        <svg class="org-connector" viewBox="0 0 900 36" preserveAspectRatio="none">
+          <path class="org-line" d="M 450,0 L 450,36" />
+        </svg>
+      </div>
+
+      <!-- 5. PRODUCTION OUTCOMES DESTINATION ELEMENT -->
+      <div class="org-outcomes-layer">
+        <span class="org-outcomes-title">
+          <span class="org-outcomes-dot" aria-hidden="true"></span>
+          Production Outcomes
+        </span>
+        <span class="org-outcomes-item">
+          <span class="org-outcomes-item-icon" aria-hidden="true"></span>
+          Mission-critical deployment
+        </span>
+        <span class="org-outcomes-item">
+          <span class="org-outcomes-item-icon" aria-hidden="true"></span>
+          Continuous reliability
+        </span>
+        <span class="org-outcomes-item">
+          <span class="org-outcomes-item-icon" aria-hidden="true"></span>
+          Real-world delivery
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4C. OUR TECHNOLOGY & CAPABILITIES SECTION
+     Ecosystem Layout: Central Integration Core + Connected Capability Nodes
+     ============================================================ -->
+<section class="about-cap-section" aria-labelledby="capHeading">
+  <div class="about-shell">
+    <div class="about-cap-header">
+      <span class="about-eyebrow about-cap-eyebrow">OUR TECHNOLOGY &amp; CAPABILITIES</span>
+      <h2 id="capHeading" class="about-heading-main about-cap-heading">Technology built for real-world impact.</h2>
+      <p class="about-body-text about-cap-lede">
+        FutureAcad combines artificial intelligence, software engineering, research and product thinking to build intelligent systems designed for real-world environments.
+      </p>
+    </div>
+
+    <!-- CAPABILITY ECOSYSTEM CONTAINER -->
+    <div class="about-cap-ecosystem">
+      <!-- Deep-Tech Background Grid & Technical Coordinate Markings -->
+      <div class="about-cap-grid-bg" aria-hidden="true"></div>
+      <span class="about-cap-crosshair about-cap-crosshair--tl" aria-hidden="true"></span>
+      <span class="about-cap-crosshair about-cap-crosshair--tr" aria-hidden="true"></span>
+      <span class="about-cap-crosshair about-cap-crosshair--bl" aria-hidden="true"></span>
+      <span class="about-cap-crosshair about-cap-crosshair--br" aria-hidden="true"></span>
+
+      <div class="cap-grid">
+        <!-- 01 — ARTIFICIAL INTELLIGENCE (TOP) -->
+        <div class="cap-cell cap-cell--top">
+          <article class="cap-card cap-card--ai" data-cap="01">
+            <div class="cap-card-top">
+              <span class="cap-card-tag">01 / CAPABILITY</span>
+              <span class="cap-indicator cap-indicator--ai" aria-hidden="true"></span>
+            </div>
+            <h3 class="cap-title">Artificial Intelligence</h3>
+            <p class="cap-desc">
+              Machine learning, generative AI, AI agents and intelligent automation.
+            </p>
+          </article>
+          <div class="cap-stem cap-stem--vert" aria-hidden="true">
+            <svg class="cap-stem-svg" viewBox="0 0 2 48" preserveAspectRatio="none">
+              <line x1="1" y1="48" x2="1" y2="0" class="cap-line cap-line--ai" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- 04 — RESEARCH & INNOVATION (LEFT) -->
+        <div class="cap-cell cap-cell--left">
+          <article class="cap-card cap-card--research" data-cap="04">
+            <div class="cap-card-top">
+              <span class="cap-card-tag">04 / CAPABILITY</span>
+              <span class="cap-indicator cap-indicator--research" aria-hidden="true"></span>
+            </div>
+            <h3 class="cap-title">Research &amp; Innovation</h3>
+            <p class="cap-desc">
+              Applied research, prototyping, experimentation and emerging technology exploration.
+            </p>
+          </article>
+          <div class="cap-stem cap-stem--horiz cap-stem--horiz-left" aria-hidden="true">
+            <svg class="cap-stem-svg" viewBox="0 0 54 2" preserveAspectRatio="none">
+              <line x1="54" y1="1" x2="0" y2="1" class="cap-line cap-line--research" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- CENTRAL CORE ELEMENT (HUB) -->
+        <div class="cap-cell cap-cell--hub">
+          <div class="cap-hub" id="capHub" aria-label="FutureAcad Integration Core: AI + Engineering">
+            <div class="cap-hub-orbit" aria-hidden="true">
+              <span class="cap-orbit-dot"></span>
+            </div>
+            <div class="cap-hub-core">
+              <span class="cap-hub-kicker">INTEGRATION CORE</span>
+              <span class="cap-hub-brand">FUTURE<strong>ACAD</strong></span>
+              <span class="cap-hub-sub">AI + ENGINEERING</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 — SOFTWARE ENGINEERING (RIGHT) -->
+        <div class="cap-cell cap-cell--right">
+          <div class="cap-stem cap-stem--horiz cap-stem--horiz-right" aria-hidden="true">
+            <svg class="cap-stem-svg" viewBox="0 0 54 2" preserveAspectRatio="none">
+              <line x1="0" y1="1" x2="54" y2="1" class="cap-line cap-line--software" />
+            </svg>
+          </div>
+          <article class="cap-card cap-card--software" data-cap="03">
+            <div class="cap-card-top">
+              <span class="cap-card-tag">03 / CAPABILITY</span>
+              <span class="cap-indicator cap-indicator--software" aria-hidden="true"></span>
+            </div>
+            <h3 class="cap-title">Software Engineering</h3>
+            <p class="cap-desc">
+              Web platforms, backend systems, APIs, cloud-ready architecture and scalable applications.
+            </p>
+          </article>
+        </div>
+
+        <!-- 02 — DATA & INTELLIGENCE (LOWER 1) -->
+        <div class="cap-cell cap-cell--data">
+          <div class="cap-stem cap-stem--vert" aria-hidden="true">
+            <svg class="cap-stem-svg" viewBox="0 0 2 48" preserveAspectRatio="none">
+              <line x1="1" y1="0" x2="1" y2="48" class="cap-line cap-line--data" />
+            </svg>
+          </div>
+          <article class="cap-card cap-card--data" data-cap="02">
+            <div class="cap-card-top">
+              <span class="cap-card-tag">02 / CAPABILITY</span>
+              <span class="cap-indicator cap-indicator--data" aria-hidden="true"></span>
+            </div>
+            <h3 class="cap-title">Data &amp; Intelligence</h3>
+            <p class="cap-desc">
+              Data processing, analytics, knowledge systems, retrieval and decision intelligence.
+            </p>
+          </article>
+        </div>
+
+        <!-- 05 — PRODUCT & EXPERIENCE (LOWER 2) -->
+        <div class="cap-cell cap-cell--product">
+          <div class="cap-stem cap-stem--vert" aria-hidden="true">
+            <svg class="cap-stem-svg" viewBox="0 0 2 48" preserveAspectRatio="none">
+              <line x1="1" y1="0" x2="1" y2="48" class="cap-line cap-line--product" />
+            </svg>
+          </div>
+          <article class="cap-card cap-card--product" data-cap="05">
+            <div class="cap-card-top">
+              <span class="cap-card-tag">05 / CAPABILITY</span>
+              <span class="cap-indicator cap-indicator--product" aria-hidden="true"></span>
+            </div>
+            <h3 class="cap-title">Product &amp; Experience</h3>
+            <p class="cap-desc">
+              Product strategy, UX/UI design, product engineering and continuous improvement.
+            </p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4D. WHAT WE BUILD SECTION
+     Editorial Case-Study Panels with Alternating Visuals & Scroll Progress
+     ============================================================ -->
+<section class="about-build-section" aria-labelledby="buildHeading">
+  <!-- Subtle visual transition connector from Capabilities -->
+  <div class="about-build-transition" aria-hidden="true">
+    <span class="about-build-trans-line"></span>
+  </div>
+
+  <div class="about-shell">
+    <div class="about-build-header-wrap">
+      <div class="about-build-header">
+        <span class="about-eyebrow about-build-eyebrow">WHAT WE BUILD</span>
+        <h2 id="buildHeading" class="about-heading-main about-build-heading">From ideas to intelligent systems.</h2>
+        <p class="about-body-text about-build-lede">
+          FutureAcad turns emerging technologies and deep technical expertise into products, platforms and intelligent systems designed for real-world use.
+        </p>
+      </div>
+
+      <!-- Subtle Progress Indicator Tracker -->
+      <div class="about-build-progress" aria-hidden="true">
+        <div class="build-prog-item is-active" data-panel="01">
+          <span class="build-prog-no">01</span>
+          <span class="build-prog-bar"></span>
+        </div>
+        <div class="build-prog-item" data-panel="02">
+          <span class="build-prog-no">02</span>
+          <span class="build-prog-bar"></span>
+        </div>
+        <div class="build-prog-item" data-panel="03">
+          <span class="build-prog-no">03</span>
+          <span class="build-prog-bar"></span>
+        </div>
+        <div class="build-prog-item" data-panel="04">
+          <span class="build-prog-no">04</span>
+          <span class="build-prog-bar"></span>
+        </div>
+        <div class="build-prog-item" data-panel="05">
+          <span class="build-prog-no">05</span>
+          <span class="build-prog-bar"></span>
+        </div>
+        <div class="build-prog-item" data-panel="06">
+          <span class="build-prog-no">06</span>
+          <span class="build-prog-bar"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Showcase Stack -->
+    <div class="about-build-stack">
+      <!-- PRODUCT 01: OMNIS (TEXT LEFT → VISUAL RIGHT) -->
+      <article class="build-panel" id="build-panel-01" data-index="01" style="--panel-accent: #147C8F; --panel-tint: #F3F9FA;">
+        <div class="build-panel__accent-line" aria-hidden="true"></div>
+        <div class="build-panel__content">
+          <div class="build-panel__kicker">
+            <span class="build-panel__no">01 / PLATFORM</span>
+            <span class="build-panel__status">
+              <span class="build-panel__status-dot" aria-hidden="true"></span>
+              LIVE PLATFORM
+            </span>
+          </div>
+          <h3 class="build-panel__title">Omnis</h3>
+          <p class="build-panel__desc">
+            A secure enterprise LLM orchestration platform unifying custom models, internal knowledge, and workflow automation.
+          </p>
+          <div class="build-panel__value">
+            <span class="build-panel__value-label">CORE PURPOSE</span>
+            <p class="build-panel__value-text">
+              Provides sovereign enterprise AI governance, private document retrieval, and reliable multi-agent execution in production.
+            </p>
+          </div>
+          <div class="build-panel__tags">
+            <span class="build-tag">AI</span>
+            <span class="build-tag">LLM ORCHESTRATION</span>
+            <span class="build-tag">ENTERPRISE</span>
+          </div>
+          <div class="build-panel__actions">
+            <a href="https://rooman.com/omnis/" target="_blank" rel="noopener" class="build-panel__btn">
+              <span>Explore Platform</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="build-panel__visual">
+          <div class="build-visual-frame">
+            <div class="build-visual-bar" aria-hidden="true">
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-url">omnis.rooman.com</span>
+            </div>
+            <div class="build-visual-img-wrap">
+              <img src="{{ url_for('static', filename='img/platforms/omnis.jpg') }}" alt="Omnis Enterprise LLM Platform Interface" loading="lazy" decoding="async" width="1280" height="800" />
+              <div class="build-visual-overlay" aria-hidden="true">
+                <span class="build-overlay-badge">
+                  <span class="build-overlay-dot"></span>
+                  SYSTEM ACTIVE
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PRODUCT 02: HIREAI (VISUAL LEFT → TEXT RIGHT) -->
+      <article class="build-panel build-panel--reverse" id="build-panel-02" data-index="02" style="--panel-accent: #E06D53; --panel-tint: #FDF6F4;">
+        <div class="build-panel__accent-line" aria-hidden="true"></div>
+        <div class="build-panel__content">
+          <div class="build-panel__kicker">
+            <span class="build-panel__no">02 / PLATFORM</span>
+            <span class="build-panel__status">
+              <span class="build-panel__status-dot" aria-hidden="true"></span>
+              LIVE PLATFORM
+            </span>
+          </div>
+          <h3 class="build-panel__title">HireAI</h3>
+          <p class="build-panel__desc">
+            AI-powered technical interviewing platform assessing engineer competencies in real time through conversational voice agents.
+          </p>
+          <div class="build-panel__value">
+            <span class="build-panel__value-label">CORE PURPOSE</span>
+            <p class="build-panel__value-text">
+              Automates comprehensive coding evaluations, system design questioning, and cognitive problem-solving analysis at enterprise scale.
+            </p>
+          </div>
+          <div class="build-panel__tags">
+            <span class="build-tag">VOICE AGENTS</span>
+            <span class="build-tag">ASSESSMENT</span>
+            <span class="build-tag">AUTOMATION</span>
+          </div>
+          <div class="build-panel__actions">
+            <a href="https://hireai.rooman.com/" target="_blank" rel="noopener" class="build-panel__btn">
+              <span>Explore Platform</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="build-panel__visual">
+          <div class="build-visual-frame">
+            <div class="build-visual-bar" aria-hidden="true">
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-url">hireai.rooman.com</span>
+            </div>
+            <div class="build-visual-img-wrap">
+              <img src="{{ url_for('static', filename='img/platforms/hireai.jpg') }}" alt="HireAI Technical Interviewing Platform Interface" loading="lazy" decoding="async" width="1280" height="800" />
+              <div class="build-visual-overlay" aria-hidden="true">
+                <span class="build-overlay-badge">
+                  <span class="build-overlay-dot"></span>
+                  SYSTEM ACTIVE
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PRODUCT 03: AI TUTOR (TEXT LEFT → VISUAL RIGHT) -->
+      <article class="build-panel" id="build-panel-03" data-index="03" style="--panel-accent: #2563EB; --panel-tint: #F4F7FD;">
+        <div class="build-panel__accent-line" aria-hidden="true"></div>
+        <div class="build-panel__content">
+          <div class="build-panel__kicker">
+            <span class="build-panel__no">03 / PLATFORM</span>
+            <span class="build-panel__status">
+              <span class="build-panel__status-dot" aria-hidden="true"></span>
+              LIVE PLATFORM
+            </span>
+          </div>
+          <h3 class="build-panel__title">AI Tutor</h3>
+          <p class="build-panel__desc">
+            Intelligent tutoring engine delivering 1-on-1 personalized educational curricula and real-time concept clarifications.
+          </p>
+          <div class="build-panel__value">
+            <span class="build-panel__value-label">CORE PURPOSE</span>
+            <p class="build-panel__value-text">
+              Dynamically tailors learning progression, detects knowledge gaps, and provides interactive, guided programming mentoring.
+            </p>
+          </div>
+          <div class="build-panel__tags">
+            <span class="build-tag">ADAPTIVE AI</span>
+            <span class="build-tag">EDUCATION</span>
+            <span class="build-tag">INTELLIGENCE</span>
+          </div>
+          <div class="build-panel__actions">
+            <a href="https://rooman.com/ai-tutor/" target="_blank" rel="noopener" class="build-panel__btn">
+              <span>Explore Platform</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="build-panel__visual">
+          <div class="build-visual-frame">
+            <div class="build-visual-bar" aria-hidden="true">
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-url">rooman.com/ai-tutor</span>
+            </div>
+            <div class="build-visual-img-wrap">
+              <img src="{{ url_for('static', filename='img/platforms/ai-tutor.jpg') }}" alt="AI Tutor Adaptive Learning Platform Interface" loading="lazy" decoding="async" width="1280" height="800" />
+              <div class="build-visual-overlay" aria-hidden="true">
+                <span class="build-overlay-badge">
+                  <span class="build-overlay-dot"></span>
+                  SYSTEM ACTIVE
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PRODUCT 04: STARTUP VARSITY (VISUAL LEFT → TEXT RIGHT) -->
+      <article class="build-panel build-panel--reverse" id="build-panel-04" data-index="04" style="--panel-accent: #059669; --panel-tint: #F3FAF6;">
+        <div class="build-panel__accent-line" aria-hidden="true"></div>
+        <div class="build-panel__content">
+          <div class="build-panel__kicker">
+            <span class="build-panel__no">04 / PLATFORM</span>
+            <span class="build-panel__status">
+              <span class="build-panel__status-dot" aria-hidden="true"></span>
+              LIVE PLATFORM
+            </span>
+          </div>
+          <h3 class="build-panel__title">Startup Varsity</h3>
+          <p class="build-panel__desc">
+            Interactive platform mentoring prospective founders from initial idea validation to venture scaling and capitalization.
+          </p>
+          <div class="build-panel__value">
+            <span class="build-panel__value-label">CORE PURPOSE</span>
+            <p class="build-panel__value-text">
+              Provides structured founder pathways, venture readiness frameworks, investor matchmaking, and hands-on venture incubation.
+            </p>
+          </div>
+          <div class="build-panel__tags">
+            <span class="build-tag">EDUCATION</span>
+            <span class="build-tag">VENTURE ACCELERATOR</span>
+            <span class="build-tag">ECOSYSTEM</span>
+          </div>
+          <div class="build-panel__actions">
+            <a href="https://www.startupvarsity.com/" target="_blank" rel="noopener" class="build-panel__btn">
+              <span>Explore Platform</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="build-panel__visual">
+          <div class="build-visual-frame">
+            <div class="build-visual-bar" aria-hidden="true">
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-url">startupvarsity.com</span>
+            </div>
+            <div class="build-visual-img-wrap">
+              <img src="{{ url_for('static', filename='img/platforms/startup-varsity.jpg') }}" alt="Startup Varsity Entrepreneurship Platform Interface" loading="lazy" decoding="async" width="1280" height="800" />
+              <div class="build-visual-overlay" aria-hidden="true">
+                <span class="build-overlay-badge">
+                  <span class="build-overlay-dot"></span>
+                  SYSTEM ACTIVE
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PRODUCT 05: BLUELINKED (TEXT LEFT → VISUAL RIGHT) -->
+      <article class="build-panel" id="build-panel-05" data-index="05" style="--panel-accent: #7C3AED; --panel-tint: #F8F5FF;">
+        <div class="build-panel__accent-line" aria-hidden="true"></div>
+        <div class="build-panel__content">
+          <div class="build-panel__kicker">
+            <span class="build-panel__no">05 / APPLICATION</span>
+            <span class="build-panel__status">
+              <span class="build-panel__status-dot" aria-hidden="true"></span>
+              LIVE PLATFORM
+            </span>
+          </div>
+          <h3 class="build-panel__title">BlueLinked</h3>
+          <p class="build-panel__desc">
+            Voice-driven profile generator bridging employment opportunities for blue-collar professionals through conversational AI.
+          </p>
+          <div class="build-panel__value">
+            <span class="build-panel__value-label">CORE PURPOSE</span>
+            <p class="build-panel__value-text">
+              Translates multilingual spoken audio into structured, recruiter-ready professional resumes without requiring manual typing.
+            </p>
+          </div>
+          <div class="build-panel__tags">
+            <span class="build-tag">VOICE AI</span>
+            <span class="build-tag">MULTILINGUAL</span>
+            <span class="build-tag">EMPLOYMENT</span>
+          </div>
+          <div class="build-panel__actions">
+            <a href="https://rooman.com/bluelinked/" target="_blank" rel="noopener" class="build-panel__btn">
+              <span>Explore Platform</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="build-panel__visual">
+          <div class="build-visual-frame">
+            <div class="build-visual-bar" aria-hidden="true">
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-url">rooman.com/bluelinked</span>
+            </div>
+            <div class="build-visual-img-wrap">
+              <img src="{{ url_for('static', filename='img/platforms/bluelinked.jpg') }}" alt="BlueLinked Voice-to-Resume Platform Interface" loading="lazy" decoding="async" width="1280" height="800" />
+              <div class="build-visual-overlay" aria-hidden="true">
+                <span class="build-overlay-badge">
+                  <span class="build-overlay-dot"></span>
+                  SYSTEM ACTIVE
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PRODUCT 06: ENTERPRISE CRM & ERP (VISUAL LEFT → TEXT RIGHT) -->
+      <article class="build-panel build-panel--reverse" id="build-panel-06" data-index="06" style="--panel-accent: #004858; --panel-tint: #F2F7F8;">
+        <div class="build-panel__accent-line" aria-hidden="true"></div>
+        <div class="build-panel__content">
+          <div class="build-panel__kicker">
+            <span class="build-panel__no">06 / PLATFORM</span>
+            <span class="build-panel__status">
+              <span class="build-panel__status-dot" aria-hidden="true"></span>
+              LIVE PLATFORM
+            </span>
+          </div>
+          <h3 class="build-panel__title">Enterprise CRM &amp; ERP</h3>
+          <p class="build-panel__desc">
+            Custom mission-critical customer management and resource planning platforms handling high-throughput enterprise operations.
+          </p>
+          <div class="build-panel__value">
+            <span class="build-panel__value-label">CORE PURPOSE</span>
+            <p class="build-panel__value-text">
+              Unifies enterprise client records, multi-department operational resources, financial ledgers, and secure role-based governance.
+            </p>
+          </div>
+          <div class="build-panel__tags">
+            <span class="build-tag">CLOUD ARCHITECTURE</span>
+            <span class="build-tag">DATABASES</span>
+            <span class="build-tag">WORKFLOW ENGINE</span>
+          </div>
+          <div class="build-panel__actions">
+            <a href="https://crm.rooman.net/" target="_blank" rel="noopener" class="build-panel__btn">
+              <span>Explore Platform</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="build-panel__visual">
+          <div class="build-visual-frame">
+            <div class="build-visual-bar" aria-hidden="true">
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-url">crm.rooman.net</span>
+            </div>
+            <div class="build-visual-img-wrap">
+              <img src="{{ url_for('static', filename='img/platforms/crm.jpg') }}" alt="Enterprise CRM &amp; ERP Management Platform Interface" loading="lazy" decoding="async" width="1280" height="800" />
+              <div class="build-visual-overlay" aria-hidden="true">
+                <span class="build-overlay-badge">
+                  <span class="build-overlay-dot"></span>
+                  SYSTEM ACTIVE
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -2081,6 +4737,117 @@
       });
     }, { threshold: 0.22 });
     io.observe(g);
+  })();
+
+  /* ---- Team & Management section: entrance, connecting flow and sequential cards trigger ---- */
+  (function () {
+    const s = document.querySelector('.about-team-section');
+    if (!s) return;
+    if (!('IntersectionObserver' in window)) { s.classList.add('is-lit'); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        s.classList.add('is-lit');
+        io.disconnect();
+      });
+    }, { threshold: 0.15 });
+    io.observe(s);
+  })();
+
+  /* ---- Technology & Capabilities section: entrance & subtle parallax ---- */
+  (function () {
+    const s = document.querySelector('.about-cap-section');
+    if (!s) return;
+
+    if (!('IntersectionObserver' in window)) {
+      s.classList.add('is-lit');
+      return;
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        s.classList.add('is-lit');
+        io.disconnect();
+      });
+    }, { threshold: 0.15 });
+    io.observe(s);
+
+    // Subtle scroll parallax
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced || window.innerWidth <= 980) return;
+
+    const hub = s.querySelector('.cap-hub');
+    const cards = s.querySelectorAll('.cap-card');
+    if (!hub || !cards.length) return;
+
+    let ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const rect = s.getBoundingClientRect();
+          const vh = window.innerHeight;
+          if (rect.top < vh && rect.bottom > 0) {
+            const progress = (vh - rect.top) / (vh + rect.height) * 2 - 1;
+            const hubY = progress * -4.5;
+            const cardsY = progress * 3.5;
+            hub.style.setProperty('--hub-parallax-y', hubY.toFixed(1) + 'px');
+            cards.forEach(c => c.style.setProperty('--card-parallax-y', cardsY.toFixed(1) + 'px'));
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+
+  /* ---- What We Build section: panels entrance & scroll progress tracker ---- */
+  (function () {
+    const s = document.querySelector('.about-build-section');
+    if (!s) return;
+
+    if (!('IntersectionObserver' in window)) {
+      s.classList.add('is-lit');
+      s.querySelectorAll('.build-panel').forEach(p => p.classList.add('is-lit'));
+      return;
+    }
+
+    // Header entrance
+    const headIo = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        s.classList.add('is-lit');
+        headIo.disconnect();
+      });
+    }, { threshold: 0.15 });
+    headIo.observe(s);
+
+    // Panels sequential entrance
+    const panels = s.querySelectorAll('.build-panel');
+    const panelIo = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-lit');
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+    panels.forEach(p => panelIo.observe(p));
+
+    // Progress bar active item tracking
+    const progItems = s.querySelectorAll('.build-prog-item');
+    if (progItems.length) {
+      const progIo = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const idx = e.target.getAttribute('data-index');
+          progItems.forEach(item => {
+            item.classList.toggle('is-active', item.getAttribute('data-panel') === idx);
+          });
+        });
+      }, { threshold: 0.5 });
+      panels.forEach(p => progIo.observe(p));
+    }
   })();
 </script>
 {% endblock %}

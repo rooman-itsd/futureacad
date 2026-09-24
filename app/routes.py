@@ -1,7 +1,7 @@
 """Public site routes + contact API."""
 import re
 
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, jsonify, redirect, render_template, request
 
 from . import db
 from .data import PROJECTS, get_journey_icons, get_partners
@@ -88,3 +88,28 @@ def api_contact():
 @main.route("/healthz")
 def healthz():
     return jsonify(status="ok"), 200
+
+
+# Platform redirects — forwards local routes to their respective live platform websites
+PLATFORM_REDIRECTS = {
+    "omnis": "https://rooman.com/omnis/",
+    "hireai": "https://hireai.rooman.com/",
+    "ai-tutor": "https://rooman.com/ai-tutor/",
+    "bluelinked": "https://rooman.com/bluelinked/",
+    "crm": "https://crm.rooman.net/",
+    "erp": "https://erp.rooman.net/",
+}
+
+@main.route("/omnis")
+@main.route("/hireai")
+@main.route("/ai-tutor")
+@main.route("/bluelinked")
+@main.route("/crm")
+@main.route("/erp")
+def handle_platform_redirect():
+    slug = request.path.strip("/")
+    target = PLATFORM_REDIRECTS.get(slug)
+    if target:
+        return redirect(target, code=302)
+    return jsonify(error="Not found"), 404
+

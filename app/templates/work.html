@@ -85,6 +85,17 @@
     color: #C9D3E2;
     font-weight: 300;
   }
+  .stats--work {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: clamp(16px, 3vw, 56px) !important;
+    align-items: start !important;
+  }
+  @media (max-width: 640px) {
+    .stats--work {
+      grid-template-columns: 1fr !important;
+    }
+  }
 </style>
 {% endblock %}
 
@@ -113,10 +124,22 @@
   </div>
 </section>
 
-<section class="stats">
-  <div class="stat reveal-up"><span class="stat__n" data-count="38" data-prefix="+" data-suffix="%">+38%</span><span class="stat__l">Retail revenue uplift · UAE</span></div>
-  <div class="stat reveal-up"><span class="stat__n" data-count="61" data-prefix="−" data-suffix="%">−61%</span><span class="stat__l">Manual hours · KSA logistics</span></div>
-  <div class="stat reveal-up"><span class="stat__n" data-count="4.2" data-decimals="1" data-suffix="M">4.2M</span><span class="stat__l">Daily LLM decisions · EU fintech</span></div>
+<section class="stats stats--work" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,3vw,56px);align-items:start">
+  <div class="stat reveal-up">
+    <div class="stat__n" style="display:flex;align-items:baseline;gap:8px;white-space:nowrap">
+      <span data-count="38" data-prefix="+" data-suffix="%">+38%</span>
+      <span style="font-size:0.35em;letter-spacing:0.12em;font-weight:700;font-family:var(--mono);color:var(--c-ink-soft);vertical-align:baseline">PROJECTED</span>
+    </div>
+    <span class="stat__l">Projected revenue uplift through autonomous AI demand forecasting · Retail UAE</span>
+  </div>
+  <div class="stat reveal-up">
+    <div class="stat__n"><span data-count="61" data-prefix="−" data-suffix="%">−61%</span></div>
+    <span class="stat__l">Manual hours · KSA logistics</span>
+  </div>
+  <div class="stat reveal-up">
+    <div class="stat__n"><span data-count="4.2" data-decimals="1" data-suffix="M">4.2M</span></div>
+    <span class="stat__l">Daily LLM decisions · EU fintech</span>
+  </div>
 </section>
 
 <section class="section fa-feature-section">
@@ -124,15 +147,14 @@
 
     <div class="fa-feature__panel">
       <span class="fa-feature__kicker">THE NETWORK BEHIND IT</span>
-      <h2 class="fa-feature__title">Backed by 25 years.</h2>
-      <p class="fa-feature__lede">Every FutureAcad build stands on a quarter-century engineering
-        network — the one that trains, certifies and places talent across the world.</p>
+      <h2 class="fa-feature__title">Established in 2025.</h2>
+      <p class="fa-feature__lede">FutureAcad was established in 2025 as a deep tech startup, launching proprietary products engineered to empower enterprises and global talent.</p>
       <ul class="fa-feature__marks" aria-label="Technology partners">
         <li>Microsoft</li><li>Cisco</li><li>AWS</li>
         <li>Google</li><li>Red&nbsp;Hat</li><li>VMware</li>
       </ul>
       <a class="fa-feature__link" href="{{ url_for('main.about') }}">
-        <span>How that heritage shows up</span>
+        <span>Our startup journey</span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
@@ -151,8 +173,8 @@
         <span class="stat__l fa-fact__l">International markets</span>
       </div>
       <div class="fa-fact stat">
-        <span class="stat__n fa-fact__n" data-count="25" data-suffix="+">25+</span>
-        <span class="stat__l fa-fact__l">Years of engineering heritage</span>
+        <span class="stat__n fa-fact__n" data-count="2025">2025</span>
+        <span class="stat__l fa-fact__l">Established startup</span>
       </div>
     </div>
 
@@ -384,7 +406,7 @@
 
     // Stat counters
     document.querySelectorAll('.stats').forEach(function (statSection) {
-      var countEls = statSection.querySelectorAll('.stat__n[data-count]');
+      var countEls = statSection.querySelectorAll('[data-count]');
       if (!countEls.length) return;
 
       ScrollTrigger.create({
