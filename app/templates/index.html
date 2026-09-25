@@ -4,6 +4,26 @@
    wraps only the post-hero sections in .fa-canvas itself. #}
 {% block main_class %}{% endblock %}
 
+{% block head %}
+<style>
+  /* Remove blue glows and glowing shadows around all cards on the landing page */
+  .fa-card,
+  .fa-card:hover,
+  .fa-card--feature,
+  .fa-card--feature:hover,
+  .fa-eco__card,
+  .fa-eco__card:hover,
+  [data-glow],
+  [data-glow]:hover {
+    box-shadow: none !important;
+  }
+  [data-glow]::before,
+  [data-glow]::after {
+    display: none !important;
+  }
+</style>
+{% endblock %}
+
 {% block preloader %}
 <div class="preloader" id="preloader">
   <img class="preloader__logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="FutureAcad" />
@@ -449,7 +469,7 @@
 
       <div class="fa-eco">
         {% for p in projects %}
-        <a class="fa-card fa-eco__card" data-glow href="{{ p.url }}" target="_blank" rel="noopener" data-bento>
+        <a class="fa-card fa-eco__card" href="{{ p.url }}" target="_blank" rel="noopener" data-bento>
           {% if p.img %}
           <span class="fa-eco__shot">
             <img src="{{ url_for('static', filename=p.img) }}" alt="{{ p.name }} — live product screenshot" loading="lazy" />
