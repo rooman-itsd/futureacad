@@ -566,22 +566,19 @@ html.is-touch .nav__links{-webkit-backdrop-filter:none;backdrop-filter:none}
 .fa-why__grid .fa-card::before{content:"";position:absolute;top:0;left:0;
   height:3px;width:28px;background:var(--wy-accent);
   transition:width .45s var(--ease);z-index:2}
-.fa-why__grid .fa-card::after{content:"";position:absolute;top:-80px;right:-80px;
-  width:200px;height:200px;border-radius:50%;background:var(--wy-accent);
-  opacity:.08;filter:blur(40px);pointer-events:none;
-  animation:whyCardDrift 11s ease-in-out infinite alternate}
+.fa-why__grid .fa-card::after{display:none!important}
 @keyframes whyCardDrift{
   from{transform:translate3d(0,0,0) scale(1)}
   to{transform:translate3d(-30px,26px,0) scale(1.2)}}
 .fa-why__grid .fa-card:hover{transform:translateY(-6px);border-color:var(--wy-accent);
-  box-shadow:0 2px 6px rgba(23,52,61,.05),0 22px 46px -24px rgba(0,72,88,.45)}
+  box-shadow:none}
 .fa-why__grid .fa-card:hover::before{width:100%}
-.fa-why__grid .fa-card:hover::after{animation-duration:3.6s;opacity:.15}
+.fa-why__grid .fa-card:hover::after{display:none!important}
 .fa-why__grid .fa-card > *{position:relative;z-index:1}
 .fa-why__grid .fa-card__icon{color:var(--wy-accent);border-color:var(--wy-accent);
   transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
 .fa-why__grid .fa-card:hover .fa-card__icon{transform:rotate(-6deg) scale(1.08);
-  box-shadow:0 8px 18px -8px rgba(0,72,88,.5)}
+  box-shadow:none}
 .fa-why__grid .fa-card .fa-h4{color:var(--wy-title)}
 .fa-why__grid .fa-card .fa-p{color:var(--wy-body)}
 @media(prefers-reduced-motion:reduce){
@@ -918,14 +915,14 @@ body.nav-open .nav__toggle span{background:var(--pearl)}
    page instead of reading as outlines on flat ground.
    ============================================================ */
 
-/* ---- Depth: two-layer shadow, tight + soft ---- */
-.fa-card,.pillar{box-shadow:0 1px 2px rgba(23,52,61,.05),0 10px 26px -18px rgba(0,96,120,.30)}
-.fa-card:hover,.pillar:hover{box-shadow:0 2px 6px rgba(23,52,61,.07),0 22px 44px -22px rgba(0,96,120,.42)}
-.fa-row__media,.fa-journey{box-shadow:0 2px 8px rgba(23,52,61,.06),0 26px 54px -30px rgba(0,96,120,.34)}
+/* ---- Depth: clean surface without blue glow ---- */
+.fa-card,.pillar{box-shadow:none}
+.fa-card:hover,.pillar:hover{box-shadow:none}
+.fa-row__media,.fa-journey{box-shadow:0 2px 8px rgba(23,52,61,.06),0 16px 36px -20px rgba(0,0,0,.08)}
 
 /* ---- Featured card: the brand gradient ---- */
 .fa-card--feature{background:linear-gradient(145deg,#006078 0%,#00556B 45%,#004858 100%);
-  border-color:#004858;box-shadow:0 3px 10px rgba(23,52,61,.10),0 28px 56px -26px rgba(0,72,88,.62)}
+  border-color:#004858;box-shadow:none}
 .fa-card--feature:hover{background:linear-gradient(145deg,#00687F 0%,#005B71 45%,#004E5E 100%)}
 
 /* ---- Sky-tinted card, so Sky Blue appears as a surface not just a line ---- */
@@ -1251,38 +1248,9 @@ html.is-touch .fa-card:hover,html.is-touch .pillar:hover{box-shadow:0 1px 2px rg
    else is a conic gradient masked down to the border ring, so it
    composites without touching the card's own background.
    ============================================================ */
-[data-glow]{--cursor-angle:0deg;--edge-proximity:0;--cone-spread:26;
-  --glow-a:rgba(130,186,196,.95);--glow-b:rgba(0,96,120,.55);
-  position:relative}
-[data-glow]::after{content:"";position:absolute;inset:-1px;border-radius:inherit;
-  padding:1.6px;pointer-events:none;z-index:3;
-  background:conic-gradient(from calc(var(--cursor-angle) - (var(--cone-spread) * 1deg)),
-    transparent 0deg,
-    var(--glow-b) calc(var(--cone-spread) * .55deg),
-    var(--glow-a) calc(var(--cone-spread) * 1deg),
-    var(--glow-b) calc(var(--cone-spread) * 1.45deg),
-    transparent calc(var(--cone-spread) * 2deg));
-  /* Punch the middle out so only the ring paints. */
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;
-  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  mask-composite:exclude;
-  opacity:calc(var(--edge-proximity) / 100);
-  transition:opacity .3s ease}
-/* The bloom that spills outside the rim. */
-[data-glow]::before{content:"";position:absolute;inset:-7px;border-radius:inherit;
-  pointer-events:none;z-index:0;filter:blur(11px);
-  background:conic-gradient(from calc(var(--cursor-angle) - (var(--cone-spread) * 1deg)),
-    transparent 0deg,
-    var(--glow-a) calc(var(--cone-spread) * 1deg),
-    transparent calc(var(--cone-spread) * 2deg));
-  opacity:calc(var(--edge-proximity) / 260);
-  transition:opacity .3s ease}
-/* Warm rim for the cards that already carry a warm accent. */
-[data-glow].glow--warm{--glow-a:rgba(227,124,120,.95);--glow-b:rgba(184,51,45,.5)}
-@media(prefers-reduced-motion:reduce){
-  [data-glow]::before,[data-glow]::after{display:none}
-}
+/* Border glow disabled — no blue glow on hover */
+[data-glow]{position:relative}
+[data-glow]::before,[data-glow]::after{display:none!important}
 
 /* ============================================================
    Particle field
@@ -1425,7 +1393,7 @@ html.is-touch .fa-card:hover,html.is-touch .pillar:hover{box-shadow:0 1px 2px rg
   width:26px;height:3px;border-radius:2px;background:var(--ft-accent);
   transition:width .45s var(--ease)}
 .fa-fact.stat:hover{transform:translateY(-5px);
-  box-shadow:0 2px 6px rgba(23,52,61,.05),0 20px 42px -24px rgba(0,72,88,.45)}
+  box-shadow:none}
 .fa-fact.stat:hover::before{width:calc(100% - 2 * clamp(20px,2vw,28px))}
 .fa-fact__n{font-family:Georgia,"Times New Roman",serif;font-size:clamp(34px,3.6vw,52px);
   font-weight:400;line-height:1;letter-spacing:-.02em;color:var(--ft-accent);
@@ -1587,7 +1555,7 @@ html.is-touch .fa-card:hover,html.is-touch .pillar:hover{box-shadow:0 1px 2px rg
   background:var(--c-coral);transition:width .45s var(--ease)}
 .build-card:hover,.build-card:focus-within{transform:translateY(-5px);
   border-color:var(--c-primary);
-  box-shadow:0 2px 6px rgba(23,52,61,.07),0 22px 44px -22px rgba(0,96,120,.45)}
+  box-shadow:none}
 .build-card:hover::after,.build-card:focus-within::after{width:100%}
 .build-card:hover::before,.build-card:focus-within::before{opacity:.2;transform:translateY(-4px)}
 .build-card__eyebrow{position:relative;display:inline-flex;align-items:center;gap:8px}
@@ -1626,7 +1594,7 @@ html.is-touch .fa-card:hover,html.is-touch .pillar:hover{box-shadow:0 1px 2px rg
   transition:transform .28s var(--ease),border-color .28s var(--ease),
              background .28s var(--ease),box-shadow .28s var(--ease)}
 .svc-card:hover,.svc-card:focus-visible{transform:translateY(-4px);border-color:var(--c-primary);
-  background:var(--c-soft);box-shadow:0 2px 6px rgba(23,52,61,.06),0 18px 38px -22px rgba(0,96,120,.4)}
+  background:var(--c-soft);box-shadow:none}
 .svc-card:focus-visible{outline:2px solid var(--c-primary);outline-offset:3px}
 
 .svc-card__tag{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.16em;

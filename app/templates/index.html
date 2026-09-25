@@ -6,20 +6,30 @@
 
 {% block head %}
 <style>
-  /* Remove blue glows and glowing shadows around all cards on the landing page */
+  /* Completely eliminate any blue glow, halo or hover shadow around cards on landing page */
   .fa-card,
   .fa-card:hover,
   .fa-card--feature,
   .fa-card--feature:hover,
   .fa-eco__card,
   .fa-eco__card:hover,
+  .pillar,
+  .pillar:hover,
+  .fa-why__grid .fa-card,
+  .fa-why__grid .fa-card:hover,
+  .fa-why__grid .fa-card__icon,
+  .fa-why__grid .fa-card:hover .fa-card__icon,
   [data-glow],
   [data-glow]:hover {
     box-shadow: none !important;
   }
+  .fa-why__grid .fa-card::after,
+  .fa-why__grid .fa-card:hover::after,
   [data-glow]::before,
   [data-glow]::after {
     display: none !important;
+    opacity: 0 !important;
+    filter: none !important;
   }
 </style>
 {% endblock %}
