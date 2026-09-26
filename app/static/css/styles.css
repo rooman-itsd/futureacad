@@ -46,7 +46,7 @@ a{color:inherit;text-decoration:none}
   align-items:center;justify-content:center;gap:22px;transition:opacity 1s var(--ease),visibility 1s}
 .preloader.done{opacity:0;visibility:hidden}
 .preloader__logo{width:min(300px,62vw);height:auto;margin-bottom:8px;
-  filter:drop-shadow(0 0 42px rgba(61,124,255,.35));animation:prePulse 2.2s var(--ease) infinite}
+  animation:prePulse 2.2s var(--ease) infinite}
 @keyframes prePulse{0%,100%{opacity:.6}50%{opacity:1}}
 .preloader__bar{width:220px;height:1px;background:rgba(160,185,255,.15);overflow:hidden}
 .preloader__bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--blue-bright))}
@@ -182,7 +182,7 @@ body.nav-open .nav__toggle span:nth-child(3){transform:translateY(-6.5px) rotate
 /* ---------- Progress rail ---------- */
 .progress{position:fixed;top:0;left:0;width:100%;height:2px;z-index:200;background:transparent}
 .progress span{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left center;
-  background:linear-gradient(90deg,var(--blue),var(--blue-bright));box-shadow:0 0 12px var(--blue-bright)}
+  background:linear-gradient(90deg,var(--blue),var(--blue-bright));box-shadow:none}
 
 /* ---------- Reveal helpers ---------- */
 .reveal-up{opacity:0;transform:translateY(40px)}
@@ -738,7 +738,7 @@ html.is-touch .fa-card:hover{transform:none}
   -webkit-backdrop-filter:saturate(170%) blur(16px);
   backdrop-filter:saturate(170%) blur(16px);
   border-bottom:1px solid rgba(0,96,120,.20);
-  box-shadow:0 1px 2px rgba(23,52,61,.04),0 10px 30px -24px rgba(0,72,88,.5)}
+  box-shadow:none}
 /* These were written for the old always-teal bar. They still describe the
    transparent state correctly, which sits over the dark hero, so they are
    scoped to :not(.nav--solid) - otherwise they out-order the light-bar
@@ -788,7 +788,7 @@ body.nav-open .nav__toggle span{background:var(--pearl)}
 .fa-journey__step:nth-child(odd){margin-top:var(--zig)}
 .fa-journey__node{position:relative;width:var(--node);height:var(--node);border-radius:50%;
   background:#fff;border:1px solid var(--c-secondary);display:grid;place-items:center;
-  box-shadow:0 10px 24px -14px rgba(0,96,120,.45);
+  box-shadow:none;
   transition:transform .3s var(--ease),border-color .3s var(--ease)}
 .fa-journey__step:hover .fa-journey__node{transform:translateY(-3px);border-color:var(--c-primary)}
 .fa-journey__node > svg{width:42%;height:42%;color:var(--c-primary)}
@@ -821,7 +821,7 @@ body.nav-open .nav__toggle span{background:var(--pearl)}
 .fa-stack__media img,.fa-stack__media video{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
 .fa-stack__panel{position:relative;z-index:2;margin:-22% 0 0 clamp(18px,4vw,64px);
   background:var(--c-primary);color:#fff;border-radius:var(--fa-r-lg);
-  padding:clamp(24px,2.6vw,36px);box-shadow:0 20px 50px -30px rgba(0,96,120,.6)}
+  padding:clamp(24px,2.6vw,36px);box-shadow:none}
 .fa-stack__panel .fa-h3{color:#fff}
 .fa-stack__panel p{font-size:15.5px;line-height:1.68;color:#DCEAEE;margin:10px 0 0}
 .fa-stack__panel .fa-link{color:#fff;margin-top:16px}
@@ -918,7 +918,7 @@ body.nav-open .nav__toggle span{background:var(--pearl)}
 /* ---- Depth: clean surface without blue glow ---- */
 .fa-card,.pillar{box-shadow:none}
 .fa-card:hover,.pillar:hover{box-shadow:none}
-.fa-row__media,.fa-journey{box-shadow:0 2px 8px rgba(23,52,61,.06),0 16px 36px -20px rgba(0,0,0,.08)}
+.fa-row__media,.fa-journey{box-shadow:none}
 
 /* ---- Featured card: the brand gradient ---- */
 .fa-card--feature{background:linear-gradient(145deg,#006078 0%,#00556B 45%,#004858 100%);
@@ -945,7 +945,7 @@ body.nav-open .nav__toggle span{background:var(--pearl)}
 /* ---- Journey panel: warm brand wash ---- */
 .fa-journey{background:linear-gradient(125deg,var(--c-pink) 0%,#FFF1EF 38%,var(--c-soft) 100%);
   border-color:var(--c-coral)}
-.fa-journey__node{box-shadow:0 2px 6px rgba(23,52,61,.08),0 12px 26px -14px rgba(0,96,120,.45)}
+.fa-journey__node{box-shadow:none}
 
 /* ---- Numbers carry colour ---- */
 .fa-stat__n{color:var(--c-coral-tx)}
@@ -1224,7 +1224,7 @@ html.is-touch .fa-card:hover,html.is-touch .pillar:hover{box-shadow:0 1px 2px rg
 .fa-marq-card{flex:0 0 clamp(250px,22vw,300px);display:flex;flex-direction:column;gap:9px;
   padding:clamp(20px,1.8vw,26px);border-radius:var(--fa-r);background:#fff;
   border:1px solid var(--c-secondary);
-  box-shadow:0 1px 2px rgba(23,52,61,.05),0 10px 26px -18px rgba(0,96,120,.3);
+  box-shadow:none;
   transition:border-color .3s var(--ease),transform .3s var(--ease)}
 .fa-marq-card:hover{border-color:var(--c-primary);transform:translateY(-3px)}
 .fa-marq-card__n{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.2em;
