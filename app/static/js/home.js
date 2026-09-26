@@ -8,79 +8,73 @@
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const world = (window.__faWorld && window.__faWorld.state) || {};
 
-  /* ---- Dubai skyline (procedural canvas, finale) ---- */
-  function buildSkyline() {
-    const host = document.getElementById('skyline');
-    if (!host || host.dataset.built) return;
-    host.dataset.built = '1';
-    const c = document.createElement('canvas');
-    const ctx = c.getContext('2d');
-    host.appendChild(c);
-    function draw() {
-      const w = c.width = host.offsetWidth, h = c.height = host.offsetHeight;
-      if (!w || !h) return;
-      ctx.clearRect(0, 0, w, h);
-      const ground = h;
-      const layers = [
-        { col: 'rgba(20,30,60,.5)', n: 26, max: .42, jit: .9 },
-        { col: 'rgba(14,22,46,.75)', n: 18, max: .62, jit: .7 },
-        { col: 'rgba(6,10,22,.95)', n: 12, max: .9, jit: .5 },
-      ];
-      layers.forEach((L, li) => {
-        ctx.fillStyle = L.col;
-        const bw = w / L.n;
-        for (let i = 0; i < L.n; i++) {
-          const seed = Math.sin(i * 12.9 + li * 4.7) * 0.5 + 0.5;
-          let bh = h * (0.12 + seed * L.max);
-          const x = i * bw;
-          const center = li === 2 && Math.abs(i - L.n / 2) < 1;
-          if (center) {
-            bh = h * 1.7;
-            ctx.beginPath();
-            ctx.moveTo(x + bw * .5, ground - bh);
-            ctx.lineTo(x + bw * .12, ground);
-            ctx.lineTo(x + bw * .88, ground);
-            ctx.closePath(); ctx.fill();
-          } else {
-            ctx.fillRect(x, ground - bh, bw * (0.6 + seed * 0.3 * L.jit), bh);
-          }
-          if (li === 2 && seed > 0.4) {
-            ctx.fillStyle = 'rgba(106,168,255,.35)';
-            for (let wy = 0; wy < bh; wy += 14) {
-              if (Math.sin(i * 3 + wy) > 0.6) ctx.fillRect(x + bw * .2, ground - bh + wy, 3, 3);
-            }
-            ctx.fillStyle = L.col;
-          }
-        }
-      });
-    }
-    draw();
-    addEventListener('resize', draw);
-  }
-
+  // No-GSAP / reduced-motion fallback: show everything in its resting state.
   function revealAll() {
     document.querySelectorAll('.reveal-up').forEach((el) => el.classList.add('is-in'));
+    document.querySelectorAll('[data-bento],[data-step]').forEach((el) => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+    const jl = document.querySelector('.fa-journey__line');
+    if (jl) jl.classList.add('is-drawn');
+    // The counters start at a literal 0 in the markup and are filled by the
+    // scroll timeline. Without this the stats read "0" for anyone on reduced
+    // motion or without GSAP — worse than showing no number at all.
+    document.querySelectorAll('[data-count]').forEach((el) => {
+      const decimals = (el.dataset.count.split('.')[1] || '').length;
+      el.textContent = parseFloat(el.dataset.count).toFixed(decimals) + (el.dataset.suffix || '');
+    });
+    const initial = document.querySelector('.scene--1 .title-xl:not(.title-morph)');
+    if (initial) initial.style.display = 'none';
     const morph = document.querySelector('.title-morph');
     if (morph) morph.style.opacity = 1;
-    buildSkyline();
   }
 
-  /* ---- Finale background video: play only while in view ----
-     Saves battery/data on mobile and keeps the rest of the page light.
-     Honours reduced-motion by leaving the poster frame in place. ---- */
+  /* ---- Background videos: fetch and decode only around the viewport ----
+     The clips total ~14MB. With preload="none" in the markup none of that
+     is on the critical path; each one starts buffering a screen ahead of
+     itself and only decodes frames while it is actually visible. ---- */
   (function () {
-    const v = document.getElementById('finaleVideo');
-    if (!v) return;
-    v.playsInline = true; v.muted = true; // inline autoplay on iOS (set in JS, not markup)
-    if (prefersReduced) { try { v.pause(); } catch (e) {} return; }
-    if (!('IntersectionObserver' in window)) { v.play().catch(() => {}); return; }
-    const io = new IntersectionObserver((entries) => {
+    const vids = Array.prototype.slice.call(document.querySelectorAll('video[data-bg]'));
+    if (!vids.length) return;
+    vids.forEach((v) => { v.playsInline = true; v.muted = true; });
+
+    // Every one of these is decorative and loops forever, which is exactly the
+    // moving content WCAG 2.2.2 asks us to stop. Under reduced motion we leave
+    // them on their poster frame and never fetch the clip at all.
+    if (prefersReduced) {
+      vids.forEach((v) => { try { v.pause(); } catch (e) {} });
+      return;
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      vids.forEach((v) => { v.preload = 'auto'; v.play().catch(() => {}); });
+      return;
+    }
+
+    // Stage 1 — start buffering one viewport before the clip scrolls in.
+    const warm = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
-        if (en.isIntersecting) { if (v.readyState === 0) v.load(); v.play().catch(() => {}); }
+        if (!en.isIntersecting) return;
+        const v = en.target;
+        if (v.preload !== 'auto') { v.preload = 'auto'; v.load(); }
+        warm.unobserve(v);
+      });
+    }, { rootMargin: '100% 0px' });
+
+    // Stage 2 — only run a decoder while the clip is on screen.
+    const playPause = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        const v = en.target;
+        if (en.isIntersecting) { v.play().catch(() => {}); }
         else { try { v.pause(); } catch (e) {} }
       });
-    }, { threshold: 0.15 });
-    io.observe(v);
+    }, { threshold: 0.05 });
+
+    vids.forEach((v) => {
+      warm.observe(v);
+      playPause.observe(v);
+    });
   })();
 
   /* ---- Preloader ---- */
@@ -106,7 +100,9 @@
     gsap.timeline({ delay: 0.2 })
       .from('.scene--1 .kicker', { y: 30, opacity: 0, duration: 1, ease: 'power3.out' })
       .from('.scene--1 .title-xl:not(.title-morph) .line', { yPercent: 110, duration: 1.1, ease: 'power4.out', stagger: 0.12 }, '-=0.5')
-      .to({}, { duration: 1.6 })
+      // No hold. "It's already being built." now takes over the moment the
+      // first two lines have finished rising, instead of sitting on screen
+      // for two seconds first.
       .to('.scene--1 .title-xl:not(.title-morph)', { opacity: 0, y: -40, filter: 'blur(8px)', duration: 0.9, ease: 'power2.in' })
       .fromTo('.title-morph', { opacity: 0, y: 40, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power3.out' }, '-=0.5')
       .from('.title-morph .line', { yPercent: 110, duration: 1, ease: 'power4.out', stagger: 0.1 }, '<')
@@ -131,15 +127,32 @@
     beat('#scene-eco', { camZ: 58, hue: 0.60, twist: 2.7, nodeSize: 2.0, lineOpacity: 0.16, camX: 6, camY: -3 });
     beat('#scene6', { camZ: 90, hue: 0.62, twist: 3.0, nodeSize: 1.6, lineOpacity: 0.08, camX: 0, camY: 8 });
 
-    gsap.from('.holo', { y: 60, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08,
-      scrollTrigger: { trigger: '#holoGrid', start: 'top 78%' } });
+    /* ---- Post-hero reveals ----
+       The section media and copy ride the shared .reveal-up trigger in
+       site.js; the card grids get a short stagger so a bento row resolves
+       as one gesture instead of six separate ones. Playback and loading
+       stay with the viewport observer above — these are visual only. */
+    const stagger = (sel, trigger, step) => {
+      const items = gsap.utils.toArray(sel);
+      if (!items.length) return;
+      gsap.from(items, {
+        y: 34, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: step,
+        scrollTrigger: { trigger: trigger || items[0], start: 'top 85%', once: true },
+      });
+    };
+    document.querySelectorAll('.fa-bento, .fa-results, .fa-eco, .fa-why__grid').forEach((grid) => {
+      stagger(grid.querySelectorAll('[data-bento]'), grid, 0.07);
+    });
+    stagger('[data-step]', '.fa-journey__track', 0.09);
 
-    if (document.querySelector('#eco')) {
-      gsap.from('.eco__row', { y: 30, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.07,
-        scrollTrigger: { trigger: '#eco', start: 'top 80%' } });
+    // Draw the journey connector once, as the track arrives.
+    const jline = document.querySelector('.fa-journey__line');
+    if (jline) {
+      ScrollTrigger.create({ trigger: '.fa-journey', start: 'top 80%', once: true,
+        onEnter: () => jline.classList.add('is-drawn') });
     }
 
-    gsap.utils.toArray('.metrics__n').forEach((el) => {
+    gsap.utils.toArray('[data-count]').forEach((el) => {
       const target = parseFloat(el.dataset.count), suffix = el.dataset.suffix || '';
       const decimals = (el.dataset.count.split('.')[1] || '').length;
       const obj = { v: 0 };
@@ -148,16 +161,56 @@
           onUpdate: () => { el.textContent = obj.v.toFixed(decimals) + suffix; } }) });
     });
 
-    gsap.utils.toArray('.portal').forEach((el, i) => {
-      ScrollTrigger.create({ trigger: el, start: 'top 80%', onEnter: () => setTimeout(() => el.classList.add('in'), i * 120) });
-      gsap.from(el, { y: 70, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 84%' } });
-    });
-
-    gsap.to('#progress span', { width: '100%', ease: 'none',
+    // scaleX rather than width: this runs on every scroll tick, and width
+    // forces a layout pass where a transform is composite-only.
+    gsap.to('#progress span', { scaleX: 1, ease: 'none',
       scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.3 } });
-
-    buildSkyline();
     ScrollTrigger.refresh();
     window.addEventListener('load', () => ScrollTrigger.refresh());
   });
+
+  /* ---- Journey: colour travels the path on click ----
+     Lives outside the GSAP block on purpose — the sweep is a CSS transition,
+     so it still works with reduced motion (instant) and without GSAP. ---- */
+  (function () {
+    const journey = document.querySelector('.fa-journey');
+    const fill = journey && journey.querySelector('.fa-journey__fill');
+    if (!journey || !fill) return;
+
+    // getTotalLength() returns USER units (the 0-100 viewBox), but the stroke
+    // uses vector-effect:non-scaling-stroke, so its dash pattern is in screen
+    // pixels. Those disagree badly under preserveAspectRatio="none", so the
+    // on-screen length is derived from the points and the rendered box.
+    const PTS = [[10, 76.7], [30, 23.3], [50, 76.7], [70, 23.3], [90, 76.7]];
+    const measure = () => {
+      const r = fill.getBoundingClientRect();
+      const svg = fill.ownerSVGElement.getBoundingClientRect();
+      if (!svg.width || !svg.height) return;
+      let len = 0;
+      for (let i = 1; i < PTS.length; i++) {
+        const dx = (PTS[i][0] - PTS[i - 1][0]) * svg.width / 100;
+        const dy = (PTS[i][1] - PTS[i - 1][1]) * svg.height / 100;
+        len += Math.hypot(dx, dy);
+      }
+      journey.style.setProperty('--len', Math.ceil(len) + 'px');
+      void r;
+    };
+    measure();
+    addEventListener('resize', measure, { passive: true });
+
+    let running = false;
+    function travel() {
+      if (running) return;
+      running = true;
+      journey.classList.remove('is-travelled');
+      void journey.offsetWidth;              // restart the transition
+      journey.classList.add('is-travelled');
+      setTimeout(() => { running = false; }, 2300);
+    }
+    journey.addEventListener('click', travel);
+    journey.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); travel(); }
+    });
+  })();
+
 })();

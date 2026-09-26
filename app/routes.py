@@ -1,10 +1,10 @@
 """Public site routes + contact API."""
 import re
 
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, jsonify, redirect, render_template, request
 
 from . import db
-from .data import PROJECTS
+from .data import PROJECTS, get_journey_icons, get_partners
 from .utils import send_lead_email, valid_csrf
 
 main = Blueprint("main", __name__)
@@ -15,11 +15,17 @@ MAX = {"name": 120, "email": 200, "phone": 40, "company": 160, "interest": 80, "
 
 @main.route("/")
 def home():
-    return render_template("index.html", active="home", projects=PROJECTS)
+    return render_template(
+        "index.html",
+        active="home",
+        projects=PROJECTS,
+        journey_icons=get_journey_icons(),
+    )
 
 
 @main.route("/about")
 def about():
+    # the story marquee shows the live platform screenshots
     return render_template("about.html", active="about")
 
 
@@ -30,7 +36,7 @@ def services():
 
 @main.route("/work")
 def work():
-    return render_template("work.html", active="work", projects=PROJECTS)
+    return render_template("work.html", active="work", projects=PROJECTS, partners=get_partners())
 
 
 @main.route("/contact")
@@ -82,3 +88,28 @@ def api_contact():
 @main.route("/healthz")
 def healthz():
     return jsonify(status="ok"), 200
+
+
+# Platform redirects — forwards local routes to their respective live platform websites
+PLATFORM_REDIRECTS = {
+    "omnis": "https://rooman.com/omnis/",
+    "hireai": "https://hireai.rooman.com/",
+    "ai-tutor": "https://rooman.com/ai-tutor/",
+    "bluelinked": "https://rooman.com/bluelinked/",
+    "crm": "https://crm.rooman.net/",
+    "erp": "https://erp.rooman.net/",
+}
+
+@main.route("/omnis")
+@main.route("/hireai")
+@main.route("/ai-tutor")
+@main.route("/bluelinked")
+@main.route("/crm")
+@main.route("/erp")
+def handle_platform_redirect():
+    slug = request.path.strip("/")
+    target = PLATFORM_REDIRECTS.get(slug)
+    if target:
+        return redirect(target, code=302)
+    return jsonify(error="Not found"), 404
+

@@ -14,19 +14,19 @@
     } catch (e) {}
   </script>
   <title>{% block title %}FutureAcad — The Future Doesn't Wait.{% endblock %}</title>
-  <meta name="description" content="{% block description %}FutureAcad.ae — Empowering businesses through Artificial Intelligence, Enterprise Technology, and Global Talent. A Deep Tech Initiative by Rooman, Dubai.{% endblock %}" />
+  <meta name="description" content="{% block description %}FutureAcad.ae — Empowering businesses through Artificial Intelligence, Enterprise Technology, and Global Talent. A Deep Tech Startup established in 2025, Dubai.{% endblock %}" />
   <meta name="robots" content="index, follow" />
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}" />
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="FutureAcad — The Future Doesn't Wait." />
-  <meta property="og:description" content="AI, Enterprise Technology & Global Talent. A Deep Tech Initiative by Rooman, Dubai." />
+  <meta property="og:description" content="AI, Enterprise Technology & Global Talent. A Deep Tech Startup, Dubai." />
   <meta property="og:image" content="{{ url_for('static', filename='img/logo.png') }}" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;600;700&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css', v='4') }}" />
   {% block head %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
@@ -37,8 +37,14 @@
   <div class="vignette"></div>
 
   <header class="nav" id="nav">
-    <a href="{{ url_for('main.home') }}" class="nav__brand" data-magnetic aria-label="FutureAcad — A Deep Tech Initiative by Rooman">
-      <span class="nav__logo"><img src="{{ url_for('static', filename='img/logo-mark.png') }}" alt="FutureAcad" /></span>
+    <a href="{{ url_for('main.home') }}" class="nav__brand" data-magnetic aria-label="FutureAcad — A Deep Tech Startup">
+      <span class="nav__logo">
+        {# Two marks, cross-faded. The shipped logo is white, so it disappears
+           the moment the bar takes a light surface; the dark variant is the
+           same artwork repainted, with the accent bars left alone. #}
+        <img class="nav__logo-img" src="{{ url_for('static', filename='img/logo-mark.png') }}" alt="FutureAcad" />
+        <img class="nav__logo-img nav__logo-img--dark" src="{{ url_for('static', filename='img/logo-mark-dark.png') }}" alt="" aria-hidden="true" />
+      </span>
     </a>
     <div class="nav__right">
       <nav class="nav__links" id="navLinks">
@@ -56,34 +62,69 @@
 
   <div class="progress" id="progress"><span></span></div>
 
-  <main id="scroll">
+  <main id="scroll" class="{% block main_class %}fa-canvas{% endblock %}">
     {% block content %}{% endblock %}
   </main>
 
   {% block footer %}
-  <footer class="footer">
-    <div class="footer__brand">
-      <img src="{{ url_for('static', filename='img/logo-mark.png') }}" alt="FutureAcad" />
-      <p>A Deep Tech Initiative by Rooman. Empowering businesses through Artificial Intelligence, Enterprise Technology, and Global Talent.</p>
-    </div>
-    <div class="footer__col">
-      <h4>Explore</h4>
-      <a href="{{ url_for('main.about') }}">About</a>
-      <a href="{{ url_for('main.services') }}">Services</a>
-      <a href="{{ url_for('main.work') }}">Work</a>
-      <a href="{{ url_for('main.contact') }}">Contact</a>
-    </div>
-    <div class="footer__col">
-      <h4>Connect</h4>
-      <a href="mailto:info@futureacad.ae">info@futureacad.ae</a>
-      <a href="{{ url_for('main.contact') }}">Schedule a session</a>
-      <a href="https://rooman.com/" target="_blank" rel="noopener">Rooman.com</a>
+  <footer class="fa-footer">
+    <div class="fa-shell">
+      <div class="fa-footer__grid">
+        <div class="fa-footer__brand">
+          <img class="fa-footer__logo" src="{{ url_for('static', filename='img/logo-mark.png') }}" alt="FutureAcad" />
+          <p class="fa-footer__about">A deep tech startup. Empowering businesses
+            through Artificial Intelligence, Enterprise Technology, and Global Talent.</p>
+        </div>
+
+        <div>
+          <h3>Reach out to us</h3>
+          <ul class="fa-footer__list">
+            <li>
+              <a href="mailto:info@futureacad.ae">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 6.5L12 13l8.5-6.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                info@futureacad.ae
+              </a>
+            </li>
+            <li>
+              <span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:9px"><path d="M12 21s-7-4.5-7-10a7 7 0 1114 0c0 5.5-7 10-7 10z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="11" r="2.4" stroke="currentColor" stroke-width="1.7"/></svg>
+                Meydan Free Zone,<br>Dubai, United Arab Emirates
+              </span>
+            </li>
+            <li>
+              <a href="https://futureacad.ae/" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18" stroke="currentColor" stroke-width="1.7"/></svg>
+                futureacad.ae
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Navigation</h3>
+          <ul class="fa-footer__list">
+            <li><a href="{{ url_for('main.home') }}">Home</a></li>
+            <li><a href="{{ url_for('main.about') }}">About</a></li>
+            <li><a href="{{ url_for('main.services') }}">Services</a></li>
+            <li><a href="{{ url_for('main.work') }}">Work</a></li>
+            <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <svg class="fa-footer__mark" viewBox="0 0 1000 150" preserveAspectRatio="xMidYMid meet"
+           aria-hidden="true" focusable="false">
+        <text x="0" y="122" textLength="1000" lengthAdjust="spacingAndGlyphs"
+              font-family="Sora, system-ui, sans-serif" font-size="150" font-weight="700">FUTUREACAD</text>
+      </svg>
+
+      <div class="fa-footer__bottom">
+        <span>© {{ year }} FutureAcad.ae — Dubai, UAE</span>
+        <span>A Deep Tech Startup — Dubai, UAE</span>
+        <span>The Future Doesn't Wait.</span>
+      </div>
     </div>
   </footer>
-  <div class="footer__bottom">
-    <span>© {{ year }} FutureAcad.ae — Dubai, UAE</span>
-    <span>The Future Doesn't Wait.</span>
-  </div>
   {% endblock %}
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -92,6 +133,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <script src="{{ url_for('static', filename='js/world.js') }}"></script>
   <script src="{{ url_for('static', filename='js/site.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/borderglow.js') }}"></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

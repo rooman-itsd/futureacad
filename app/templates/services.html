@@ -1,223 +1,2859 @@
 {% extends "base.html" %}
 {% block title %}Services — FutureAcad{% endblock %}
-{% block description %}FutureAcad Dubai: AI Applications, AI & IT Solutions, and IT Staffing — production AI products, enterprise IT, cybersecurity, cloud, smart city & school solutions, and industry-ready talent. Powered by Rooman.{% endblock %}
+{% block description %}FutureAcad Dubai: AI Applications, AI & IT Solutions, and IT Staffing — production AI products, enterprise IT, cybersecurity, cloud, and industry-ready talent. A deep tech startup in Dubai.{% endblock %}
+
+{% block head %}
+<style>
+  /* ============================================================
+     FutureAcad Services Page — Expanded Architecture
+     ============================================================ */
+
+  /* Light blue accent word highlight */
+  .service-highlight {
+    font-weight: 600;
+    color: var(--c-primary);
+    position: relative;
+    display: inline-block;
+    text-shadow: none;
+  }
+
+  /* --- 1. Hero Section --- */
+  .services-hero {
+    position: relative;
+    overflow: visible;
+    max-width: 1240px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 16vh clamp(20px, 5vw, 48px) 4vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .services-hero__canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 120%;
+    min-height: 480px;
+    max-width: 100vw;
+    pointer-events: none;
+    z-index: 0;
+    -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, #000 35%, transparent 82%);
+    mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, #000 35%, transparent 82%);
+  }
+  .services-hero > *:not(.services-hero__canvas) {
+    position: relative;
+    z-index: 2;
+  }
+  .services-hero .page__kicker {
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: var(--c-secondary);
+    letter-spacing: 0.38em;
+  }
+  .services-hero .page__title {
+    font-size: clamp(46px, 7.5vw, 108px);
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    max-width: 18ch;
+    color: #ffffff;
+  }
+  .services-hero .page__lede {
+    max-width: 58ch;
+    margin-top: 24px;
+    font-size: clamp(16px, 1.4vw, 21px);
+    line-height: 1.65;
+    color: #C9D3E2;
+    font-weight: 400;
+  }
+
+  /* --- 2. Proof & Capability Strip --- */
+  .proof-strip {
+    position: relative;
+    z-index: 3;
+    max-width: 1240px;
+    margin: 20px auto 0;
+    padding: 24px clamp(20px, 5vw, 48px);
+    border-top: 1px solid var(--c-primary);
+    border-bottom: 1px solid var(--c-primary);
+    background: #ffffff;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 900px) {
+    .proof-strip { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .proof-strip { grid-template-columns: 1fr; }
+  }
+  .proof-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .proof-item__num {
+    font-size: clamp(26px, 3.2vw, 36px);
+    font-weight: 500;
+    color: var(--c-primary);
+    letter-spacing: -0.02em;
+  }
+  .proof-item__num span {
+    color: var(--c-primary);
+  }
+  .proof-item__label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--c-primary);
+    font-weight: 500;
+  }
+
+  /* --- Quick-Jump Service Navigation Bar --- */
+  .services-nav-wrap {
+    position: sticky;
+    top: 72px;
+    z-index: 50;
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 16px clamp(20px, 5vw, 48px) 0;
+    pointer-events: none;
+  }
+  .services-nav {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #ffffff;
+    border: 1px solid var(--c-primary);
+    padding: 6px 12px;
+    border-radius: 100px;
+    box-shadow: none;
+    overflow-x: auto;
+    max-width: 100%;
+    scrollbar-width: none;
+  }
+  .services-nav::-webkit-scrollbar { display: none; }
+  .services-nav__label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c-primary);
+    font-weight: 600;
+    padding: 0 10px 0 6px;
+    border-right: 1px solid var(--c-primary);
+    white-space: nowrap;
+  }
+  .services-nav__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 40px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    color: var(--c-primary);
+    font-weight: 500;
+    transition: all 0.25s var(--ease);
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .services-nav__pill .pill-no {
+    color: var(--c-primary);
+    opacity: 0.85;
+    font-size: 10.5px;
+    font-weight: 600;
+  }
+  .services-nav__pill:hover {
+    color: var(--c-primary);
+    background: var(--c-sky);
+  }
+  .services-nav__pill.is-active {
+    color: #ffffff;
+    background: var(--c-primary);
+    border: 1px solid var(--c-primary);
+    box-shadow: none;
+  }
+  .services-nav__pill.is-active .pill-no {
+    color: var(--c-primary);
+    opacity: 1;
+  }
+
+  /* --- 3. What We Build Section --- */
+  .what-we-build {
+    position: relative;
+    z-index: 2;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 10vh clamp(20px, 5vw, 48px) 6vh;
+  }
+  .build-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+  @media (max-width: 1024px) {
+    .build-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .build-grid { grid-template-columns: 1fr; }
+  }
+  .build-card {
+    padding: 28px 24px;
+    border-radius: 16px;
+    background: linear-gradient(165deg, #ffffff 0%, #ffffff 100%);
+    border: 1px solid var(--c-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 190px;
+    transition: transform 0.3s var(--ease), border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .build-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--c-primary);
+    box-shadow: none;
+  }
+  .build-card__eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--c-primary);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .build-card__desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--c-primary);
+    font-weight: 400;
+  }
+
+  /* --- Disciplines & General Section Architecture --- */
+  .discipline-section {
+    position: relative;
+    z-index: 2;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 10vh clamp(20px, 5vw, 48px);
+    scroll-margin-top: 130px;
+  }
+  .discipline-head {
+    margin-bottom: 48px;
+    max-width: 860px;
+  }
+  .discipline-eyebrow {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--c-primary);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  /* Ink, not the brand teal, matching the home page: the highlighted word in
+     each heading is then the only thing carrying colour. */
+  .discipline-headline {
+    font-size: clamp(34px, 4.8vw, 68px);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    color: var(--c-ink);
+    margin-bottom: 18px;
+  }
+  .discipline-desc {
+    font-size: clamp(15.5px, 1.35vw, 19px);
+    line-height: 1.68;
+    color: var(--c-primary);
+    font-weight: 400;
+    max-width: 64ch;
+  }
+
+  /* Section transition connector */
+  .section-divider {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 48px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+  .section-divider__line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--c-primary), transparent);
+  }
+
+  /* --- Service Card Grid --- */
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 980px) {
+    .service-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  }
+  @media (max-width: 640px) {
+    .service-grid { grid-template-columns: 1fr; }
+  }
+  .service-grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media (max-width: 1100px) {
+    .service-grid--4 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .service-grid--4 { grid-template-columns: 1fr; }
+  }
+
+  /* --- Premium Service Card — six-colour rotation ---
+     Each card draws its whole scheme from a handful of custom properties, so
+     the rules below are written once and the nth-child blocks only swap
+     values. Every pairing is measured: the smallest text clears 4.5:1 on its
+     own surface, and each icon chip clears 3:1 against the card behind it. */
+  .service-card {
+    --sc-surface: #ffffff;
+    --sc-hover:   #F5FAFB;
+    --sc-border:  rgba(0,96,120,.30);
+    --sc-accent:  var(--c-primary);
+    --sc-desc:    var(--c-ink-soft);
+    --sc-hair:    rgba(0,96,120,.22);
+    --sc-chip:    var(--c-primary);
+    --sc-chip-ink:#ffffff;
+    --sc-rule:    var(--c-coral);
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 310px;
+    padding: 32px 28px 28px;
+    border-radius: 16px;
+    background: var(--sc-surface);
+    border: 1px solid var(--sc-border);
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.35s var(--ease), border-color 0.35s ease,
+                box-shadow 0.35s ease, background 0.35s ease;
+  }
+
+  /* 2 — Coral */
+  .service-card:nth-child(6n+2) {
+    --sc-surface:#FFF3F1; --sc-hover:#FFE9E6;
+    --sc-border:rgba(184,51,45,.28); --sc-hair:rgba(184,51,45,.24);
+    --sc-accent:#B8332D; --sc-chip:#B8332D; --sc-rule:var(--c-primary);
+  }
+  /* 3 — Sky */
+  .service-card:nth-child(6n+3) {
+    --sc-surface:var(--c-sky); --sc-hover:#D8E9EE;
+    --sc-border:rgba(0,72,88,.26); --sc-hair:rgba(0,72,88,.24);
+    --sc-accent:var(--c-primary); --sc-chip:var(--c-primary-dk);
+  }
+  /* 4 — Tea rose */
+  .service-card:nth-child(6n+4) {
+    --sc-surface:var(--c-pink); --sc-hover:#FFC6C2;
+    --sc-border:rgba(0,72,88,.26); --sc-hair:rgba(0,72,88,.26);
+    --sc-accent:var(--c-primary-dk); --sc-desc:#354A53;
+    --sc-chip:#B8332D; --sc-rule:var(--c-primary);
+  }
+  /* 5 — Deep teal, inverted. The anchor of the grid. */
+  .service-card:nth-child(6n+5) {
+    --sc-surface:var(--c-primary-dk); --sc-hover:#00566A;
+    --sc-border:rgba(130,186,196,.42); --sc-hair:rgba(130,186,196,.38);
+    --sc-accent:var(--c-pink); --sc-desc:#BFD8DF;
+    --sc-chip:var(--c-pink); --sc-chip-ink:var(--c-primary-dk);
+  }
+  /* 6 — Seashell */
+  .service-card:nth-child(6n+6) {
+    --sc-surface:var(--c-soft); --sc-hover:#F2F9DD;
+    --sc-border:rgba(0,96,120,.26); --sc-hair:rgba(0,96,120,.22);
+    --sc-accent:var(--c-primary); --sc-chip:var(--c-primary);
+    --sc-rule:var(--c-coral);
+  }
+
+  /* Rule that draws in from the left on hover. Replaced a cursor-tracking
+     radial glow that painted an opaque blob over the copy on light cards. */
+  .service-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 3px;
+    width: 0;
+    background: var(--sc-rule);
+    transition: width 0.4s var(--ease);
+    pointer-events: none;
+    z-index: 2;
+  }
+  /* Corner wash: sits behind the icon chip, far from any text. */
+  .service-card::after {
+    content: "";
+    position: absolute;
+    top: -70px;
+    right: -70px;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    background: var(--sc-chip);
+    opacity: .07;
+    pointer-events: none;
+    transition: transform .55s var(--ease), opacity .55s ease;
+  }
+  .service-card:hover::after { transform: scale(1.35); opacity: .13; }
+
+  .service-card__top {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .service-card__badge {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--sc-accent);
+    font-weight: 600;
+  }
+  .service-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: var(--sc-chip);
+    border: 1px solid var(--sc-chip);
+    /* The SVGs stroke with currentColor — this was previously the same
+       value as the background, which rendered every icon as a solid block. */
+    color: var(--sc-chip-ink);
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    flex-shrink: 0;
+  }
+  .service-card__icon svg { width: 18px; height: 18px; }
+  .service-card__body {
+    position: relative;
+    z-index: 1;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .service-card__title {
+    font-size: clamp(21px, 1.75vw, 25px);
+    font-weight: 500;
+    line-height: 1.24;
+    letter-spacing: -0.015em;
+    color: var(--sc-accent);
+    margin-bottom: 12px;
+  }
+  .service-card__desc {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--sc-desc);
+    font-weight: 400;
+  }
+  .service-card__foot {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid var(--sc-hair);
+  }
+  .service-card__action {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sc-accent);
+    font-weight: 500;
+  }
+  .service-card__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sc-accent);
+  }
+  .service-card__arrow svg { width: 16px; height: 16px; transition: transform 0.35s var(--ease); }
+
+  .service-card:hover {
+    transform: translateY(-6px);
+    background: var(--sc-hover);
+    box-shadow: none;
+  }
+  .service-card:hover::before { width: 100%; }
+  .service-card:hover .service-card__icon {
+    transform: rotate(-6deg) scale(1.08);
+    box-shadow: none;
+  }
+  .service-card:hover .service-card__arrow svg { transform: translateX(5px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .service-card,
+    .service-card::before,
+    .service-card::after,
+    .service-card__icon,
+    .service-card__arrow svg { transition: none; }
+    .service-card:hover { transform: none; }
+    .service-card:hover .service-card__icon { transform: none; }
+    .service-card:hover::after { transform: none; }
+  }
+
+  /* --- AI Capabilities: scroll stack ---
+     Cards pin one after another and the next slides up over the last, so
+     the deck builds as you scroll. The reference CSS did this inside a
+     nested scroll container; that fights the page's smooth scrolling and is
+     exactly the kind of thing that caused stutter here before, so the stack
+     rides the page scroll and uses position:sticky instead. The only
+     scripted part is the scale and fade of a card once it is covered. */
+  /* The deck lives inside its own fixed-height scroller, so the stacking
+     happens in one place and the page does not grow by six card heights.
+     data-lenis-prevent hands the wheel back to the browser inside this box,
+     otherwise the page's smooth scrolling would swallow it. */
+  .scroll-stack-scroller {
+    position: relative;
+    width: 100%;
+    height: clamp(440px, 76vh, 760px);
+    margin-top: 40px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* The reference used `contain`, which stops scroll chaining. In a box
+       embedded mid-page that traps you: reach the last card and the page
+       refuses to move until you steer the pointer out of the box. `auto`
+       lets the page take over once the deck is done. */
+    overscroll-behavior: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 30px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,96,120,.35) transparent;
+  }
+  .scroll-stack-scroller::-webkit-scrollbar { width: 8px; }
+  .scroll-stack-scroller::-webkit-scrollbar-thumb {
+    background: rgba(0,96,120,.3); border-radius: 8px;
+  }
+  .scroll-stack-scroller:focus-visible {
+    outline: 2px solid var(--c-primary);
+    outline-offset: 3px;
+  }
+  .scroll-stack-inner {
+    /* Room at the end so the last card can come to rest on top of the deck. */
+    padding: 4px 4px clamp(220px, 42vh, 380px);
+  }
+  .scroll-stack-card {
+    /* Each card parks a little lower than the one before it, which is what
+       makes the covered cards read as a deck rather than a single pane. */
+    position: sticky;
+    top: calc((var(--i) - 1) * 14px);
+    transform-origin: top center;
+    will-change: transform;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 300px;
+    margin-bottom: clamp(22px, 2.6vw, 34px);
+    padding: clamp(28px, 3.4vw, 46px);
+    border-radius: 28px;
+    box-sizing: border-box;
+    background: var(--ss-surface, #fff);
+    border: 1px solid var(--ss-edge, rgba(0,96,120,.26));
+    box-shadow: none;
+  }
+  .scroll-stack-end { width: 100%; height: 1px; }
+
+  /* Six tones, so the deck is not one colour repeated. Values match the
+     schemes already measured on the service cards. */
+  .scroll-stack-card:nth-of-type(1) {
+    --ss-surface:#fff; --ss-edge:rgba(0,96,120,.3);
+    --ss-accent:var(--c-primary); --ss-title:var(--c-ink); --ss-body:#354A53;
+  }
+  .scroll-stack-card:nth-of-type(2) {
+    --ss-surface:#FFF3F1; --ss-edge:rgba(184,51,45,.28);
+    --ss-accent:#B8332D; --ss-title:var(--c-ink); --ss-body:#4A3330;
+  }
+  .scroll-stack-card:nth-of-type(3) {
+    --ss-surface:var(--c-sky); --ss-edge:rgba(0,72,88,.26);
+    --ss-accent:var(--c-primary); --ss-title:var(--c-ink); --ss-body:#354A53;
+  }
+  .scroll-stack-card:nth-of-type(4) {
+    --ss-surface:var(--c-pink); --ss-edge:rgba(0,72,88,.26);
+    --ss-accent:#9E2A24; --ss-title:var(--c-ink); --ss-body:#4A3330;
+  }
+  .scroll-stack-card:nth-of-type(5) {
+    --ss-surface:var(--c-primary-dk); --ss-edge:rgba(130,186,196,.42);
+    --ss-accent:var(--c-pink); --ss-title:#ffffff; --ss-body:#C7DDE4;
+  }
+  .scroll-stack-card:nth-of-type(6) {
+    --ss-surface:var(--c-soft); --ss-edge:rgba(107,100,18,.3);
+    --ss-accent:#6B6412; --ss-title:var(--c-ink); --ss-body:#414B23;
+  }
+
+  .ssc-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+  }
+  .ssc-eyebrow {
+    font-family: var(--mono); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--ss-accent);
+  }
+  .ssc-tag {
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ss-accent);
+    border: 1px solid currentColor; border-radius: 40px; padding: 5px 13px;
+    opacity: .85;
+  }
+  .ssc-title {
+    font-size: clamp(22px, 2.5vw, 34px); font-weight: 500; line-height: 1.22;
+    letter-spacing: -0.02em; color: var(--ss-title); margin: 4px 0 0;
+  }
+  .ssc-desc {
+    font-size: clamp(15px, 1.1vw, 17px); line-height: 1.66;
+    color: var(--ss-body); max-width: 68ch; margin: 0;
+  }
+  .ssc-specs { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 9px; }
+  .ssc-specs li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 14.5px; line-height: 1.5; color: var(--ss-body);
+  }
+  .ssc-specs svg { flex-shrink: 0; margin-top: 3px; color: var(--ss-accent); opacity: .9; }
+  .ssc-btn { align-self: flex-start; margin-top: auto; }
+  .scroll-stack-card:nth-of-type(5) .ssc-btn {
+    background: var(--c-soft); border-color: var(--c-soft); color: var(--c-primary-dk);
+  }
+  .scroll-stack-card:nth-of-type(5) .ssc-btn:hover {
+    background: var(--c-pink); border-color: var(--c-pink); color: var(--c-primary-dk);
+  }
+
+  @media (max-width: 680px) {
+    .scroll-stack-card { min-height: 0; border-radius: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    /* No box, no pinning, no scaling: the cards become a plain list. */
+    .scroll-stack-scroller { height: auto; overflow: visible; }
+    .scroll-stack-inner { padding-bottom: 0; }
+    .scroll-stack-card { position: relative; top: auto; transform: none !important;
+                         opacity: 1 !important; will-change: auto; }
+  }
+
+  /* --- 4 & 5. AI Capabilities Interactive Detail Section --- */
+  .capabilities-detail-wrap {
+    margin-top: 8vh;
+    padding-top: 6vh;
+    border-top: 1px solid var(--c-primary);
+  }
+  .capabilities-layout {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 36px;
+    margin-top: 36px;
+    align-items: stretch;
+  }
+  @media (max-width: 900px) {
+    .capabilities-layout { grid-template-columns: 1fr; }
+  }
+  .cap-tab-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cap-tab-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 22px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid var(--c-primary);
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+    text-align: left;
+    color: inherit;
+    width: 100%;
+  }
+  .cap-tab-item:hover {
+    background: #ffffff;
+    border-color: var(--c-primary);
+  }
+  .cap-tab-item.is-active {
+    background: linear-gradient(160deg, #ffffff 0%, #ffffff 100%);
+    border-color: var(--c-primary);
+    box-shadow: none;
+  }
+  .cap-tab-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--c-primary);
+    letter-spacing: 0.1em;
+    padding-top: 2px;
+  }
+  .cap-tab-text h4 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--c-primary);
+    margin-bottom: 4px;
+  }
+  .cap-tab-text p {
+    font-size: 13.5px;
+    color: var(--c-primary);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .cap-tab-item.is-active .cap-tab-text h4 {
+    color: var(--c-primary);
+    text-shadow: none;
+  }
+
+  /* Detail Panel on Right */
+  .cap-display-panel {
+    border-radius: 18px;
+    background: linear-gradient(165deg, #ffffff 0%, #ffffff 100%);
+    border: 1px solid var(--c-primary);
+    box-shadow: none;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .cap-display-panel::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--c-primary) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cap-display-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--c-primary);
+  }
+  .cap-display-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c-primary);
+    font-weight: 600;
+  }
+  .cap-display-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--c-sky);
+    border: 1px solid var(--c-primary);
+    color: var(--c-primary);
+  }
+  .cap-display-title {
+    font-size: clamp(24px, 2.5vw, 34px);
+    font-weight: 500;
+    color: var(--c-primary);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .cap-display-desc {
+    font-size: 15.5px;
+    line-height: 1.68;
+    color: var(--c-primary);
+    margin-bottom: 24px;
+  }
+  .cap-display-specs {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+  .cap-display-specs li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--c-primary);
+  }
+  .cap-display-specs li svg {
+    color: var(--c-primary);
+    flex-shrink: 0;
+  }
+
+  /* --- Related Discipline Jumper --- */
+  .related-disciplines {
+    margin-top: 40px;
+    padding: 20px 24px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px dashed var(--c-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .related-disciplines__label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c-primary);
+  }
+  .related-disciplines__links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .related-disciplines__link {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--c-primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.2s ease;
+  }
+  .related-disciplines__link:hover {
+    color: var(--c-primary);
+    transform: translateX(3px);
+  }
+
+  /* --- 6. Delivery Process Section (From Idea to Impact) --- */
+  .delivery-section {
+    position: relative;
+    z-index: 2;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 10vh clamp(20px, 5vw, 48px);
+    scroll-margin-top: 130px;
+  }
+  .process-track {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+    margin-top: 48px;
+    position: relative;
+  }
+  @media (max-width: 1024px) {
+    .process-track { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 680px) {
+    .process-track { grid-template-columns: 1fr; }
+  }
+  .process-node {
+    padding: 28px 22px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid rgba(0,96,120,.28);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 220px;
+    transition: transform 0.3s var(--ease), border-color 0.3s ease, box-shadow .3s ease;
+  }
+  .process-node:hover,
+  .process-node:focus-within {
+    transform: translateY(-4px);
+    /* Warm tea-rose wash under the wire. The copy stays teal, which still
+       clears 4.5:1 on this tint - measured, not assumed. */
+    background: #FFF3F1;
+    border-color: rgba(184,51,45,.32);
+    box-shadow: 0 2px 6px rgba(23,52,61,.05), 0 18px 40px -24px rgba(184,51,45,.38);
+  }
+  .process-node:hover .process-node__step,
+  .process-node:focus-within .process-node__step { color: #B8332D; }
+  /* --- Electric border ---
+     The canvas bleeds past the card so the noise has room to wander, and
+     sits behind the copy. The card keeps its own solid border until the
+     wire lights, then hands over so the two do not double up. */
+  .eb-canvas-wrap {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .eb-canvas {
+    position: absolute;
+    display: block;
+    opacity: 0;
+    transition: opacity .35s ease;
+  }
+  .process-node:hover .eb-canvas,
+  .process-node:focus-within .eb-canvas { opacity: 1; }
+  /* The class is only added once a canvas is built, so under reduced motion
+     (where the script bails out) the card keeps a normal drawn border
+     instead of losing its edge on hover. */
+  .process-node.has-electric-border:hover,
+  .process-node.has-electric-border:focus-within { border-color: transparent; }
+  .process-node.has-electric-border > *:not(.eb-canvas-wrap) {
+    position: relative;
+    z-index: 1;
+  }
+  .process-node__step {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--c-primary);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .process-node__name {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--c-primary);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .process-node__desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--c-primary);
+  }
+
+  /* --- 7. Technology Stack Section --- */
+  .tech-stack-section {
+    position: relative;
+    z-index: 2;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--c-primary);
+  }
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+  }
+  @media (max-width: 900px) {
+    .tech-grid { grid-template-columns: 1fr; }
+  }
+  .tech-card {
+    padding: 26px 24px;
+    border-radius: 16px;
+    background: linear-gradient(160deg, #ffffff 0%, #ffffff 100%);
+    border: 1px solid var(--c-primary);
+  }
+  .tech-card__cat {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--c-primary);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .tech-pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tech-pill {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--c-primary);
+    background: var(--c-soft);
+    border: 1px solid rgba(0,96,120,.45);
+    transition: background .25s ease, border-color .25s ease,
+                color .25s ease, transform .25s ease;
+  }
+  /* Hover filled the pill with the same teal the label is set in, so the
+     word vanished the moment you pointed at it. It now goes to a light
+     warm tint with deep coral text, which reads at 5.53:1. */
+  .tech-pill:hover {
+    background: #FFF3F1;
+    border-color: rgba(184,51,45,.5);
+    color: #B8332D;
+    transform: translateY(-2px);
+  }
+
+  /* --- 8. Solutions for Modern Teams --- */
+  .teams-section {
+    position: relative;
+    z-index: 2;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 8vh clamp(20px, 5vw, 48px);
+  }
+  .teams-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+  @media (max-width: 1024px) {
+    .teams-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .teams-grid { grid-template-columns: 1fr; }
+  }
+  /* Four audiences, four surfaces, led by tea rose. The old rule painted a
+     white-to-white gradient, which did nothing at all. */
+  .team-block {
+    --tb-surface: var(--c-pink);
+    --tb-edge: rgba(0,72,88,.26);
+    --tb-accent: #9E2A24;
+    --tb-title: var(--c-primary-dk);
+    --tb-body: #4A3330;
+
+    position: relative;
+    overflow: hidden;
+    padding: 30px 24px 28px;
+    border-radius: 16px;
+    background: var(--tb-surface);
+    border: 1px solid var(--tb-edge);
+    transition: transform .4s var(--ease), box-shadow .4s ease, border-color .4s ease;
+  }
+  .team-block:nth-child(2) {
+    --tb-surface:#FFF3F1; --tb-edge:rgba(184,51,45,.3);
+    --tb-accent:#B8332D; --tb-body:#4A3330;
+  }
+  .team-block:nth-child(3) {
+    --tb-surface:var(--c-sky); --tb-edge:rgba(0,72,88,.26);
+    --tb-accent:var(--c-primary); --tb-body:#354A53;
+  }
+  .team-block:nth-child(4) {
+    --tb-surface:var(--c-soft); --tb-edge:rgba(107,100,18,.32);
+    --tb-accent:#6B6412; --tb-body:#414B23;
+  }
+
+  /* A rule that grows under the name, and a wash that swells behind the
+     corner. Transform and width only, so neither costs a repaint. */
+  .team-block::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    height: 3px; width: 28px;
+    background: var(--tb-accent);
+    transition: width .45s var(--ease);
+  }
+  .team-block::after {
+    content: "";
+    position: absolute;
+    top: -70px; right: -70px;
+    width: 170px; height: 170px;
+    border-radius: 50%;
+    background: var(--tb-accent);
+    opacity: .09;
+    transition: transform .6s var(--ease), opacity .6s ease;
+    pointer-events: none;
+  }
+  .team-block:hover {
+    transform: translateY(-6px);
+    border-color: var(--tb-accent);
+    box-shadow: none;
+  }
+  .team-block:hover::before { width: 100%; }
+  .team-block:hover::after { transform: scale(1.5); opacity: .16; }
+
+  .team-block__name {
+    position: relative;
+    z-index: 1;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--tb-title);
+    margin-bottom: 10px;
+  }
+  .team-block__desc {
+    position: relative;
+    z-index: 1;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--tb-body);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .team-block, .team-block::before, .team-block::after { transition: none; }
+    .team-block:hover { transform: none; }
+    .team-block:hover::after { transform: none; }
+  }
+
+  /* --- 9. Selected Work / Outcomes (Verified Platforms from Data) --- */
+  .work-showcase-section {
+    position: relative;
+    z-index: 2;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 10vh clamp(20px, 5vw, 48px);
+  }
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 40px;
+  }
+  @media (max-width: 980px) {
+    .work-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .work-grid { grid-template-columns: 1fr; }
+  }
+  .work-card {
+    padding: 0 0 26px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid rgba(0,96,120,.26);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 280px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.35s var(--ease), border-color 0.35s ease, box-shadow 0.35s ease;
+  }
+  /* A real screenshot of the live product at the head of each card. The
+     16:10 box is set with aspect-ratio and the image fills it, so the row
+     cannot go ragged whatever each capture's own proportions are. */
+  .work-card__shot {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--c-sky);
+    border-bottom: 1px solid rgba(0,96,120,.18);
+    line-height: 0;
+  }
+  .work-card__shot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform .55s var(--ease);
+  }
+  .work-card:hover .work-card__shot img { transform: scale(1.05); }
+  .work-card > div { padding-inline: 26px; }
+  .work-card > div:first-of-type { padding-top: 22px; }
+  @media (prefers-reduced-motion: reduce) {
+    .work-card__shot img { transition: none; }
+    .work-card:hover .work-card__shot img { transform: none; }
+  }
+  .work-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--c-primary);
+    box-shadow: none;
+  }
+  .work-card__badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c-primary);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .work-card__title {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--c-primary);
+    margin-bottom: 8px;
+  }
+  .work-card__desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--c-primary);
+    margin-bottom: 20px;
+  }
+  .work-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .work-card__tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: var(--c-sky);
+    color: var(--c-primary);
+  }
+  .work-card__link {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--c-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+  .work-card__link svg {
+    transition: transform 0.3s ease;
+  }
+  .work-card:hover .work-card__link svg {
+    transform: translateX(4px);
+  }
+
+  /* --- 10. Why FutureAcad --- */
+  .why-section {
+    position: relative;
+    z-index: 2;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 8vh clamp(20px, 5vw, 48px);
+  }
+  /* The field sits behind everything in the section and takes no clicks.
+     Its own children are lifted above it rather than the canvas being
+     pushed down, so nothing else on the page needs a stacking change. */
+  .fa-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .why-section > *:not(.fa-particles) { position: relative; z-index: 1; }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+  @media (max-width: 1024px) {
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .why-grid { grid-template-columns: 1fr; }
+  }
+  /* Opaque, so the cards read as solid objects sitting on the field
+     rather than the points drifting through the copy. The old rule was a
+     white-to-white gradient, which did nothing. */
+  /* Four reasons, four surfaces. Opaque, so they read as solid objects on
+     the drifting field rather than letting dots cross the copy. */
+  .why-card {
+    --wc-surface: #ffffff;
+    --wc-edge: rgba(0,96,120,.28);
+    --wc-accent: var(--c-primary);
+    --wc-title: var(--c-primary-dk);
+    --wc-body: #354A53;
+
+    position: relative;
+    overflow: hidden;
+    padding: 32px 24px 28px;
+    border-radius: 16px;
+    background: var(--wc-surface);
+    border: 1px solid var(--wc-edge);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 220px;
+    transition: transform .38s var(--ease), border-color .38s ease, box-shadow .38s ease;
+  }
+  .why-card:nth-child(2) {
+    --wc-surface:#FFF3F1; --wc-edge:rgba(184,51,45,.3);
+    --wc-accent:#B8332D; --wc-body:#4A3330;
+  }
+  .why-card:nth-child(3) {
+    --wc-surface:var(--c-sky); --wc-edge:rgba(0,72,88,.26);
+    --wc-accent:var(--c-primary);
+  }
+  .why-card:nth-child(4) {
+    --wc-surface:var(--c-soft); --wc-edge:rgba(107,100,18,.32);
+    --wc-accent:#6B6412; --wc-body:#414B23;
+  }
+  /* Rule across the top, and the index repeated huge and faint behind the
+     copy, drifting slowly and speeding up under the pointer. */
+  .why-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    height: 3px; width: 26px;
+    background: var(--wc-accent);
+    transition: width .45s var(--ease);
+  }
+  .why-card::after {
+    content: attr(data-index);
+    position: absolute;
+    right: -8px; bottom: -40px;
+    font-family: var(--mono);
+    font-size: 128px; font-weight: 700; line-height: 1;
+    color: var(--wc-accent);
+    opacity: .08;
+    pointer-events: none;
+    animation: whyGhostDrift 10s ease-in-out infinite alternate;
+  }
+  @keyframes whyGhostDrift {
+    from { transform: translate3d(0,0,0) rotate(0deg); }
+    to   { transform: translate3d(-12px,-9px,0) rotate(-4deg); }
+  }
+  .why-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--wc-accent);
+    box-shadow: none;
+  }
+  .why-card:hover::before { width: 100%; }
+  .why-card:hover::after { animation-duration: 3.4s; opacity: .14; }
+  .why-card > * { position: relative; z-index: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .why-card, .why-card::before { transition: none; }
+    .why-card::after { animation: none; }
+    .why-card:hover { transform: none; }
+  }
+  .why-card__num {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--wc-accent);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .why-card__title {
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--wc-title);
+    margin-bottom: 10px;
+  }
+  .why-card__desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--wc-body);
+  }
+
+  /* --- 11. FAQ Accordion Section --- */
+  .faq-section {
+    position: relative;
+    z-index: 2;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 10vh clamp(20px, 5vw, 48px);
+  }
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 40px;
+  }
+  .faq-item {
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid rgba(0,96,120,.26);
+    overflow: hidden;
+    transition: border-color .3s ease, background .35s ease, box-shadow .35s ease;
+  }
+  .faq-item:hover { background: #FDFEF4; border-color: rgba(107,100,18,.38); }
+  /* The open question sits on seashell, with the olive accent that goes
+     with it. Question text stays teal for hierarchy; both are measured
+     against this surface. */
+  .faq-item.is-open {
+    background: var(--c-soft);
+    border-color: rgba(107,100,18,.42);
+    box-shadow: 0 2px 6px rgba(23,52,61,.04), 0 16px 34px -26px rgba(107,100,18,.5);
+  }
+  .faq-btn {
+    width: 100%;
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: none;
+    border: none;
+    color: var(--c-primary);
+    font-size: 17px;
+    font-weight: 500;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .faq-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--c-sky);
+    color: var(--c-primary);
+    font-family: var(--mono);
+    font-size: 16px;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: transform .3s ease, background .3s ease, color .3s ease;
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s var(--ease), padding 0.4s ease;
+    padding: 0 24px;
+    color: var(--c-primary);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .faq-item.is-open .faq-answer {
+    max-height: 260px;
+    padding-bottom: 24px;
+    color: #414B23;
+  }
+  /* This set the fill and the glyph to the same teal, so the plus sign
+     disappeared into a solid dot the moment a question opened. */
+  .faq-item.is-open .faq-icon {
+    transform: rotate(45deg);
+    background: #6B6412;
+    color: var(--c-soft);
+  }
+
+  /* --- 12. Final High-Impact Conversion Area --- */
+  .final-services-cta {
+    position: relative;
+    z-index: 2;
+    max-width: 1080px;
+    margin: 4vh auto 12vh;
+    padding: 8vh clamp(24px, 6vw, 64px);
+    border-radius: 24px;
+    background: radial-gradient(120% 100% at 50% 0%, var(--c-primary) 0%, #ffffff 60%, #ffffff 100%);
+    border: 1px solid var(--c-primary);
+    box-shadow: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .final-services-cta__kicker {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: var(--c-primary);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .final-services-cta__h {
+    font-size: clamp(34px, 5.5vw, 68px);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    color: var(--c-primary);
+    margin-bottom: 16px;
+  }
+  .final-services-cta__p {
+    font-size: clamp(16px, 1.35vw, 20px);
+    line-height: 1.62;
+    color: var(--c-primary);
+    font-weight: 400;
+    max-width: 54ch;
+    margin-bottom: 34px;
+  }
+  .final-services-cta__footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--c-primary);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(16px, 4vw, 36px);
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--c-primary);
+  }
+  .final-services-cta__footer span.dot {
+    color: var(--c-primary);
+  }
+</style>
+{% endblock %}
 
 {% block content %}
-<header class="page">
+<!-- ============================================================
+     1. HERO SECTION
+     ============================================================ -->
+<header class="page services-hero">
+  <canvas class="services-hero__canvas" id="servicesCanvas" aria-hidden="true"></canvas>
   <div class="page__kicker reveal-up">WHAT WE DO</div>
-  <h1 class="page__title reveal-up">Three disciplines,<br>one outcome.</h1>
-  <p class="page__lede reveal-up">AI Applications, AI &amp; IT Solutions, and IT Staffing — delivered as one capability, backed by 24+ years of Rooman engineering. From a single AI product to a full enterprise stack to the people who run it.</p>
+  <h1 class="page__title reveal-up">
+    Three disciplines,<br>
+    <span class="service-highlight">one outcome</span>.
+  </h1>
+  <p class="page__lede reveal-up">
+    AI Applications, AI &amp; IT Solutions and IT Staffing — delivered as one connected capability. From bespoke AI products to resilient enterprise infrastructure to the engineering talent that powers it all.
+  </p>
 </header>
 
-<!-- ===== AI APPLICATIONS ===== -->
-<section class="section">
-  <div class="section__head reveal-up">
-    <div class="page__kicker">01 — AI APPLICATIONS</div>
-    <h2 class="section__title">AI products that do the heavy lifting.</h2>
-    <p class="section__sub">Production-ready applications built to automate workflows, sharpen decisions, and grow revenue — not demos that die in a sandbox.</p>
+<!-- ============================================================
+     2. PROOF & CAPABILITY STRIP (Verified Metrics)
+     ============================================================ -->
+<div class="proof-strip reveal-up">
+  <div class="proof-item">
+    <div class="proof-item__num">2025</div>
+    <div class="proof-item__label">Established Deep Tech Startup</div>
   </div>
-  <div class="pillars">
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">AI SUITE</span>
-      <h3 class="pillar__h">One intelligent command center.</h3>
-      <p class="pillar__p">An all-in-one AI ecosystem that unifies models, automation, and analytics across the enterprise — managed from a single intelligent command center.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">AI CONNECTIVITY</span>
-      <h3 class="pillar__h">Fragmented data, made decisive.</h3>
-      <p class="pillar__p">A connected AI layer that links people, data, and systems — turning scattered information into smart, actionable decisions.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">CRM VOICE AGENT</span>
-      <h3 class="pillar__h">Sales &amp; support, on autopilot.</h3>
-      <p class="pillar__p">A voice-enabled AI agent that talks to customers, logs every interaction, and updates your CRM automatically — around the clock.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">AI TUTOR</span>
-      <h3 class="pillar__h">1-on-1 teaching, at scale.</h3>
-      <p class="pillar__p">An intelligent tutoring system that personalises learning paths, answers questions in real time, and scales one-to-one teaching to thousands.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">STARTUP VARSITY</span>
-      <h3 class="pillar__h">Idea to market, guided.</h3>
-      <p class="pillar__p">An AI-powered launchpad that takes founders from idea to market — mentorship, validation, and go-to-market intelligence in one place.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">CUSTOM AI BUILDS</span>
-      <h3 class="pillar__h">Bespoke, to your challenge.</h3>
-      <p class="pillar__p">Need something tailored? We design and deploy custom AI applications and data models built around your exact business problem.</p>
-    </article>
+  <div class="proof-item">
+    <div class="proof-item__num">1.4<span>M+</span></div>
+    <div class="proof-item__label">Trained &amp; Placed Engineers</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-item__num">8<span>+</span></div>
+    <div class="proof-item__label">Live Platforms in Production</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-item__num">UAE <span>&amp;</span> IND</div>
+    <div class="proof-item__label">Dubai HQ &amp; Global Delivery Hubs</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SERVICE DISCOVERY / QUICK NAVIGATION
+     ============================================================ -->
+<div class="services-nav-wrap">
+  <nav class="services-nav" id="servicesNav" aria-label="Services Navigation">
+    <span class="services-nav__label">Disciplines</span>
+    <a href="#what-we-build" class="services-nav__pill is-active">
+      Overview
+    </a>
+    <a href="#ai-applications" class="services-nav__pill">
+      <span class="pill-no">01</span> AI Applications
+    </a>
+    <a href="#how-we-deliver" class="services-nav__pill">
+      Delivery Process
+    </a>
+    <a href="#it-solutions" class="services-nav__pill">
+      <span class="pill-no">02</span> AI &amp; IT Solutions
+    </a>
+    <a href="#it-staffing" class="services-nav__pill">
+      <span class="pill-no">03</span> IT Staffing
+    </a>
+    <a href="#selected-work" class="services-nav__pill">
+      Selected Work
+    </a>
+    <a href="#faq" class="services-nav__pill">
+      FAQ
+    </a>
+  </nav>
+</div>
+
+<!-- ============================================================
+     3. WHAT WE BUILD (High-Level Architecture)
+     ============================================================ -->
+<section class="what-we-build" id="what-we-build">
+  <div class="discipline-head reveal-up">
+    <span class="discipline-eyebrow">WHAT WE BUILD</span>
+    <h2 class="discipline-headline">
+      Technology built around <span class="service-highlight">real-world challenges</span>.
+    </h2>
+    <p class="discipline-desc">
+      FutureAcad brings together AI applications, intelligent automation, enterprise technology and engineering capabilities to turn complex business challenges into practical digital solutions.
+    </p>
+  </div>
+
+  <div class="build-grid">
+    <div class="build-card reveal-up">
+      <div class="build-card__eyebrow">AI APPLICATIONS</div>
+      <p class="build-card__desc">Intelligent products, assistants, and automated workflows engineered to operate at enterprise scale.</p>
+    </div>
+    <div class="build-card reveal-up">
+      <div class="build-card__eyebrow">AI &amp; DATA</div>
+      <p class="build-card__desc">Machine learning models, high-performance data workflows, and intelligent predictive systems.</p>
+    </div>
+    <div class="build-card reveal-up">
+      <div class="build-card__eyebrow">ENTERPRISE TECHNOLOGY</div>
+      <p class="build-card__desc">Resilient cloud architecture, scalable infrastructure, cybersecurity, and modern business technology.</p>
+    </div>
+    <div class="build-card reveal-up">
+      <div class="build-card__eyebrow">ENGINEERING TALENT</div>
+      <p class="build-card__desc">Flexible technical capabilities, vetted specialists, and dedicated autonomous engineering pods.</p>
+    </div>
   </div>
 </section>
 
-<!-- ===== AI & IT SOLUTIONS ===== -->
-<section class="section">
-  <div class="section__head reveal-up">
-    <div class="page__kicker">02 — AI &amp; IT SOLUTIONS</div>
-    <h2 class="section__title">Enterprise IT, engineered to grow.</h2>
-    <p class="section__sub">Comprehensive IT that helps businesses leverage technology for growth, efficiency, and innovation — backed by 24/7 support.</p>
+<!-- Divider -->
+<div class="section-divider">
+  <div class="section-divider__line"></div>
+</div>
+
+<!-- ============================================================
+     4. SECTION 01 — AI APPLICATIONS (6 Cards + Capabilities)
+     ============================================================ -->
+<section class="discipline-section" id="ai-applications">
+  <div class="discipline-head reveal-up">
+    <span class="discipline-eyebrow">01 — AI APPLICATIONS</span>
+    <h2 class="discipline-headline">
+      AI products that do the <span class="service-highlight">heavy lifting</span>.
+    </h2>
+    <p class="discipline-desc">
+      Production-ready AI applications designed to automate workflows, sharpen decisions and create measurable impact.
+    </p>
   </div>
-  <div class="pillars">
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">AI &amp; DATA MODELS</span>
-      <h3 class="pillar__h">Data into advantage.</h3>
-      <p class="pillar__p">Machine-learning and AI services that turn your data into a measurable competitive edge.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">IT INFRASTRUCTURE</span>
-      <h3 class="pillar__h">Infrastructure &amp; management.</h3>
-      <p class="pillar__p">Scalable infrastructure design, 24/7 proactive management, and continuous optimisation.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">DATA CENTRE &amp; CLOUD</span>
-      <h3 class="pillar__h">Built to stay up.</h3>
-      <p class="pillar__p">Custom data-centre architecture, seamless cloud migration, and disaster recovery you can rely on.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">CYBERSECURITY</span>
-      <h3 class="pillar__h">Threats, contained.</h3>
-      <p class="pillar__p">Threat identification, modern defensive measures, and full regulatory compliance for your ecosystem.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">SMART CITY</span>
-      <h3 class="pillar__h">Urban tech, integrated.</h3>
-      <p class="pillar__p">Connected devices, data-driven insights, and protected ecosystems for sustainability, efficiency, and better citizen services.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">SMART SCHOOL</span>
-      <h3 class="pillar__h">Learning, modernised.</h3>
-      <p class="pillar__p">Interactive digital learning, education software, and advanced campus safety in one platform.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">VIDEO ANALYTICS</span>
-      <h3 class="pillar__h">Footage into data.</h3>
-      <p class="pillar__p">Surveillance setup with advanced video management and analytics that turn footage into actionable data.</p>
-    </article>
+
+  <!-- 6 Service Cards -->
+    <div class="svc-bento">
+    <a class="svc-card svc-card--feature" href="{{ url_for('main.contact') }}">
+        <svg class="svc-net" viewBox="0 0 320 220" fill="none" aria-hidden="true">
+          <line x1="40" y1="54" x2="150" y2="104"/><line x1="150" y1="104" x2="262" y2="48"/>
+          <line x1="150" y1="104" x2="70" y2="176"/><line x1="150" y1="104" x2="246" y2="168"/>
+          <line x1="40" y1="54" x2="70" y2="176"/><line x1="262" y1="48" x2="246" y2="168"/>
+          <line x1="150" y1="104" x2="104" y2="36"/><line x1="150" y1="104" x2="196" y2="196"/>
+          <circle cx="40" cy="54" r="5"/><circle cx="262" cy="48" r="4"/>
+          <circle cx="70" cy="176" r="4"/><circle cx="246" cy="168" r="5"/>
+          <circle cx="104" cy="36" r="3"/><circle cx="196" cy="196" r="3"/>
+          <circle class="svc-net__ring" cx="150" cy="104" r="26"/>
+          <circle class="svc-net__ring" cx="150" cy="104" r="40"/>
+          <circle class="svc-net__hub" cx="150" cy="104" r="9"/>
+        </svg>
+      <span class="svc-card__tag">AI SUITE</span>
+      <h3 class="svc-card__title">One intelligent command center.</h3>
+      <p class="svc-card__desc">An all-in-one AI ecosystem that unifies models, automation, and analytics across the enterprise — managed from a single intelligent command center.</p>
+      <span class="svc-card__cta">Explore Capability <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+    <a class="svc-card svc-card--soft" href="{{ url_for('main.contact') }}">
+        <svg class="svc-card__motif" viewBox="0 0 42 42" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="34" cy="16" r="3" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="16" cy="34" r="3" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M11 9.5L31 15M10 11l5 20" stroke="currentColor" stroke-width="1.2"/></svg>
+      <span class="svc-card__tag">AI CONNECTIVITY</span>
+      <h3 class="svc-card__title">Fragmented data, made decisive.</h3>
+      <p class="svc-card__desc">A connected AI layer that links people, data, and systems — turning scattered information into smart, actionable decisions.</p>
+      <span class="svc-card__cta">Explore Capability <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+    <a class="svc-card svc-card--rose" href="{{ url_for('main.contact') }}">
+        <svg class="svc-card__motif" viewBox="0 0 42 42" aria-hidden="true"><path d="M9 26V16a12 12 0 0124 0v10" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><rect x="6" y="24" width="7" height="10" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="29" y="24" width="7" height="10" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+      <span class="svc-card__tag">CRM VOICE AGENT</span>
+      <h3 class="svc-card__title">Sales &amp; support, on autopilot.</h3>
+      <p class="svc-card__desc">A voice-enabled AI agent that talks to customers, logs every interaction, and updates your CRM automatically — around the clock.</p>
+      <span class="svc-card__cta">Explore Capability <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+    <a class="svc-card svc-card--sm" href="{{ url_for('main.contact') }}">
+        <svg class="svc-card__motif" viewBox="0 0 42 42" aria-hidden="true"><path d="M6 15l15-7 15 7-15 7-15-7z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M12 19v8c0 3 4 5 9 5s9-2 9-5v-8" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+      <span class="svc-card__tag">AI TUTOR</span>
+      <h3 class="svc-card__title">1-on-1 teaching, at scale.</h3>
+      <p class="svc-card__desc">An intelligent tutoring system that personalises learning paths, answers questions in real time, and scales one-to-one teaching to thousands.</p>
+      <span class="svc-card__cta">Explore Capability <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+    <a class="svc-card svc-card--tint" href="{{ url_for('main.contact') }}">
+        <svg class="svc-card__motif" viewBox="0 0 42 42" aria-hidden="true"><path d="M21 6l4 9 10 1-7.5 6.5L30 33l-9-5-9 5 2.5-10.5L7 16l10-1 4-9z" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linejoin="round"/></svg>
+      <span class="svc-card__tag">STARTUP VARSITY</span>
+      <h3 class="svc-card__title">Idea to market, guided.</h3>
+      <p class="svc-card__desc">An AI-powered launchpad that takes founders from idea to market — mentorship, validation, and go-to-market intelligence in one place.</p>
+      <span class="svc-card__cta">Explore Capability <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+    <a class="svc-card svc-card--edge" href="{{ url_for('main.contact') }}">
+        <svg class="svc-card__motif" viewBox="0 0 42 42" aria-hidden="true"><rect x="7" y="7" width="12" height="12" rx="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/><rect x="23" y="23" width="12" height="12" rx="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M19 13h8a4 4 0 014 4v6" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
+      <span class="svc-card__tag">CUSTOM AI BUILDS</span>
+      <h3 class="svc-card__title">Bespoke to your challenge.</h3>
+      <p class="svc-card__desc">Need something tailored? We design and deploy custom AI applications and data models built around your exact business problem.</p>
+      <span class="svc-card__cta">Explore Capability <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+  </div>
+
+  <!-- 5. Interactive Capability Detail Section (MarsDevs Deep Presentation) -->
+  <div class="capabilities-detail-wrap reveal-up">
+    <div class="discipline-head" style="margin-bottom: 24px;">
+      <span class="discipline-eyebrow">AI CAPABILITIES</span>
+      <h3 class="discipline-headline" style="font-size: clamp(28px, 3.8vw, 50px);">
+        From intelligent automation to <span class="service-highlight">production systems</span>.
+      </h3>
+      <p class="discipline-desc">
+        Explore the specialized architectures we design, train, and deploy across enterprise environments.
+      </p>
+    </div>
+
+    <div class="scroll-stack-scroller" id="capStack" data-lenis-prevent
+         tabindex="0" role="region" aria-label="AI capabilities, scrollable">
+      <div class="scroll-stack-inner">
+      <article class="scroll-stack-card" style="--i:1">
+          <div class="ssc-head">
+            <span class="ssc-eyebrow">01 — AI AGENTS</span>
+            <span class="ssc-tag">Autonomous Execution</span>
+          </div>
+          <h4 class="ssc-title">Autonomous AI workflows that execute without friction.</h4>
+          <p class="ssc-desc">AI agents reason across complex operational scenarios, choose appropriate toolsets or internal APIs, and execute end-to-end tasks with guardrails, observability, and fail-safes built in.</p>
+          <ul class="ssc-specs">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Multi-step planning and tool-calling capabilities</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Deterministic guardrails preventing hallucinated actions</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Real-time observability and audit logging for every decision</span></li>
+          </ul>
+          <a href="{{ url_for('main.contact') }}" class="btn ssc-btn">
+            <span>Discuss AI Agents</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+      </article>
+      <article class="scroll-stack-card" style="--i:2">
+          <div class="ssc-head">
+            <span class="ssc-eyebrow">02 — RAG & KNOWLEDGE</span>
+            <span class="ssc-tag">Verified Enterprise Data</span>
+          </div>
+          <h4 class="ssc-title">Connect AI directly to your proprietary enterprise knowledge.</h4>
+          <p class="ssc-desc">Retrieval-Augmented Generation architectures index internal manuals, CRM history, policy PDFs, and databases with high-dimensional vector embeddings, delivering cited and verifiable answers.</p>
+          <ul class="ssc-specs">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Hybrid vector and BM25 lexical search for zero-miss retrieval</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Role-based document permissions and enterprise access control</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Precise citation tracing directly to verified source documents</span></li>
+          </ul>
+          <a href="{{ url_for('main.contact') }}" class="btn ssc-btn">
+            <span>Explore RAG Systems</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+      </article>
+      <article class="scroll-stack-card" style="--i:3">
+          <div class="ssc-head">
+            <span class="ssc-eyebrow">03 — MULTIMODAL AI</span>
+            <span class="ssc-tag">Vision & Audio Intelligence</span>
+          </div>
+          <h4 class="ssc-title">Perception pipelines that see, listen, and understand.</h4>
+          <p class="ssc-desc">Cross-format models that analyze visual documents, video streams, audio recordings, and numerical telemetry in a unified cognitive context for automated inspection and analysis.</p>
+          <ul class="ssc-specs">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Document OCR and layout analysis for dense financial forms</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Computer vision pipelines for anomaly and safety detection</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Simultaneous voice and text context comprehension</span></li>
+          </ul>
+          <a href="{{ url_for('main.contact') }}" class="btn ssc-btn">
+            <span>Explore Multimodal AI</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+      </article>
+      <article class="scroll-stack-card" style="--i:4">
+          <div class="ssc-head">
+            <span class="ssc-eyebrow">04 — INTELLIGENT PIPELINES</span>
+            <span class="ssc-tag">Workflow Automation</span>
+          </div>
+          <h4 class="ssc-title">Automate repetitive business workflows end-to-end.</h4>
+          <p class="ssc-desc">Transform labor-intensive manual operations into automated, self-correcting pipelines that integrate seamlessly with your existing databases, email systems, and enterprise ERPs.</p>
+          <ul class="ssc-specs">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Automated extraction, validation, and database ingestion</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Exception routing with human-in-the-loop escalation</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Direct synchronization with CRM, ERP, and payment systems</span></li>
+          </ul>
+          <a href="{{ url_for('main.contact') }}" class="btn ssc-btn">
+            <span>Automate Workflows</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+      </article>
+      <article class="scroll-stack-card" style="--i:5">
+          <div class="ssc-head">
+            <span class="ssc-eyebrow">05 — VOICE AI AGENTS</span>
+            <span class="ssc-tag">Low-Latency Telephony</span>
+          </div>
+          <h4 class="ssc-title">Sub-second conversational intelligence over real-time audio.</h4>
+          <p class="ssc-desc">Ultra-fast voice agents capable of natural interruptions, active listening, and contextual tool execution across customer support, intake questionnaires, and outbound reminders.</p>
+          <ul class="ssc-specs">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Sub-600ms end-to-end voice roundtrip latency</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Emotion and intent detection with real-time CRM updates</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Native telephony and SIP trunking integration</span></li>
+          </ul>
+          <a href="{{ url_for('main.contact') }}" class="btn ssc-btn">
+            <span>Deploy Voice AI</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+      </article>
+      <article class="scroll-stack-card" style="--i:6">
+          <div class="ssc-head">
+            <span class="ssc-eyebrow">06 — CUSTOM DOMAIN MODELS</span>
+            <span class="ssc-tag">Proprietary Architectures</span>
+          </div>
+          <h4 class="ssc-title">Bespoke models trained on your private domain data.</h4>
+          <p class="ssc-desc">When off-the-shelf APIs fall short, we fine-tune open-weight foundations or design custom neural models specifically calibrated to your industry terminology and performance targets.</p>
+          <ul class="ssc-specs">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Private hosting within your sovereign cloud VPC</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Fine-tuning on proprietary trade data with LoRA/QLoRA</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg><span>Optimized inference pipelines for high-throughput concurrency</span></li>
+          </ul>
+          <a href="{{ url_for('main.contact') }}" class="btn ssc-btn">
+            <span>Build Custom Model</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+      </article>
+        <div class="scroll-stack-end" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Discipline Jumper -->
+  <div class="related-disciplines reveal-up">
+    <span class="related-disciplines__label">EXPLORE NEXT DISCIPLINE</span>
+    <div class="related-disciplines__links">
+      <a href="#it-solutions" class="related-disciplines__link">
+        <span>02 — AI &amp; IT Solutions</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#it-staffing" class="related-disciplines__link">
+        <span>03 — IT Staffing</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- ===== IT STAFFING ===== -->
-<section class="section">
-  <div class="section__head reveal-up">
-    <div class="page__kicker">03 — IT STAFFING</div>
-    <h2 class="section__title">Bridging the talent gap, strategically.</h2>
-    <p class="section__sub">We source and place highly qualified IT professionals — pre-trained, industry-ready, and matched precisely to your business needs.</p>
+<!-- Divider -->
+<div class="section-divider">
+  <div class="section-divider__line"></div>
+</div>
+
+<!-- ============================================================
+     6. HOW WE DELIVER (From Idea to Impact)
+     ============================================================ -->
+<section class="delivery-section" id="how-we-deliver">
+  <div class="discipline-head reveal-up">
+    <span class="discipline-eyebrow">FROM IDEA TO IMPACT</span>
+    <h2 class="discipline-headline">
+      How we <span class="service-highlight">deliver</span>.
+    </h2>
+    <p class="discipline-desc">
+      A battle-tested five-stage engineering methodology designed to minimize project risk and accelerate time to production.
+    </p>
   </div>
-  <div class="pillars">
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">ONE-TIME STAFFING</span>
-      <h3 class="pillar__h">Hire for the project.</h3>
-      <p class="pillar__p">Full-time professionals for specific projects. You outline the requirement, we supply matched talent — for a single placement fee.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">TEMPORARY STAFFING</span>
-      <h3 class="pillar__h">Scale without the overhead.</h3>
-      <p class="pillar__p">Scale your workforce for short-term demand. Candidates stay on our payroll — we handle admin and compliance, you get the talent.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">WHY OUR TALENT</span>
-      <h3 class="pillar__h">Ready on day one.</h3>
-      <p class="pillar__p">A steady pipeline of top-tier engineers — trained on real projects, internships, and veteran mentorship; specialised in cybersecurity, cloud, and data science.</p>
-    </article>
+
+  <div class="process-track">
+    <div class="process-node reveal-up" data-electric-border data-eb-color="#DF6B67"
+         data-eb-chaos="0.09" data-eb-speed="0.9" data-eb-radius="16">
+      <div class="process-node__step">01</div>
+      <h3 class="process-node__name">Discover</h3>
+      <p class="process-node__desc">We dissect the operational bottleneck, map existing systems, and establish measurable technical requirements.</p>
+    </div>
+
+    <div class="process-node reveal-up" data-electric-border data-eb-color="#DF6B67"
+         data-eb-chaos="0.09" data-eb-speed="0.9" data-eb-radius="16">
+      <div class="process-node__step">02</div>
+      <h3 class="process-node__name">Design</h3>
+      <p class="process-node__desc">We architect the system, define data flows, specify model choices, and establish interface UX.</p>
+    </div>
+
+    <div class="process-node reveal-up" data-electric-border data-eb-color="#DF6B67"
+         data-eb-chaos="0.09" data-eb-speed="0.9" data-eb-radius="16">
+      <div class="process-node__step">03</div>
+      <h3 class="process-node__name">Build</h3>
+      <p class="process-node__desc">Sprint-based engineering, model training/fine-tuning, and robust automated test suites.</p>
+    </div>
+
+    <div class="process-node reveal-up" data-electric-border data-eb-color="#DF6B67"
+         data-eb-chaos="0.09" data-eb-speed="0.9" data-eb-radius="16">
+      <div class="process-node__step">04</div>
+      <h3 class="process-node__name">Deploy</h3>
+      <p class="process-node__desc">Zero-downtime rollout into secure production environments with full telemetry and access controls.</p>
+    </div>
+
+    <div class="process-node reveal-up" data-electric-border data-eb-color="#DF6B67"
+         data-eb-chaos="0.09" data-eb-speed="0.9" data-eb-radius="16">
+      <div class="process-node__step">05</div>
+      <h3 class="process-node__name">Evolve</h3>
+      <p class="process-node__desc">Continuous monitoring, model retraining, and proactive optimization as your volume grows.</p>
+    </div>
   </div>
 </section>
 
-<!-- ===== HOW WE ENGAGE ===== -->
-<section class="section">
-  <div class="section__head reveal-up">
-    <div class="page__kicker">04 — HOW WE ENGAGE</div>
-    <h2 class="section__title">Four ways to work with us.</h2>
-    <p class="section__sub">From a team you direct to outcomes we're paid on — pick the engagement that fits, and switch as you scale.</p>
+<!-- Divider -->
+<div class="section-divider">
+  <div class="section-divider__line"></div>
+</div>
+
+<!-- ============================================================
+     7. SECTION 02 — AI & IT SOLUTIONS (6 Cards + Tech Stack)
+     ============================================================ -->
+<section class="discipline-section" id="it-solutions">
+  <div class="discipline-head reveal-up">
+    <span class="discipline-eyebrow">02 — AI &amp; IT SOLUTIONS</span>
+    <h2 class="discipline-headline">
+      Enterprise technology, <span class="service-highlight">engineered to scale</span>.
+    </h2>
+    <p class="discipline-desc">
+      AI, data, cloud and infrastructure that form the foundation for modern businesses.
+    </p>
   </div>
-  <div class="pillars pillars--4">
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">MODEL 01</span>
-      <h3 class="pillar__h">GCC Pods</h3>
-      <p class="pillar__p">Dedicated AI engineering pods, named and badged to your projects — 3 to 15 engineers. You steer them like an internal department; we handle hiring, infrastructure, payroll and bench.</p>
-      <span class="pillar__meta">You direct, we staff · from $13K/mo</span>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">MODEL 02</span>
-      <h3 class="pillar__h">Managed AI Functions</h3>
-      <p class="pillar__p">AI capabilities delivered as a fully managed service. You consume the output and the outcomes; we own the models, the pipelines and the uptime.</p>
-      <span class="pillar__meta">We run, you consume</span>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">MODEL 03</span>
-      <h3 class="pillar__h">AI Project Builds</h3>
-      <p class="pillar__p">A defined outcome, scoped and priced up front, delivered to production. Clear milestones, clear ownership, no open-ended retainers.</p>
-      <span class="pillar__meta">Fixed scope, fixed fee</span>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">MODEL 04</span>
-      <h3 class="pillar__h">Outcome-Based AI</h3>
-      <p class="pillar__p">We tie our fee to the metric that matters — revenue, hours saved, cost removed. You pay for the result, not the effort behind it.</p>
-      <span class="pillar__meta">We're paid on results</span>
-    </article>
+
+  <div class="service-grid">
+    <!-- Card 1: AI & Data Models -->
+    <a href="{{ url_for('main.contact') }}" class="service-card reveal-up" data-tilt>
+      <div>
+        <div class="service-card__top">
+          <span class="service-card__badge">AI &amp; DATA MODELS</span>
+          <span class="service-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </span>
+        </div>
+        <div class="service-card__body">
+          <h3 class="service-card__title">Data into advantage.</h3>
+          <p class="service-card__desc">Machine learning and AI solutions that turn business data into measurable outcomes.</p>
+        </div>
+      </div>
+      <div class="service-card__foot">
+        <span class="service-card__action">Explore Capability</span>
+        <span class="service-card__arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <!-- Card 2: IT Infrastructure -->
+    <a href="{{ url_for('main.contact') }}" class="service-card reveal-up" data-tilt>
+      <div>
+        <div class="service-card__top">
+          <span class="service-card__badge">IT INFRASTRUCTURE</span>
+          <span class="service-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+          </span>
+        </div>
+        <div class="service-card__body">
+          <h3 class="service-card__title">Infrastructure that keeps you moving.</h3>
+          <p class="service-card__desc">Scalable infrastructure, monitoring, security and continuous optimisation for modern businesses.</p>
+        </div>
+      </div>
+      <div class="service-card__foot">
+        <span class="service-card__action">Explore Capability</span>
+        <span class="service-card__arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <!-- Card 3: Data Centre & Cloud -->
+    <a href="{{ url_for('main.contact') }}" class="service-card reveal-up" data-tilt>
+      <div>
+        <div class="service-card__top">
+          <span class="service-card__badge">DATA CENTRE &amp; CLOUD</span>
+          <span class="service-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+          </span>
+        </div>
+        <div class="service-card__body">
+          <h3 class="service-card__title">Built for what's next.</h3>
+          <p class="service-card__desc">Cloud architecture, migration, reliability and disaster recovery designed for continuity.</p>
+        </div>
+      </div>
+      <div class="service-card__foot">
+        <span class="service-card__action">Explore Capability</span>
+        <span class="service-card__arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <!-- Card 4: Cybersecurity -->
+    <a href="{{ url_for('main.contact') }}" class="service-card reveal-up" data-tilt>
+      <div>
+        <div class="service-card__top">
+          <span class="service-card__badge">CYBERSECURITY</span>
+          <span class="service-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </span>
+        </div>
+        <div class="service-card__body">
+          <h3 class="service-card__title">Security by design.</h3>
+          <p class="service-card__desc">Threat identification, defensive measures, vulnerability audits, and full regulatory compliance for your ecosystem.</p>
+        </div>
+      </div>
+      <div class="service-card__foot">
+        <span class="service-card__action">Explore Capability</span>
+        <span class="service-card__arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <!-- Card 5: Smart City & IoT -->
+    <a href="{{ url_for('main.contact') }}" class="service-card reveal-up" data-tilt>
+      <div>
+        <div class="service-card__top">
+          <span class="service-card__badge">SMART CITY</span>
+          <span class="service-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l8-4v18M13 10l6 3v8"/></svg>
+          </span>
+        </div>
+        <div class="service-card__body">
+          <h3 class="service-card__title">Urban tech, integrated.</h3>
+          <p class="service-card__desc">Connected devices, telemetry data, and protected ecosystems for sustainability, efficiency, and public operations.</p>
+        </div>
+      </div>
+      <div class="service-card__foot">
+        <span class="service-card__action">Explore Capability</span>
+        <span class="service-card__arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <!-- Card 6: Smart Campus -->
+    <a href="{{ url_for('main.contact') }}" class="service-card reveal-up" data-tilt>
+      <div>
+        <div class="service-card__top">
+          <span class="service-card__badge">SMART CAMPUS</span>
+          <span class="service-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </span>
+        </div>
+        <div class="service-card__body">
+          <h3 class="service-card__title">Learning, modernised.</h3>
+          <p class="service-card__desc">Interactive digital learning suites, educational intelligence platforms, and advanced campus safety in one architecture.</p>
+        </div>
+      </div>
+      <div class="service-card__foot">
+        <span class="service-card__action">Explore Capability</span>
+        <span class="service-card__arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+    </a>
   </div>
-  <p class="section__note">Delivered from Dubai, United Arab Emirates</p>
+
+  <!-- Technology Stack Showcase -->
+  <div class="tech-stack-section reveal-up">
+    <div class="discipline-head" style="margin-bottom: 20px;">
+      <span class="discipline-eyebrow">OUR TECHNOLOGY STACK</span>
+      <h3 class="discipline-headline" style="font-size: clamp(28px, 3.8vw, 50px);">
+        Built with <span class="service-highlight">modern technology</span>.
+      </h3>
+      <p class="discipline-desc">
+        We build on proven frameworks, state-of-the-art model foundations, and battle-tested cloud platforms.
+      </p>
+    </div>
+
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-card__cat">AI &amp; MACHINE LEARNING</div>
+        <div class="tech-pill-list">
+          <span class="tech-pill">PyTorch</span>
+          <span class="tech-pill">TensorFlow</span>
+          <span class="tech-pill">LangChain</span>
+          <span class="tech-pill">Llama 3</span>
+          <span class="tech-pill">OpenAI</span>
+          <span class="tech-pill">Claude</span>
+          <span class="tech-pill">Whisper</span>
+          <span class="tech-pill">Hugging Face</span>
+        </div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-card__cat">BACKEND &amp; DATA</div>
+        <div class="tech-pill-list">
+          <span class="tech-pill">Python</span>
+          <span class="tech-pill">FastAPI</span>
+          <span class="tech-pill">Flask</span>
+          <span class="tech-pill">Node.js</span>
+          <span class="tech-pill">PostgreSQL</span>
+          <span class="tech-pill">Redis</span>
+          <span class="tech-pill">SQLite</span>
+          <span class="tech-pill">GraphQL</span>
+        </div>
+      </div>
+
+      <div class="tech-card">
+        <div class="tech-card__cat">CLOUD &amp; INFRASTRUCTURE</div>
+        <div class="tech-pill-list">
+          <span class="tech-pill">AWS</span>
+          <span class="tech-pill">Docker</span>
+          <span class="tech-pill">Kubernetes</span>
+          <span class="tech-pill">Nginx</span>
+          <span class="tech-pill">Linux</span>
+          <span class="tech-pill">Terraform</span>
+          <span class="tech-pill">CI/CD</span>
+          <span class="tech-pill">Three.js</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Discipline Jumper -->
+  <div class="related-disciplines reveal-up">
+    <span class="related-disciplines__label">EXPLORE NEXT DISCIPLINE</span>
+    <div class="related-disciplines__links">
+      <a href="#ai-applications" class="related-disciplines__link">
+        <span>01 — AI Applications</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#it-staffing" class="related-disciplines__link">
+        <span>03 — IT Staffing</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
 </section>
 
-<!-- ===== OPERATING MODEL ===== -->
-<section class="section">
-  <div class="section__head reveal-up">
-    <div class="page__kicker">05 — OPERATING MODEL</div>
-    <h2 class="section__title">One model, every engagement.</h2>
-    <p class="section__sub">However we engage, the same four layers turn ambition into measurable transformation.</p>
+<!-- Divider -->
+<div class="section-divider">
+  <div class="section-divider__line"></div>
+</div>
+
+<!-- ============================================================
+     8. SECTION 03 — IT STAFFING + MODERN TEAMS
+     ============================================================ -->
+<section class="discipline-section" id="it-staffing">
+  <div class="discipline-head reveal-up">
+    <span class="discipline-eyebrow">03 — IT STAFFING</span>
+    <h2 class="discipline-headline">
+      The people behind <span class="service-highlight">the technology</span>.
+    </h2>
+    <p class="discipline-desc">
+      Skilled technology professionals and flexible engineering teams that extend your capabilities.
+    </p>
   </div>
-  <div class="pillars pillars--4">
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">LAYER 1 · PEOPLE</span>
-      <h3 class="pillar__h">Upskill the workforce.</h3>
-      <p class="pillar__p">Every transformation starts by upgrading your existing team — role-based, cohort-led, and measurable.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">LAYER 2 · ENGINEERING</span>
-      <h3 class="pillar__h">Embed AI pods.</h3>
-      <p class="pillar__p">Our engineers ship alongside yours — AI, MLOps, data and product — delivered from our Dubai base.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">LAYER 3 · TALENT</span>
-      <h3 class="pillar__h">Extend with staffing.</h3>
-      <p class="pillar__p">Permanent placements, contract hires and pre-vetted candidates — drawn from a network of over a million engineers.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">LAYER 4 · OUTCOMES</span>
-      <h3 class="pillar__h">Measure productivity.</h3>
-      <p class="pillar__p">Quarterly baselines on cycle time, output and quality. You only know transformation worked if you can put a number on it.</p>
-    </article>
+
+    <div class="fa-panels" id="staffPanels">
+    <button type="button" class="fa-panel" aria-expanded="true">
+      <img class="fa-panel__img" src="{{ url_for('static', filename='img/ai-1.jpg') }}" alt="" loading="lazy" />
+      <span class="fa-panel__scrim" aria-hidden="true"></span>
+      <svg class="fa-panel__glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="fa-panel__inner">
+        <span class="fa-panel__n">01</span>
+        <span class="fa-panel__t">Build without slowing down.</span>
+        <span class="fa-panel__d">Full-stack, system, and cloud engineers pre-vetted on real-world projects to accelerate product velocity.</span>
+      </span>
+    </button>
+    <button type="button" class="fa-panel" aria-expanded="false">
+      <img class="fa-panel__img" src="{{ url_for('static', filename='img/ai-4.jpg') }}" alt="" loading="lazy" />
+      <span class="fa-panel__scrim" aria-hidden="true"></span>
+      <svg class="fa-panel__glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 019 9 9 9 0 01-9 9 9 9 0 01-9-9 9 9 0 019-9z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span class="fa-panel__inner">
+        <span class="fa-panel__n">02</span>
+        <span class="fa-panel__t">Bring intelligence in-house.</span>
+        <span class="fa-panel__d">Data scientists, machine learning engineers, and prompt specialists ready to ship production models.</span>
+      </span>
+    </button>
+    <button type="button" class="fa-panel" aria-expanded="false">
+      <img class="fa-panel__img" src="{{ url_for('static', filename='img/ai-3.jpg') }}" alt="" loading="lazy" />
+      <span class="fa-panel__scrim" aria-hidden="true"></span>
+      <svg class="fa-panel__glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l5 5L20 6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="fa-panel__inner">
+        <span class="fa-panel__n">03</span>
+        <span class="fa-panel__t">Ship with confidence.</span>
+        <span class="fa-panel__d">Automated testing, penetration testers, and reliability engineers ensuring resilient, zero-defect releases.</span>
+      </span>
+    </button>
+    <button type="button" class="fa-panel" aria-expanded="false">
+      <img class="fa-panel__img" src="{{ url_for('static', filename='img/ai-2.jpg') }}" alt="" loading="lazy" />
+      <span class="fa-panel__scrim" aria-hidden="true"></span>
+      <svg class="fa-panel__glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 100-8 4 4 0 000 8zM4 20a8 8 0 0116 0" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      <span class="fa-panel__inner">
+        <span class="fa-panel__n">04</span>
+        <span class="fa-panel__t">A team built around your goals.</span>
+        <span class="fa-panel__d">Autonomous engineering pods or staff augmentation with complete payroll, bench, and HR handled by us.</span>
+      </span>
+    </button>
+  </div>
+
+  <!-- Solutions for Modern Teams -->
+  <div class="teams-section reveal-up">
+    <div class="discipline-head" style="margin-bottom: 20px;">
+      <span class="discipline-eyebrow">SOLUTIONS FOR MODERN TEAMS</span>
+      <h3 class="discipline-headline" style="font-size: clamp(28px, 3.8vw, 50px);">
+        Engineered for every <span class="service-highlight">operational stage</span>.
+      </h3>
+      <p class="discipline-desc">
+        Whether you are bootstrapping a new intelligent product or modernizing legacy infrastructure.
+      </p>
+    </div>
+
+    <div class="teams-grid">
+      <div class="team-block">
+        <h4 class="team-block__name">Startups</h4>
+        <p class="team-block__desc">Agile MVP builds, AI agent prototyping, and fast go-to-market execution without the overhead of heavy full-time hiring.</p>
+      </div>
+
+      <div class="team-block">
+        <h4 class="team-block__name">Enterprises</h4>
+        <p class="team-block__desc">Private LLM deployments, zero-downtime cloud migrations, regulatory compliance, and 24/7 mission-critical infrastructure.</p>
+      </div>
+
+      <div class="team-block">
+        <h4 class="team-block__name">Product Teams</h4>
+        <p class="team-block__desc">Embedded AI engineering pods that integrate directly into your sprint cycles to ship roadmap milestones faster.</p>
+      </div>
+
+      <div class="team-block">
+        <h4 class="team-block__name">Growing Businesses</h4>
+        <p class="team-block__desc">Turnkey IT infrastructure, workflow automation, and dedicated technology talent ready on day one.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ===== CUSTOM BUILDS — HOW IT WORKS ===== -->
-<section class="section">
-  <div class="section__head reveal-up">
-    <div class="page__kicker">06 — CUSTOM BUILDS</div>
-    <h2 class="section__title">From problem to production.</h2>
-    <p class="section__sub">You bring the problem; we build the solution — from AI prototype to production deployment, for enterprises and the public sector alike.</p>
+<!-- Divider -->
+<div class="section-divider">
+  <div class="section-divider__line"></div>
+</div>
+
+<!-- ============================================================
+     9. SELECTED WORK / OUTCOMES (Real Platforms in Production)
+     ============================================================ -->
+<section class="work-showcase-section" id="selected-work">
+  <div class="discipline-head reveal-up">
+    <span class="discipline-eyebrow">SELECTED WORK</span>
+    <h2 class="discipline-headline">
+      Built to create <span class="service-highlight">measurable impact</span>.
+    </h2>
+    <p class="discipline-desc">
+      Not theoretical concepts — real platforms shipped to production and actively powering businesses and users.
+    </p>
   </div>
-  <div class="pillars">
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">STEP 01</span>
-      <h3 class="pillar__h">Submit a problem.</h3>
-      <p class="pillar__p">Tell us the challenge — any industry or brief. We review it and come back within a week with a way in.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">STEP 02</span>
-      <h3 class="pillar__h">We scope &amp; build.</h3>
-      <p class="pillar__p">A dedicated pod is formed, with a lead from your side co-steering. We move from prototype to a working MVP.</p>
-    </article>
-    <article class="pillar reveal-up" data-tilt>
-      <span class="pillar__no">STEP 03</span>
-      <h3 class="pillar__h">The solution ships.</h3>
-      <p class="pillar__p">Six to eight weeks to a working MVP. Keep it as a project, or scale it into a product with us behind it.</p>
-    </article>
+
+  <div class="work-grid">
+    <!-- Project 1: Omnis -->
+    <a data-glow href="https://rooman.com/omnis/" target="_blank" rel="noopener" class="work-card reveal-up">
+      <span class="work-card__shot" aria-hidden="true">
+        <img src="{{ url_for('static', filename='img/platforms/omnis.jpg') }}"
+             alt="" loading="lazy" decoding="async" width="1280" height="800" />
+      </span>
+      <div>
+        <div class="work-card__badge">ENTERPRISE LLM PLATFORM</div>
+        <h3 class="work-card__title">Omnis</h3>
+        <p class="work-card__desc">A secure enterprise LLM orchestration platform unifying custom models, internal knowledge, and workflow automation.</p>
+      </div>
+      <div>
+        <div class="work-card__tags">
+          <span class="work-card__tag">LLMs</span>
+          <span class="work-card__tag">Python</span>
+          <span class="work-card__tag">Enterprise Security</span>
+        </div>
+        <span class="work-card__link">
+          <span>Live Platform</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <!-- Project 2: HireAI -->
+    <a data-glow href="https://hireai.rooman.com/" target="_blank" rel="noopener" class="work-card reveal-up">
+      <span class="work-card__shot" aria-hidden="true">
+        <img src="{{ url_for('static', filename='img/platforms/hireai.jpg') }}"
+             alt="" loading="lazy" decoding="async" width="1280" height="800" />
+      </span>
+      <div>
+        <div class="work-card__badge">AI RECRUITMENT &amp; INTERVIEWING</div>
+        <h3 class="work-card__title">HireAI</h3>
+        <p class="work-card__desc">AI-powered technical interviewing platform assessing engineer competencies in real time through conversational voice agents.</p>
+      </div>
+      <div>
+        <div class="work-card__tags">
+          <span class="work-card__tag">Voice AI</span>
+          <span class="work-card__tag">NLP</span>
+          <span class="work-card__tag">Automation</span>
+        </div>
+        <span class="work-card__link">
+          <span>Live Platform</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <!-- Project 3: AI Tutor -->
+    <a data-glow href="https://rooman.com/ai-tutor/" target="_blank" rel="noopener" class="work-card reveal-up">
+      <span class="work-card__shot" aria-hidden="true">
+        <img src="{{ url_for('static', filename='img/platforms/ai-tutor.jpg') }}"
+             alt="" loading="lazy" decoding="async" width="1280" height="800" />
+      </span>
+      <div>
+        <div class="work-card__badge">ADAPTIVE LEARNING COMPANION</div>
+        <h3 class="work-card__title">AI Tutor</h3>
+        <p class="work-card__desc">Intelligent tutoring engine delivering 1-on-1 personalized educational curricula and real-time concept clarifications.</p>
+      </div>
+      <div>
+        <div class="work-card__tags">
+          <span class="work-card__tag">EdTech</span>
+          <span class="work-card__tag">Personalized ML</span>
+          <span class="work-card__tag">Real-Time QA</span>
+        </div>
+        <span class="work-card__link">
+          <span>Live Platform</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <!-- Project 4: Startup Varsity -->
+    <a data-glow href="https://www.startupvarsity.com/" target="_blank" rel="noopener" class="work-card reveal-up">
+      <span class="work-card__shot" aria-hidden="true">
+        <img src="{{ url_for('static', filename='img/platforms/startup-varsity.jpg') }}"
+             alt="" loading="lazy" decoding="async" width="1280" height="800" />
+      </span>
+      <div>
+        <div class="work-card__badge">VENTURE &amp; SKILL ACCELERATOR</div>
+        <h3 class="work-card__title">Startup Varsity</h3>
+        <p class="work-card__desc">Interactive platform mentoring prospective founders from initial idea validation to venture scaling and capitalization.</p>
+      </div>
+      <div>
+        <div class="work-card__tags">
+          <span class="work-card__tag">Education</span>
+          <span class="work-card__tag">Web Platform</span>
+          <span class="work-card__tag">Ecosystem</span>
+        </div>
+        <span class="work-card__link">
+          <span>Live Platform</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <!-- Project 5: BlueLinked -->
+    <a data-glow href="https://rooman.com/bluelinked/" target="_blank" rel="noopener" class="work-card reveal-up">
+      <span class="work-card__shot" aria-hidden="true">
+        <img src="{{ url_for('static', filename='img/platforms/bluelinked.jpg') }}"
+             alt="" loading="lazy" decoding="async" width="1280" height="800" />
+      </span>
+      <div>
+        <div class="work-card__badge">VOICE-TO-RESUME APP</div>
+        <h3 class="work-card__title">BlueLinked</h3>
+        <p class="work-card__desc">Voice-driven profile generator bridging employment opportunities for blue-collar professionals through conversational AI.</p>
+      </div>
+      <div>
+        <div class="work-card__tags">
+          <span class="work-card__tag">Speech-to-Text</span>
+          <span class="work-card__tag">Multilingual</span>
+          <span class="work-card__tag">Mobile</span>
+        </div>
+        <span class="work-card__link">
+          <span>Live Platform</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <!-- Project 6: Enterprise ERP & CRM -->
+    <a data-glow href="https://crm.rooman.net/" target="_blank" rel="noopener" class="work-card reveal-up">
+      <span class="work-card__shot" aria-hidden="true">
+        <img src="{{ url_for('static', filename='img/platforms/crm.jpg') }}"
+             alt="" loading="lazy" decoding="async" width="1280" height="800" />
+      </span>
+      <div>
+        <div class="work-card__badge">CORE ENTERPRISE SYSTEMS</div>
+        <h3 class="work-card__title">Enterprise CRM &amp; ERP</h3>
+        <p class="work-card__desc">Custom mission-critical customer management and resource planning platforms handling high-throughput operations.</p>
+      </div>
+      <div>
+        <div class="work-card__tags">
+          <span class="work-card__tag">Cloud</span>
+          <span class="work-card__tag">Databases</span>
+          <span class="work-card__tag">Workflow Engine</span>
+        </div>
+        <span class="work-card__link">
+          <span>Live Platform</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </span>
+      </div>
+    </a>
   </div>
 </section>
 
-<section class="cta-band">
-  <h2 class="reveal-up">Tell us what you're building.</h2>
-  <a href="{{ url_for('main.contact') }}" class="btn" data-magnetic><span>Start a conversation</span>
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<!-- Divider -->
+<div class="section-divider">
+  <div class="section-divider__line"></div>
+</div>
+
+<!-- ============================================================
+     10. WHY FUTUREACAD
+     ============================================================ -->
+<section class="why-section">
+  <div class="fa-particles" data-particles
+       data-p-count="42" data-p-min="6" data-p-max="18"
+       data-p-opacity-min="0.4" data-p-opacity-max="0.95"
+       data-p-colors="#006078,#82BAC4,#E37C78,#FFD4D1"
+       aria-hidden="true"></div>
+  <div class="discipline-head reveal-up">
+    <span class="discipline-eyebrow">WHY FUTUREACAD</span>
+    <h2 class="discipline-headline">
+      Built on engineering, <span class="service-highlight">proven in production</span>.
+    </h2>
+    <p class="discipline-desc">
+      We bridge cutting-edge artificial intelligence with enterprise execution across our suite of launched products.
+    </p>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-card reveal-up" data-index="01">
+      <div>
+        <div class="why-card__num">01</div>
+        <h3 class="why-card__title">Business-First</h3>
+        <p class="why-card__desc">Technology begins with your core operational bottleneck — not empty technology demonstrations that fail in production.</p>
+      </div>
+    </div>
+
+    <div class="why-card reveal-up" data-index="02">
+      <div>
+        <div class="why-card__num">02</div>
+        <h3 class="why-card__title">AI + Engineering</h3>
+        <p class="why-card__desc">Frontier AI models paired with battle-tested software engineering, strict data security, and deterministic reliability.</p>
+      </div>
+    </div>
+
+    <div class="why-card reveal-up" data-index="03">
+      <div>
+        <div class="why-card__num">03</div>
+        <h3 class="why-card__title">End-to-End</h3>
+        <p class="why-card__desc">From strategic discovery and technical scoping through development, cloud deployment, and 24/7 continuous scaling.</p>
+      </div>
+    </div>
+
+    <div class="why-card reveal-up" data-index="04">
+      <div>
+        <div class="why-card__num">04</div>
+        <h3 class="why-card__title">Flexible Delivery</h3>
+        <p class="why-card__desc">Choose dedicated GCC engineering pods, outcome-based project builds, or managed functions matching your roadmap.</p>
+      </div>
+    </div>
+  </div>
 </section>
+
+<!-- Divider -->
+<div class="section-divider">
+  <div class="section-divider__line"></div>
+</div>
+
+<!-- ============================================================
+     11. FREQUENTLY ASKED QUESTIONS (Accordion)
+     ============================================================ -->
+<section class="faq-section" id="faq">
+  <div class="discipline-head reveal-up" style="text-align: center; margin: 0 auto 36px;">
+    <span class="discipline-eyebrow">FREQUENTLY ASKED QUESTIONS</span>
+    <h2 class="discipline-headline" style="font-size: clamp(30px, 4.2vw, 56px);">
+      Common inquiries answered.
+    </h2>
+    <p class="discipline-desc" style="margin: 0 auto;">
+      Everything you need to know about our engagement models, technical capabilities, and project onboarding.
+    </p>
+  </div>
+
+  <div class="faq-list">
+    <!-- Q1 -->
+    <div class="faq-item reveal-up">
+      <button type="button" class="faq-btn" aria-expanded="false">
+        <span>What services does FutureAcad provide?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        FutureAcad delivers three interconnected capabilities: production-ready AI Applications (command suites, voice agents, and bespoke models), enterprise AI &amp; IT Solutions (cloud, data centers, infrastructure, and cybersecurity), and specialized IT Staffing (autonomous engineering pods and talent placement).
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="faq-item reveal-up">
+      <button type="button" class="faq-btn" aria-expanded="false">
+        <span>What type of AI solutions can FutureAcad build?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        We build autonomous AI agents, enterprise Retrieval-Augmented Generation (RAG) knowledge systems, conversational CRM voice agents, multimodal perception pipelines, and domain-specific fine-tuned neural models for automated decision-making.
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="faq-item reveal-up">
+      <button type="button" class="faq-btn" aria-expanded="false">
+        <span>Can FutureAcad develop a custom AI application?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Yes. Our Custom AI Builds service is engineered specifically to design, train, and deploy tailored AI applications around your proprietary datasets, unique workflows, and internal security protocols.
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="faq-item reveal-up">
+      <button type="button" class="faq-btn" aria-expanded="false">
+        <span>Do you provide enterprise IT solutions?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Yes. Backed by FutureAcad's deep engineering capability, we provide scalable cloud architecture, data center migration, 24/7 infrastructure management, threat detection, and smart city/smart campus systems.
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="faq-item reveal-up">
+      <button type="button" class="faq-btn" aria-expanded="false">
+        <span>Do you provide dedicated engineering resources?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Yes. Through our GCC Pods and IT Staffing division, we supply pre-vetted, full-stack, data, and AI engineers. We manage payroll, bench, compliance, and onboarding while you steer technical direction.
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="faq-item reveal-up">
+      <button type="button" class="faq-btn" aria-expanded="false">
+        <span>How does a FutureAcad project begin?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Every project starts with an initial Discovery session where we review your operational objectives, assess data readiness, and present a defined technical scope, architecture blueprint, and milestone timeline within one week.
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="faq-item reveal-up">
+      <button type="button" class="faq-btn" aria-expanded="false">
+        <span>What technologies does FutureAcad work with?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Our stack includes PyTorch, TensorFlow, LangChain, OpenAI, Claude, Whisper, Python, FastAPI, Node.js, PostgreSQL, Redis, Docker, Kubernetes, AWS, GCP, and modern responsive frontend frameworks.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     12. FINAL CONVERSION SECTION
+     ============================================================ -->
+<section class="final-services-cta reveal-up">
+  <div class="final-services-cta__kicker">READY TO BUILD WHAT'S NEXT?</div>
+  <h2 class="final-services-cta__h">Let's discuss your project.</h2>
+  <p class="final-services-cta__p">
+    Whether you need an AI application, enterprise technology solution, or engineering capability, let's discuss what you're trying to build.
+  </p>
+  <a href="{{ url_for('main.contact') }}" class="btn" data-magnetic>
+    <span>Let's Talk</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+
+  <div class="final-services-cta__footer">
+    <span>AI Applications</span>
+    <span class="dot">·</span>
+    <span>AI &amp; IT Solutions</span>
+    <span class="dot">·</span>
+    <span>IT Staffing</span>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/electricborder.js') }}"></script>
+<script src="{{ url_for('static', filename='js/particles.js') }}"></script>
+<script>
+(function () {
+  'use strict';
+
+  // --- High-Performance Constellation Canvas (Zero allocations per frame) ---
+  const canvas = document.getElementById('servicesCanvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      let width = 0, height = 0, dpr = 1, animationId = null, isVisible = true;
+      const mouse = { x: -9999, y: -9999, radius: 160 };
+      const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const PARTICLE_COUNT = isTouch ? 22 : 38;
+      const CONNECT_DIST = 140;
+      const CONNECT_DIST_SQ = CONNECT_DIST * CONNECT_DIST;
+      const particles = [];
+
+      const majorSprite = document.createElement('canvas');
+      majorSprite.width = majorSprite.height = 64;
+      const sCtx1 = majorSprite.getContext('2d');
+      const g1 = sCtx1.createRadialGradient(32, 32, 2, 32, 32, 32);
+      g1.addColorStop(0, '#ffffff');
+      g1.addColorStop(0.18, 'rgba(160, 200, 255, 0.95)');
+      g1.addColorStop(0.45, 'rgba(61, 124, 255, 0.35)');
+      g1.addColorStop(1, 'rgba(61, 124, 255, 0)');
+      sCtx1.fillStyle = g1;
+      sCtx1.beginPath(); sCtx1.arc(32, 32, 32, 0, Math.PI * 2); sCtx1.fill();
+
+      const minorSprite = document.createElement('canvas');
+      minorSprite.width = minorSprite.height = 24;
+      const sCtx2 = minorSprite.getContext('2d');
+      const g2 = sCtx2.createRadialGradient(12, 12, 1, 12, 12, 12);
+      g2.addColorStop(0, '#ffffff');
+      g2.addColorStop(0.35, 'rgba(106, 168, 255, 0.9)');
+      g2.addColorStop(1, 'rgba(61, 124, 255, 0)');
+      sCtx2.fillStyle = g2;
+      sCtx2.beginPath(); sCtx2.arc(12, 12, 12, 0, Math.PI * 2); sCtx2.fill();
+
+      class Particle {
+        constructor(w, h, isMajor) {
+          this.reset(w, h, isMajor);
+        }
+        reset(w, h, isMajor) {
+          this.x = Math.random() * w;
+          this.y = Math.random() * h;
+          this.isMajor = isMajor;
+          this.size = isMajor ? 52 : 16;
+          const speed = isMajor ? 0.22 : 0.32;
+          const angle = Math.random() * Math.PI * 2;
+          this.vx = Math.cos(angle) * speed;
+          this.vy = Math.sin(angle) * speed;
+        }
+        update(w, h) {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < -20) this.x = w + 20;
+          else if (this.x > w + 20) this.x = -20;
+          if (this.y < -20) this.y = h + 20;
+          else if (this.y > h + 20) this.y = -20;
+
+          if (mouse.x > 0 && mouse.y > 0) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < mouse.radius && dist > 0.1) {
+              const force = (1 - dist / mouse.radius) * 0.8;
+              this.x -= (dx / dist) * force;
+              this.y -= (dy / dist) * force;
+            }
+          }
+        }
+      }
+
+      function initParticles() {
+        particles.length = 0;
+        const majorCount = Math.floor(PARTICLE_COUNT * 0.25);
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          particles.push(new Particle(width, height, i < majorCount));
+        }
+      }
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        width = rect.width || window.innerWidth;
+        height = rect.height || 480;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        if (particles.length === 0) {
+          initParticles();
+        } else {
+          particles.forEach(p => {
+            if (p.x > width) p.x = Math.random() * width;
+            if (p.y > height) p.y = Math.random() * height;
+          });
+        }
+      }
+
+      function loop() {
+        if (!isVisible) return;
+        ctx.clearRect(0, 0, width, height);
+
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(106, 168, 255, 0.2)';
+        ctx.lineWidth = 1;
+        const len = particles.length;
+        for (let i = 0; i < len; i++) {
+          const p1 = particles[i];
+          for (let j = i + 1; j < len; j++) {
+            const p2 = particles[j];
+            const dx = p1.x - p2.x, dy = p1.y - p2.y;
+            if (dx * dx + dy * dy < CONNECT_DIST_SQ) {
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+            }
+          }
+        }
+        ctx.stroke();
+
+        for (let i = 0; i < len; i++) {
+          const p = particles[i];
+          if (!prefersReduced) p.update(width, height);
+          const sprite = p.isMajor ? majorSprite : minorSprite;
+          const half = p.size / 2;
+          ctx.drawImage(sprite, p.x - half, p.y - half, p.size, p.size);
+        }
+
+        if (!prefersReduced) {
+          animationId = requestAnimationFrame(loop);
+        }
+      }
+
+      const heroSection = canvas.closest('.page') || canvas.parentElement;
+      if (heroSection) {
+        heroSection.addEventListener('mousemove', function (e) {
+          const rect = canvas.getBoundingClientRect();
+          mouse.x = e.clientX - rect.left;
+          mouse.y = e.clientY - rect.top;
+        }, { passive: true });
+        heroSection.addEventListener('mouseleave', function () {
+          mouse.x = -9999;
+          mouse.y = -9999;
+        });
+      }
+
+      if ('IntersectionObserver' in window && heroSection) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              if (!isVisible) {
+                isVisible = true;
+                if (!prefersReduced) animationId = requestAnimationFrame(loop);
+              }
+            } else {
+              isVisible = false;
+              if (animationId) cancelAnimationFrame(animationId);
+            }
+          });
+        }, { threshold: 0.05 });
+        observer.observe(heroSection);
+      }
+
+      window.addEventListener('resize', resize, { passive: true });
+      resize();
+      loop();
+    }
+  }
+
+  // --- Scrollspy for Services Quick-Jump Navigation ---
+  const navPills = document.querySelectorAll('.services-nav__pill');
+  const sections = document.querySelectorAll('section[id], header[id]');
+
+  if ('IntersectionObserver' in window && navPills.length && sections.length) {
+    const spyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navPills.forEach(pill => {
+            const href = pill.getAttribute('href');
+            if (href === '#' + id) {
+              pill.classList.add('is-active');
+            } else {
+              pill.classList.remove('is-active');
+            }
+          });
+        }
+      });
+    }, {
+      rootMargin: '-20% 0px -60% 0px'
+    });
+
+    sections.forEach(sec => spyObserver.observe(sec));
+  }
+
+  // Smooth scroll click handler for pills
+  navPills.forEach(pill => {
+    pill.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (targetId && targetId.startsWith('#')) {
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          e.preventDefault();
+          if (window.__faLenis) {
+            window.__faLenis.scrollTo(targetEl, { offset: -100 });
+          } else {
+            targetEl.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }
+    });
+  });
+
+  // --- 5. Capability scroll stack ---
+  // The deck scrolls inside its own box, so the page's ScrollTrigger is the
+  // wrong instrument here - it watches the window. This reads the scroller's
+  // own position instead: once the next card closes on the pinned one, the
+  // card underneath scales back and fades, so the pile reads as depth.
+  // One rAF-throttled handler, transform and opacity only, and it only
+  // writes when a value actually changed.
+  (function () {
+    const scroller = document.getElementById('capStack');
+    if (!scroller) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const cards = [...scroller.querySelectorAll('.scroll-stack-card')];
+    if (cards.length < 2) return;
+    const RANGE = 300;          // px over which a card recedes
+    const MIN_SCALE = 0.94;
+    const MIN_OPACITY = 0.42;
+    const last = new Array(cards.length).fill(-1);
+    let queued = false;
+
+    function apply() {
+      queued = false;
+      const host = scroller.getBoundingClientRect().top;
+      for (let i = 0; i < cards.length - 1; i++) {
+        const pin = (parseFloat(getComputedStyle(cards[i]).top) || 0);
+        const d = cards[i + 1].getBoundingClientRect().top - host;
+        let p = 1 - (d - pin) / RANGE;
+        p = p < 0 ? 0 : p > 1 ? 1 : p;
+        if (Math.abs(p - last[i]) < 0.005) continue;
+        last[i] = p;
+        cards[i].style.transform = 'scale(' + (1 - (1 - MIN_SCALE) * p).toFixed(4) + ')';
+        cards[i].style.opacity = (1 - (1 - MIN_OPACITY) * p).toFixed(3);
+      }
+    }
+
+    function onScroll() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(apply);
+    }
+
+    scroller.addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
+    apply();
+  })();
+
+  // --- 11. FAQ Accordion Interaction ---
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const btn = item.querySelector('.faq-btn');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const isOpen = item.classList.contains('is-open');
+        faqItems.forEach(i => {
+          i.classList.remove('is-open');
+          const b = i.querySelector('.faq-btn');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    }
+  });
+
+  // Section Headings GSAP ScrollTrigger (target each heading block directly once)
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.utils.toArray('.discipline-head').forEach(function (head) {
+      var titles = head.querySelectorAll('.discipline-headline, .discipline-eyebrow, .discipline-desc');
+      if (titles.length) {
+        gsap.from(titles, {
+          opacity: 0,
+          y: 22,
+          duration: 0.8,
+          stagger: 0.08,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: head,
+            start: 'top 88%',
+            once: true
+          }
+        });
+      }
+    });
+  }
+})();
+
+  /* ---- Expanding panel selector ----
+     One open at a time. Buttons carry aria-expanded so the state is exposed
+     to assistive tech, and arrow keys move between them like a toolbar. */
+  (function () {
+    const group = document.getElementById('staffPanels');
+    if (!group) return;
+    const panels = [...group.querySelectorAll('.fa-panel')];
+    const open = (i) => panels.forEach((p, n) =>
+      p.setAttribute('aria-expanded', n === i ? 'true' : 'false'));
+    panels.forEach((p, i) => {
+      p.addEventListener('click', () => open(i));
+      p.addEventListener('mouseenter', () => { if (matchMedia('(hover:hover)').matches) open(i); });
+      p.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        const n = (i + d + panels.length) % panels.length;
+        panels[n].focus(); open(n);
+      });
+    });
+  })();
+</script>
 {% endblock %}

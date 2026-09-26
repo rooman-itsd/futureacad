@@ -1,5 +1,38 @@
 {% extends "base.html" %}
 {% block body_class %}is-home{% endblock %}
+{# Home opts out: its hero sits directly on the dark fixed layers and
+   wraps only the post-hero sections in .fa-canvas itself. #}
+{% block main_class %}{% endblock %}
+
+{% block head %}
+<style>
+  /* Completely eliminate any blue glow, halo or hover shadow around cards on landing page */
+  .fa-card,
+  .fa-card:hover,
+  .fa-card--feature,
+  .fa-card--feature:hover,
+  .fa-eco__card,
+  .fa-eco__card:hover,
+  .pillar,
+  .pillar:hover,
+  .fa-why__grid .fa-card,
+  .fa-why__grid .fa-card:hover,
+  .fa-why__grid .fa-card__icon,
+  .fa-why__grid .fa-card:hover .fa-card__icon,
+  [data-glow],
+  [data-glow]:hover {
+    box-shadow: none !important;
+  }
+  .fa-why__grid .fa-card::after,
+  .fa-why__grid .fa-card:hover::after,
+  [data-glow]::before,
+  [data-glow]::after {
+    display: none !important;
+    opacity: 0 !important;
+    filter: none !important;
+  }
+</style>
+{% endblock %}
 
 {% block preloader %}
 <div class="preloader" id="preloader">
@@ -10,7 +43,9 @@
 {% endblock %}
 
 {% block content %}
-  <!-- SCENE 1 — Genesis -->
+  {# ============================================================
+     SCENE 1 — HERO. Locked: approved as-is, do not modify.
+     ============================================================ #}
   <section class="scene scene--1" id="scene1">
     <div class="scene1__stage">
       <div class="kicker reveal-up">THE FUTURE DOESN'T WAIT</div>
@@ -28,162 +63,561 @@
     <div class="scroll-hint" id="scrollHint"><span>SCROLL TO TRAVEL</span><i></i></div>
   </section>
 
-  <!-- SCENE 2 — The AI Universe -->
-  <section class="scene scene--2" id="scene2">
-    <div class="scene__bg bg--intelligence"></div>
-    <div class="scene__index">01 / INTELLIGENCE</div>
-    <div class="scene__lead">
-      <div class="scene2__copy">
-        <h2 class="title-lg reveal-up">A mind, not<br>a machine.</h2>
-        <p class="lede reveal-up">Move through a living neural intelligence. Agents, language models, vision, and automation — orchestrated as one enterprise brain.</p>
-      </div>
-      <div class="scene__media reveal-up"><img src="{{ url_for('static', filename='img/ai-2.jpg') }}" alt="An AI capability map — strategy, machine learning, vision, automation" loading="lazy" /></div>
-    </div>
-    <div class="holo-grid" id="holoGrid">
-      <article class="holo" data-tilt><span class="holo__tag">AGENTS</span><span class="holo__val">Autonomous</span><span class="holo__sub">Goal-driven workflows that act, not wait.</span></article>
-      <article class="holo" data-tilt><span class="holo__tag">LLMs</span><span class="holo__val">Reasoning</span><span class="holo__sub">Fine-tuned models grounded in your data.</span></article>
-      <article class="holo" data-tilt><span class="holo__tag">VISION</span><span class="holo__val">Perception</span><span class="holo__sub">See, read, and understand the physical world.</span></article>
-      <article class="holo" data-tilt><span class="holo__tag">AUTOMATION</span><span class="holo__val">Velocity</span><span class="holo__sub">Replace the repetitive. Free the brilliant.</span></article>
-      <article class="holo" data-tilt><span class="holo__tag">ENTERPRISE AI</span><span class="holo__val">At Scale</span><span class="holo__sub">Secure, governed, and built for production.</span></article>
-      <article class="holo" data-tilt><span class="holo__tag">PROMPTING</span><span class="holo__val">Precision</span><span class="holo__sub">Engineering intent into reliable outcomes.</span></article>
-    </div>
-  </section>
+  {# Everything below the hero sits on the white surface. It clears the
+     fixed dark background layers the hero needs (z-index 0/1/2). #}
+  <div class="fa-canvas">
 
-  <!-- SCENE 3 — Engineering the Future -->
-  <section class="scene scene--3" id="scene3">
-    <div class="scene__bg bg--enterprise"></div>
-    <div class="scene__index">02 / ENTERPRISE</div>
-    <div class="scene__lead">
-      <div class="scene3__copy">
-        <h2 class="title-lg reveal-up">We build the<br>city beneath<br>the software.</h2>
-        <p class="lede reveal-up">Every node becomes code. Every service becomes a tower. Roads of data, skylines of architecture — enterprise systems you can feel.</p>
-      </div>
-      <div class="scene__media reveal-up"><img src="{{ url_for('static', filename='img/ai-3.jpg') }}" alt="A live system architecture — cloud, data pipeline, microservices" loading="lazy" /></div>
-    </div>
-    <ul class="metrics" id="metrics3">
-      <li><span class="metrics__n" data-count="99.99" data-suffix="%">0</span><span class="metrics__l">Uptime engineered</span></li>
-      <li><span class="metrics__n" data-count="40" data-suffix="+">0</span><span class="metrics__l">Microservices orchestrated</span></li>
-      <li><span class="metrics__n" data-count="12" data-suffix="x">0</span><span class="metrics__l">Faster shipping cycles</span></li>
-    </ul>
-  </section>
-
-  <!-- SCENE 4 — Global Talent -->
-  <section class="scene scene--4" id="scene4">
-    <div class="scene__bg bg--talent"></div>
-    <div class="scene__index">03 / TALENT</div>
-    <div class="scene__lead">
-      <div class="scene4__copy">
-        <h2 class="title-lg reveal-up">Talent has<br>no borders.</h2>
-        <p class="lede reveal-up">Developers light up in India. Clients rise in the UAE. Projects ignite across Europe. One living network, hiring at the speed of ambition.</p>
-        <div class="globe-legend">
-          <span><i class="dot dot--dev"></i>Developers</span>
-          <span><i class="dot dot--client"></i>Companies</span>
-          <span><i class="dot dot--route"></i>Live routes</span>
+  {# ============================================================
+     01 — WHO WE ARE. Editorial intro: the visitor should know what
+     this company is within a few seconds.
+     ============================================================ #}
+  <section class="fa-section" id="scene2" aria-labelledby="whoTitle">
+    <div class="fa-shell">
+      <div class="fa-intro">
+        <div class="reveal-up">
+          <p class="fa-eyebrow">Who we are</p>
+          <h2 class="fa-display" id="whoTitle">
+            <span class="fa-display__a">A mind,</span>
+            <span class="fa-display__b">not a machine.</span>
+          </h2>
+          <svg class="fa-net" viewBox="0 0 190 64" fill="none" aria-hidden="true" style="margin-top:26px">
+            <line x1="8" y1="46" x2="52" y2="16"/><line x1="52" y1="16" x2="104" y2="38"/>
+            <line x1="104" y1="38" x2="150" y2="12"/><line x1="150" y1="12" x2="182" y2="34"/>
+            <line x1="52" y1="16" x2="70" y2="56"/><line x1="104" y1="38" x2="132" y2="58"/>
+            <circle cx="8" cy="46" r="3"/><circle cx="52" cy="16" r="4"/>
+            <circle cx="104" cy="38" r="3"/><circle cx="150" cy="12" r="3"/>
+            <circle cx="182" cy="34" r="2.5"/><circle cx="70" cy="56" r="2.5"/>
+            <circle cx="132" cy="58" r="4" class="fa-net__hot"/>
+          </svg>
+        </div>
+        <div class="fa-intro__aside reveal-up">
+          <hr class="fa-rule" />
+          <p class="fa-lede">FutureAcad is a deep tech startup. We pair frontier
+            Artificial Intelligence with enterprise-grade engineering and a global talent
+            network — turning ambition into systems that run in production.</p>
+          <p class="fa-p">Agents, language models, vision, and automation — orchestrated as one
+            enterprise brain, then engineered, deployed, and supported like infrastructure.
+            Not demonstrations. Systems your business runs on.</p>
+          <p class="fa-tick">Dubai · United Arab Emirates</p>
         </div>
       </div>
-      <div class="scene__media reveal-up"><img src="{{ url_for('static', filename='img/ai-1.jpg') }}" alt="A global AI strategy session in Dubai" loading="lazy" /></div>
-    </div>
-  </section>
 
-  <!-- SCENE 5 — Proof -->
-  <section class="scene scene--5" id="scene5">
-    <div class="scene__bg bg--proof"></div>
-    <div class="scene__index">04 / PROOF</div>
-    <h2 class="title-lg reveal-up center">Outcomes, not promises.</h2>
-    <div class="portals" id="portals">
-      <article class="portal" data-tilt>
-        <header><span>RETAIL · UAE</span><b>+38%</b></header>
-        <div class="portal__body">
-          <div class="bar bar--a"><i></i><i></i><i></i><i></i><i></i></div>
-          <p>Revenue uplift after deploying autonomous demand forecasting.</p>
+      <div class="fa-values">
+        <div class="fa-value reveal-up">
+          <span class="fa-value__n">01</span>
+          <h3 class="fa-h4">AI in production</h3>
+          <p class="fa-p">Products that ship and keep running — governed, observable, and owned by you.</p>
         </div>
-      </article>
-      <article class="portal" data-tilt>
-        <header><span>LOGISTICS · KSA</span><b>−61%</b></header>
-        <div class="portal__body">
-          <div class="bar bar--down bar--b"><i></i><i></i><i></i><i></i><i></i></div>
-          <p>Manual processing hours eliminated through end-to-end automation.</p>
+        <div class="fa-value reveal-up">
+          <span class="fa-value__n">02</span>
+          <h3 class="fa-h4">Enterprise engineering</h3>
+          <p class="fa-p">Cloud, data, and security built to the standard the workload actually demands.</p>
         </div>
-      </article>
-      <article class="portal" data-tilt>
-        <header><span>FINTECH · EU</span><b>4.2M</b></header>
-        <div class="portal__body">
-          <div class="bar bar--c"><i></i><i></i><i></i><i></i><i></i></div>
-          <p>Daily decisions served by a governed enterprise LLM platform.</p>
+        <div class="fa-value reveal-up">
+          <span class="fa-value__n">03</span>
+          <h3 class="fa-h4">Talent without borders</h3>
+          <p class="fa-p">Pre-trained, industry-ready engineers matched to your mission, on your terms.</p>
         </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- SCENE ECOSYSTEM — live platforms -->
-  <section class="scene scene--eco" id="scene-eco">
-    <div class="scene__bg bg--ecosystem"></div>
-    <div class="scene__index">05 / ECOSYSTEM</div>
-    <div class="scene__lead">
-      <div class="eco__copy">
-        <h2 class="title-lg reveal-up">Platforms<br>already live.</h2>
-        <p class="lede reveal-up">Not concepts — products in production, used every day. A working ecosystem spanning enterprise software, education, and AI.</p>
       </div>
-      <div class="scene__media reveal-up"><img src="{{ url_for('static', filename='img/ai-4.jpg') }}" alt="A FutureAcad engineer building and training AI models" loading="lazy" /></div>
-    </div>
-    <div class="eco" id="eco">
-      {% for p in projects %}
-      <a class="eco__row" href="{{ p.url }}" target="_blank" rel="noopener">
-        <span class="eco__num">{{ '%02d' % loop.index }}</span><span class="eco__name">{{ p.name }}</span>
-        <span class="eco__desc">{{ p.desc }}</span><span class="eco__host">{{ p.host }}</span><span class="eco__arrow"></span></a>
-      {% endfor %}
     </div>
   </section>
 
-  <!-- SCENE CAPABILITIES — what we actually do (links to full Services) -->
-  <section class="scene scene--caps" id="scene-caps">
-    <div class="scene__bg bg--enterprise"></div>
-    <div class="scene__index">06 / CAPABILITIES</div>
-    <h2 class="title-lg reveal-up">What we<br>actually do.</h2>
-    <div class="caps">
-      <article class="cap reveal-up">
-        <span class="cap__no">01 — AI APPLICATIONS</span>
-        <h3 class="cap__h">Production AI products.</h3>
-        <p class="cap__p">AI Suite, voice agents, tutors and custom builds — production-ready AI that automates work and grows revenue.</p>
-      </article>
-      <article class="cap reveal-up">
-        <span class="cap__no">02 — AI &amp; IT SOLUTIONS</span>
-        <h3 class="cap__h">Enterprise IT, engineered.</h3>
-        <p class="cap__p">Cloud, data centres, cybersecurity, and smart city &amp; school systems — comprehensive IT, backed by 24/7 support.</p>
-      </article>
-      <article class="cap reveal-up">
-        <span class="cap__no">03 — IT STAFFING</span>
-        <h3 class="cap__h">Talent, ready on day one.</h3>
-        <p class="cap__p">Pre-trained, industry-ready engineers — matched precisely to your mission, on your terms.</p>
-      </article>
+  {# ============================================================
+     02 — WHAT WE DO. Bento: one featured discipline, supporting
+     cards, and the AI capability strip across the bottom.
+     ============================================================ #}
+  <section class="fa-section fa-section--tight fa-section--white" id="scene-caps" aria-labelledby="doTitle">
+  <div class="fa-particles" data-particles data-p-shape="star"
+       data-p-count="30" data-p-min="7" data-p-max="20"
+       data-p-opacity-min="0.42" data-p-opacity-max="0.95"
+       data-p-colors="#006078,#82BAC4,#D95F5B,#FFD4D1"
+       aria-hidden="true"></div>
+
+    <div class="fa-shell">
+      <div class="reveal-up" style="max-width:56ch">
+        <p class="fa-eyebrow">What we do</p>
+        <h2 class="fa-h2" id="doTitle">Three <span class="fa-accent">disciplines</span>,<br>one outcome.</h2>
+      </div>
+
+      <div class="fa-bento" style="margin-top:clamp(34px,4vw,56px)">
+        <article class="fa-card fa-card--feature fa-bento__a" data-bento>
+          <svg class="fa-card__watermark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.1"/>
+            <circle cx="12" cy="12" r="5.4" stroke="currentColor" stroke-width="1.1"/>
+            <circle cx="12" cy="12" r="1.9" fill="currentColor"/>
+            <path d="M12 .6v4M12 19.4v4M.6 12h4M19.4 12h4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+          </svg>
+          <span class="fa-card__tag">01 — AI Applications</span>
+          <h3 class="fa-h3">Production AI products, not demonstrations.</h3>
+          <p class="fa-p">AI Suite, voice agents, tutors, and custom builds — production-ready AI
+            that automates work and grows revenue. Every build is grounded in your data, wrapped
+            in access controls, and measured against a business outcome.</p>
+          <div class="fa-row__media fa-row__media--wide reveal-in" style="margin:6px 0 2px">
+            <video id="mindVideo" poster="{{ url_for('static', filename='img/aianim-poster.jpg') }}" data-bg muted loop playsinline preload="none"
+                   aria-label="An AI system routing documents, data and analytics">
+              <source src="{{ url_for('static', filename='video/VideoAnimation.mp4', v='1') }}" type="video/mp4" />
+            </video>
+          </div>
+          <ul class="fa-checks">
+            <li>Autonomous agents that act on goals, not tickets</li>
+            <li>Fine-tuned models grounded in your own data</li>
+            <li>Secure, governed, and built for production scale</li>
+          </ul>
+          <a class="fa-link" href="{{ url_for('main.services') }}">
+            <span>Explore AI applications</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+        <article class="fa-card fa-card--sky fa-bento__b" data-bento>
+          <span class="fa-card__badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+          <span class="fa-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </span>
+          <span class="fa-card__tag">02 — AI &amp; IT Solutions</span>
+          <h3 class="fa-h3">Enterprise IT, engineered.</h3>
+          <p class="fa-p">Cloud, data centres, cybersecurity, and smart city &amp; school systems —
+            comprehensive IT, backed by 24/7 support.</p>
+          <a class="fa-link" href="{{ url_for('main.services') }}">
+            <span>Learn more</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+        <article class="fa-card fa-card--soft fa-bento__c" data-bento>
+          <span class="fa-card__badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <span class="fa-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 12a4 4 0 100-8 4 4 0 000 8zM4 20a8 8 0 0116 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </span>
+          <span class="fa-card__tag">03 — IT Staffing</span>
+          <h3 class="fa-h3">Talent, ready on day one.</h3>
+          <p class="fa-p">Pre-trained, industry-ready engineers — matched precisely to your
+            mission, on your terms.</p>
+          <a class="fa-link" href="{{ url_for('main.services') }}">
+            <span>Learn more</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </article>
+
+        <article class="fa-card fa-card--filled fa-bento__d" data-bento>
+          <span class="fa-card__badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16l5-5 4 3 7-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <svg class="fa-card__mark" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9.4" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="12" r="5.6" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+          <span class="fa-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="fa-card__tag">Delivery</span>
+          <h3 class="fa-h3">Flexible engagement.</h3>
+          <p class="fa-p">Dedicated GCC engineering pods, outcome-based project builds, or managed
+            functions — matched to your roadmap.</p>
+          <ul class="fa-checks">
+            <li>GCC engineering pods</li>
+            <li>Outcome-based builds</li>
+            <li>Managed AI functions</li>
+          </ul>
+        </article>
+
+        <article class="fa-card fa-card--coral fa-bento__e" data-bento>
+          <span class="fa-card__badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5v9M7.5 12h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <span class="fa-card__tag">The intelligence layer</span>
+          <h3 class="fa-h3">Six capabilities, orchestrated as one.</h3>
+          <div class="fa-caps-row">
+            <div class="fa-cap"><span class="fa-cap__t">Agents</span><span class="fa-cap__v">Autonomous</span><span class="fa-cap__s">Goal-driven workflows that act, not wait.</span></div>
+            <div class="fa-cap"><span class="fa-cap__t">LLMs</span><span class="fa-cap__v">Reasoning</span><span class="fa-cap__s">Fine-tuned models grounded in your data.</span></div>
+            <div class="fa-cap"><span class="fa-cap__t">Vision</span><span class="fa-cap__v">Perception</span><span class="fa-cap__s">See, read, and understand the physical world.</span></div>
+            <div class="fa-cap"><span class="fa-cap__t">Automation</span><span class="fa-cap__v">Velocity</span><span class="fa-cap__s">Replace the repetitive. Free the brilliant.</span></div>
+            <div class="fa-cap"><span class="fa-cap__t">Enterprise AI</span><span class="fa-cap__v">At scale</span><span class="fa-cap__s">Secure, governed, and built for production.</span></div>
+            <div class="fa-cap"><span class="fa-cap__t">Prompting</span><span class="fa-cap__v">Precision</span><span class="fa-cap__s">Engineering intent into reliable outcomes.</span></div>
+          </div>
+        </article>
+      </div>
     </div>
-    <a href="{{ url_for('main.services') }}" class="caps__link reveal-up" data-magnetic>
-      <span>Explore all services</span>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
   </section>
 
-  <!-- SCENE 6 — The Future / Dubai -->
-  <section class="scene scene--6" id="scene6">
-    <video class="finale__video" id="finaleVideo" muted loop preload="none"
-           poster="{{ url_for('static', filename='video/finale-poster.jpg') }}">
-      <source src="{{ url_for('static', filename='video/finale.mp4') }}" type="video/mp4" />
-    </video>
-    <div class="finale__scrim"></div>
-    <div class="finale">
-      <img class="finale__logo reveal-up" src="{{ url_for('static', filename='img/logo.png') }}" alt="FutureAcad — A Deep Tech Initiative by Rooman" />
-      <h2 class="title-xl center reveal-up">Let's build<br>tomorrow.</h2>
-      <a href="{{ url_for('main.contact') }}" class="cta" data-magnetic>
-        <span>Schedule Strategy Session</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  {# ============================================================
+     03 — ENTERPRISE. Detail row: copy left, media right.
+     ============================================================ #}
+  <section class="fa-section fa-section--dark" id="scene3" aria-labelledby="entTitle">
+    <div class="fa-shell">
+      <div class="fa-row">
+        <div class="fa-row__copy reveal-left">
+          <p class="fa-eyebrow">Enterprise</p>
+          <h2 class="fa-h2" id="entTitle">We build the <span class="fa-accent">city</span><br>beneath the software.</h2>
+          <p class="fa-lede">Every node becomes code. Every service becomes a tower. Roads of data,
+            skylines of architecture — enterprise systems you can feel.</p>
+          <ul class="fa-checks">
+            <li>Zero-downtime rollout into secure production environments</li>
+            <li>Full telemetry and access controls from day one</li>
+            <li>Continuous monitoring and optimisation as volume grows</li>
+          </ul>
+          <a class="fa-link" href="{{ url_for('main.services') }}">
+            <span>See how we engineer</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+        <div class="fa-row__media reveal-right">
+          <span class="fa-row__badge">Enterprise systems</span>
+          <video id="buildingVideo" poster="{{ url_for('static', filename='img/building-poster.jpg') }}" data-bg muted loop playsinline preload="none"
+                 aria-label="A data city of enterprise architecture">
+            <source src="{{ url_for('static', filename='video/Building.mp4', v='3') }}" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ============================================================
+     04 — TALENT. Detail row flipped: media left, copy right.
+     ============================================================ #}
+  <section class="fa-section" id="scene4" aria-labelledby="talTitle">
+    <div class="fa-shell">
+      <div class="fa-row fa-row--flip">
+        <div class="fa-row__copy reveal-right">
+          <p class="fa-eyebrow">Talent</p>
+          <h2 class="fa-h2" id="talTitle">Talent has<br>no <span class="fa-accent">borders</span>.</h2>
+          <p class="fa-lede">Developers light up in India. Clients rise in the UAE. Projects ignite
+            across Europe. One living network, hiring at the speed of ambition.</p>
+          <ul class="fa-checks">
+            <li>Dedicated GCC engineering pods that scale with you</li>
+            <li>Pre-trained engineers, productive from day one</li>
+            <li>Senior architects and fractional leadership on demand</li>
+          </ul>
+          <a class="fa-link" href="{{ url_for('main.contact') }}">
+            <span>Build your team</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+        <div class="fa-row__media reveal-left">
+          <span class="fa-row__badge">Global network</span>
+          <video id="talentVideo" poster="{{ url_for('static', filename='img/talent-poster.jpg') }}" data-bg muted loop playsinline preload="none"
+                 aria-label="A global engineering network routing work through a GCC pod">
+            <source src="{{ url_for('static', filename='video/talent.mp4', v='1') }}" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ============================================================
+     05 — HOW IT WORKS. Five stages, one journey.
+     ============================================================ #}
+  <section class="fa-section fa-section--white" id="scene-process" aria-labelledby="procTitle">
+  <div class="fa-particles" data-particles data-p-shape="star"
+       data-p-count="26" data-p-min="7" data-p-max="20"
+       data-p-opacity-min="0.42" data-p-opacity-max="0.95"
+       data-p-colors="#006078,#82BAC4,#D95F5B,#FFD4D1"
+       aria-hidden="true"></div>
+
+    <div class="fa-shell">
+      <div class="reveal-up" style="max-width:58ch">
+        <p class="fa-eyebrow">How it works</p>
+        <h2 class="fa-h2" id="procTitle">From <span class="fa-accent">problem</span><br>to production.</h2>
+        <p class="fa-lede" style="margin-top:20px">Every project starts with a Discovery session where we
+          review your objectives, assess data readiness, and present a defined technical scope,
+          architecture blueprint, and milestone timeline within one week.</p>
+      </div>
+      <div class="fa-journey reveal-up" role="button" tabindex="0"
+           aria-label="Replay the delivery journey, Discover through Evolve">
+        <div class="fa-journey__wrap">
+        <svg class="fa-journey__line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <polyline points="10,76.7 30,23.3 50,76.7 70,23.3 90,76.7" />
+          <polyline class="fa-journey__fill" points="10,76.7 30,23.3 50,76.7 70,23.3 90,76.7" />
+          <polyline class="fa-journey__pulse" points="10,76.7 30,23.3 50,76.7 70,23.3 90,76.7" />
+          <polyline class="fa-journey__pulse fa-journey__pulse--b" points="10,76.7 30,23.3 50,76.7 70,23.3 90,76.7" />
+          <polyline class="fa-journey__pulse fa-journey__pulse--c" points="10,76.7 30,23.3 50,76.7 70,23.3 90,76.7" />
+        </svg>
+        <ol class="fa-journey__track">
+        <li class="fa-journey__step" data-step>
+          <span class="fa-journey__node">
+            {% if journey_icons.discover %}
+            <img class="fa-journey__img" src="{{ url_for('static', filename=journey_icons.discover) }}"
+                 alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            {% else %}
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.9"/><path d="M20 20l-4.3-4.3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+            {% endif %}
+            <span class="fa-journey__badge">01</span>
+          </span>
+          <h3 class="fa-journey__t">Discover</h3>
+          <p class="fa-journey__p">We dissect the operational bottleneck, map existing systems, and establish measurable technical requirements.</p>
+        </li>
+        <li class="fa-journey__step" data-step>
+          <span class="fa-journey__node">
+            {% if journey_icons.design %}
+            <img class="fa-journey__img" src="{{ url_for('static', filename=journey_icons.design) }}"
+                 alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            {% else %}
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><defs><linearGradient id="faDsg" x1="0" y1="0" x2=".3" y2="1"><stop offset="0" stop-color="#F5333F"/><stop offset=".5" stop-color="#FB8C21"/><stop offset="1" stop-color="#FFC400"/></linearGradient></defs><path d="M11.2 5.6C8.4 4.2 5.3 5.9 5.1 8.7c-.2 2.5 2.2 4 4 3.3 1.5-.6 1.6-2.5.1-2.8-1 -.2-1.7.8-1.2 1.6.9 1.6 3.1 2 4.3 3.3.8.9.4 2.1-.7 2.4-.9.2-1.7-.3-1.8-1.2" stroke="url(#faDsg)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g transform="rotate(28 15.6 11.4)"><rect x="13.6" y="3.1" width="4.1" height="12.3" rx=".5" fill="#5C5C60"/><rect x="13.6" y="3.1" width="4.1" height="2" rx=".5" fill="#8B8B91"/><path d="M13.6 4.5h4.1M13.6 5.4h4.1" stroke="#fff" stroke-width=".42" opacity=".9"/><path d="M13.6 15.4h4.1l-2.05 3.3z" fill="#6E6E74"/><path d="M14.65 17.1h2l-1 1.6z" fill="#3B3B3F"/></g></svg>
+            {% endif %}
+            <span class="fa-journey__badge">02</span>
+          </span>
+          <h3 class="fa-journey__t">Design</h3>
+          <p class="fa-journey__p">We architect the system, define data flows, specify model choices, and establish interface UX.</p>
+        </li>
+        <li class="fa-journey__step" data-step>
+          <span class="fa-journey__node">
+            {% if journey_icons.build %}
+            <img class="fa-journey__img" src="{{ url_for('static', filename=journey_icons.build) }}"
+                 alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            {% else %}
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><defs><linearGradient id="faBld" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2DD4BF"/><stop offset=".55" stop-color="#4F8EF7"/><stop offset="1" stop-color="#8B7BF0"/></linearGradient></defs><rect x="2.2" y="4.6" width="14.4" height="11.4" rx="2.1" fill="#fff" stroke="url(#faBld)" stroke-width="1.2"/><path d="M2.2 6.7a2.1 2.1 0 0 1 2.1-2.1h10.2a2.1 2.1 0 0 1 2.1 2.1v1.5H2.2V6.7z" fill="url(#faBld)"/><circle cx="4.8" cy="6.45" r=".72" fill="#A7F3D0"/><circle cx="6.9" cy="6.45" r=".72" fill="#BFDBFE"/><circle cx="9" cy="6.45" r=".72" fill="#CBC7FB"/><path d="M7.4 13.7 5.7 12.1l1.7-1.6M11.4 10.5l1.7 1.6-1.7 1.6M10.3 9.9 9 14.3" stroke="url(#faBld)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.1 14.6h2.2l.3 1.2 1.1.5 1-.6 1.1 1.5-.8.9v1.2l.8.9-1.1 1.5-1-.6-1.1.5-.3 1.2h-2.2l-.3-1.2-1.1-.5-1 .6-1.1-1.5.8-.9v-1.2l-.8-.9 1.1-1.5 1 .6 1.1-.5.3-1.2z" fill="url(#faBld)" transform="translate(-1.7,-1.4) scale(.92)"/><circle cx="18.05" cy="17.6" r="1.35" fill="#fff"/></svg>
+            {% endif %}
+            <span class="fa-journey__badge">03</span>
+          </span>
+          <h3 class="fa-journey__t">Build</h3>
+          <p class="fa-journey__p">Sprint-based engineering, model training and fine-tuning, and robust automated test suites.</p>
+        </li>
+        <li class="fa-journey__step" data-step>
+          <span class="fa-journey__node">
+            {% if journey_icons.deploy %}
+            <img class="fa-journey__img" src="{{ url_for('static', filename=journey_icons.deploy) }}"
+                 alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            {% else %}
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.2c2.3 2.3 3.5 5.2 3.5 8.3 0 2.2-.5 4-1.2 5.1H9.7C9 14.5 8.5 12.7 8.5 10.5c0-3.1 1.2-6 3.5-8.3z" fill="#1E90FF"/><circle cx="12" cy="6.3" r=".72" fill="#fff"/><circle cx="12" cy="9.4" r="1.05" fill="#fff"/><path d="M9.3 12.1h5.4M9.3 13h5.4" stroke="#fff" stroke-width=".55" stroke-linecap="round"/><path d="M9.7 12.6c-1.5.5-2.5 1.9-2.6 3.9h2.6v-3.9zM14.3 12.6c1.5.5 2.5 1.9 2.6 3.9h-2.6v-3.9z" fill="#1A4F80"/><path d="M11.6 11.6h.8v6.1h-.8z" fill="#1A4F80"/><path d="M10.1 16.5h3.8l-1 4.6c-.3 1-1.5 1-1.8 0l-1-4.6z" fill="#F7B24B"/><path d="M11.4 16.5h1.2l-.3 4.3c-.1.7-.5.7-.6 0l-.3-4.3z" fill="#FFE14D"/></svg>
+            {% endif %}
+            <span class="fa-journey__badge">04</span>
+          </span>
+          <h3 class="fa-journey__t">Deploy</h3>
+          <p class="fa-journey__p">Zero-downtime rollout into secure production environments with full telemetry and access controls.</p>
+        </li>
+        <li class="fa-journey__step" data-step>
+          <span class="fa-journey__node">
+            {% if journey_icons.evolve %}
+            <img class="fa-journey__img" src="{{ url_for('static', filename=journey_icons.evolve) }}"
+                 alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            {% else %}
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 17l5-5 4 3 7-8" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {% endif %}
+            <span class="fa-journey__badge">05</span>
+          </span>
+          <h3 class="fa-journey__t">Evolve</h3>
+          <p class="fa-journey__p">Continuous monitoring, model retraining, and proactive optimisation as your volume grows.</p>
+        </li>
+        </ol>
+        </div>
+      </div>
+  </section>
+
+  {# ============================================================
+     06 — PROOF. Engineered standards + measured client outcomes.
+     ============================================================ #}
+  <section class="fa-section fa-section--soft" id="scene5" aria-labelledby="proofTitle">
+    <div class="fa-shell">
+      <div class="reveal-up" style="max-width:54ch;margin-bottom:clamp(34px,4vw,54px)">
+        <p class="fa-eyebrow">Proof</p>
+        <h2 class="fa-h2" id="proofTitle"><span class="fa-accent">Outcomes</span>,<br>not promises.</h2>
+      </div>
+
+      <div class="fa-stats reveal-up">
+        <div class="fa-stat">
+          <span class="fa-stat__n" data-count="99.99" data-suffix="%">0</span>
+          <span class="fa-stat__l">Uptime engineered</span>
+        </div>
+        <div class="fa-stat">
+          <span class="fa-stat__n" data-count="40" data-suffix="+">0</span>
+          <span class="fa-stat__l">Microservices orchestrated</span>
+        </div>
+        <div class="fa-stat">
+          <span class="fa-stat__n" data-count="12" data-suffix="x">0</span>
+          <span class="fa-stat__l">Faster shipping cycles</span>
+        </div>
+        <div class="fa-stat">
+          <span class="fa-stat__n" data-count="2025" data-suffix="">0</span>
+          <span class="fa-stat__l">Established startup</span>
+        </div>
+      </div>
+
+      <div class="fa-results" style="align-items:stretch">
+        <article class="fa-card" data-bento style="height:100%;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <span class="fa-card__tag">Retail · UAE</span>
+            <div class="fa-result__v" style="margin:10px 0 12px">+38% <span style="font-size:0.38em;letter-spacing:0.12em;font-family:var(--mono);font-weight:700;vertical-align:middle;display:inline-block;color:var(--c-ink-soft);margin-left:4px">PROJECTED</span></div>
+          </div>
+          <p class="fa-p">Projected revenue uplift through autonomous AI demand forecasting.</p>
+        </article>
+        <article class="fa-card" data-bento style="height:100%;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <span class="fa-card__tag">Logistics · KSA</span>
+            <div class="fa-result__v" style="margin:10px 0 12px">&minus;61%</div>
+          </div>
+          <p class="fa-p">Manual processing hours eliminated through end-to-end automation.</p>
+        </article>
+        <article class="fa-card" data-bento style="height:100%;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <span class="fa-card__tag">Fintech · EU</span>
+            <div class="fa-result__v" style="margin:10px 0 12px">4.2M</div>
+          </div>
+          <p class="fa-p">Daily decisions served by a governed enterprise LLM platform.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {# ============================================================
+     07 — ECOSYSTEM. Products already in production.
+     ============================================================ #}
+  <section class="fa-section" id="scene-eco" aria-labelledby="ecoTitle">
+    <div class="fa-shell">
+      <div class="fa-row fa-row--flip" style="margin-bottom:clamp(34px,4vw,56px)">
+        <div class="fa-row__copy reveal-right">
+          <p class="fa-eyebrow">Ecosystem</p>
+          <h2 class="fa-h2" id="ecoTitle">Platforms<br><span class="fa-accent">already live</span>.</h2>
+          <p class="fa-lede">Not concepts — products in production, used every day. A working
+            ecosystem spanning enterprise software, education, and AI.</p>
+          <a class="fa-link" href="{{ url_for('main.work') }}">
+            <span>See the full ecosystem</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+        <div class="fa-row__media reveal-left">
+          <video id="ecoVideo" poster="{{ url_for('static', filename='img/eco-poster.jpg') }}"
+                 data-bg muted loop playsinline preload="none"
+                 aria-label="The FutureAcad product ecosystem">
+            <source src="{{ url_for('static', filename='video/frontpage.mp4') }}" type="video/mp4" />
+          </video>
+        </div>
+        </div>
+      </div>
+
+      <div class="fa-eco">
+        {% for p in projects %}
+        <a class="fa-card fa-eco__card" href="{{ p.url }}" target="_blank" rel="noopener" data-bento>
+          {% if p.img %}
+          <span class="fa-eco__shot">
+            <img src="{{ url_for('static', filename=p.img) }}" alt="{{ p.name }} — live product screenshot" loading="lazy" />
+          </span>
+          {% endif %}
+          <span class="fa-card__tag">{{ '%02d' % loop.index }}</span>
+          <h3 class="fa-h4">{{ p.name }}</h3>
+          <p class="fa-p">{{ p.desc }}</p>
+          <span class="fa-eco__host">{{ p.host }}</span>
+        </a>
+        {% endfor %}
+      </div>
+  </section>
+
+  {# ============================================================
+     08 — WHY US. Differentiators, in the company's own words.
+     ============================================================ #}
+  <section class="fa-section fa-section--soft" id="scene-why" aria-labelledby="whyTitle">
+    <div class="fa-shell">
+      <div class="fa-why">
+        <div class="reveal-up">
+          <p class="fa-eyebrow">Why FutureAcad</p>
+          <h2 class="fa-h2" id="whyTitle">Built by a team<br>that has <span class="fa-accent">shipped</span> before.</h2>
+          <p class="fa-lede" style="margin-top:20px">Established in 2025 as a deep tech startup launching production-grade platforms built to solve mission-critical problems for global industries.</p>
+        </div>
+        <div class="fa-why__grid">
+          <article class="fa-card" data-bento>
+            <span class="fa-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.5-7-10a7 7 0 1114 0c0 5.5-7 10-7 10z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="11" r="2.4" stroke="currentColor" stroke-width="1.7"/></svg>
+            </span>
+            <h3 class="fa-h4">Business-first</h3>
+            <p class="fa-p">Technology begins with your core operational bottleneck — not empty
+              technology demonstrations that fail in production.</p>
+          </article>
+          <article class="fa-card" data-bento>
+            <span class="fa-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+            </span>
+            <h3 class="fa-h4">AI + engineering</h3>
+            <p class="fa-p">Frontier AI models paired with battle-tested software engineering,
+              strict data security, and deterministic reliability.</p>
+          </article>
+          <article class="fa-card" data-bento>
+            <span class="fa-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h18M12 3v18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/></svg>
+            </span>
+            <h3 class="fa-h4">End-to-end</h3>
+            <p class="fa-p">From strategic discovery and technical scoping through development,
+              cloud deployment, and 24/7 continuous scaling.</p>
+          </article>
+          <article class="fa-card" data-bento>
+            <span class="fa-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="7" height="7" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="14" y="4" width="7" height="7" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="3" y="14" width="7" height="7" rx="1.6" stroke="currentColor" stroke-width="1.7"/></svg>
+            </span>
+            <h3 class="fa-h4">Flexible delivery</h3>
+            <p class="fa-p">Choose dedicated GCC engineering pods, outcome-based project builds, or
+              managed functions matching your roadmap.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ============================================================
+     STATEMENT — the claim, surrounded by the products that back it.
+     Copy and attribution are existing site content; the tiles are
+     real screenshots of our own live platforms.
+     ============================================================ #}
+  <section class="fa-collage" id="scene-statement" aria-labelledby="stmtQuote">
+    <div class="fa-collage__tiles" aria-hidden="true">
+      {% for p in projects if p.img %}{% if loop.index <= 6 %}
+      <span class="fa-collage__tile">
+        <img src="{{ url_for('static', filename=p.img) }}" alt="" loading="lazy" />
+      </span>
+      {% endif %}{% endfor %}
+    </div>
+    <div class="fa-collage__inner">
+      <blockquote class="fa-collage__quote" id="stmtQuote">Not concepts — products in
+        production, used every day.</blockquote>
+      <p class="fa-collage__by">FutureAcad · A Deep Tech Startup</p>
+      <a class="fa-collage__cta" href="{{ url_for('main.work') }}">
+        <span>See the work</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <div class="finale__foot">Dubai · United Arab Emirates — The Future Doesn't Wait.</div>
     </div>
   </section>
-{% endblock %}
 
-{% block footer %}{% endblock %}
+  {# ============================================================
+     Text loop. The site's own line, set on a curve and travelling
+     between the statement and the closing call to action.
+     ============================================================ #}
+  <div class="fa-loop" data-text-loop
+       data-text="The future doesn't wait"
+       data-shape="wave"
+       data-curviness="30"
+       data-view-height="240"
+       data-ribbon-color="#006078"
+       data-ribbon-width="86"
+       data-color="#FAFAF7"
+       data-font-size="44"
+       data-letter-spacing="3"
+       data-speed="70"></div>
+
+  {# ============================================================
+     09 — CTA. Breaks from the surrounding rhythm.
+     ============================================================ #}
+  <section class="fa-section fa-section--tight" id="scene6">
+    <div class="fa-shell">
+      <div class="fa-cta">
+        <video class="fa-cta__video" id="finaleVideo" data-bg muted loop playsinline preload="none"
+               poster="{{ url_for('static', filename='video/finale-poster.jpg') }}" aria-hidden="true">
+          <source src="{{ url_for('static', filename='video/finale.mp4') }}" type="video/mp4" />
+        </video>
+        <div class="fa-cta__scrim"></div>
+        <div class="fa-cta__inner">
+          <img class="reveal-up" src="{{ url_for('static', filename='img/logo.png') }}"
+               alt="FutureAcad — A Deep Tech Startup" style="width:min(270px,60vw);height:auto" />
+          <h2>Let's build tomorrow.</h2>
+          <p class="fa-lede">Tell us where you're stuck. We'll come prepared with ideas, not a sales script.</p>
+          <div class="fa-cta__actions">
+            <a href="{{ url_for('main.contact') }}" class="fa-btn">
+              <span>Schedule Strategy Session</span>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="{{ url_for('main.services') }}" class="fa-btn fa-btn--ghost">
+              <span>Explore all services</span>
+            </a>
+          </div>
+          <p class="fa-cta__foot">Dubai · United Arab Emirates — The Future Doesn't Wait.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>{# /.fa-canvas #}
+{% endblock %}
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+<script src="{{ url_for('static', filename='js/particles.js') }}"></script>
+<script src="{{ url_for('static', filename='js/textloop.js') }}"></script>
 {% endblock %}
