@@ -1,6 +1,6 @@
 # FutureAcad.ae
 
-Full-stack site for **FutureAcad** — a Deep Tech Initiative by Rooman (Dubai).
+Full-stack site for **FutureAcad** — a Deep Tech Startup established in 2025 (Dubai).
 A cinematic, WebGL-driven frontend with a Flask backend that captures leads and
 serves a password-protected admin dashboard.
 

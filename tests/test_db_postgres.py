@@ -32,7 +32,7 @@ def pg_app(monkeypatch):
     class PgConfig(Config):
         TESTING = True
         SECRET_KEY = "test-secret-key"
-        ADMIN_USERNAME = "ceo@rooman.net"
+        ADMIN_USERNAME = "ceo@futureacad.ae"
         ADMIN_PASSWORD = "test-only-password"
         SMTP_HOST = None
 
