@@ -382,7 +382,12 @@
         observer.observe(heroSection);
       }
 
-      window.addEventListener('resize', resize, { passive: true });
+      // Resizing clears the canvas. Under reduced motion nothing redraws it,
+      // so paint the single still frame again.
+      window.addEventListener('resize', function () {
+        resize();
+        if (prefersReduced) loop();
+      }, { passive: true });
       resize();
       loop();
     }
@@ -405,6 +410,8 @@
     document.querySelectorAll('.stats').forEach(function (statSection) {
       var countEls = statSection.querySelectorAll('[data-count]');
       if (!countEls.length) return;
+      // The markup already holds the final figures; leave them be.
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
       ScrollTrigger.create({
         trigger: statSection,

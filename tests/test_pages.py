@@ -57,3 +57,36 @@ def test_500_handler_renders_error_page(app, config_class):
     resp = client.get("/__boom")
     assert resp.status_code == 500
     assert b"500" in resp.data
+
+
+@pytest.mark.parametrize("slug", ["omnis", "hireai", "ai-tutor", "bluelinked", "crm", "erp"])
+def test_platform_shortcut_redirects_to_live_site(client, slug):
+    from app.routes import PLATFORM_REDIRECTS
+
+    resp = client.get(f"/{slug}")
+    assert resp.status_code == 302
+    assert resp.headers["Location"] == PLATFORM_REDIRECTS[slug]
+
+
+@pytest.mark.parametrize("path", PUBLIC_PAGES)
+def test_every_referenced_static_file_exists(client, app, path):
+    """A renamed or deleted video/image should fail here, not as a silent 404."""
+    import re
+    from pathlib import Path
+
+    body = client.get(path).get_data(as_text=True)
+    refs = set(re.findall(r'/static/([^"\'?#\s)]+)', body))
+    assert refs
+    missing = [r for r in refs if not (Path(app.static_folder) / r).is_file()]
+    assert not missing, f"{path} references missing static files: {missing}"
+
+
+def test_partner_without_logo_falls_back_to_wordmark(monkeypatch, tmp_path):
+    from app import data
+
+    monkeypatch.setattr(data, "_PARTNER_DIR", tmp_path)
+    (tmp_path / "cisco.svg").write_text("<svg/>")
+    partners = {p["slug"]: p for p in data.get_partners()}
+    assert partners["cisco"]["img"] == "img/partners/cisco.svg"
+    assert partners["google"]["img"] is None
+    assert partners["google"]["colors"]

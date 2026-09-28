@@ -2696,7 +2696,12 @@
         observer.observe(heroSection);
       }
 
-      window.addEventListener('resize', resize, { passive: true });
+      // Resizing clears the canvas. Under reduced motion nothing redraws it,
+      // so paint the single still frame again.
+      window.addEventListener('resize', function () {
+        resize();
+        if (prefersReduced) loop();
+      }, { passive: true });
       resize();
       loop();
     }

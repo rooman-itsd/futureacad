@@ -36,12 +36,11 @@ PROJECTS = [
 
 # Training and certification partners, shown as a travelling row on /work.
 #
-# No logo files ship with this project, and an approximation of another
-# company's trademark drawn from memory would misrepresent them, so each
-# entry falls back to a wordmark. Drop a real file into
-# app/static/img/partners/ named after the slug below - svg, png or webp -
-# and that partner switches to its logo on the next request. Nothing else
-# needs changing.
+# A partner with no logo file falls back to a wordmark, rather than an
+# approximation of another company's trademark drawn from memory. Drop a real
+# file into app/static/img/partners/ named after the slug below - svg, png or
+# webp - and that partner switches to its logo on the next request. Nothing
+# else needs changing.
 _PARTNER_DIR = Path(__file__).resolve().parent / "static" / "img" / "partners"
 _LOGO_EXTS = ("svg", "png", "webp")
 

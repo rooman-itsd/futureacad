@@ -4234,6 +4234,14 @@
 (function () {
   'use strict';
 
+  // The hero robot is a decorative loop; under reduced motion hold it still,
+  // as the home page does with its background clips.
+  const heroVideo = document.querySelector('.about-hero__video');
+  if (heroVideo && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    heroVideo.removeAttribute('autoplay');
+    try { heroVideo.pause(); } catch (e) {}
+  }
+
   // --- High-Performance About Constellation (Atmospheric & Non-Intrusive) ---
   const canvas = document.getElementById('aboutCanvas');
   if (canvas) {
@@ -4399,7 +4407,12 @@
         observer.observe(heroSection);
       }
 
-      window.addEventListener('resize', resize, { passive: true });
+      // Resizing clears the canvas. Under reduced motion nothing redraws it,
+      // so paint the single still frame again.
+      window.addEventListener('resize', function () {
+        resize();
+        if (prefersReduced) loop();
+      }, { passive: true });
       resize();
       loop();
     }

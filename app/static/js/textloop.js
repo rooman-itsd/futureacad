@@ -149,6 +149,7 @@
 
     var tween = null;
     var watched = false;
+    var inView = true;
 
     function layout() {
       var length, unitWidth;
@@ -189,6 +190,10 @@
         repeat: -1,
         onUpdate: function () { apply(state.offset); }
       });
+      // layout() runs again once fonts land, possibly while the band is off
+      // screen; the observer will not fire again until it scrolls back, so the
+      // replacement tween has to start parked.
+      if (!inView) tween.pause();
 
       // Park it while off screen. Same reasoning as the story row: a
       // transform running for the whole page costs frames, and nobody can
@@ -197,8 +202,9 @@
         watched = true;
         new IntersectionObserver(function (entries) {
           entries.forEach(function (e) {
+            inView = e.isIntersecting;
             if (!tween) return;
-            if (e.isIntersecting) tween.resume(); else tween.pause();
+            if (inView) tween.resume(); else tween.pause();
           });
         }, { rootMargin: '250px 0px' }).observe(root);
       }
