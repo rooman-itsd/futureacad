@@ -80,14 +80,17 @@
             <span class="fa-display__a">A mind,</span>
             <span class="fa-display__b">not a machine.</span>
           </h2>
-          <svg class="fa-net" viewBox="0 0 190 64" fill="none" aria-hidden="true" style="margin-top:26px">
-            <line x1="8" y1="46" x2="52" y2="16"/><line x1="52" y1="16" x2="104" y2="38"/>
-            <line x1="104" y1="38" x2="150" y2="12"/><line x1="150" y1="12" x2="182" y2="34"/>
-            <line x1="52" y1="16" x2="70" y2="56"/><line x1="104" y1="38" x2="132" y2="58"/>
-            <circle cx="8" cy="46" r="3"/><circle cx="52" cy="16" r="4"/>
-            <circle cx="104" cy="38" r="3"/><circle cx="150" cy="12" r="3"/>
-            <circle cx="182" cy="34" r="2.5"/><circle cx="70" cy="56" r="2.5"/>
-            <circle cx="132" cy="58" r="4" class="fa-net__hot"/>
+          {# Three soft, overlapping fields: the three disciplines listed
+             below (AI, engineering, talent) meeting in one practice. #}
+          <svg class="fa-orbs" viewBox="0 0 240 120" aria-hidden="true">
+            <defs>
+              <radialGradient id="faOrbA" cx="35%" cy="35%" r="75%"><stop offset="0" stop-color="#2A8FA6"/><stop offset="1" stop-color="#006078"/></radialGradient>
+              <radialGradient id="faOrbB" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#E4F0F3"/><stop offset="1" stop-color="#82BAC4"/></radialGradient>
+              <radialGradient id="faOrbC" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#FFD4D1"/><stop offset="1" stop-color="#E37C78"/></radialGradient>
+            </defs>
+            <circle class="fa-orbs__a" cx="72" cy="60" r="46" fill="url(#faOrbA)"/>
+            <circle class="fa-orbs__b" cx="120" cy="60" r="46" fill="url(#faOrbB)"/>
+            <circle class="fa-orbs__c" cx="168" cy="60" r="46" fill="url(#faOrbC)"/>
           </svg>
         </div>
         <div class="fa-intro__aside reveal-up">

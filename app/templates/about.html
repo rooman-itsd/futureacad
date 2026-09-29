@@ -3702,76 +3702,17 @@
           <span class="build-prog-no">05</span>
           <span class="build-prog-bar"></span>
         </div>
-        <div class="build-prog-item" data-panel="06">
-          <span class="build-prog-no">06</span>
-          <span class="build-prog-bar"></span>
-        </div>
       </div>
     </div>
 
     <!-- Product Showcase Stack -->
     <div class="about-build-stack">
-      <!-- PRODUCT 01: OMNIS (TEXT LEFT → VISUAL RIGHT) -->
-      <article class="build-panel" id="build-panel-01" data-index="01" style="--panel-accent: #147C8F; --panel-tint: #F3F9FA;">
+      <!-- PRODUCT 01: HIREAI (VISUAL LEFT → TEXT RIGHT) -->
+      <article class="build-panel build-panel--reverse" id="build-panel-01" data-index="01" style="--panel-accent: #E06D53; --panel-tint: #FDF6F4;">
         <div class="build-panel__accent-line" aria-hidden="true"></div>
         <div class="build-panel__content">
           <div class="build-panel__kicker">
             <span class="build-panel__no">01 / PLATFORM</span>
-            <span class="build-panel__status">
-              <span class="build-panel__status-dot" aria-hidden="true"></span>
-              LIVE PLATFORM
-            </span>
-          </div>
-          <h3 class="build-panel__title">Omnis</h3>
-          <p class="build-panel__desc">
-            A secure enterprise LLM orchestration platform unifying custom models, internal knowledge, and workflow automation.
-          </p>
-          <div class="build-panel__value">
-            <span class="build-panel__value-label">CORE PURPOSE</span>
-            <p class="build-panel__value-text">
-              Provides sovereign enterprise AI governance, private document retrieval, and reliable multi-agent execution in production.
-            </p>
-          </div>
-          <div class="build-panel__tags">
-            <span class="build-tag">AI</span>
-            <span class="build-tag">LLM ORCHESTRATION</span>
-            <span class="build-tag">ENTERPRISE</span>
-          </div>
-          <div class="build-panel__actions">
-            <a href="https://rooman.com/omnis/" target="_blank" rel="noopener" class="build-panel__btn">
-              <span>Explore Platform</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <div class="build-panel__visual">
-          <div class="build-visual-frame">
-            <div class="build-visual-bar" aria-hidden="true">
-              <span class="build-dot"></span>
-              <span class="build-dot"></span>
-              <span class="build-dot"></span>
-              <span class="build-url">omnis.rooman.com</span>
-            </div>
-            <div class="build-visual-img-wrap">
-              <img src="{{ url_for('static', filename='img/platforms/omnis.jpg') }}" alt="Omnis Enterprise LLM Platform Interface" loading="lazy" decoding="async" width="1280" height="800" />
-              <div class="build-visual-overlay" aria-hidden="true">
-                <span class="build-overlay-badge">
-                  <span class="build-overlay-dot"></span>
-                  SYSTEM ACTIVE
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- PRODUCT 02: HIREAI (VISUAL LEFT → TEXT RIGHT) -->
-      <article class="build-panel build-panel--reverse" id="build-panel-02" data-index="02" style="--panel-accent: #E06D53; --panel-tint: #FDF6F4;">
-        <div class="build-panel__accent-line" aria-hidden="true"></div>
-        <div class="build-panel__content">
-          <div class="build-panel__kicker">
-            <span class="build-panel__no">02 / PLATFORM</span>
             <span class="build-panel__status">
               <span class="build-panel__status-dot" aria-hidden="true"></span>
               LIVE PLATFORM
@@ -3793,9 +3734,9 @@
             <span class="build-tag">AUTOMATION</span>
           </div>
           <div class="build-panel__actions">
-            <a href="https://hireai.rooman.com/" target="_blank" rel="noopener" class="build-panel__btn">
+            <a href="/build/hireai" class="build-panel__btn">
               <span>Explore Platform</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           </div>
         </div>
@@ -3821,12 +3762,12 @@
         </div>
       </article>
 
-      <!-- PRODUCT 03: AI TUTOR (TEXT LEFT → VISUAL RIGHT) -->
-      <article class="build-panel" id="build-panel-03" data-index="03" style="--panel-accent: #2563EB; --panel-tint: #F4F7FD;">
+      <!-- PRODUCT 02: AI TUTOR (TEXT LEFT → VISUAL RIGHT) -->
+      <article class="build-panel" id="build-panel-02" data-index="02" style="--panel-accent: #2563EB; --panel-tint: #F4F7FD;">
         <div class="build-panel__accent-line" aria-hidden="true"></div>
         <div class="build-panel__content">
           <div class="build-panel__kicker">
-            <span class="build-panel__no">03 / PLATFORM</span>
+            <span class="build-panel__no">02 / PLATFORM</span>
             <span class="build-panel__status">
               <span class="build-panel__status-dot" aria-hidden="true"></span>
               LIVE PLATFORM
@@ -3848,9 +3789,9 @@
             <span class="build-tag">INTELLIGENCE</span>
           </div>
           <div class="build-panel__actions">
-            <a href="https://rooman.com/ai-tutor/" target="_blank" rel="noopener" class="build-panel__btn">
+            <a href="/build/product/ai-tutor" class="build-panel__btn">
               <span>Explore Platform</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           </div>
         </div>
@@ -3861,7 +3802,7 @@
               <span class="build-dot"></span>
               <span class="build-dot"></span>
               <span class="build-dot"></span>
-              <span class="build-url">rooman.com/ai-tutor</span>
+              <span class="build-url">lms.rooman.com</span>
             </div>
             <div class="build-visual-img-wrap">
               <img src="{{ url_for('static', filename='img/platforms/ai-tutor.jpg') }}" alt="AI Tutor Adaptive Learning Platform Interface" loading="lazy" decoding="async" width="1280" height="800" />
@@ -3876,12 +3817,12 @@
         </div>
       </article>
 
-      <!-- PRODUCT 04: STARTUP VARSITY (VISUAL LEFT → TEXT RIGHT) -->
-      <article class="build-panel build-panel--reverse" id="build-panel-04" data-index="04" style="--panel-accent: #059669; --panel-tint: #F3FAF6;">
+      <!-- PRODUCT 03: STARTUP VARSITY (VISUAL LEFT → TEXT RIGHT) -->
+      <article class="build-panel build-panel--reverse" id="build-panel-03" data-index="03" style="--panel-accent: #059669; --panel-tint: #F3FAF6;">
         <div class="build-panel__accent-line" aria-hidden="true"></div>
         <div class="build-panel__content">
           <div class="build-panel__kicker">
-            <span class="build-panel__no">04 / PLATFORM</span>
+            <span class="build-panel__no">03 / PLATFORM</span>
             <span class="build-panel__status">
               <span class="build-panel__status-dot" aria-hidden="true"></span>
               LIVE PLATFORM
@@ -3903,9 +3844,9 @@
             <span class="build-tag">ECOSYSTEM</span>
           </div>
           <div class="build-panel__actions">
-            <a href="https://www.startupvarsity.com/" target="_blank" rel="noopener" class="build-panel__btn">
+            <a href="/build/startup-varsity" class="build-panel__btn">
               <span>Explore Platform</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           </div>
         </div>
@@ -3931,91 +3872,36 @@
         </div>
       </article>
 
-      <!-- PRODUCT 05: BLUELINKED (TEXT LEFT → VISUAL RIGHT) -->
-      <article class="build-panel" id="build-panel-05" data-index="05" style="--panel-accent: #7C3AED; --panel-tint: #F8F5FF;">
+      <!-- PRODUCT 04: ENTERPRISE CRM (TEXT LEFT → VISUAL RIGHT) -->
+      <article class="build-panel" id="build-panel-04" data-index="04" style="--panel-accent: #004858; --panel-tint: #F2F7F8;">
         <div class="build-panel__accent-line" aria-hidden="true"></div>
         <div class="build-panel__content">
           <div class="build-panel__kicker">
-            <span class="build-panel__no">05 / APPLICATION</span>
+            <span class="build-panel__no">04 / PLATFORM</span>
             <span class="build-panel__status">
               <span class="build-panel__status-dot" aria-hidden="true"></span>
               LIVE PLATFORM
             </span>
           </div>
-          <h3 class="build-panel__title">BlueLinked</h3>
+          <h3 class="build-panel__title">Enterprise CRM</h3>
           <p class="build-panel__desc">
-            Voice-driven profile generator bridging employment opportunities for blue-collar professionals through conversational AI.
+            Mission-critical customer relationship platform with an AI voice agent that calls, qualifies and logs every lead.
           </p>
           <div class="build-panel__value">
             <span class="build-panel__value-label">CORE PURPOSE</span>
             <p class="build-panel__value-text">
-              Translates multilingual spoken audio into structured, recruiter-ready professional resumes without requiring manual typing.
+              Unifies client records, sales pipelines and call activity in one place, with lead scoring and secure role-based access.
             </p>
           </div>
           <div class="build-panel__tags">
-            <span class="build-tag">VOICE AI</span>
-            <span class="build-tag">MULTILINGUAL</span>
-            <span class="build-tag">EMPLOYMENT</span>
+            <span class="build-tag">CRM</span>
+            <span class="build-tag">VOICE AGENTS</span>
+            <span class="build-tag">SALES AUTOMATION</span>
           </div>
           <div class="build-panel__actions">
-            <a href="https://rooman.com/bluelinked/" target="_blank" rel="noopener" class="build-panel__btn">
+            <a href="/build/product/crm-voice-agent" class="build-panel__btn">
               <span>Explore Platform</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <div class="build-panel__visual">
-          <div class="build-visual-frame">
-            <div class="build-visual-bar" aria-hidden="true">
-              <span class="build-dot"></span>
-              <span class="build-dot"></span>
-              <span class="build-dot"></span>
-              <span class="build-url">rooman.com/bluelinked</span>
-            </div>
-            <div class="build-visual-img-wrap">
-              <img src="{{ url_for('static', filename='img/platforms/bluelinked.jpg') }}" alt="BlueLinked Voice-to-Resume Platform Interface" loading="lazy" decoding="async" width="1280" height="800" />
-              <div class="build-visual-overlay" aria-hidden="true">
-                <span class="build-overlay-badge">
-                  <span class="build-overlay-dot"></span>
-                  SYSTEM ACTIVE
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- PRODUCT 06: ENTERPRISE CRM & ERP (VISUAL LEFT → TEXT RIGHT) -->
-      <article class="build-panel build-panel--reverse" id="build-panel-06" data-index="06" style="--panel-accent: #004858; --panel-tint: #F2F7F8;">
-        <div class="build-panel__accent-line" aria-hidden="true"></div>
-        <div class="build-panel__content">
-          <div class="build-panel__kicker">
-            <span class="build-panel__no">06 / PLATFORM</span>
-            <span class="build-panel__status">
-              <span class="build-panel__status-dot" aria-hidden="true"></span>
-              LIVE PLATFORM
-            </span>
-          </div>
-          <h3 class="build-panel__title">Enterprise CRM &amp; ERP</h3>
-          <p class="build-panel__desc">
-            Custom mission-critical customer management and resource planning platforms handling high-throughput enterprise operations.
-          </p>
-          <div class="build-panel__value">
-            <span class="build-panel__value-label">CORE PURPOSE</span>
-            <p class="build-panel__value-text">
-              Unifies enterprise client records, multi-department operational resources, financial ledgers, and secure role-based governance.
-            </p>
-          </div>
-          <div class="build-panel__tags">
-            <span class="build-tag">CLOUD ARCHITECTURE</span>
-            <span class="build-tag">DATABASES</span>
-            <span class="build-tag">WORKFLOW ENGINE</span>
-          </div>
-          <div class="build-panel__actions">
-            <a href="https://crm.rooman.net/" target="_blank" rel="noopener" class="build-panel__btn">
-              <span>Explore Platform</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           </div>
         </div>
@@ -4029,7 +3915,62 @@
               <span class="build-url">crm.rooman.net</span>
             </div>
             <div class="build-visual-img-wrap">
-              <img src="{{ url_for('static', filename='img/platforms/crm.jpg') }}" alt="Enterprise CRM &amp; ERP Management Platform Interface" loading="lazy" decoding="async" width="1280" height="800" />
+              <img src="{{ url_for('static', filename='img/platforms/crm.jpg') }}" alt="Enterprise CRM Platform Interface" loading="lazy" decoding="async" width="1280" height="800" />
+              <div class="build-visual-overlay" aria-hidden="true">
+                <span class="build-overlay-badge">
+                  <span class="build-overlay-dot"></span>
+                  SYSTEM ACTIVE
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PRODUCT 05: ENTERPRISE ERP (VISUAL LEFT → TEXT RIGHT) -->
+      <article class="build-panel build-panel--reverse" id="build-panel-05" data-index="05" style="--panel-accent: #B45309; --panel-tint: #FDF8F1;">
+        <div class="build-panel__accent-line" aria-hidden="true"></div>
+        <div class="build-panel__content">
+          <div class="build-panel__kicker">
+            <span class="build-panel__no">05 / PLATFORM</span>
+            <span class="build-panel__status">
+              <span class="build-panel__status-dot" aria-hidden="true"></span>
+              LIVE PLATFORM
+            </span>
+          </div>
+          <h3 class="build-panel__title">Enterprise ERP</h3>
+          <p class="build-panel__desc">
+            Resource planning platform running admissions, academics, assessment, finance and centre networks in one system.
+          </p>
+          <div class="build-panel__value">
+            <span class="build-panel__value-label">CORE PURPOSE</span>
+            <p class="build-panel__value-text">
+              Unifies multi-department operations, financial ledgers and compliance reporting on managed cloud with role-based governance.
+            </p>
+          </div>
+          <div class="build-panel__tags">
+            <span class="build-tag">ERP</span>
+            <span class="build-tag">CLOUD SAAS</span>
+            <span class="build-tag">WORKFLOW ENGINE</span>
+          </div>
+          <div class="build-panel__actions">
+            <a href="/build/product/edu-erp" class="build-panel__btn">
+              <span>Explore Platform</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="build-panel__visual">
+          <div class="build-visual-frame">
+            <div class="build-visual-bar" aria-hidden="true">
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-dot"></span>
+              <span class="build-url">erp.rooman.net</span>
+            </div>
+            <div class="build-visual-img-wrap">
+              <img src="{{ url_for('static', filename='img/platforms/erp.jpg') }}" alt="Enterprise ERP Platform Interface" loading="lazy" decoding="async" width="1280" height="800" />
               <div class="build-visual-overlay" aria-hidden="true">
                 <span class="build-overlay-badge">
                   <span class="build-overlay-dot"></span>
