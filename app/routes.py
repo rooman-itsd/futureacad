@@ -1,5 +1,7 @@
 """Public site routes + contact API."""
+import json
 import re
+from pathlib import Path
 
 from flask import Blueprint, jsonify, redirect, render_template, request
 
@@ -98,6 +100,7 @@ PLATFORM_REDIRECTS = {
     "bluelinked": "https://rooman.com/bluelinked/",
     "crm": "https://crm.rooman.net/",
     "erp": "https://erp.rooman.net/",
+    "student-portal": "https://learn.rooman.com/",
 }
 
 @main.route("/omnis")
@@ -106,6 +109,7 @@ PLATFORM_REDIRECTS = {
 @main.route("/bluelinked")
 @main.route("/crm")
 @main.route("/erp")
+@main.route("/student-portal")
 def handle_platform_redirect():
     slug = request.path.strip("/")
     target = PLATFORM_REDIRECTS.get(slug)
@@ -113,3 +117,37 @@ def handle_platform_redirect():
         return redirect(target, code=302)
     return jsonify(error="Not found"), 404
 
+
+
+# Build / Transform / Staffing / GCC / Careers pages. Their content is
+# imported from the Rooman site by scripts/import_rooman.py into
+# app/content/imported.json and rendered in the FutureAcad theme.
+IMPORTED_FILE = Path(__file__).parent / "content" / "imported.json"
+IMPORTED = json.loads(IMPORTED_FILE.read_text(encoding="utf-8"))
+_imported_mtime = IMPORTED_FILE.stat().st_mtime
+
+
+def _imported(path):
+    """The page's content, re-read if the importer has rewritten the file."""
+    global IMPORTED, _imported_mtime
+    mtime = IMPORTED_FILE.stat().st_mtime
+    if mtime != _imported_mtime:
+        IMPORTED, _imported_mtime = json.loads(IMPORTED_FILE.read_text(encoding="utf-8")), mtime
+    return IMPORTED[path]
+
+
+# Which nav dropdown each imported page sits under.
+def _nav_section(path):
+    if path.startswith("build/apply-"):
+        return "careers"
+    return {"build": "build", "transform": "transform",
+            "staffing-gcc": "staffing", "gcc-services": "gcc",
+            "partner": "work"}[path.split("/")[0]]
+
+
+def imported_page(path):
+    return render_template("imported.html", page=_imported(path), active=_nav_section(path))
+
+
+for _path in IMPORTED:
+    main.add_url_rule(f"/{_path}", "imported", imported_page, defaults={"path": _path})

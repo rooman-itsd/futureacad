@@ -63,6 +63,47 @@
     }));
   }
 
+  /* ---- Nav dropdowns (Build, Transform) ---- */
+  const drops = document.querySelectorAll('.nav__drop');
+  const setOpen = (drop, open) => {
+    drop.classList.toggle('is-open', open);
+    drop.querySelector('.nav__drop-btn').setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+  drops.forEach((drop) => {
+    const btn = drop.querySelector('.nav__drop-btn');
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const willOpen = !drop.classList.contains('is-open');
+      drops.forEach((d) => setOpen(d, d === drop && willOpen));
+    });
+    // Build's Products / Services groups: opening one closes the other.
+    const subs = drop.querySelectorAll('.nav__sub');
+    subs.forEach((sub) => {
+      sub.querySelector('.nav__sub-btn').addEventListener('click', () => {
+        const willOpen = !sub.classList.contains('is-open');
+        subs.forEach((s) => {
+          const open = s === sub && willOpen;
+          s.classList.toggle('is-open', open);
+          s.querySelector('.nav__sub-btn').setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+      });
+    });
+    drop.addEventListener('focusout', (e) => { if (!drop.contains(e.relatedTarget)) setOpen(drop, false); });
+  });
+  if (drops.length) {
+    document.addEventListener('click', (e) => {
+      drops.forEach((d) => { if (!d.contains(e.target)) setOpen(d, false); });
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      drops.forEach((d) => {
+        if (!d.classList.contains('is-open')) return;
+        setOpen(d, false);
+        d.querySelector('.nav__drop-btn').focus();
+      });
+    });
+  }
+
   /* ---- Lenis smooth scroll (desktop only) ----
      On touch devices we leave native scrolling alone — Lenis' RAF-driven
      scroll fights iOS/Android momentum scrolling and makes the page feel

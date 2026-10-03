@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{# Build / Transform / Staffing / GCC / Careers pages. The content comes from
+   app/content/imported.json (see scripts/import_rooman.py) as typed blocks;
+   this template maps each block type onto the landing page's components. #}
+{% block title %}{{ page.title }} — FutureAcad{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% set arrow %}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>{% endset %}
+
+{% macro ext(href) %}{% if href.startswith('http') %} target="_blank" rel="noopener"{% endif %}{% endmacro %}
+
+{% macro atom(a) %}
+  {%- if a.k == 'img' -%}
+    <span class="imp-card__media"><img src="{{ url_for('static', filename=a.src) }}" alt="{{ a.alt }}" loading="lazy" /></span>
+  {%- elif a.k == 'tag' -%}<span class="fa-card__tag">{{ a.text }}</span>
+  {%- elif a.k == 'kicker' -%}<span class="imp-card__kicker">{{ a.html|safe }}</span>
+  {%- elif a.k == 'title' -%}<h3 class="fa-h4">{{ a.text }}</h3>
+  {%- elif a.k == 'text' -%}<p class="fa-p">{{ a.html|safe }}</p>
+  {%- elif a.k == 'list' -%}<ul class="fa-checks">{% for li in a['items'] %}<li>{{ li|safe }}</li>{% endfor %}</ul>
+  {%- elif a.k == 'kv' -%}<dl class="imp-kv imp-kv--card">{% for k, v in a.rows %}<div><dt>{{ k }}</dt><dd>{{ v }}</dd></div>{% endfor %}</dl>
+  {%- elif a.k == 'badge' -%}<span class="imp-badge">{{ a.text }}</span>
+  {%- elif a.k == 'link' -%}<a class="fa-link" href="{{ a.href }}"{{ ext(a.href) }}>{{ a.text }} {{ arrow }}</a>
+  {%- endif -%}
+{% endmacro %}
+
+{% macro block(b, dark=false) %}
+  {%- if b.t == 'p' -%}<p class="fa-p imp-p">{{ b.html|safe }}</p>
+  {%- elif b.t == 'lede' -%}<p class="fa-lede imp-p">{{ b.html|safe }}</p>
+  {%- elif b.t == 'note' -%}<p class="imp-note">{{ b.html|safe }}</p>
+  {%- elif b.t == 'kicker' -%}<p class="imp-kicker">{{ b.text }}</p>
+  {%- elif b.t == 'h3' -%}<h3 class="fa-h3 imp-h3">{{ b.text }}</h3>
+  {%- elif b.t == 'list' -%}<ul class="fa-checks imp-list" data-imp-reveal>{% for li in b['items'] %}<li>{{ li|safe }}</li>{% endfor %}</ul>
+  {%- elif b.t == 'kv' -%}<dl class="imp-kv">{% for k, v in b.rows %}<div data-imp-reveal style="--i:{{ loop.index0 % 8 }}"><dt>{{ k }}</dt><dd>{{ v }}</dd></div>{% endfor %}</dl>
+  {%- elif b.t == 'chips' -%}<ul class="imp-chips" data-imp-reveal>{% for c in b['items'] %}<li>{{ c }}</li>{% endfor %}</ul>
+  {%- elif b.t == 'img' -%}<figure class="imp-figure" data-imp-reveal><img src="{{ url_for('static', filename=b.src) }}" alt="{{ b.alt }}" loading="lazy" /></figure>
+  {%- elif b.t == 'quote' -%}<blockquote class="imp-quote" data-imp-reveal>{{ b.html|safe }}</blockquote>
+  {%- elif b.t == 'link' -%}<a class="fa-link imp-p" href="{{ b.href }}"{{ ext(b.href) }}>{{ b.text }} {{ arrow }}</a>
+  {%- elif b.t == 'buttons' -%}
+    <div class="imp-actions">
+      {%- for btn in b['items'] %}
+      <a href="{{ btn.href }}" class="btn{{ '' if btn.primary else ' btn--ghost' }}"{{ ext(btn.href) }} data-magnetic><span>{{ btn.text }}</span>{{ arrow if btn.primary }}</a>
+      {%- endfor %}
+    </div>
+  {%- elif b.t == 'table' -%}
+    <div class="imp-table" data-imp-reveal data-glow>
+      <table>
+        {% if b.caption %}<caption>{{ b.caption }}</caption>{% endif %}
+        {% if b.head %}<thead><tr>{% for h in b.head %}<th scope="col">{{ h }}</th>{% endfor %}</tr></thead>{% endif %}
+        <tbody>{% for row in b.rows %}<tr class="imp-table__row">{% for c in row %}<td>{{ c|safe }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+      </table>
+    </div>
+  {%- elif b.t == 'faq' -%}
+    <div class="imp-faq" data-imp-reveal>
+      {%- for it in b['items'] %}
+      <details>
+        <summary>{{ it.q }}</summary>
+        <div class="imp-faq__a">{% for a in it.a %}<p>{{ a|safe }}</p>{% endfor %}</div>
+      </details>
+      {%- endfor %}
+    </div>
+  {%- elif b.t == 'cards' -%}
+    <{{ 'ol' if b.ordered else 'ul' }} class="imp-grid{{ ' imp-grid--few' if b['items']|length < 3 }}{{ ' imp-grid--steps' if b.ordered }}"{% if b.ordered %} data-imp-reveal{% endif %}>
+      {%- for it in b['items'] %}
+      <li data-imp-reveal style="--i:{{ loop.index0 % 8 }}">
+        {%- if it.href %}
+        <a class="fa-card imp-card imp-card--link" href="{{ it.href }}"{{ ext(it.href) }}>{% for a in it.atoms %}{{ atom(a) }}{% endfor %}<span class="imp-card__go" aria-hidden="true">{{ arrow }}</span></a>
+        {%- else %}
+        <div class="fa-card imp-card">{% for a in it.atoms %}{{ atom(a) }}{% endfor %}</div>
+        {%- endif %}
+      </li>
+      {%- endfor %}
+    </{{ 'ol' if b.ordered else 'ul' }}>
+  {%- elif b.t == 'form' -%}
+    {{ enquiry(b) }}
+  {%- endif -%}
+{% endmacro %}
+
+{# Enquiry and application forms keep their own fields; imported.js posts
+   them to /api/contact, folding every extra answer into the message. #}
+{% macro enquiry(f) %}
+  <form class="form imp-form" data-imp-reveal data-imported-form data-csrf="{{ csrf_token }}" data-interest="{{ page.title }}" novalidate>
+    {%- for fld in f.fields %}
+    {%- set id = 'f-' ~ loop.index %}
+    {%- set core = fld.name in ('name', 'email') %}
+    {%- if fld.type == 'radio' %}
+    <fieldset class="imp-radios">
+      <legend>{{ fld.label }}</legend>
+      {%- for o in fld.options %}
+      <label><input type="radio" name="{{ fld.name }}" value="{{ o }}"{{ ' checked' if loop.first }} /> {{ o }}</label>
+      {%- endfor %}
+    </fieldset>
+    {%- else %}
+    <div class="field">
+      <label for="{{ id }}">{{ fld.label }}{% if not (core or fld.required) %} <span class="field__opt">(optional)</span>{% endif %}</label>
+      {%- if fld.type == 'select' %}
+      <select id="{{ id }}" name="{{ fld.name }}" data-label="{{ fld.label }}">
+        {%- for o in fld.options %}<option value="{{ '' if loop.first and (o.startswith('Select') or o.startswith('Your')) else o }}">{{ o }}</option>{% endfor %}
+      </select>
+      {%- elif fld.type == 'textarea' %}
+      <textarea id="{{ id }}" name="{{ fld.name }}" data-label="{{ fld.label }}"></textarea>
+      {%- else %}
+      <input type="{{ fld.type }}" id="{{ id }}" name="{{ fld.name }}" data-label="{{ fld.label }}"{% if fld.dial %} data-dial="{{ fld.dial }}" placeholder="{{ fld.dial }}"{% endif %}{% if core %} required{% endif %}
+             {%- if fld.name == 'name' %} autocomplete="name"{% elif fld.name == 'email' %} autocomplete="email"{% elif fld.type == 'tel' %} autocomplete="tel" inputmode="tel"{% endif %} />
+      {%- endif %}
+    </div>
+    {%- endif %}
+    {%- endfor %}
+    <div class="hp" aria-hidden="true"><label>Company website<input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label></div>
+    <div class="form__status" role="status" aria-live="polite"></div>
+    <button type="submit" class="btn" data-magnetic><span>{{ f.submit }}</span>{{ arrow }}</button>
+    {% if f.note %}<p class="imp-note">{{ f.note }}</p>{% endif %}
+  </form>
+{% endmacro %}
+
+{% block content %}
+{%- set hero = page.hero %}
+<header class="page imp-hero{{ ' imp-hero--split' if hero.aside }}">
+  {# Soft colour fields drifting behind the hero copy. #}
+  <div class="imp-aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="imp-hero__main">
+    {% if hero.eyebrow %}<div class="page__kicker imp-in" style="--d:0">{{ hero.eyebrow }}</div>{% endif %}
+    <h1 class="page__title imp-hero__title imp-in" style="--d:1">{{ hero.h1.main }}{% if hero.h1.accent %} <span class="imp-hero__accent">{{ hero.h1.accent }}</span>{% endif %}</h1>
+    <div class="imp-hero__body imp-in" style="--d:2">
+      {%- for b in hero.blocks %}{{ block(b, true) }}{% endfor %}
+    </div>
+  </div>
+  {%- if hero.aside %}
+  <aside class="imp-glance imp-in imp-in--side" style="--d:2">
+    {%- for b in hero.aside %}{{ block(b) }}{% endfor %}
+  </aside>
+  {%- endif %}
+</header>
+
+{%- set tones = ['', 'fa-section--soft', 'fa-section--white'] %}
+{%- for s in page.sections %}
+{#- The Products page shows the live-platform cards from Services here, in
+    place of its imported list; its "4 products" count no longer applies. #}
+{%- set work_grid = page.path == 'build/products' and s.id == 'products' %}
+<section class="fa-section imp-section {{ 'fa-section--dark' if s.dark else tones[loop.index0 % 3] }}"{% if s.id %} id="{{ s.id|replace('-title', '') }}"{% endif %}>
+  <div class="fa-shell">
+    {%- if s.eyebrow or s.title %}
+    <header class="imp-section__head" data-imp-reveal>
+      {% if s.eyebrow and not work_grid %}<p class="fa-eyebrow">{{ s.eyebrow }}</p>{% endif %}
+      {% if s.title %}<h2 class="fa-h2">{{ s.title }}</h2>{% endif %}
+    </header>
+    {%- endif %}
+    <div class="imp-section__body">
+      {%- if work_grid %}
+      {% include "partials/work_grid.html" %}
+      {%- else %}
+      {%- for b in s.blocks %}{{ block(b, s.dark) }}{% endfor %}
+      {%- endif %}
+    </div>
+  </div>
+</section>
+{%- endfor %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/imported.js') }}"></script>
+{% endblock %}

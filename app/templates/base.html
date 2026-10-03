@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;600;700&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css', v='4') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css', v='25') }}" />
   {% block head %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
@@ -50,8 +50,111 @@
       <nav class="nav__links" id="navLinks">
         <a href="{{ url_for('main.home') }}" class="{{ 'is-active' if active=='home' }}">Home</a>
         <a href="{{ url_for('main.about') }}" class="{{ 'is-active' if active=='about' }}">About</a>
-        <a href="{{ url_for('main.services') }}" class="{{ 'is-active' if active=='services' }}">Services</a>
-        <a href="{{ url_for('main.work') }}" class="{{ 'is-active' if active=='work' }}">Work</a>
+        <div class="nav__drop" id="navBuild">
+          <button type="button" class="nav__drop-btn {{ 'is-active' if active in ('services', 'build') }}"
+                  aria-expanded="false" aria-controls="navBuildMenu">Build
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="nav__menu" id="navBuildMenu">
+            {% set svc_first = active=='services' %}
+            <div class="nav__sub {{ '' if svc_first else 'is-open' }}">
+              <button type="button" class="nav__sub-btn" aria-expanded="{{ 'false' if svc_first else 'true' }}" aria-controls="navSubProducts">Products
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="nav__sub-list" id="navSubProducts">
+                <a href="/build/products">All AI Products</a>
+                <a href="/build/hireai">HireAI</a>
+                <a href="/build/product/crm-voice-agent">CRM Voice Agent</a>
+                <a href="/build/product/ai-tutor">AI Tutor</a>
+                <a href="/build/product/edu-erp">Edu ERP</a>
+                <a href="/build/startup-varsity">StartupVarsity</a>
+              </div>
+            </div>
+            <div class="nav__sub {{ 'is-open' if svc_first }}">
+              <button type="button" class="nav__sub-btn" aria-expanded="{{ 'true' if svc_first else 'false' }}" aria-controls="navSubServices">Services
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="nav__sub-list" id="navSubServices">
+                <a href="/build/custom-ai-builds">Custom Build</a>
+                <a href="/build/submit-a-problem">Submit a Problem</a>
+                <a href="/build/ai-project-builds">AI Project Builds</a>
+                <span class="nav__sub-rule" aria-hidden="true"></span>
+                <a href="{{ url_for('main.services') }}#what-we-build">What we build</a>
+                <a href="{{ url_for('main.services') }}#ai-applications">AI Applications</a>
+                <a href="{{ url_for('main.services') }}#it-solutions">AI &amp; IT Solutions</a>
+                <a href="{{ url_for('main.services') }}#it-staffing">IT Staffing</a>
+                <a href="{{ url_for('main.services') }}#how-we-deliver">How we deliver</a>
+                <a href="{{ url_for('main.services') }}#selected-work">Selected work</a>
+                <a href="{{ url_for('main.services') }}" class="nav__menu-all">All services &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav__drop" id="navTransform">
+          <button type="button" class="nav__drop-btn {{ 'is-active' if active=='transform' }}" aria-expanded="false" aria-controls="navTransformMenu">Transform
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="nav__menu nav__menu--flat" id="navTransformMenu">
+            <a href="/transform/ai-readiness-audit">AI Readiness Audit</a>
+            <a href="/transform/with-our-products">Transform with Our Products</a>
+            <a href="/transform/ai-workforce-readiness">AI Workforce Readiness</a>
+            <a href="/transform/managed-ai">Managed AI Services</a>
+            <a href="/transform/enterprise">Enterprise Transformation</a>
+            <a href="/transform/international">International</a>
+            <a href="/transform/case-studies">Case Studies</a>
+          </div>
+        </div>
+        <div class="nav__drop" id="navStaffing">
+          <button type="button" class="nav__drop-btn {{ 'is-active' if active=='staffing' }}" aria-expanded="false" aria-controls="navStaffingMenu">Staffing
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="nav__menu nav__menu--flat" id="navStaffingMenu">
+            <a href="/staffing-gcc">Staffing Services</a>
+            <a href="/staffing-gcc/staffing">Staffing Options</a>
+            <a href="/staffing-gcc/domestic">Domestic Staffing</a>
+            <a href="/staffing-gcc/international">International Staffing</a>
+          </div>
+        </div>
+        <div class="nav__drop" id="navGcc">
+          <button type="button" class="nav__drop-btn {{ 'is-active' if active=='gcc' }}" aria-expanded="false" aria-controls="navGccMenu">GCC Services
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="nav__menu nav__menu--flat" id="navGccMenu">
+            <a href="/gcc-services">GCC Services</a>
+            <a href="/gcc-services#ladder">Trial Pod to Ownership</a>
+            <a href="/gcc-services#models">Engagement Models</a>
+            <a href="/transform/international">International Delivery</a>
+          </div>
+        </div>
+        <div class="nav__drop" id="navWork">
+          <button type="button" class="nav__drop-btn {{ 'is-active' if active=='work' }}" aria-expanded="false" aria-controls="navWorkMenu">Work
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="nav__menu" id="navWorkMenu">
+            <a href="{{ url_for('main.work') }}" class="nav__menu-top">Our work</a>
+            <div class="nav__sub is-open">
+              <button type="button" class="nav__sub-btn" aria-expanded="true" aria-controls="navSubPartner">Partner with us
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="nav__sub-list" id="navSubPartner">
+                <a href="/partner">Overview</a>
+                <a href="/partner/universities">For Universities</a>
+                <a href="/partner/franchise">Franchise Program</a>
+                <a href="/partner/corporates">For Corporates</a>
+                <a href="/partner/hiring">Hiring Partners</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav__drop" id="navCareers">
+          <button type="button" class="nav__drop-btn {{ 'is-active' if active=='careers' }}" aria-expanded="false" aria-controls="navCareersMenu">Careers
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="nav__menu nav__menu--flat" id="navCareersMenu">
+            <a href="/build/apply-founder">Apply as Founder</a>
+            <a href="/build/apply-intern">Apply as Intern</a>
+          </div>
+        </div>
         <a href="{{ url_for('main.contact') }}" class="nav__cta" data-magnetic>Let's Talk</a>
       </nav>
       <button type="button" class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
