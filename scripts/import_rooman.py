@@ -8,22 +8,31 @@ buttons, chips, images, forms). app/templates/imported.html renders that
 vocabulary with the landing page's own components, so the words stay the
 same and the look is FutureAcad's.
 
-    python scripts/import_rooman.py            # fetch live
-    python scripts/import_rooman.py --cache D  # read/write raw HTML in D
+    python scripts/import_rooman.py                  # fetch live
+    python scripts/import_rooman.py --cache D        # read/write raw HTML in D
+    python scripts/import_rooman.py --only build/x   # (re)import just these paths
+    python scripts/import_rooman.py --content-only   # refresh wording, keep layout
 
-Writes app/content/imported.json and app/static/img/imported/*.
+Merges into app/content/imported.json, so pages already there that are not
+re-imported (including ones Rooman no longer serves) are kept as they are,
+and writes app/static/img/imported/*. Every link in the file that points at
+an imported page, on Rooman's own domain or its old CloudFront origin, is
+rewritten to the local route.
 Needs beautifulsoup4 (dev only; the app itself does not import it).
 """
 import argparse
+import difflib
 import json
 import re
 import sys
 import urllib.request
 from pathlib import Path
 
-from bs4 import BeautifulSoup, NavigableString, Tag
+from bs4 import BeautifulSoup, Comment, NavigableString, Tag
 
-ORIGIN = "https://d127pf9pvpdiip.cloudfront.net"
+ORIGIN = "https://rooman.com"
+# The CloudFront origin the first import ran against; it now 301s to ORIGIN.
+OLD_ORIGINS = ("https://d127pf9pvpdiip.cloudfront.net",)
 ROOT = Path(__file__).resolve().parent.parent
 OUT_JSON = ROOT / "app" / "content" / "imported.json"
 IMG_DIR = ROOT / "app" / "static" / "img" / "imported"
@@ -41,7 +50,16 @@ PAGES = [
     "build/apply-founder", "build/apply-intern",
     "partner", "partner/universities", "partner/franchise", "partner/corporates",
     "partner/hiring",
+    "build", "build/custom-ai-builds/pricing", "build/custom-ai-builds/examples",
+    "build/startup-varsity/founders-track", "build/startup-varsity/partners",
+    "build/how-to-choose",
+    "transform/managed-ai-functions", "transform/outcome-based-ai",
+    "transform/case-study/karnataka-police-vpnobb", "transform/case-study/kea-cet-counselling",
+    "transform/case-study/ajsk-service-centres", "transform/case-study/shimoga-smart-city",
+    "transform/case-study/sbi-it-maintenance", "transform/case-study/jk-state-taxes",
+    "careers", "privacy", "terms",
 ]
+# Also holds every page already in imported.json (see main).
 LOCAL = set(PAGES)
 
 # Product pages show the product itself: the same live-site screenshots as
@@ -74,6 +92,10 @@ def clean(text):
 def href_for(href):
     if not href:
         return ""
+    for origin in (ORIGIN, *OLD_ORIGINS):
+        if href == origin or href.startswith(origin + "/"):
+            href = href[len(origin):] or "/"
+            break
     if href.startswith(("tel:", "mailto:", "http://", "https://")):
         return href
     if href.startswith("/"):
@@ -81,8 +103,8 @@ def href_for(href):
         path = path.rstrip("/")
         if path in LOCAL:
             return "/" + path + ("#" + frag if frag else "")
-        if path == "contact":
-            return "/contact"
+        if path in ("", "contact"):  # home and contact are FutureAcad's own
+            return "/" + path
         return ORIGIN + href
     if href.startswith("#"):
         return href
@@ -90,8 +112,9 @@ def href_for(href):
 
 
 class Importer:
-    def __init__(self, cache=None):
+    def __init__(self, cache=None, download=True):
         self.cache = Path(cache) if cache else None
+        self.download = download
         self.images = {}
 
     # ---- fetching ----------------------------------------------------
@@ -115,12 +138,17 @@ class Importer:
             return None
         if src in self.images:
             return self.images[src]
-        name = src.split("?")[0].rstrip("/").split("/")[-1]
-        # Drop the bundler's content hash: card-transform-320-DaTaQP2D.webp
-        name = re.sub(r"-[A-Za-z0-9_]{8}(\.\w+)$", r"\1", name)
+        raw = src.split("?")[0].rstrip("/").split("/")[-1]
+        # Drop the bundler's content hash: card-transform-320-DaTaQP2D.webp.
+        # Hashes can hold "-" (bfsi-DmEgVO-d.jpg); earlier imports kept those
+        # whole, so reuse a file already saved under that name.
+        name = re.sub(r"-[A-Za-z0-9_-]{8}(\.\w+)$", r"\1", raw)
+        legacy = re.sub(r"-[A-Za-z0-9_]{8}(\.\w+)$", r"\1", raw)
+        if not (IMG_DIR / name).exists() and (IMG_DIR / legacy).exists():
+            name = legacy
         IMG_DIR.mkdir(parents=True, exist_ok=True)
         target = IMG_DIR / name
-        if not target.exists():
+        if not target.exists() and self.download:
             url = src if src.startswith("http") else ORIGIN + src
             if not (url.startswith("http://") or url.startswith("https://")):
                 raise ValueError(f"Unsupported URL scheme: {url}")
@@ -135,6 +163,8 @@ class Importer:
         """Inner HTML reduced to text plus a, b/strong, em and br."""
         out = []
         for c in el.children:
+            if isinstance(c, Comment):
+                continue  # React's "<!-- -->" text separators
             if isinstance(c, NavigableString):
                 out.append(escape(str(c)))
             elif isinstance(c, Tag):
@@ -199,7 +229,9 @@ class Importer:
                 field["dial"] = clean(el.find("select", attrs={"name": "dialCode"}).get_text())
             fields.append(field)
         btn = f.find("button")
-        note = f.find(class_="form-note")
+        # The consent line under the button; Rooman has dropped the class.
+        note = f.find(class_="form-note") or next(
+            (p for p in reversed(f.find_all("p")) if clean(p.get_text()) and not p.get("aria-live")), None)
         return {"t": "form", "fields": fields,
                 "submit": clean(btn.get_text(" ")) if btn else "Send",
                 "note": clean(note.get_text(" ")) if note else ""}
@@ -223,6 +255,8 @@ class Importer:
 
     def card_walk(self, el, atoms, linked):
         for c in el.children:
+            if isinstance(c, Comment):
+                continue
             if isinstance(c, NavigableString):
                 t = clean(str(c))
                 if t:
@@ -275,6 +309,8 @@ class Importer:
     # ---- sections ----------------------------------------------------
     def walk(self, el, sec, out):
         for c in el.children:
+            if isinstance(c, Comment):
+                continue
             if isinstance(c, NavigableString):
                 t = clean(str(c))
                 if t:
@@ -293,6 +329,10 @@ class Importer:
             summ = c.find("summary")
             q = clean(summ.get_text(" ")) if summ else ""
             body = [self.inline(p) for p in c.find_all("p")]
+            # Tags listed under a paragraph answer (a region's countries).
+            tags = [clean(li.get_text(" ")) for li in c.find_all("li") if not li.find_parent("p")]
+            if body and tags:
+                body.append(" · ".join(tags))
             if not body:
                 # Answers made of links or list items rather than paragraphs.
                 leaves = c.find_all("li") or list(c.find_all("a"))
@@ -440,13 +480,15 @@ class Importer:
         title = clean(soup.title.get_text()) if soup.title else path
         desc = soup.find("meta", attrs={"name": "description"})
         sections = []
-        for s in main.find_all("section"):
-            if s.find_parent("section"):
-                continue
-            sec = {"id": s.get("id", ""), "dark": "bg-ink" in classes(s), "blocks": []}
-            self.walk(s, sec, sec["blocks"])
-            if sec["blocks"] or sec.get("title") or sec.get("h1"):
-                sections.append(sec)
+        for top in [s for s in main.find_all("section") if not s.find_parent("section")]:
+            # Legal pages nest one section per clause inside the hero's
+            # section: lift them out so each reads as a section of its own.
+            nested = [n.extract() for n in top.find_all("section")]
+            for s in [top, *nested]:
+                sec = {"id": s.get("id", ""), "dark": "bg-ink" in classes(s), "blocks": []}
+                self.walk(s, sec, sec["blocks"])
+                if sec["blocks"] or sec.get("title") or sec.get("h1"):
+                    sections.append(sec)
         hero = next((s for s in sections if s.get("h1")), None)
         if hero:
             sections.remove(hero)
@@ -499,6 +541,102 @@ def dl_rows(dl):
     return rows
 
 
+# An <a> written by Importer.inline, so its href can be rewritten in place.
+INLINE_A = re.compile(r'<a href="([^"]*)"(?: target="_blank" rel="noopener")?>')
+
+
+def relink(node):
+    """Re-resolve every href (card links, buttons, inline <a>) against LOCAL."""
+    if isinstance(node, list):
+        return [relink(x) for x in node]
+    if isinstance(node, str):
+        return relink_html(node)
+    if isinstance(node, dict):
+        return {k: href_for(v) if k == "href" else relink(v) for k, v in node.items()}
+    return node
+
+
+def relink_html(html):
+    def sub(m):
+        h = href_for(m.group(1).replace("&amp;", "&"))
+        ext = ' target="_blank" rel="noopener"' if h.startswith("http") else ""
+        return f'<a href="{escape(h)}"{ext}>'
+    return INLINE_A.sub(sub, html)
+
+
+# Strings that are wording, as opposed to links, image paths or block types.
+TEXT_KEYS = {"html", "text", "main", "accent", "title", "eyebrow", "description",
+             "q", "caption", "label", "submit", "note", "items", "a", "rows", "head", "options"}
+HREF_RE = re.compile(r'href="([^"]*)"')
+
+
+def text_slots(node, key=None, out=None):
+    """Every wording string in a page, as (container, key) slots, in order."""
+    out = [] if out is None else out
+    if isinstance(node, dict):
+        for k, v in node.items():
+            if isinstance(v, str) and k in TEXT_KEYS:
+                out.append((node, k))
+            elif isinstance(v, dict | list):
+                text_slots(v, k, out)
+    elif isinstance(node, list):
+        for i, v in enumerate(node):
+            if isinstance(v, str) and key in TEXT_KEYS:
+                out.append((node, i))
+            elif isinstance(v, dict | list):
+                text_slots(v, key, out)
+    return out
+
+
+def update_text(old, new):
+    """Copy Rooman's current wording into the page we already have.
+
+    The page keeps its blocks, images and links: a string is replaced only
+    where the fresh import has a one-for-one counterpart that reads like an
+    edit of it and links to the same places. Returns the edits skipped.
+    """
+    a, b = text_slots(old), text_slots(new)
+    av, bv = [c[k] for c, k in a], [c[k] for c, k in b]
+    present = set(av)
+    skipped = []
+    for op, i1, i2, j1, j2 in difflib.SequenceMatcher(None, av, bv, autojunk=False).get_opcodes():
+        if op == "equal":
+            continue
+        pairs = list(zip(range(i1, i2), range(j1, j2), strict=True)) if op == "replace" and i2 - i1 == j2 - j1 else []
+        for i, j in pairs:
+            was, now = av[i], bv[j]
+            # "Title." -> "Title. Accent." where the accent is already its own
+            # string (a headline Rooman now sets in one line): keep the split.
+            folded = now.startswith(was) and now[len(was):].strip() in present
+            if (now and not folded and difflib.SequenceMatcher(None, was, now).ratio() >= 0.5
+                    and HREF_RE.findall(was) == HREF_RE.findall(now)):
+                c, k = a[i]
+                c[k] = now
+            else:
+                skipped.append((was, now))
+        if not pairs:
+            skipped.append((" | ".join(av[i1:i2]), " | ".join(bv[j1:j2])))
+    return skipped
+
+
+def page_forms(page):
+    secs = ([page["hero"]] if page["hero"] else []) + page["sections"]
+    return [b for s in secs for b in s.get("blocks", []) + s.get("aside", []) if b["t"] == "form"]
+
+
+def update_forms(old, new):
+    """Give each form Rooman's current fields: a question added or dropped
+    there is part of the content, not the layout. True if any changed."""
+    olds, news = page_forms(old), page_forms(new)
+    if len(olds) != len(news):
+        return False
+    changed = False
+    for o, n in zip(olds, news, strict=True):
+        if o["fields"] != n["fields"]:
+            o["fields"], changed = n["fields"], True
+    return changed
+
+
 def escape(s):
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
@@ -506,17 +644,33 @@ def escape(s):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--cache", help="directory to read/write raw HTML")
+    ap.add_argument("--only", nargs="+", metavar="PATH", help="import just these paths")
+    ap.add_argument("--out", type=Path, default=OUT_JSON, help="JSON file to merge into")
+    ap.add_argument("--content-only", action="store_true",
+                    help="for pages already imported, update wording only (see update_text)")
     args = ap.parse_args()
-    imp = Importer(args.cache)
-    pages = {}
-    for p in PAGES:
-        pages[p] = imp.page(p)
+    # Updating wording only never adds images, so there is nothing to download.
+    imp = Importer(args.cache, download=not args.content_only)
+    pages = json.loads(args.out.read_text(encoding="utf-8")) if args.out.exists() else {}
+    LOCAL.update(pages)
+    pages = relink(pages)
+    for p in args.only or PAGES:
+        fresh = relink(imp.page(p))
+        if args.content_only and p in pages:
+            skipped = update_text(pages[p], fresh)
+            forms = " and form fields" if update_forms(pages[p], fresh) else ""
+            print(f"{p:36} wording{forms} updated, {len(skipped)} edits left for review", file=sys.stderr)
+            for was, now in skipped:
+                print(f"    was: {was[:110]}", file=sys.stderr)
+                print(f"    now: {now[:110]}", file=sys.stderr)
+            continue
+        pages[p] = fresh
         n = sum(len(s["blocks"]) for s in pages[p]["sections"])
         print(f"{p:36} {len(pages[p]['sections']):2} sections {n:3} blocks", file=sys.stderr)
     use_product_shots(pages)
-    OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
-    OUT_JSON.write_text(json.dumps(pages, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"wrote {OUT_JSON.relative_to(ROOT)} and {len(imp.images)} images", file=sys.stderr)
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    args.out.write_text(json.dumps(pages, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
+    print(f"wrote {args.out} ({len(pages)} pages) and {len(imp.images)} images", file=sys.stderr)
 
 
 if __name__ == "__main__":

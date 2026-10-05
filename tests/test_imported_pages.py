@@ -32,14 +32,45 @@ def test_imported_page_highlights_its_nav_dropdown(client, path, section):
     assert 'nav__drop-btn is-active' in drop.split("</button>", 1)[0]
 
 
+# Pages kept out of the menu: section indexes, sub-pages and case studies are
+# reached from the pages that link to them; Omnis and BlueLinked are
+# deliberately unlisted; the legal pages and Careers sit in the footer.
+OFF_MENU = {
+    "transform", "build/omnis", "build/bluelinked",
+    "build", "build/custom-ai-builds/pricing", "build/custom-ai-builds/examples",
+    "build/startup-varsity/founders-track", "build/startup-varsity/partners",
+    "build/how-to-choose", "transform/managed-ai-functions", "transform/outcome-based-ai",
+    "careers", "privacy", "terms",
+}
+OFF_MENU |= {p for p in PATHS if p.startswith("transform/case-study/")}
+UNLINKED = {"build/omnis", "build/bluelinked"}
+
+
 def test_nav_links_to_the_local_pages(client):
     body = client.get("/").get_data(as_text=True)
-    # The section index is reached from its pages; Omnis and BlueLinked are
-    # deliberately left out of the menu.
-    unlinked = {"transform", "build/omnis", "build/bluelinked"}
     for path in PATHS:
-        if path not in unlinked:
+        if path not in OFF_MENU:
             assert f'href="/{path}"' in body, path
+
+
+@pytest.mark.parametrize("url", ["/", "/about", "/services", "/work", "/build/products"])
+def test_footer_links_careers_and_the_legal_pages(client, url):
+    page, footer = client.get(url).get_data(as_text=True).split('<footer class="fa-footer">', 1)
+    for path in ("careers", "privacy", "terms"):
+        assert f'href="/{path}"' in footer, (url, path)
+        # Footer only: the menu tabs stay as they are.
+        assert f'href="/{path}"' not in page, (url, path)
+
+
+def test_off_menu_pages_are_linked_from_another_imported_page(client):
+    bodies = {p: client.get(f"/{p}").get_data(as_text=True) for p in PATHS}
+    for path in OFF_MENU - UNLINKED:
+        assert any(f'href="/{path}"' in b for p, b in bodies.items() if p != path), path
+
+
+def test_imported_links_stay_off_the_old_cloudfront_origin(client):
+    for path in PATHS:
+        assert "cloudfront.net" not in client.get(f"/{path}").get_data(as_text=True), path
 
 
 def test_forms_post_through_the_contact_api(client):
