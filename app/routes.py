@@ -136,13 +136,14 @@ def _imported(path):
     return IMPORTED[path]
 
 
-# Which nav dropdown each imported page sits under.
+# Which nav dropdown each imported page sits under; the legal pages sit
+# under none.
 def _nav_section(path):
     if path.startswith("build/apply-"):
         return "careers"
     return {"build": "build", "transform": "transform",
             "staffing-gcc": "staffing", "gcc-services": "gcc",
-            "partner": "work"}[path.split("/")[0]]
+            "partner": "work", "careers": "careers"}.get(path.split("/")[0], "")
 
 
 def imported_page(path):
