@@ -1877,6 +1877,62 @@ ol.imp-grid .fa-card__tag{font-size:13px;color:var(--c-coral-tx)}
 .imp-radios label{display:inline-flex;align-items:center;gap:8px;font-size:15px;color:var(--c-ink)}
 .imp-radios input{accent-color:var(--c-primary)}
 
+/* Self-assessment (AI Readiness Score). Without JS every step is listed and
+   the Back/Next row, which only imported.js can drive, stays hidden. */
+.imp-rs{max-width:780px;padding:clamp(22px,2.6vw,36px);border-radius:var(--fa-r);background:#fff;
+  border:1px solid var(--c-secondary);scroll-margin-top:110px}
+.imp-rs__bar{height:6px;border-radius:99px;background:var(--c-sky);overflow:hidden;margin-bottom:26px}
+.imp-rs__bar span{display:block;height:100%;width:0;background:var(--c-primary);transition:width .3s var(--ease)}
+.imp-rs__q{border:0;margin:0 0 26px;padding:0}
+.imp-rs__q legend{padding:0;margin-bottom:18px;font-size:clamp(19px,1.8vw,23px);font-weight:600;line-height:1.35;color:var(--c-ink)}
+.imp-rs__n{display:block;margin-bottom:8px;font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--c-primary)}
+.imp-rs__opts{display:grid;gap:10px}
+.imp-rs__opt{display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:12px;cursor:pointer;
+  border:1px solid rgba(0,96,120,.22);font-size:16px;color:var(--c-ink);transition:border-color .2s,background .2s}
+.imp-rs__opt:hover{border-color:var(--c-primary)}
+.imp-rs__opt:has(input:checked){border-color:var(--c-primary);background:var(--c-sky)}
+.imp-rs__opt:has(input:focus-visible){outline:2px solid var(--c-primary);outline-offset:2px}
+.imp-rs__opt input{accent-color:var(--c-primary);width:18px;height:18px;flex:none}
+.imp-rs__sel{display:flex;flex-direction:column;gap:8px;margin-top:20px;font-size:14px;font-weight:600;color:var(--c-ink-soft)}
+.imp-rs__sel select{max-width:320px;min-height:46px;padding:0 14px;border-radius:10px;border:1px solid rgba(0,96,120,.3);
+  font:inherit;font-weight:400;color:var(--c-ink);background:#fff}
+.imp-rs__nav{display:none;justify-content:space-between;gap:12px}
+.imp-rs.is-live .imp-rs__nav{display:flex}
+.imp-rs__hint{margin:12px 0 0;min-height:1.4em;font-size:14px;font-weight:600;color:var(--c-coral-dp)}
+.imp-rs__result:focus{outline:none}
+.imp-rs__score{display:flex;align-items:center;gap:clamp(18px,3vw,32px);margin-bottom:28px}
+.imp-rs__score .fa-h3{margin:4px 0 8px}
+.imp-rs__score .fa-p{margin:0}
+.imp-rs__dial{--v:0;flex:none;width:132px;height:132px;border-radius:50%;display:grid;place-content:center;text-align:center;
+  background:radial-gradient(closest-side,#fff 78%,transparent 79%),
+             conic-gradient(var(--c-primary) calc(var(--v) * 1%),var(--c-sky) 0)}
+.imp-rs__dial span{font-size:40px;font-weight:700;line-height:1;color:var(--c-primary)}
+.imp-rs__dial small{margin-top:4px;font-size:12px;color:var(--c-ink-soft)}
+.imp-rs__areas{display:grid;gap:12px;margin-bottom:32px}
+.imp-rs__area{display:grid;grid-template-columns:minmax(0,190px) 1fr 36px;align-items:center;gap:14px;font-size:15px;color:var(--c-ink)}
+.imp-rs__area b{text-align:right;color:var(--c-primary)}
+.imp-rs__track{height:8px;border-radius:99px;background:var(--c-sky);overflow:hidden}
+.imp-rs__track i{display:block;height:100%;background:var(--c-primary);border-radius:inherit}
+.imp-rs__wins{margin:14px 0 30px;padding-left:22px;display:grid;gap:12px;color:var(--c-ink-soft);line-height:1.6}
+.imp-rs__wins b{display:block;color:var(--c-ink)}
+.imp-rs__plan{padding:clamp(20px,2.4vw,30px);border-radius:var(--fa-r);background:var(--c-primary);margin-bottom:32px}
+.imp-rs__plan .fa-eyebrow{color:var(--c-pink)}
+.imp-rs__plan .fa-h3{color:#fff;margin:4px 0 8px}
+.imp-rs__plan .fa-p{color:#DCEAEE}
+.imp-rs__plan .btn{background:#fff;color:var(--c-primary);border-color:#fff}
+.imp-rs__plan .btn:hover{background:var(--c-pink);border-color:var(--c-pink);color:var(--c-primary-dk)}
+.imp-rs__plan .btn--ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.imp-rs__plan .btn--ghost:hover{background:rgba(255,255,255,.12);border-color:#fff}
+#rs-lead{scroll-margin-top:110px}
+#rs-lead .imp-form{margin-top:16px}
+.imp-rs__again{background:none;border:0;padding:0;cursor:pointer;font:inherit}
+@media(max-width:600px){
+  .imp-rs__score{flex-direction:column;align-items:flex-start}
+  .imp-rs__area{grid-template-columns:1fr 36px}
+  .imp-rs__track{grid-column:1 / -1;grid-row:2}
+}
+
 /* Dark bands */
 .fa-section--dark .imp-p,.fa-section--dark .imp-list li{color:#DCEAEE}
 .fa-section--dark .imp-p a,.fa-section--dark .imp-list a{color:#fff}

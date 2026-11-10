@@ -551,7 +551,7 @@
                   },
                   {
                     "k": "text",
-                    "html": "Each candidate interviews on their own time: no scheduling, no no-shows."
+                    "html": "Each candidate interviews on their own time: no scheduling, and no interview slot to miss."
                   }
                 ]
               }
@@ -905,7 +905,7 @@
               "primary": true
             },
             {
-              "text": "Visit CRM Platform",
+              "text": "Visit CRM Voice Agent",
               "href": "https://crm.rooman.net/",
               "primary": false
             }
@@ -2007,7 +2007,7 @@
                   },
                   {
                     "k": "text",
-                    "html": "Invoices, receipts and instalments."
+                    "html": "Invoices, receipts and installments."
                   }
                 ]
               },
@@ -16010,7 +16010,7 @@
             ]
           }
         ],
-        "eyebrow": "Rollout",
+        "eyebrow": "Rollout, week by week",
         "title": "From contract to a live function in 30 days."
       },
       {
@@ -19017,6 +19017,1614 @@
           }
         ],
         "title": "8. Changes"
+      }
+    ]
+  },
+  "transform/ai-bos": {
+    "path": "transform/ai-bos",
+    "title": "AI-BOS: AI Business Operating System for SMEs",
+    "description": "25 business apps, AI agents across them and a trained AI Administrator to run it. FutureAcad AI-BOS brings AI to SMEs, factories, hotels and retail.",
+    "hero": {
+      "id": "",
+      "dark": false,
+      "blocks": [
+        {
+          "t": "lede",
+          "html": "FutureAcad AI-BOS is a Business Operating System for growing businesses: 25 apps, including HRMS, Recruit, CRM, Voice Agent, Social, Project Management and AI-CFO, on one login, with AI agents that work across them. FutureAcad sets it up to your requirement, and a FutureAcad-trained AI Administrator runs it with you, on-site or from our support desk. You buy the outcome, not another subscription to configure."
+        },
+        {
+          "t": "buttons",
+          "items": [
+            {
+              "text": "Get your free AI Readiness Score",
+              "href": "/transform/ai-readiness-score",
+              "primary": true
+            },
+            {
+              "text": "Talk to us",
+              "href": "#enquire",
+              "primary": false
+            }
+          ]
+        },
+        {
+          "t": "chips",
+          "items": [
+            "25 business apps",
+            "AI agents across apps",
+            "A trained AI Administrator",
+            "Priced per company"
+          ]
+        }
+      ],
+      "eyebrow": "Transform · AI-BOS",
+      "h1": {
+        "main": "Your AI department, ready in weeks. Software, AI agents and the people who run them.",
+        "accent": ""
+      },
+      "aside": [
+        {
+          "t": "h3",
+          "text": "AI-BOS at a glance"
+        },
+        {
+          "t": "kv",
+          "rows": [
+            [
+              "Apps",
+              "25, on one login"
+            ],
+            [
+              "AI agents",
+              "Chat and voice, across apps"
+            ],
+            [
+              "Who runs it",
+              "AI Administrator or FutureAcad desk"
+            ],
+            [
+              "Go-live",
+              "In weeks, to your requirement"
+            ],
+            [
+              "Built for",
+              "SMEs, factories, hotels, retail"
+            ],
+            [
+              "Price",
+              "Scoped on a call"
+            ]
+          ]
+        }
+      ]
+    },
+    "sections": [
+      {
+        "id": "problem",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "lede",
+            "html": "AI-BOS comes with the people who make it work: FutureAcad sets it up, trains your team and puts a person on it."
+          },
+          {
+            "t": "cards",
+            "ordered": false,
+            "items": [
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "Too many options"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Business apps come with hundreds of settings. Without someone who knows them, most stay switched off."
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "No one to own it"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Connecting apps needs a developer, and vendor support ends at a ticket. The project stalls and the subscription keeps billing."
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "AI stays a slide"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Everyone talks about AI agents, but no one in the business has the time or skills to build and run them."
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "eyebrow": "Why software alone fails",
+        "title": "You bought the software. Nobody set it up."
+      },
+      {
+        "id": "inside",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "lede",
+            "html": "Every app shares one login and one set of records, so a customer, an employee or an invoice exists once. More apps are in development, and we switch on only the ones you need."
+          },
+          {
+            "t": "cards",
+            "ordered": false,
+            "items": [
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "HRMS"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Attendance, leave, payroll inputs and employee records."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "People"
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "Recruit"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Job posting, screening and AI interviews with HireAI."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "Hiring"
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "CRM"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Leads, customers and follow-ups in one place."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "Sales"
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "Voice Agent"
+                  },
+                  {
+                    "k": "text",
+                    "html": "AI calls that qualify leads and follow up, in Indian English."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "Sales and support"
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "Social"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Plan, post and track your social media and campaigns."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "Marketing"
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "Project Management"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Projects, tasks and deadlines across every team."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "Operations"
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "AI-CFO"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Cash, receivables and payables, with collection reminders."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "Finance"
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "AI agents"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Ask in chat or voice, “show overdue invoices” or “shortlist five candidates”, and the agent acts across the apps."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "Across all apps"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "eyebrow": "What’s inside",
+        "title": "25 apps. One login. AI agents on top."
+      },
+      {
+        "id": "plans",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "lede",
+            "html": "The apps and agents are the same in every plan. What changes is who runs them for you."
+          },
+          {
+            "t": "cards",
+            "ordered": false,
+            "items": [
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "kicker",
+                    "html": "5–50 people"
+                  },
+                  {
+                    "k": "title",
+                    "text": "AI-BOS Starter."
+                  },
+                  {
+                    "k": "text",
+                    "html": "For small businesses that want the apps working without hiring anyone."
+                  },
+                  {
+                    "k": "list",
+                    "items": [
+                      "Core apps and an AI agent, set up for you",
+                      "Guided onboarding for your team",
+                      "FutureAcad’s remote AI support desk"
+                    ]
+                  },
+                  {
+                    "k": "text",
+                    "html": "<a href=\"/transform/ai-readiness-score\">Start with the free score</a>"
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "kicker",
+                    "html": "50–500 people"
+                  },
+                  {
+                    "k": "title",
+                    "text": "AI-BOS Growth."
+                  },
+                  {
+                    "k": "text",
+                    "html": "For growing companies that want AI run inside the business, every day."
+                  },
+                  {
+                    "k": "list",
+                    "items": [
+                      "The full suite, with custom AI agents",
+                      "Data moved over from your current tools",
+                      "A dedicated, FutureAcad-trained AI Administrator",
+                      "Monthly results review"
+                    ]
+                  },
+                  {
+                    "k": "text",
+                    "html": "<a href=\"/transform/hire-ai-talent\">Hire an AI Administrator</a>"
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "kicker",
+                    "html": "500+ people and groups"
+                  },
+                  {
+                    "k": "title",
+                    "text": "AI-BOS Enterprise."
+                  },
+                  {
+                    "k": "text",
+                    "html": "For larger organisations that need AI led at the top."
+                  },
+                  {
+                    "k": "list",
+                    "items": [
+                      "AI-BOS alongside your existing ERP",
+                      "A Chief AI Officer and a team of AI Administrators",
+                      "AI governance and a quarterly board pack"
+                    ]
+                  },
+                  {
+                    "k": "text",
+                    "html": "<a href=\"#enquire\">Talk to a transformation lead</a>"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "eyebrow": "Three ways to run it",
+        "title": "Pick how much help you want."
+      },
+      {
+        "id": "journey",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "cards",
+            "ordered": true,
+            "items": [
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "01"
+                  },
+                  {
+                    "k": "title",
+                    "text": "Score your readiness."
+                  },
+                  {
+                    "k": "text",
+                    "html": "A free, 5-minute assessment shows where AI will pay back first."
+                  },
+                  {
+                    "k": "text",
+                    "html": "<a href=\"/transform/ai-readiness-score\">Take the free score</a>"
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "02"
+                  },
+                  {
+                    "k": "title",
+                    "text": "Share your requirement."
+                  },
+                  {
+                    "k": "text",
+                    "html": "On a call, we map how your sales, people, finance and operations run today."
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "03"
+                  },
+                  {
+                    "k": "title",
+                    "text": "Set up and connect."
+                  },
+                  {
+                    "k": "text",
+                    "html": "We switch on the apps you need, move your data and build your first AI agents."
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "04"
+                  },
+                  {
+                    "k": "title",
+                    "text": "Put a person on it."
+                  },
+                  {
+                    "k": "text",
+                    "html": "An AI Administrator, trained on your setup, runs it with your team. Smaller businesses use our support desk."
+                  },
+                  {
+                    "k": "text",
+                    "html": "<a href=\"/transform/hire-ai-talent\">About AI Administrators</a>"
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "05"
+                  },
+                  {
+                    "k": "title",
+                    "text": "Measure and grow."
+                  },
+                  {
+                    "k": "text",
+                    "html": "Monthly reviews of what got faster or cheaper, and which app or agent to add next."
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "eyebrow": "How it works",
+        "title": "From first call to running on AI, in five steps."
+      },
+      {
+        "id": "why",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "cards",
+            "ordered": false,
+            "items": [
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "27 years of training"
+                  },
+                  {
+                    "k": "text",
+                    "html": "1.3M+ engineers trained. We prepare the people who run your AI, and keep them learning."
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "We built every app"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Our own engineers build AI-BOS, so we can change it to fit how you work."
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "One partner, end to end"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Apps, agents, set-up, people and support from one team, accountable for the result."
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "eyebrow": "Why FutureAcad",
+        "title": "We train the people, not just ship the software."
+      },
+      {
+        "id": "faq",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "lede",
+            "html": "Can't find your answer? Call <a href=\"tel:+918069451000\"><strong>080 6945 1000</strong></a> or <a href=\"https://wa.me/919739086029\" target=\"_blank\" rel=\"noopener\"><strong>WhatsApp us</strong></a>."
+          },
+          {
+            "t": "faq",
+            "items": [
+              {
+                "q": "What is FutureAcad AI-BOS?",
+                "a": [
+                  "AI-BOS is FutureAcad’s AI Business Operating System: 25 business apps on one login, including HRMS, Recruit, CRM, Voice Agent, Social, Project Management and AI-CFO, with AI agents that work across them. FutureAcad sets it up to your requirement, and a trained AI Administrator or the FutureAcad support desk runs it with you."
+                ]
+              },
+              {
+                "q": "How is this different from buying business software?",
+                "a": [
+                  "Most business software is sold as a subscription you configure yourself. AI-BOS comes with the setup, the AI agents and a trained person who runs it, so you get the result, not another tool to learn."
+                ]
+              },
+              {
+                "q": "Who is the AI Administrator?",
+                "a": [
+                  "A FutureAcad-trained professional who runs your apps and AI agents day to day, supports your team and reports results. Growth businesses get one dedicated to them; smaller businesses are supported by FutureAcad’s remote AI support desk."
+                ]
+              },
+              {
+                "q": "Do we have to replace the software we use today?",
+                "a": [
+                  "No. Start with the apps you need most. We review what you use today on the first call and plan the move in stages."
+                ]
+              },
+              {
+                "q": "What does it cost?",
+                "a": [
+                  "AI-BOS is priced per company, not per user, based on the apps, the size of your team and the support you choose. We scope it with you on a call."
+                ]
+              },
+              {
+                "q": "How long does it take to go live?",
+                "a": [
+                  "Most businesses go live in weeks. We agree the plan and dates after the first call."
+                ]
+              },
+              {
+                "q": "Is our data safe?",
+                "a": [
+                  "Rooman is ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3 certified. We agree how your data is stored, accessed and handled with you in writing before go-live."
+                ]
+              }
+            ]
+          }
+        ],
+        "eyebrow": "Good to know",
+        "title": "Questions about AI-BOS."
+      },
+      {
+        "id": "other-title",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "buttons",
+            "items": [
+              {
+                "text": "Everything on Transform",
+                "href": "/transform",
+                "primary": false
+              }
+            ]
+          },
+          {
+            "t": "cards",
+            "ordered": false,
+            "items": [
+              {
+                "href": "/transform/ai-readiness-score",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "Free AI Readiness Score"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Twelve questions, an instant score and your top three AI wins."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "5 minutes"
+                  }
+                ]
+              },
+              {
+                "href": "/transform/hire-ai-talent",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "Hire AI talent"
+                  },
+                  {
+                    "k": "text",
+                    "html": "AI Administrators and Chief AI Officers, trained on your setup."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "2 roles"
+                  }
+                ]
+              },
+              {
+                "href": "/transform/ai-readiness-audit",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "AI Readiness Audit"
+                  },
+                  {
+                    "k": "text",
+                    "html": "A 4-week, board-ready diagnostic for larger organisations."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "4 weeks"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "More from Transform."
+      },
+      {
+        "id": "enquire",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "lede",
+            "html": "Share how your business runs today. We’ll suggest where AI-BOS fits and scope it with you on a call."
+          },
+          {
+            "t": "list",
+            "items": [
+              "Call: <a href=\"tel:+918069451000\">080 6945 1000</a>",
+              "WhatsApp: <a href=\"https://wa.me/919739086029\" target=\"_blank\" rel=\"noopener\">+91 97390 86029</a>",
+              "Email: <a href=\"mailto:hello@rooman.com?subject=AI-BOS%20enquiry\">hello@rooman.com</a>"
+            ]
+          },
+          {
+            "t": "form",
+            "fields": [
+              {
+                "label": "Full name",
+                "name": "name",
+                "required": true,
+                "type": "text"
+              },
+              {
+                "label": "Work email",
+                "name": "email",
+                "required": true,
+                "type": "email"
+              },
+              {
+                "label": "Mobile number",
+                "name": "phone",
+                "required": true,
+                "type": "tel"
+              },
+              {
+                "label": "Company and role",
+                "name": "role",
+                "required": false,
+                "type": "text"
+              },
+              {
+                "label": "Team size",
+                "name": "interest",
+                "required": false,
+                "type": "select",
+                "options": [
+                  "1–10",
+                  "11–50",
+                  "51–200",
+                  "201–500",
+                  "500+"
+                ]
+              },
+              {
+                "label": "What would you like AI to do for your business?",
+                "name": "message",
+                "required": false,
+                "type": "textarea"
+              },
+              {
+                "type": "radio",
+                "label": "I'm enquiring",
+                "name": "for",
+                "options": [
+                  "For myself",
+                  "For my organisation"
+                ]
+              }
+            ],
+            "submit": "Request a call back",
+            "note": "We’ll only use your details to contact you about this enquiry."
+          }
+        ],
+        "eyebrow": "Next step",
+        "title": "Tell us about your business."
+      }
+    ]
+  },
+  "transform/ai-readiness-score": {
+    "path": "transform/ai-readiness-score",
+    "title": "Free AI Readiness Score for Your Business",
+    "description": "Is your business AI-ready? Answer 12 questions and get a free AI Readiness Score, your top three AI wins and the AI-BOS plan that fits.",
+    "hero": {
+      "id": "",
+      "dark": false,
+      "blocks": [
+        {
+          "t": "lede",
+          "html": "Answer 12 quick questions about how your business runs today: sales, people, finance, operations and data. You get an instant AI Readiness Score out of 100, the three areas where AI will pay back fastest, and the AI-BOS setup that fits your size. No sign-up needed to see your score."
+        },
+        {
+          "t": "buttons",
+          "items": [
+            {
+              "text": "Start the assessment",
+              "href": "#assess",
+              "primary": true
+            },
+            {
+              "text": "Need a full audit?",
+              "href": "/transform/ai-readiness-audit",
+              "primary": false
+            }
+          ]
+        },
+        {
+          "t": "chips",
+          "items": [
+            "12 questions",
+            "5 minutes",
+            "Instant score",
+            "Free"
+          ]
+        }
+      ],
+      "eyebrow": "Transform · Free AI Readiness Score",
+      "h1": {
+        "main": "Is your business AI-ready? Find out in 5 minutes. Free.",
+        "accent": ""
+      },
+      "aside": [
+        {
+          "t": "h3",
+          "text": "The score at a glance"
+        },
+        {
+          "t": "kv",
+          "rows": [
+            [
+              "Questions",
+              "12, plus team size"
+            ],
+            [
+              "Time",
+              "About 5 minutes"
+            ],
+            [
+              "Areas scored",
+              "5"
+            ],
+            [
+              "You get",
+              "Score, top 3 wins, a plan"
+            ],
+            [
+              "Sign-up",
+              "Not needed to see your score"
+            ],
+            [
+              "Cost",
+              "Free"
+            ]
+          ]
+        }
+      ]
+    },
+    "sections": [
+      {
+        "id": "assess",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "lede",
+            "html": "Pick the answer closest to how things really work today, not how you’d like them to."
+          },
+          {
+            "t": "assessment",
+            "src": "readiness-score"
+          }
+        ],
+        "eyebrow": "The assessment",
+        "title": "Twelve questions. One honest score."
+      },
+      {
+        "id": "next",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "cards",
+            "ordered": true,
+            "items": [
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "01"
+                  },
+                  {
+                    "k": "title",
+                    "text": "See your score."
+                  },
+                  {
+                    "k": "text",
+                    "html": "Your score, five area scores and your top three AI wins, on screen."
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "02"
+                  },
+                  {
+                    "k": "title",
+                    "text": "Get the report."
+                  },
+                  {
+                    "k": "text",
+                    "html": "Leave your details for a detailed report with the apps and agents that fit."
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "03"
+                  },
+                  {
+                    "k": "title",
+                    "text": "Talk to a consultant."
+                  },
+                  {
+                    "k": "text",
+                    "html": "A free 30-minute call to turn the report into a plan for your business."
+                  },
+                  {
+                    "k": "text",
+                    "html": "<a href=\"/transform/ai-bos\">About AI-BOS</a>"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "eyebrow": "What happens next",
+        "title": "From score to first AI win."
+      },
+      {
+        "id": "faq",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "lede",
+            "html": "Can't find your answer? Call <a href=\"tel:+918069451000\"><strong>080 6945 1000</strong></a> or <a href=\"https://wa.me/919739086029\" target=\"_blank\" rel=\"noopener\"><strong>WhatsApp us</strong></a>."
+          },
+          {
+            "t": "faq",
+            "items": [
+              {
+                "q": "Is the AI Readiness Score really free?",
+                "a": [
+                  "Yes. You see your score and top three areas on screen without signing up. Leave your details only if you want the detailed report and a call."
+                ]
+              },
+              {
+                "q": "How is this different from the AI Readiness Audit?",
+                "a": [
+                  "The score is a 5-minute self-assessment for owners and managers. The AI Readiness Audit is a 4-week engagement by a senior FutureAcad team, with interviews, a benchmarked maturity score and a costed roadmap."
+                ]
+              },
+              {
+                "q": "Who sees my answers?",
+                "a": [
+                  "Your answers stay in your browser until you choose to send them. If you request the report, we use them only to prepare it and to contact you."
+                ]
+              },
+              {
+                "q": "What should I do with my score?",
+                "a": [
+                  "Start with the lowest-scoring area. The results show which AI-BOS apps fix it, and a FutureAcad consultant can walk you through it on a free call."
+                ]
+              },
+              {
+                "q": "Who is it for?",
+                "a": [
+                  "Owners and managers of growing businesses in any industry, especially manufacturing, hospitality, retail, healthcare, education and services."
+                ]
+              }
+            ]
+          }
+        ],
+        "eyebrow": "Good to know",
+        "title": "Questions about the AI Readiness Score."
+      },
+      {
+        "id": "other-title",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "buttons",
+            "items": [
+              {
+                "text": "Everything on Transform",
+                "href": "/transform",
+                "primary": false
+              }
+            ]
+          },
+          {
+            "t": "cards",
+            "ordered": false,
+            "items": [
+              {
+                "href": "/transform/ai-bos",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "AI-BOS"
+                  },
+                  {
+                    "k": "text",
+                    "html": "25 business apps, AI agents and the person who runs them."
+                  },
+                  {
+                    "k": "text",
+                    "html": "For SMEs and growing companies"
+                  }
+                ]
+              },
+              {
+                "href": "/transform/ai-readiness-audit",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "AI Readiness Audit"
+                  },
+                  {
+                    "k": "text",
+                    "html": "A 4-week, board-ready diagnostic by a senior team."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "4 weeks"
+                  }
+                ]
+              },
+              {
+                "href": "/transform/hire-ai-talent",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "Hire AI talent"
+                  },
+                  {
+                    "k": "text",
+                    "html": "AI Administrators and Chief AI Officers, trained on your setup."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "2 roles"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "More from Transform."
+      },
+      {
+        "id": "enquire",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "lede",
+            "html": "Skip the questions and tell us about your business. A consultant will call you to go through where AI fits."
+          },
+          {
+            "t": "list",
+            "items": [
+              "Call: <a href=\"tel:+918069451000\">080 6945 1000</a>",
+              "WhatsApp: <a href=\"https://wa.me/919739086029\" target=\"_blank\" rel=\"noopener\">+91 97390 86029</a>",
+              "Email: <a href=\"mailto:hello@rooman.com?subject=AI%20Readiness%20Score%20enquiry\">hello@rooman.com</a>"
+            ]
+          },
+          {
+            "t": "form",
+            "fields": [
+              {
+                "label": "Full name",
+                "name": "name",
+                "required": true,
+                "type": "text"
+              },
+              {
+                "label": "Work email",
+                "name": "email",
+                "required": true,
+                "type": "email"
+              },
+              {
+                "label": "Mobile number",
+                "name": "phone",
+                "required": true,
+                "type": "tel"
+              },
+              {
+                "label": "Company and role",
+                "name": "role",
+                "required": false,
+                "type": "text"
+              },
+              {
+                "type": "radio",
+                "label": "I'm enquiring",
+                "name": "for",
+                "options": [
+                  "For myself",
+                  "For my organisation"
+                ]
+              }
+            ],
+            "submit": "Request a call back",
+            "note": "We’ll only use your details to contact you about this enquiry."
+          }
+        ],
+        "eyebrow": "Next step",
+        "title": "Prefer to talk it through?"
+      }
+    ]
+  },
+  "transform/hire-ai-talent": {
+    "path": "transform/hire-ai-talent",
+    "title": "Hire AI Administrators and Chief AI Officers",
+    "description": "Hire FutureAcad-trained AI Administrators and Chief AI Officers, trained on your apps and processes. Direct hire, deploy then transfer, or a fractional CAIO.",
+    "hero": {
+      "id": "",
+      "dark": false,
+      "blocks": [
+        {
+          "t": "lede",
+          "html": "FutureAcad trains AI Administrators and Chief AI Officers against your requirement, on your apps and processes, then places them in your company. Start with FutureAcad carrying them on its rolls while they settle in, then move them to yours. Or nominate your own managers for the CAIO programme, or share a FutureAcad CAIO with other companies."
+        },
+        {
+          "t": "buttons",
+          "items": [
+            {
+              "text": "Share your requirement",
+              "href": "#enquire",
+              "primary": true
+            },
+            {
+              "text": "See AI-BOS",
+              "href": "/transform/ai-bos",
+              "primary": false
+            }
+          ]
+        },
+        {
+          "t": "chips",
+          "items": [
+            "Trained on your setup",
+            "Deploy, then transfer",
+            "Fractional CAIO",
+            "Backed by FutureAcad"
+          ]
+        }
+      ],
+      "eyebrow": "Transform · Hire AI talent",
+      "h1": {
+        "main": "Hire the people who run your AI. AI Administrators and Chief AI Officers, trained by FutureAcad.",
+        "accent": ""
+      },
+      "aside": [
+        {
+          "t": "h3",
+          "text": "Hiring at a glance"
+        },
+        {
+          "t": "kv",
+          "rows": [
+            [
+              "Roles",
+              "AI Administrator · CAIO"
+            ],
+            [
+              "Trained on",
+              "Your apps and processes"
+            ],
+            [
+              "Models",
+              "4 ways to engage"
+            ],
+            [
+              "Backed by",
+              "FutureAcad helpdesk and mentors"
+            ],
+            [
+              "Talent pool",
+              "1.3M+ Rooman alumni"
+            ],
+            [
+              "Price",
+              "Scoped on a call"
+            ]
+          ]
+        }
+      ]
+    },
+    "sections": [
+      {
+        "id": "roles",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "kicker",
+            "text": "Graduates, trained 16 weeks"
+          },
+          {
+            "t": "h3",
+            "text": "AI Administrator."
+          },
+          {
+            "t": "p",
+            "html": "Runs your business apps and AI agents every day, and helps your people use them."
+          },
+          {
+            "t": "list",
+            "items": [
+              "Sets up users, workflows and reports",
+              "Builds and monitors chat and voice agents",
+              "Trains staff and reports monthly savings"
+            ]
+          },
+          {
+            "t": "p",
+            "html": "<a href=\"https://rooman.com/learn/ai-administrator\" target=\"_blank\" rel=\"noopener\">About the programme</a>"
+          },
+          {
+            "t": "kicker",
+            "text": "Managers, 8+ years"
+          },
+          {
+            "t": "h3",
+            "text": "Chief AI Officer."
+          },
+          {
+            "t": "p",
+            "html": "Leads AI across your company, from strategy to results."
+          },
+          {
+            "t": "list",
+            "items": [
+              "Picks the use cases that pay back",
+              "Sets AI policy, data rules and budgets",
+              "Leads AI Administrators and vendors"
+            ]
+          },
+          {
+            "t": "p",
+            "html": "<a href=\"https://rooman.com/learn/caio\" target=\"_blank\" rel=\"noopener\">About the programme</a>"
+          }
+        ],
+        "eyebrow": "The roles",
+        "title": "Two roles. One AI team."
+      },
+      {
+        "id": "models",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "table",
+            "caption": "Ways to engage FutureAcad AI talent",
+            "head": [
+              "If you want…",
+              "Choose",
+              "How it works"
+            ],
+            "rows": [
+              [
+                "Your own AI Administrator from day one",
+                "Direct hire",
+                "We train against your requirement; they join your payroll when placed"
+              ],
+              [
+                "Someone in place now, with FutureAcad backing",
+                "Deploy, then transfer",
+                "On FutureAcad’s rolls for the first months, then moved to yours for an agreed fee"
+              ],
+              [
+                "CAIO-level direction without a full-time hire",
+                "Fractional CAIO",
+                "A senior FutureAcad AI leader, shared with a few other companies, for a monthly fee"
+              ],
+              [
+                "To grow AI leadership from your own team",
+                "Upskill your manager",
+                "<a href=\"https://rooman.com/learn/caio\" target=\"_blank\" rel=\"noopener\">Nominate a manager for the company-sponsored CAIO track</a>"
+              ]
+            ]
+          },
+          {
+            "t": "note",
+            "html": "Every AI Administrator is backed by FutureAcad’s helpdesk and a mentor, whichever model you choose."
+          }
+        ],
+        "eyebrow": "Ways to engage",
+        "title": "Hire, deploy, share or upskill."
+      },
+      {
+        "id": "journey",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "cards",
+            "ordered": true,
+            "items": [
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "01"
+                  },
+                  {
+                    "k": "title",
+                    "text": "Share your requirement."
+                  },
+                  {
+                    "k": "text",
+                    "html": "The role, your apps and what you want AI to do."
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "02"
+                  },
+                  {
+                    "k": "title",
+                    "text": "We shortlist and train."
+                  },
+                  {
+                    "k": "text",
+                    "html": "Candidates are selected and trained against your requirement."
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "03"
+                  },
+                  {
+                    "k": "title",
+                    "text": "Live project on your setup."
+                  },
+                  {
+                    "k": "text",
+                    "html": "The final weeks of training run on your own apps and processes."
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "04"
+                  },
+                  {
+                    "k": "title",
+                    "text": "Deploy."
+                  },
+                  {
+                    "k": "text",
+                    "html": "They join your team, on FutureAcad’s rolls or yours."
+                  }
+                ]
+              },
+              {
+                "href": "",
+                "atoms": [
+                  {
+                    "k": "tag",
+                    "text": "05"
+                  },
+                  {
+                    "k": "title",
+                    "text": "Support and grow."
+                  },
+                  {
+                    "k": "text",
+                    "html": "FutureAcad’s helpdesk and mentors back them, and we review results with you."
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "eyebrow": "How it works",
+        "title": "From requirement to a person in place."
+      },
+      {
+        "id": "faq",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "lede",
+            "html": "Can't find your answer? Call <a href=\"tel:+918069451000\"><strong>080 6945 1000</strong></a> or <a href=\"https://wa.me/919739086029\" target=\"_blank\" rel=\"noopener\"><strong>WhatsApp us</strong></a>."
+          },
+          {
+            "t": "faq",
+            "items": [
+              {
+                "q": "What is the difference between an AI Administrator and a CAIO?",
+                "a": [
+                  "An AI Administrator runs your apps and AI agents day to day. A Chief AI Officer leads AI across the company: strategy, governance, budgets and the AI team."
+                ]
+              },
+              {
+                "q": "Are they trained on our systems?",
+                "a": [
+                  "Yes. We train against your requirement, and the final weeks are a live project on your own setup, so they start productive."
+                ]
+              },
+              {
+                "q": "What is deploy then transfer?",
+                "a": [
+                  "The AI Administrator works in your company on FutureAcad’s rolls for the first months, with FutureAcad backing them. Then they move to your payroll for an agreed conversion fee."
+                ]
+              },
+              {
+                "q": "What is a fractional CAIO?",
+                "a": [
+                  "A senior FutureAcad AI leader shared across a few companies. You get CAIO-level direction for a monthly fee, without a full-time hire."
+                ]
+              },
+              {
+                "q": "Can we train our own manager as CAIO?",
+                "a": [
+                  "Yes. Nominate a manager for the company-sponsored track of the Chief AI Officer programme; their capstone is a real AI project in your company."
+                ]
+              },
+              {
+                "q": "What does it cost?",
+                "a": [
+                  "It depends on the role, the model and the number of people. We scope it with you on a call."
+                ]
+              },
+              {
+                "q": "Do we have to use AI-BOS?",
+                "a": [
+                  "No. AI Administrators trained on AI-BOS can also run the tools you already use. Many clients adopt AI-BOS alongside, because the two are designed to work together."
+                ]
+              }
+            ]
+          }
+        ],
+        "eyebrow": "Good to know",
+        "title": "Questions about hiring AI talent."
+      },
+      {
+        "id": "other-title",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "buttons",
+            "items": [
+              {
+                "text": "Everything on Transform",
+                "href": "/transform",
+                "primary": false
+              }
+            ]
+          },
+          {
+            "t": "cards",
+            "ordered": false,
+            "items": [
+              {
+                "href": "/transform/ai-bos",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "AI-BOS"
+                  },
+                  {
+                    "k": "text",
+                    "html": "25 business apps, AI agents and the person who runs them."
+                  },
+                  {
+                    "k": "text",
+                    "html": "For SMEs and growing companies"
+                  }
+                ]
+              },
+              {
+                "href": "/transform/ai-readiness-score",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "Free AI Readiness Score"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Find out where AI pays back first, in 5 minutes."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "Free"
+                  }
+                ]
+              },
+              {
+                "href": "/staffing-gcc/staffing",
+                "atoms": [
+                  {
+                    "k": "title",
+                    "text": "Staffing"
+                  },
+                  {
+                    "k": "text",
+                    "html": "Permanent, contract and pre-vetted hires from Rooman’s alumni pool."
+                  },
+                  {
+                    "k": "badge",
+                    "text": "All roles"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "More from Transform."
+      },
+      {
+        "id": "enquire",
+        "dark": false,
+        "blocks": [
+          {
+            "t": "lede",
+            "html": "Tell us the role and what you want AI to do. We’ll suggest the right model and scope it with you on a call."
+          },
+          {
+            "t": "list",
+            "items": [
+              "Call: <a href=\"tel:+918069451000\">080 6945 1000</a>",
+              "WhatsApp: <a href=\"https://wa.me/919739086029\" target=\"_blank\" rel=\"noopener\">+91 97390 86029</a>",
+              "Email: <a href=\"mailto:hello@rooman.com?subject=Hire%20AI%20talent%20enquiry\">hello@rooman.com</a>"
+            ]
+          },
+          {
+            "t": "form",
+            "fields": [
+              {
+                "label": "Full name",
+                "name": "name",
+                "required": true,
+                "type": "text"
+              },
+              {
+                "label": "Work email",
+                "name": "email",
+                "required": true,
+                "type": "email"
+              },
+              {
+                "label": "Mobile number",
+                "name": "phone",
+                "required": true,
+                "type": "tel"
+              },
+              {
+                "label": "Company and role",
+                "name": "role",
+                "required": false,
+                "type": "text"
+              },
+              {
+                "label": "Role you want to hire",
+                "name": "interest",
+                "required": false,
+                "type": "select",
+                "options": [
+                  "AI Administrator",
+                  "Chief AI Officer",
+                  "Fractional CAIO",
+                  "Upskill our manager",
+                  "Not sure yet"
+                ]
+              },
+              {
+                "label": "How many people, and what should they do?",
+                "name": "message",
+                "required": false,
+                "type": "textarea"
+              },
+              {
+                "type": "radio",
+                "label": "I'm enquiring",
+                "name": "for",
+                "options": [
+                  "For myself",
+                  "For my organisation"
+                ]
+              }
+            ],
+            "submit": "Request a call back",
+            "note": "We’ll only use your details to contact you about this enquiry."
+          }
+        ],
+        "eyebrow": "Next step",
+        "title": "Share your requirement."
       }
     ]
   }

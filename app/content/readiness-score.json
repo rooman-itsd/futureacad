@@ -1,0 +1,189 @@
+{
+  "areas": {
+    "sales": {
+      "name": "Sales and marketing",
+      "fix": "CRM, Voice Agent and Social: every lead logged, called and followed up, and campaigns that run themselves."
+    },
+    "people": {
+      "name": "People and hiring",
+      "fix": "HRMS and Recruit with HireAI interviews: attendance and payroll inputs in one place, and shortlists in hours."
+    },
+    "finance": {
+      "name": "Finance and cash",
+      "fix": "AI-CFO: a live view of cash, receivables and payables, with automatic collection reminders."
+    },
+    "ops": {
+      "name": "Operations and projects",
+      "fix": "Project Management with AI agents: tasks tracked across teams and reports written for you."
+    },
+    "data": {
+      "name": "Data and AI ownership",
+      "fix": "One login for every app, plus a FutureAcad-trained AI Administrator who owns AI in your business."
+    }
+  },
+  "questions": [
+    {
+      "area": "sales",
+      "q": "How do you keep track of leads and customers?",
+      "options": [
+        "In notebooks or WhatsApp",
+        "In spreadsheets",
+        "In a CRM some of the team uses",
+        "In a CRM everyone uses daily"
+      ]
+    },
+    {
+      "area": "sales",
+      "q": "How quickly is a new enquiry followed up?",
+      "options": [
+        "Often it isn’t",
+        "Within a few days",
+        "The same day",
+        "Within minutes, automatically"
+      ]
+    },
+    {
+      "area": "sales",
+      "q": "How do you run your marketing?",
+      "options": [
+        "Rarely, when we remember",
+        "Occasional social posts",
+        "A planned calendar",
+        "Planned, measured and partly automated"
+      ]
+    },
+    {
+      "area": "people",
+      "q": "How are attendance, leave and payroll inputs handled?",
+      "options": [
+        "On paper or registers",
+        "In spreadsheets",
+        "In HR software, partly used",
+        "In HR software, fully used"
+      ]
+    },
+    {
+      "area": "people",
+      "q": "How do you hire?",
+      "options": [
+        "Referrals only, and it’s slow",
+        "Job portals, screened by hand",
+        "Portals plus a tracking sheet",
+        "Recruitment software with screening"
+      ]
+    },
+    {
+      "area": "finance",
+      "q": "How current is your view of cash, receivables and payables?",
+      "options": [
+        "Month-end or later",
+        "Weekly",
+        "Daily, from the accounts team",
+        "Live, on a dashboard"
+      ]
+    },
+    {
+      "area": "finance",
+      "q": "How are invoices and payment follow-ups done?",
+      "options": [
+        "By hand, often late",
+        "By hand, on time",
+        "Reminders from accounting software",
+        "Automated reminders and calls"
+      ]
+    },
+    {
+      "area": "ops",
+      "q": "How are projects and tasks tracked?",
+      "options": [
+        "Verbally or on WhatsApp",
+        "In spreadsheets",
+        "A task tool some teams use",
+        "One system every team uses"
+      ]
+    },
+    {
+      "area": "ops",
+      "q": "How much of your managers’ time goes on reports and chasing updates?",
+      "options": [
+        "More than half",
+        "About a third",
+        "A few hours a week",
+        "Very little; reports are automatic"
+      ]
+    },
+    {
+      "area": "data",
+      "q": "How many separate tools and logins does your team use every day?",
+      "options": [
+        "We barely use software",
+        "Six or more, not connected",
+        "Three to five, partly connected",
+        "One connected system"
+      ]
+    },
+    {
+      "area": "data",
+      "q": "Does anyone in your company use AI tools such as ChatGPT or Copilot for work?",
+      "options": [
+        "No",
+        "A few people, on their own",
+        "Several teams, informally",
+        "Yes, with guidelines and training"
+      ]
+    },
+    {
+      "area": "data",
+      "q": "Who would own an AI project in your company?",
+      "options": [
+        "No one",
+        "The owner, when time allows",
+        "An IT person or a vendor",
+        "A named person with time for it"
+      ]
+    }
+  ],
+  "sizes": [
+    {
+      "label": "1–50",
+      "plan": "AI-BOS Starter",
+      "why": "The core apps and an AI agent, set up for you and supported by FutureAcad’s remote AI support desk."
+    },
+    {
+      "label": "51–500",
+      "plan": "AI-BOS Growth",
+      "why": "The full suite with custom AI agents, run inside your business by a dedicated, FutureAcad-trained AI Administrator."
+    },
+    {
+      "label": "More than 500",
+      "plan": "AI-BOS Enterprise",
+      "why": "A Chief AI Officer and a team of AI Administrators, with AI-BOS running alongside your existing systems."
+    }
+  ],
+  "industries": [
+    "Manufacturing",
+    "Hospitality",
+    "Retail",
+    "Healthcare",
+    "Education",
+    "Services",
+    "Other"
+  ],
+  "bands": [
+    {
+      "upto": 39,
+      "name": "Getting started",
+      "body": "Most work runs on paper, WhatsApp and spreadsheets. That is good news: the first AI wins come quickly and cheaply."
+    },
+    {
+      "upto": 69,
+      "name": "Building up",
+      "body": "You have some systems in place, but they are not connected and no one owns AI. Joining them up is where the gains are."
+    },
+    {
+      "upto": 100,
+      "name": "Ready to scale",
+      "body": "Your basics are strong. AI agents and automation across your apps can now take on real work."
+    }
+  ]
+}

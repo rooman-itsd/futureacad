@@ -72,7 +72,88 @@
     </{{ 'ol' if b.ordered else 'ul' }}>
   {%- elif b.t == 'form' -%}
     {{ enquiry(b) }}
+  {%- elif b.t == 'assessment' -%}
+    {{ quiz(assessment(b.src)) }}
   {%- endif -%}
+{% endmacro %}
+
+{# A self-assessment: team size, then one question per step. Without JS
+   every step shows at once; imported.js pages through them, scores the
+   answers and fills the result, whose report form posts like the others. #}
+{% macro quiz(d) %}
+  {%- set n = d.questions|length %}
+  <div class="imp-rs" data-rs data-imp-reveal>
+    <script type="application/json" data-rs-data>{{ d|tojson }}</script>
+    <div data-rs-steps>
+      <div class="imp-rs__bar" aria-hidden="true"><span></span></div>
+      <fieldset class="imp-rs__q" data-rs-step>
+        <legend><span class="imp-rs__n">About your business</span>How many people work in your business?</legend>
+        <div class="imp-rs__opts">
+          {%- for s in d.sizes %}
+          <label class="imp-rs__opt"><input type="radio" name="rs-size" value="{{ loop.index0 }}" /><span>{{ s.label }}</span></label>
+          {%- endfor %}
+        </div>
+        <label class="imp-rs__sel">Your industry
+          <select name="rs-industry"><option value="">Select</option>{% for i in d.industries %}<option>{{ i }}</option>{% endfor %}</select>
+        </label>
+      </fieldset>
+      {%- for q in d.questions %}
+      {%- set qi = loop.index %}
+      <fieldset class="imp-rs__q" data-rs-step>
+        <legend><span class="imp-rs__n">Question {{ qi }} of {{ n }} · {{ d.areas[q.area].name }}</span>{{ q.q }}</legend>
+        <div class="imp-rs__opts">
+          {%- for o in q.options %}
+          <label class="imp-rs__opt"><input type="radio" name="rs-q{{ qi }}" value="{{ loop.index0 }}" /><span>{{ o }}</span></label>
+          {%- endfor %}
+        </div>
+      </fieldset>
+      {%- endfor %}
+      <div class="imp-rs__nav">
+        <button type="button" class="btn btn--ghost" data-rs-back>Back</button>
+        <button type="button" class="btn" data-rs-next>Next</button>
+      </div>
+      <p class="imp-rs__hint" aria-live="polite" data-rs-hint></p>
+    </div>
+    <div class="imp-rs__result" data-rs-result hidden tabindex="-1">
+      <div class="imp-rs__score">
+        <div class="imp-rs__dial" role="img" data-rs-dial><span data-rs-total></span><small>out of 100</small></div>
+        <div>
+          <p class="fa-eyebrow">Your AI Readiness Score</p>
+          <h3 class="fa-h3" data-rs-band></h3>
+          <p class="fa-p" data-rs-band-body></p>
+        </div>
+      </div>
+      <div class="imp-rs__areas" data-rs-areas></div>
+      <h3 class="fa-h3">Your top three AI wins</h3>
+      <ol class="imp-rs__wins" data-rs-wins></ol>
+      <div class="imp-rs__plan">
+        <p class="fa-eyebrow">Recommended for you</p>
+        <h3 class="fa-h3" data-rs-plan></h3>
+        <p class="fa-p" data-rs-plan-why></p>
+        <div class="imp-actions">
+          <a class="btn" href="#rs-lead"><span>Get the detailed report</span>{{ arrow }}</a>
+          <a class="btn btn--ghost" href="/transform/ai-bos"><span>See AI-BOS</span></a>
+        </div>
+      </div>
+      <div id="rs-lead">
+        <h3 class="fa-h3">Get your detailed report and a free 30-minute call.</h3>
+        {{ enquiry({'fields': [
+          {'label': 'Full name', 'name': 'name', 'type': 'text'},
+          {'label': 'Work email', 'name': 'email', 'type': 'email'},
+          {'label': 'Mobile number', 'name': 'phone', 'type': 'tel', 'required': true},
+          {'label': 'Company', 'name': 'company', 'type': 'text'},
+          {'label': 'Team size', 'name': 'rs-size', 'type': 'hidden'},
+          {'label': 'Industry', 'name': 'rs-industry', 'type': 'hidden'},
+          {'label': 'AI Readiness Score', 'name': 'rs-score', 'type': 'hidden'},
+          {'label': 'Recommended', 'name': 'rs-plan', 'type': 'hidden'},
+          {'label': 'Area scores', 'name': 'rs-areas', 'type': 'hidden'},
+          {'label': 'Answers', 'name': 'rs-answers', 'type': 'hidden'}],
+          'submit': 'Send me the report',
+          'note': 'We’ll only use your details to send the report and contact you about it.'}) }}
+      </div>
+      <p><button type="button" class="fa-link imp-rs__again" data-rs-again>Start again</button></p>
+    </div>
+  </div>
 {% endmacro %}
 
 {# Enquiry and application forms keep their own fields; imported.js posts
@@ -82,7 +163,9 @@
     {%- for fld in f.fields %}
     {%- set id = 'f-' ~ loop.index %}
     {%- set core = fld.name in ('name', 'email') %}
-    {%- if fld.type == 'radio' %}
+    {%- if fld.type == 'hidden' %}
+    <input type="hidden" name="{{ fld.name }}" data-label="{{ fld.label }}" />
+    {%- elif fld.type == 'radio' %}
     <fieldset class="imp-radios">
       <legend>{{ fld.label }}</legend>
       {%- for o in fld.options %}

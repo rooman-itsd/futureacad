@@ -54,6 +54,7 @@ PAGES = [
     "build/startup-varsity/founders-track", "build/startup-varsity/partners",
     "build/how-to-choose",
     "transform/managed-ai-functions", "transform/outcome-based-ai",
+    "transform/ai-bos", "transform/ai-readiness-score", "transform/hire-ai-talent",
     "transform/case-study/karnataka-police-vpnobb", "transform/case-study/kea-cet-counselling",
     "transform/case-study/ajsk-service-centres", "transform/case-study/shimoga-smart-city",
     "transform/case-study/sbi-it-maintenance", "transform/case-study/jk-state-taxes",
@@ -73,6 +74,12 @@ PRODUCT_SHOTS = {
     "build/product/edu-erp": "img/platforms/erp.jpg",
     "build/startup-varsity": "img/platforms/startup-varsity.jpg",
 }
+
+# Quizzes rooman.com draws with JavaScript import as nothing but their
+# Back/Next button text. Each is swapped for an "assessment" block that
+# app/templates/imported.html renders from app/content/<key>.json, whose
+# questions were copied from Rooman's script bundle.
+ASSESSMENTS = {"transform/ai-readiness-score": "readiness-score"}
 
 SKIP = {"script", "style", "svg", "noscript", "nav", "template", "iframe"}
 BLOCK_TAGS = {"p", "div", "section", "aside", "article", "header", "footer", "ul",
@@ -525,6 +532,14 @@ def use_product_shots(pages):
                             a["src"] = shot
 
 
+def use_assessments(pages):
+    for path, key in ASSESSMENTS.items():
+        for sec in pages.get(path, {}).get("sections", []):
+            sec["blocks"] = [{"t": "assessment", "src": key}
+                             if b["t"] == "p" and b["html"] == "BackNext" else b
+                             for b in sec["blocks"]]
+
+
 def dl_rows(dl):
     rows, key = [], None
     cells = dl.find_all(["dt", "dd"])
@@ -668,6 +683,7 @@ def main():
         n = sum(len(s["blocks"]) for s in pages[p]["sections"])
         print(f"{p:36} {len(pages[p]['sections']):2} sections {n:3} blocks", file=sys.stderr)
     use_product_shots(pages)
+    use_assessments(pages)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(pages, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
     print(f"wrote {args.out} ({len(pages)} pages) and {len(imp.images)} images", file=sys.stderr)
