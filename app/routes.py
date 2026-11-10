@@ -146,8 +146,14 @@ def _nav_section(path):
             "partner": "work", "careers": "careers"}.get(path.split("/")[0], "")
 
 
+def _assessment(key):
+    """A quiz's questions and scoring bands (app/content/<key>.json)."""
+    return json.loads((IMPORTED_FILE.parent / f"{key}.json").read_text(encoding="utf-8"))
+
+
 def imported_page(path):
-    return render_template("imported.html", page=_imported(path), active=_nav_section(path))
+    return render_template("imported.html", page=_imported(path), active=_nav_section(path),
+                           assessment=_assessment)
 
 
 for _path in IMPORTED:

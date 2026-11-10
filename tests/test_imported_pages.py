@@ -21,6 +21,7 @@ def test_imported_page_renders_its_content(client, path):
 
 @pytest.mark.parametrize("path,section", [
     ("build/products", "build"), ("transform/managed-ai", "transform"),
+    ("transform/ai-bos", "transform"),
     ("staffing-gcc/domestic", "staffing"), ("gcc-services", "gcc"),
     ("build/apply-intern", "careers"),
 ])
@@ -90,3 +91,17 @@ def test_content_is_reread_when_the_file_changes(client, monkeypatch):
     monkeypatch.setattr(routes, "_imported_mtime", -1)
     monkeypatch.setattr(routes.json, "loads", lambda _text: changed)
     assert "Freshly imported" in client.get("/gcc-services").get_data(as_text=True)
+
+
+def test_readiness_score_renders_every_question_and_the_report_fields(client):
+    quiz = routes._assessment("readiness-score")
+    body = client.get("/transform/ai-readiness-score").get_data(as_text=True)
+    assert "BackNext" not in body
+    assert body.count("data-rs-step>") == len(quiz["questions"]) + 1  # plus team size
+    for q in quiz["questions"]:
+        assert str(escape(q["q"])) in body
+    # The result's report form posts like the other forms, with the score attached.
+    form = body.split('id="rs-lead"', 1)[1]
+    assert "data-imported-form" in form
+    for name in ("rs-score", "rs-plan", "rs-areas", "rs-answers"):
+        assert f'type="hidden" name="{name}"' in form
