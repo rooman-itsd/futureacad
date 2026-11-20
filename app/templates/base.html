@@ -19,8 +19,8 @@
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}" />
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="FutureAcad — The Future Doesn't Wait." />
-  <meta property="og:description" content="AI, Enterprise Technology & Global Talent. A Deep Tech Startup, Dubai." />
+  <meta property="og:title" content="{{ self.title() }}" />
+  <meta property="og:description" content="{{ self.description() }}" />
   <meta property="og:image" content="{{ url_for('static', filename='img/logo.png') }}" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
