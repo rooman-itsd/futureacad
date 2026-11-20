@@ -47,7 +47,10 @@ def services():
 
 @main.route("/work")
 def work():
-    return render_template("work.html", active="work", projects=PROJECTS, partners=get_partners())
+    faq = _page_faq("work")
+    page = {"sections": [{"blocks": [{"t": "faq", "items": faq["items"]}]}]} if faq else {}
+    return render_template("work.html", active="work", projects=PROJECTS, partners=get_partners(),
+                           faq=faq, faq_schema=_faq_schema(page))
 
 
 @main.route("/contact")
@@ -171,6 +174,28 @@ def _with_seo(path, page):
     return {**page, **seo} if seo else page
 
 
+PAGE_FAQ_FILE = IMPORTED_FILE.parent / "page_faq.json"
+
+
+def _page_faq(path):
+    """Extra "Good to know" questions for a page (app/content/page_faq.json), or None."""
+    return json.loads(PAGE_FAQ_FILE.read_text(encoding="utf-8")).get(path)
+
+
+def _with_faq(path, page):
+    """The page with its extra FAQ section, placed before the closing form section."""
+    extra = _page_faq(path)
+    if not extra:
+        return page
+    section = {"id": "good-to-know", "dark": False, "eyebrow": "Good to know",
+               "title": extra["title"], "blocks": [{"t": "faq", "items": extra["items"]}]}
+    sections = list(page.get("sections", []))
+    has_form = [i for i, sec in enumerate(sections)
+                if any(b.get("t") == "form" for b in sec.get("blocks", []))]
+    sections.insert(has_form[-1] if has_form else len(sections), section)
+    return {**page, "sections": sections}
+
+
 def _plain(html_text):
     """Text without tags or entities, for structured data."""
     return html.unescape(re.sub(r"<[^>]+>", "", html_text)).strip()
@@ -183,14 +208,14 @@ def _faq_schema(page):
     questions = [{"@type": "Question", "name": _plain(item["q"]),
                   "acceptedAnswer": {"@type": "Answer",
                                      "text": " ".join(_plain(a) for a in item["a"])}}
-                 for b in blocks for item in b["items"]]
+                 for b in blocks for item in b.get("items", [])]
     if not questions:
         return None
     return {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": questions}
 
 
 def imported_page(path):
-    page = _with_seo(path, _imported(path))
+    page = _with_faq(path, _with_seo(path, _imported(path)))
     return render_template("imported.html", page=page, active=_nav_section(path),
                            assessment=_assessment, faq_schema=_faq_schema(page))
 

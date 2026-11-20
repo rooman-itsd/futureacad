@@ -89,7 +89,11 @@ def test_content_is_reread_when_the_file_changes(client, monkeypatch):
     # Registered first so monkeypatch restores the real content afterwards.
     monkeypatch.setattr(routes, "IMPORTED", IMPORTED)
     monkeypatch.setattr(routes, "_imported_mtime", -1)
-    monkeypatch.setattr(routes.json, "loads", lambda _text: changed)
+    real_loads = routes.json.loads
+    # Only the imported content changes; seo.json and page_faq.json read as usual.
+    monkeypatch.setattr(routes.json, "loads",
+                        lambda text: changed if '"gcc-services"' in text and '"_note"' not in text
+                        else real_loads(text))
     assert "Freshly imported" in client.get("/gcc-services").get_data(as_text=True)
 
 
@@ -147,3 +151,13 @@ def test_pages_carry_canonical_and_organization_schema(client):
 def test_faq_blocks_become_faqpage_schema(client):
     html = client.get("/build/custom-ai-builds").get_data(as_text=True)
     assert '"@type": "FAQPage"' in html and "Is it really free?" in html
+
+
+def test_thin_pages_get_their_good_to_know_faq(client):
+    """Pages SAIOM flagged as thin carry the extra FAQ from page_faq.json."""
+    for path, question in (("/build/apply-intern", "Is the internship paid?"),
+                           ("/partner/hiring", "What does it cost to hire?"),
+                           ("/work", "Are these real products?")):
+        html = client.get(path).get_data(as_text=True)
+        assert 'id="good-to-know"' in html and question in html, path
+        assert '"@type": "FAQPage"' in html, path

@@ -3,6 +3,7 @@
 {% block description %}Platforms built by FutureAcad — CRM, ERP, Startup Varsity, AI Tutor, HireAI and more. Products in production.{% endblock %}
 
 {% block head %}
+{% if faq_schema %}<script type="application/ld+json">{{ faq_schema|tojson }}</script>{% endif %}
 <style>
   .work-highlight {
     font-weight: 600;
@@ -206,6 +207,21 @@
     </div>
   </div>
 </section>
+
+{% if faq %}
+<section class="section" id="good-to-know">
+  <div class="page__kicker reveal-up">GOOD TO KNOW</div>
+  <h2 class="fa-h2 reveal-up">{{ faq.title }}</h2>
+  <div class="imp-faq" style="margin-top:32px">
+    {%- for it in faq['items'] %}
+    <details>
+      <summary>{{ it.q }}</summary>
+      <div class="imp-faq__a">{% for a in it.a %}<p>{{ a|safe }}</p>{% endfor %}</div>
+    </details>
+    {%- endfor %}
+  </div>
+</section>
+{% endif %}
 
 <section class="cta-band">
   <h2 class="reveal-up">Your platform could be <span class="work-highlight">next</span>.</h2>

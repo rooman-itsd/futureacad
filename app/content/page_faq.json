@@ -1,0 +1,282 @@
+{
+  "_note": "Extra 'Good to know' FAQ sections for pages SAIOM flagged as thin (under 250 words). Kept apart from imported.json so the importer does not overwrite them. Approved draft: 20 Nov 2026.",
+  "build/apply-founder": {
+    "title": "Applying as a founder",
+    "items": [
+      {
+        "q": "Who can apply?",
+        "a": [
+          "Anyone aged 18 or over with a startup idea. You can be at any stage: just an idea, validating the problem, building a prototype, live with early users, or already earning revenue."
+        ]
+      },
+      {
+        "q": "What do I need to bring?",
+        "a": [
+          "The idea. FutureAcad forms the team around you through StartupVarsity, so you don't need co-founders or engineers before you apply."
+        ]
+      },
+      {
+        "q": "Which industries can I choose?",
+        "a": [
+          "AI and deep tech, BFSI and fintech, retail and e-commerce, manufacturing, and logistics and mobility."
+        ]
+      },
+      {
+        "q": "What should I write in the application?",
+        "a": [
+          "What problem you are solving, for whom, and why you are the right person to solve it. Also tell us what you have built or led before, and share your LinkedIn or portfolio."
+        ]
+      },
+      {
+        "q": "What happens after I apply?",
+        "a": [
+          "Interview calls go out within two weeks of applying. Applications for Cohort 1 are open now."
+        ]
+      },
+      {
+        "q": "Is my idea kept private?",
+        "a": [
+          "Yes. FutureAcad does not share applications with third parties, and uses your details only to contact you about StartupVarsity."
+        ]
+      },
+      {
+        "q": "What does StartupVarsity give a founder?",
+        "a": [
+          "A six-month programme with an 11-member team of AI-native engineers, ₹10 lakh in seed funding and access to more than 100 mentors. The idea and the company are yours to lead."
+        ]
+      },
+      {
+        "q": "Do I need a technical background?",
+        "a": [
+          "No. Tell us what you have built or led before, in any field. The team brings the engineering skills, and FutureAcad engineers guide the build."
+        ]
+      },
+      {
+        "q": "How does the interview work?",
+        "a": [
+          "We talk about your idea, the problem you want to solve and the customers you want to serve. Then we agree whether StartupVarsity is the right next step for you."
+        ]
+      }
+    ]
+  },
+  "build/apply-intern": {
+    "title": "Startupvarsity internships",
+    "items": [
+      {
+        "q": "Who is this for?",
+        "a": [
+          "AI-native freshers who are ready to build inside a funded startup team. You must be 18 or over."
+        ]
+      },
+      {
+        "q": "Which roles are open?",
+        "a": [
+          "AI and ML engineering, full-stack development, data and analytics, cloud and DevOps, product and design, and business and growth."
+        ]
+      },
+      {
+        "q": "Is the internship paid?",
+        "a": [
+          "Yes. The stipend is ₹10,000 to ₹25,000 a month, depending on the role."
+        ]
+      },
+      {
+        "q": "Which industries can I work in?",
+        "a": [
+          "Retail and e-commerce, manufacturing or the public sector. If you are not sure yet, choose \"Not sure yet\" and we will help you decide."
+        ]
+      },
+      {
+        "q": "What should I include in my application?",
+        "a": [
+          "Your graduation year, a link to your LinkedIn, GitHub or portfolio, the role you want, and three things about you: your skills, your projects and your interests."
+        ]
+      },
+      {
+        "q": "What happens to my details?",
+        "a": [
+          "FutureAcad uses them only to contact you about StartupVarsity, and does not share applications with third parties."
+        ]
+      },
+      {
+        "q": "What will I actually do?",
+        "a": [
+          "You join a funded startup team for six months and build a real product with its founder, guided by FutureAcad engineers and mentors. You ship real work, not practice tasks."
+        ]
+      },
+      {
+        "q": "Do I need work experience?",
+        "a": [
+          "No. This is for freshers. Show us your skills, the projects you have built and what you want to learn. A strong GitHub or portfolio helps."
+        ]
+      },
+      {
+        "q": "What comes after the internship?",
+        "a": [
+          "You leave with real projects to show employers, and with experience of building inside a startup team from day one."
+        ]
+      }
+    ]
+  },
+  "careers": {
+    "title": "Working at futureacad",
+    "items": [
+      {
+        "q": "Which teams are hiring?",
+        "a": [
+          "FutureAcad is growing across LEARN, BUILD and TRANSFORM, and many of these roles are entirely new. We welcome seasoned technologists, educators, partnerships professionals and early-career professionals."
+        ]
+      },
+      {
+        "q": "How do I apply?",
+        "a": [
+          "Email <a href=\"mailto:careers@rooman.com\">careers@rooman.com</a> with your CV, and tell us which pillar interests you: LEARN, BUILD, TRANSFORM or PARTNER. We reply within a week."
+        ]
+      },
+      {
+        "q": "What tools will I work with?",
+        "a": [
+          "An AI-native stack, including Claude, Cursor and other modern AI tools, in a culture that values shipping over showing."
+        ]
+      },
+      {
+        "q": "I'm a student or a founder. Is there a way in for me?",
+        "a": [
+          "Yes. Join a StartupVarsity team, either as a founder with an idea or as an intern who wants to build."
+        ]
+      }
+    ]
+  },
+  "partner/corporates": {
+    "title": "Working with futureacad as a corporate",
+    "items": [
+      {
+        "q": "Which services can we choose from?",
+        "a": [
+          "Four: IT staffing, rookie training for fresh graduates, corporate AI upskilling for your current team, and managed IT services."
+        ]
+      },
+      {
+        "q": "How quickly are fresh hires productive?",
+        "a": [
+          "Rookie training programmes run for 2 to 6 weeks and are customised for your company. Your new hires are productive from week 3."
+        ]
+      },
+      {
+        "q": "What does corporate AI upskilling cover?",
+        "a": [
+          "In-house, cohort-based programmes with hybrid delivery and measurable outcomes: AI Foundations for leaders; Generative AI for developers; AI in Business Strategy for managers."
+        ]
+      },
+      {
+        "q": "Can we hire on contract first?",
+        "a": [
+          "Yes. Staffing is available as contract-to-hire or permanent placement, across cybersecurity, cloud, data science, DevOps and AI."
+        ]
+      },
+      {
+        "q": "How do we start?",
+        "a": [
+          "Request a call-back and tell us whether you are hiring, upskilling or outsourcing IT operations. We'll propose the right engagement model."
+        ]
+      }
+    ]
+  },
+  "partner/franchise": {
+    "title": "The franchise programme",
+    "items": [
+      {
+        "q": "What do I need to open a centre?",
+        "a": [
+          "A classroom with good audio and video, a local business lead, local faculty (we train them), and a team to market the centre locally."
+        ]
+      },
+      {
+        "q": "What does FutureAcad provide?",
+        "a": [
+          "The curriculum, an AI-based learning platform, live lectures from master trainers, the Train-the-Trainer programme, a national brand and placements."
+        ]
+      },
+      {
+        "q": "Do students get the same quality as at headquarters?",
+        "a": [
+          "Yes. They get the same certificates and the same placement network, just closer to home. Selected learners can intern at StartupVarsity or be placed with hiring partners."
+        ]
+      },
+      {
+        "q": "Where are you expanding?",
+        "a": [
+          "Tier-2, Tier-3 and Tier-4 cities across India."
+        ]
+      }
+    ]
+  },
+  "partner/hiring": {
+    "title": "Hiring from our talent pool",
+    "items": [
+      {
+        "q": "What does it cost to hire?",
+        "a": [
+          "Nothing. Campus drives, fit screening and shortlisting are all included, at zero cost to you."
+        ]
+      },
+      {
+        "q": "How fast can we hire?",
+        "a": [
+          "You receive a ranked shortlist, typically within 2 weeks. The average time to a first hire is within 30 days of becoming a partner."
+        ]
+      },
+      {
+        "q": "What do you need from us?",
+        "a": [
+          "Your job description, team size, tech stack and location."
+        ]
+      },
+      {
+        "q": "How are candidates screened?",
+        "a": [
+          "Each candidate takes a skills assessment and a soft-skills interview, so you only meet people who fit the role."
+        ]
+      },
+      {
+        "q": "What happens after we hire?",
+        "a": [
+          "Onboarding support is included, with check-ins for the first 90 days."
+        ]
+      }
+    ]
+  },
+  "work": {
+    "title": "What we have built",
+    "items": [
+      {
+        "q": "Which platforms has FutureAcad built?",
+        "a": [
+          "A CRM platform for managing customer relationships.",
+          "An ERP system for enterprise resource planning.",
+          "StartupVarsity, for learning startup skills and launching companies.",
+          "AI Tutor, an adaptive, AI-powered learning companion.",
+          "HireAI, an AI-powered recruitment and interview platform."
+        ]
+      },
+      {
+        "q": "Are these real products?",
+        "a": [
+          "Yes. They are platforms in production, not demonstrations. FutureAcad runs its own business on apps like these."
+        ]
+      },
+      {
+        "q": "Can FutureAcad build something similar for us?",
+        "a": [
+          "Yes. Through Custom Build, FutureAcad builds your app for free, and you pay only for hosting and usage once it's live. A working first version takes 6 to 8 weeks."
+        ]
+      },
+      {
+        "q": "Where do I start?",
+        "a": [
+          "Submit your problem on the Custom Build page, or contact us to book a strategy session."
+        ]
+      }
+    ]
+  }
+}
