@@ -105,3 +105,24 @@ def test_readiness_score_renders_every_question_and_the_report_fields(client):
     assert "data-imported-form" in form
     for name in ("rs-score", "rs-plan", "rs-areas", "rs-answers"):
         assert f'type="hidden" name="{name}"' in form
+
+
+def test_saiom_keywords_set_the_title_and_description(client):
+    """SEO titles from app/content/seo.json win over the imported ones."""
+    html = client.get("/build/product/ai-tutor").get_data(as_text=True)
+    assert "<title>AI Tutor: Study AI &amp; Homework Helper — FutureAcad</title>" in html
+    assert "AI homework helper" in html
+    assert 'property="og:title" content="AI Tutor: Study AI &amp; Homework Helper — FutureAcad"' in html
+
+
+def test_seo_overrides_only_name_real_pages():
+    import json
+    from pathlib import Path
+    content = Path(__file__).parent.parent / "app" / "content"
+    pages = json.loads((content / "imported.json").read_text(encoding="utf-8"))
+    seo = json.loads((content / "seo.json").read_text(encoding="utf-8"))
+    for path, meta in seo.items():
+        if path.startswith("_"):
+            continue
+        assert path in pages, path
+        assert len(meta["title"]) <= 47 and len(meta["description"]) <= 160, path

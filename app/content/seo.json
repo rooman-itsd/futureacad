@@ -1,0 +1,43 @@
+{
+  "_note": "SEO titles and descriptions for the keywords tracked in SAIOM. These override imported.json, so a re-run of scripts/import_rooman.py does not undo them. Keep titles under 47 characters (' — FutureAcad' is added) and descriptions under 160.",
+  "build": {
+    "title": "AI Apps & Custom App Development",
+    "description": "Build AI apps with FutureAcad: custom apps built free (pay only for hosting and usage), four ready AI products, fixed-scope AI projects and StartupVarsity."
+  },
+  "build/custom-ai-builds": {
+    "title": "AI App Builder: Custom AI Apps, Free",
+    "description": "FutureAcad is the AI app builder for your business: custom app development in Dubai and India, built free. Pay only for hosting and usage. Live in 6–8 weeks."
+  },
+  "build/ai-project-builds": {
+    "title": "AI Development Company: AI Project Builds",
+    "description": "An AI development company in Dubai for fixed-scope AI projects: a 4-week prototype, an 8-week production build or a 24-week programme, on a fixed timeline."
+  },
+  "build/product/ai-tutor": {
+    "title": "AI Tutor: Study AI & Homework Helper",
+    "description": "AI Tutor is a study AI and AI homework helper: voice-first AI study tools in 50+ languages, with microlearning, Socratic dialogue and spaced repetition."
+  },
+  "build/product/crm-voice-agent": {
+    "title": "Conversational AI Voice Agent for CRM",
+    "description": "CRM Voice Agent is conversational AI that calls your leads, qualifies them, handles objections and transfers calls to your team, in Indian English."
+  },
+  "build/startup-varsity": {
+    "title": "StartupVarsity: AI Startup Incubator",
+    "description": "Start an AI startup with StartupVarsity, a 6-month AI startup incubator: an 11-member team, ₹10 lakh seed funding and 100+ mentors. Applications open."
+  },
+  "transform/with-our-products": {
+    "title": "AI Assistant & Generative AI Platform",
+    "description": "Transform your company with FutureAcad's AI assistants and generative AI platform: HireAI, CRM Voice Agent, AI Tutor, Edu ERP or a custom build."
+  },
+  "transform/enterprise": {
+    "title": "AI for Business: Enterprise Transformation",
+    "description": "AI for business, by sector: enterprise AI transformation for BFSI, healthcare, retail and manufacturing in the UAE and India, starting with a 4-week audit."
+  },
+  "transform/ai-workforce-readiness": {
+    "title": "AI Training: AI Workforce Upskilling",
+    "description": "AI training for your workforce: a 12–24 week programme to assess AI maturity, upskill your team, embed FutureAcad AI pods and measure the productivity uplift."
+  },
+  "staffing-gcc/staffing": {
+    "title": "Hire AI Engineers: IT Staffing",
+    "description": "Hire AI engineers from FutureAcad's pre-vetted, AI-trained pool: AI, cloud, data, cybersecurity, full-stack and DevOps engineers, for roles in India or abroad."
+  }
+}

@@ -151,9 +151,20 @@ def _assessment(key):
     return json.loads((IMPORTED_FILE.parent / f"{key}.json").read_text(encoding="utf-8"))
 
 
+SEO_FILE = IMPORTED_FILE.parent / "seo.json"
+
+
+def _with_seo(path, page):
+    """The page with its SAIOM keyword title and description (app/content/seo.json).
+
+    Kept apart from imported.json so a re-run of the importer does not undo them."""
+    seo = json.loads(SEO_FILE.read_text(encoding="utf-8")).get(path)
+    return {**page, **seo} if seo else page
+
+
 def imported_page(path):
-    return render_template("imported.html", page=_imported(path), active=_nav_section(path),
-                           assessment=_assessment)
+    return render_template("imported.html", page=_with_seo(path, _imported(path)),
+                           active=_nav_section(path), assessment=_assessment)
 
 
 for _path in IMPORTED:
