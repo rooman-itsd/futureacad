@@ -125,4 +125,24 @@ def test_seo_overrides_only_name_real_pages():
         if path.startswith("_"):
             continue
         assert path in pages, path
-        assert len(meta["title"]) <= 47 and len(meta["description"]) <= 160, path
+        assert len(meta.get("title", "")) <= 47, path
+        assert len(meta.get("description", "")) <= 160, path
+
+
+def test_sitemap_lists_every_public_page(client):
+    r = client.get("/sitemap.xml")
+    assert r.status_code == 200 and r.mimetype == "application/xml"
+    xml = r.get_data(as_text=True)
+    for path in ("/", "/contact", "/build/product/ai-tutor", "/transform/ai-bos"):
+        assert f"<loc>https://futureacad.ae{path}</loc>" in xml
+
+
+def test_pages_carry_canonical_and_organization_schema(client):
+    html = client.get("/build/hireai").get_data(as_text=True)
+    assert '<link rel="canonical" href="https://futureacad.ae/build/hireai" />' in html
+    assert '"@type": "Organization"' in html
+
+
+def test_faq_blocks_become_faqpage_schema(client):
+    html = client.get("/build/custom-ai-builds").get_data(as_text=True)
+    assert '"@type": "FAQPage"' in html and "Is it really free?" in html
