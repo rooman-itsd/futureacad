@@ -169,3 +169,8 @@ def test_saiom_drafts_add_sections_to_gcc_and_edu_erp(client):
     erp = client.get("/build/product/edu-erp").get_data(as_text=True)
     assert 'id="accreditation-reporting"' in erp and "NAAC and AICTE report formats" in erp
     assert erp.index('id="accreditation-reporting"') < erp.index('id="good-to-know"')
+
+
+def test_home_page_keeps_the_search_console_verification_tag(client):
+    html = client.get("/").get_data(as_text=True)
+    assert '<meta name="google-site-verification" content="aG5QbpqsvsFyLIs1V3-86h1elsVh_cqBWEvf0iP2Sic" />' in html
