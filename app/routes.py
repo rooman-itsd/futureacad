@@ -199,10 +199,15 @@ for _path in IMPORTED:
     main.add_url_rule(f"/{_path}", "imported", imported_page, defaults={"path": _path})
 
 
+# Pages no other page links to (SAIOM audit); they stay reachable but are not listed.
+SITEMAP_SKIP = {"build/omnis", "build/bluelinked"}
+
+
 @main.route("/sitemap.xml")
 def sitemap():
     """Every public page, for search engines (listed in robots.txt)."""
-    paths = ["/", "/about", "/services", "/work", "/contact"] + [f"/{p}" for p in IMPORTED]
+    paths = ["/", "/about", "/services", "/work", "/contact"] + [
+        f"/{p}" for p in IMPORTED if p not in SITEMAP_SKIP]
     urls = "".join(f"<url><loc>{SITE_URL}{p}</loc></url>" for p in paths)
     xml = ('<?xml version="1.0" encoding="UTF-8"?>'
            f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>')
