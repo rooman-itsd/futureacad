@@ -56,7 +56,8 @@
     "title": "Domestic IT Staffing Across India"
   },
   "gcc-services": {
-    "title": "GCC Services: GCC-as-a-Service for SMEs"
+    "title": "Micro GCC Setup in India: GCC-as-a-Service",
+    "description": "Set up a micro GCC in India with FutureAcad: start with a 3-engineer pod, scale to 50+, and own it through Build–Operate–Transfer in 24–36 months."
   },
   "build/custom-ai-builds/examples": {
     "title": "Custom Build Examples: Apps We Have Built"
