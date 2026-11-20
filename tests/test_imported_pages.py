@@ -135,6 +135,7 @@ def test_sitemap_lists_every_public_page(client):
     xml = r.get_data(as_text=True)
     for path in ("/", "/contact", "/build/product/ai-tutor", "/transform/ai-bos"):
         assert f"<loc>https://futureacad.ae{path}</loc>" in xml
+    assert "/build/omnis<" not in xml and "/build/bluelinked<" not in xml
 
 
 def test_pages_carry_canonical_and_organization_schema(client):
