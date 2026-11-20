@@ -4,3 +4,5 @@ Allow: /
 # Keep the leads dashboard out of search indexes.
 Disallow: /admin
 Disallow: /admin/
+
+Sitemap: https://futureacad.ae/sitemap.xml

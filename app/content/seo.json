@@ -38,6 +38,36 @@
   },
   "staffing-gcc/staffing": {
     "title": "Hire AI Engineers: IT Staffing",
-    "description": "Hire AI engineers from FutureAcad's pre-vetted, AI-trained pool: AI, cloud, data, cybersecurity, full-stack and DevOps engineers, for roles in India or abroad."
+    "description": "Hire AI engineers from FutureAcad's pre-vetted, AI-trained pool: AI, cloud, data, cybersecurity, full-stack and DevOps engineers, in India or abroad."
+  },
+  "build/products": {
+    "title": "AI Products: HireAI, Voice Agent, AI Tutor"
+  },
+  "transform/ai-readiness-audit": {
+    "title": "AI Readiness Audit: Your AI Plan in 4 Weeks"
+  },
+  "transform/international": {
+    "title": "International Delivery: India, Dubai, Singapore"
+  },
+  "staffing-gcc": {
+    "title": "IT Staffing: Permanent and Contract Hiring"
+  },
+  "staffing-gcc/domestic": {
+    "title": "Domestic IT Staffing Across India"
+  },
+  "gcc-services": {
+    "title": "GCC Services: GCC-as-a-Service for SMEs"
+  },
+  "build/custom-ai-builds/examples": {
+    "title": "Custom Build Examples: Apps We Have Built"
+  },
+  "build/startup-varsity/partners": {
+    "title": "Partner with StartupVarsity"
+  },
+  "build/how-to-choose": {
+    "title": "How to Choose: Build, Products or Managed AI"
+  },
+  "transform/managed-ai-functions": {
+    "title": "Managed AI Functions: Service and Finance Ops"
   }
 }

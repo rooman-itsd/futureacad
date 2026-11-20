@@ -1,4 +1,5 @@
 """Public site routes + contact API."""
+import html
 import json
 import re
 from pathlib import Path
@@ -10,6 +11,14 @@ from .data import PROJECTS, get_journey_icons, get_partners
 from .utils import send_lead_email, valid_csrf
 
 main = Blueprint("main", __name__)
+
+# The live address, for canonical links, Open Graph and the sitemap.
+SITE_URL = "https://futureacad.ae"
+
+
+@main.app_context_processor
+def _site():
+    return {"site_url": SITE_URL}
 
 EMAIL_RE = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 MAX = {"name": 120, "email": 200, "phone": 40, "company": 160, "interest": 80, "message": 4000}
@@ -162,10 +171,40 @@ def _with_seo(path, page):
     return {**page, **seo} if seo else page
 
 
+def _plain(html_text):
+    """Text without tags or entities, for structured data."""
+    return html.unescape(re.sub(r"<[^>]+>", "", html_text)).strip()
+
+
+def _faq_schema(page):
+    """The page's FAQ blocks as schema.org FAQPage data, or None."""
+    blocks = [b for sec in [page.get("hero") or {}, *page.get("sections", [])]
+              for b in sec.get("blocks", []) if b.get("t") == "faq"]
+    questions = [{"@type": "Question", "name": _plain(item["q"]),
+                  "acceptedAnswer": {"@type": "Answer",
+                                     "text": " ".join(_plain(a) for a in item["a"])}}
+                 for b in blocks for item in b["items"]]
+    if not questions:
+        return None
+    return {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": questions}
+
+
 def imported_page(path):
-    return render_template("imported.html", page=_with_seo(path, _imported(path)),
-                           active=_nav_section(path), assessment=_assessment)
+    page = _with_seo(path, _imported(path))
+    return render_template("imported.html", page=page, active=_nav_section(path),
+                           assessment=_assessment, faq_schema=_faq_schema(page))
 
 
 for _path in IMPORTED:
     main.add_url_rule(f"/{_path}", "imported", imported_page, defaults={"path": _path})
+
+
+@main.route("/sitemap.xml")
+def sitemap():
+    """Every public page, for search engines (listed in robots.txt)."""
+    paths = ["/", "/about", "/services", "/work", "/contact"] + [f"/{p}" for p in IMPORTED]
+    urls = "".join(f"<url><loc>{SITE_URL}{p}</loc></url>" for p in paths)
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>'
+           f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>')
+    return xml, 200, {"Content-Type": "application/xml; charset=utf-8"}
+
