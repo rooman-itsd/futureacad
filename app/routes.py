@@ -182,18 +182,24 @@ def _page_faq(path):
     return json.loads(PAGE_FAQ_FILE.read_text(encoding="utf-8")).get(path)
 
 
+PAGE_SECTIONS_FILE = IMPORTED_FILE.parent / "page_sections.json"
+
+
 def _with_faq(path, page):
-    """The page with its extra FAQ section, placed before the closing form section."""
+    """The page with its extra sections (page_sections.json) and FAQ (page_faq.json),
+    placed before the closing form section."""
+    added = list(json.loads(PAGE_SECTIONS_FILE.read_text(encoding="utf-8")).get(path, []))
     extra = _page_faq(path)
-    if not extra:
+    if extra:
+        added.append({"id": "good-to-know", "dark": False, "eyebrow": "Good to know",
+                      "title": extra["title"], "blocks": [{"t": "faq", "items": extra["items"]}]})
+    if not added:
         return page
-    section = {"id": "good-to-know", "dark": False, "eyebrow": "Good to know",
-               "title": extra["title"], "blocks": [{"t": "faq", "items": extra["items"]}]}
     sections = list(page.get("sections", []))
     has_form = [i for i, sec in enumerate(sections)
                 if any(b.get("t") == "form" for b in sec.get("blocks", []))]
-    sections.insert(has_form[-1] if has_form else len(sections), section)
-    return {**page, "sections": sections}
+    at = has_form[-1] if has_form else len(sections)
+    return {**page, "sections": sections[:at] + added + sections[at:]}
 
 
 def _plain(html_text):

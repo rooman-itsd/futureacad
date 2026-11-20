@@ -161,3 +161,11 @@ def test_thin_pages_get_their_good_to_know_faq(client):
         html = client.get(path).get_data(as_text=True)
         assert 'id="good-to-know"' in html and question in html, path
         assert '"@type": "FAQPage"' in html, path
+
+
+def test_saiom_drafts_add_sections_to_gcc_and_edu_erp(client):
+    gcc = client.get("/gcc-services").get_data(as_text=True)
+    assert 'id="in-house-vs-pods"' in gcc and "How to size up a GCC-as-a-Service provider." in gcc
+    erp = client.get("/build/product/edu-erp").get_data(as_text=True)
+    assert 'id="accreditation-reporting"' in erp and "NAAC and AICTE report formats" in erp
+    assert erp.index('id="accreditation-reporting"') < erp.index('id="good-to-know"')

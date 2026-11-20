@@ -278,5 +278,87 @@
         ]
       }
     ]
+  },
+  "gcc-services": {
+    "title": "GCC pods and Build–Operate–Transfer",
+    "items": [
+      {
+        "q": "Should a Bengaluru mid-sized company build an in-house GCC team or use a staffing partner with managed engineering pods?",
+        "a": [
+          "If you have not yet proven the model, use managed pods first. An in-house GCC means a local entity, leased space and a leadership team, and takes 12–18 months before first code. A managed pod from FutureAcad starts with 3–6 engineers on a monthly bill and aims for a first production ship 8 weeks from a signed SoW. Because Build–Operate–Transfer is in the contract, you can still end up owning the centre."
+        ]
+      },
+      {
+        "q": "What should a startup look for in a GCC-as-a-Service provider with a build-operate-transfer option?",
+        "a": [
+          "Judge providers on five things: a small trial with an exit clause, dedicated pods with a named lead, evidenced compliance, trained engineers from day one, and fixed transfer terms. FutureAcad has a hub in Bengaluru (plus Dubai and Singapore), a 6-month trial pod, and Build–Operate–Transfer over 24–36 months."
+        ]
+      },
+      {
+        "q": "How big is a starter pod, and how does it grow?",
+        "a": [
+          "Pod-S is 3 engineers, Pod-M is 6 and Pod-L is 12. You can add pods each quarter, and the model scales from 3 to 50+ engineers. FutureAcad handles hiring, payroll, infrastructure, attrition and the bench."
+        ]
+      },
+      {
+        "q": "What do I own at the end of a Build–Operate–Transfer?",
+        "a": [
+          "FutureAcad builds and runs your centre under your brand and governance for 24–36 months, then transfers the team, the entity, the office and the IP to you. Transfer terms are fixed at signing."
+        ]
+      },
+      {
+        "q": "How fast can a pod ship something?",
+        "a": [
+          "Week 0 is a 30-minute pod sizing call. Weeks 1–2 cover pod composition and the SoW. Weeks 3–4 cover activation in your tools and security policies. Weeks 5–8 deliver the first production ship."
+        ]
+      },
+      {
+        "q": "Can I hire the engineers onto my own payroll instead?",
+        "a": [
+          "Yes. With Hire-Train-Deploy you choose from Rooman's 1.3M+ alumni pool, FutureAcad trains to your spec, and you hire. The fee is charged only on placement."
+        ]
+      }
+    ]
+  },
+  "build/product/edu-erp": {
+    "title": "Campus management software for Indian colleges",
+    "items": [
+      {
+        "q": "Which cloud campus management software for colleges in India supports NAAC and AICTE reporting?",
+        "a": [
+          "FutureAcad's Edu ERP does. It is cloud SaaS for Indian colleges and universities, and it exports NAAC and AICTE report formats in one click. It also covers admissions, academics, assessment, finance, outreach and centre networks in the same platform."
+        ]
+      },
+      {
+        "q": "Can I generate NAAC and AICTE reports without doing it manually?",
+        "a": [
+          "Yes. Edu ERP exports both report formats in one click from the records held in the platform, so staff don't compile them by hand."
+        ]
+      },
+      {
+        "q": "Do we need our own servers or IT team to run it?",
+        "a": [
+          "No. Edu ERP is fully managed cloud SaaS with a 99.9% uptime SLA, 24/7 support and named account managers."
+        ]
+      },
+      {
+        "q": "How long does it take to move our existing student data?",
+        "a": [
+          "Migration takes under 48 hours, done by a dedicated implementation team. Staff are then onboarded by role, and you go live."
+        ]
+      },
+      {
+        "q": "Is Edu ERP only for colleges?",
+        "a": [
+          "No. It also serves universities, training centres and franchise networks, including centre, franchisee, ticket and MIS management."
+        ]
+      },
+      {
+        "q": "How do I see it before deciding?",
+        "a": [
+          "Request a demo. Tell us about your departments, campuses and current systems, or call 080 6945 1000."
+        ]
+      }
+    ]
   }
 }
