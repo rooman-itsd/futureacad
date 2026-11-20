@@ -174,3 +174,11 @@ def test_saiom_drafts_add_sections_to_gcc_and_edu_erp(client):
 def test_home_page_keeps_the_search_console_verification_tag(client):
     html = client.get("/").get_data(as_text=True)
     assert '<meta name="google-site-verification" content="aG5QbpqsvsFyLIs1V3-86h1elsVh_cqBWEvf0iP2Sic" />' in html
+
+
+def test_keyword_faqs_use_the_searches_people_make(client):
+    """Questions phrased as genuine searches (Google autocomplete) sit on the matching page."""
+    for path, question in (("/build/custom-ai-builds", "How much does AI app development cost in Dubai"),
+                           ("/staffing-gcc", "Can I hire AI engineers in Dubai"),
+                           ("/build/product/crm-voice-agent", "Can an AI calling agent handle sales calls?")):
+        assert question in client.get(path).get_data(as_text=True), path
