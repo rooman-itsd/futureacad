@@ -182,3 +182,9 @@ def test_keyword_faqs_use_the_searches_people_make(client):
                            ("/staffing-gcc", "Can I hire AI engineers in Dubai"),
                            ("/build/product/crm-voice-agent", "Can an AI calling agent handle sales calls?")):
         assert question in client.get(path).get_data(as_text=True), path
+
+
+def test_gcc_page_targets_micro_gcc(client):
+    html = client.get("/gcc-services").get_data(as_text=True)
+    assert "<title>Micro GCC Setup in India: GCC-as-a-Service — FutureAcad</title>" in html
+    assert "What is a micro GCC" in html

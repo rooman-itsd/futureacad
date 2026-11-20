@@ -283,6 +283,12 @@
     "title": "GCC pods and Build–Operate–Transfer",
     "items": [
       {
+        "q": "What is a micro GCC, and can FutureAcad set one up in India?",
+        "a": [
+          "A micro GCC is a small, dedicated India team that works like your own centre, without the cost of a full captive set-up. FutureAcad's pods are micro GCCs: Pod-S is a tech lead and two AI/ML or full-stack engineers, Pod-M has 6 and Pod-L 12, all badged to you. Start with one pod, scale to 50+ engineers, and take ownership through Build–Operate–Transfer."
+        ]
+      },
+      {
         "q": "Should a Bengaluru mid-sized company build an in-house GCC team or use a staffing partner with managed engineering pods?",
         "a": [
           "If you have not yet proven the model, use managed pods first. An in-house GCC means a local entity, leased space and a leadership team, and takes 12–18 months before first code. A managed pod from FutureAcad starts with 3–6 engineers on a monthly bill and aims for a first production ship 8 weeks from a signed SoW. Because Build–Operate–Transfer is in the contract, you can still end up owning the centre."
