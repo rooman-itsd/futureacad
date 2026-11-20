@@ -16,6 +16,8 @@
   <title>{% block title %}FutureAcad — The Future Doesn't Wait.{% endblock %}</title>
   <meta name="description" content="{% block description %}FutureAcad.ae — Empowering businesses through Artificial Intelligence, Enterprise Technology, and Global Talent. A Deep Tech Startup established in 2025, Dubai.{% endblock %}" />
   <meta name="robots" content="index, follow" />
+  {# Google Search Console ownership check for https://futureacad.ae/ (used by SAIOM). Keep it, or Search Console loses access. #}
+  <meta name="google-site-verification" content="aG5QbpqsvsFyLIs1V3-86h1elsVh_cqBWEvf0iP2Sic" />
   <link rel="canonical" href="{{ site_url }}{{ request.path }}" />
   <meta property="og:url" content="{{ site_url }}{{ request.path }}" />
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}" />
