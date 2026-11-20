@@ -317,6 +317,18 @@
         "a": [
           "Yes. With Hire-Train-Deploy you choose from Rooman's 1.3M+ alumni pool, FutureAcad trains to your spec, and you hire. The fee is charged only on placement."
         ]
+      },
+      {
+        "q": "Can FutureAcad help us set up a GCC in India?",
+        "a": [
+          "Yes. FutureAcad sets up and runs your GCC in India as GCC-as-a-Service: a 30-minute pod sizing call, pod composition and the SoW, activation in your tools, and a first production ship by week 8. Build–Operate–Transfer is in every contract."
+        ]
+      },
+      {
+        "q": "Are you GCC setup consultants, or do you run the team too?",
+        "a": [
+          "Both. FutureAcad advises on the set-up, then hires, trains and runs the team under your brand, and transfers the team, entity, office and IP to you when you are ready."
+        ]
       }
     ]
   },
@@ -354,9 +366,194 @@
         ]
       },
       {
-        "q": "How do I see it before deciding?",
+        "q": "Can we get a college ERP software demo?",
         "a": [
           "Request a demo. Tell us about your departments, campuses and current systems, or call 080 6945 1000."
+        ]
+      },
+      {
+        "q": "Is Edu ERP built by an education ERP company in India?",
+        "a": [
+          "Yes. Edu ERP is FutureAcad's cloud campus management software, built for the Indian education sector and part of Rooman, with NAAC and AICTE report formats built in."
+        ]
+      }
+    ]
+  },
+  "build/custom-ai-builds": {
+    "title": "Custom AI development in Dubai",
+    "items": [
+      {
+        "q": "Is FutureAcad an AI agent development company in Dubai?",
+        "a": [
+          "Yes. FutureAcad is a deep tech company based in Meydan Free Zone, Dubai. Through Custom Build it develops AI apps and agents for your business: voice agents that call, qualify, answer and transfer, chatbots that answer from your own documents, and CRM, ERP and HRMS apps with AI inside."
+        ]
+      },
+      {
+        "q": "How much does AI app development cost in Dubai with FutureAcad?",
+        "a": [
+          "Development is free for a solution FutureAcad can also offer to others. Once the app is live, you pay monthly for hosting and usage, based on the number of users, voice-agent calls and the cloud cost of your own instance. A unique product that only you use carries a basic development fee. We quote the rates at a free scoping call, before anything is built."
+        ]
+      },
+      {
+        "q": "Do you build AI chatbots for companies in Dubai?",
+        "a": [
+          "Yes. FutureAcad builds chatbots on your own data, which answer from your documents inside your controls, as well as document processing that extracts, classifies and routes invoices, forms, claims and contracts."
+        ]
+      },
+      {
+        "q": "How long does custom AI development take?",
+        "a": [
+          "A working first version takes 6 to 8 weeks, with weekly demos while it is built. Changes during the build are free."
+        ]
+      }
+    ]
+  },
+  "build/ai-project-builds": {
+    "title": "AI development company in Dubai",
+    "items": [
+      {
+        "q": "Is FutureAcad an AI consulting and development company in Dubai?",
+        "a": [
+          "Yes. FutureAcad is based in Dubai and delivers AI Project Builds: a defined AI capability, to a fixed scope and timeline, with a named delivery lead. Projects can start with a 4-week prototype on your real data that ends in a go/no-go recommendation."
+        ]
+      },
+      {
+        "q": "What does AI development cost in Dubai?",
+        "a": [
+          "With FutureAcad, an AI project is priced to a fixed scope and quoted in the statement of work. Choose a 4-week prototype, an 8-week production build or a 24-week programme. Send a one-page brief and we reply within 48 hours. If you would rather not pay for development, Custom Build builds a standard app free and you pay only for hosting and usage."
+        ]
+      },
+      {
+        "q": "What do I get at the end of an AI software development project?",
+        "a": [
+          "A production AI capability integrated with up to 3 of your systems, with monitoring, runbooks and 30 days of hypercare. After that we hand it over to your team, or run it for you as a Managed AI Function."
+        ]
+      }
+    ]
+  },
+  "staffing-gcc": {
+    "title": "Hiring engineers in Dubai and India",
+    "items": [
+      {
+        "q": "Can I hire AI engineers in Dubai through FutureAcad?",
+        "a": [
+          "Yes. FutureAcad places pre-vetted AI, cloud, data and software engineers from a pool of 1.3M+ engineers, as permanent hires, contract hires or a dedicated pod. The Dubai hub serves Gulf clients and European companies that need time-zone overlap."
+        ]
+      },
+      {
+        "q": "Do you offer contract staffing in Dubai?",
+        "a": [
+          "Yes. Contract hires are billed as a monthly margin, and permanent placements as a one-time fee per placement. There is no blended-rate arithmetic and no 3-year lock-in."
+        ]
+      },
+      {
+        "q": "How fast can an IT staffing company send candidates?",
+        "a": [
+          "FutureAcad typically responds within 24 hours and sends a shortlist within 7 to 14 days for standard roles."
+        ]
+      },
+      {
+        "q": "Which countries do you hire for?",
+        "a": [
+          "Roles in India and in 13 international markets, including the US, the UK, ANZ, ASEAN and the Middle East. FutureAcad has entities in Bengaluru, Dubai and Singapore and works to UAE PDPL, Singapore PDPA, India DPDP and GDPR."
+        ]
+      }
+    ]
+  },
+  "build/hireai": {
+    "title": "AI interview software for screening",
+    "items": [
+      {
+        "q": "Can AI interview software screen candidates automatically?",
+        "a": [
+          "Yes. With HireAI, each candidate gets a private link and interviews on their own time. Every answer is scored on accuracy, depth and clarity against a structured rubric, with live proctoring, recording and a transcript, and the strongest candidates are shortlisted for you."
+        ]
+      },
+      {
+        "q": "Is HireAI an AI interview platform for companies in India?",
+        "a": [
+          "Yes. HireAI is FutureAcad's AI interview and recruitment platform, available to hiring teams in India and abroad. You create an interview and send the links in minutes."
+        ]
+      },
+      {
+        "q": "How does HireAI stop cheating in AI interviews?",
+        "a": [
+          "Live proctoring uses face detection, gaze tracking, tab-switch monitoring and a second camera on the candidate's phone, and raises integrity flags automatically."
+        ]
+      },
+      {
+        "q": "Is HireAI secure enough for enterprise recruitment?",
+        "a": [
+          "HireAI is SOC 2 Type II, ISO 27001 and GDPR compliant, with AES-256 encryption at rest."
+        ]
+      }
+    ]
+  },
+  "build/product/crm-voice-agent": {
+    "title": "AI calling agent for sales and support",
+    "items": [
+      {
+        "q": "Can an AI calling agent handle sales calls?",
+        "a": [
+          "Yes. CRM Voice Agent makes and receives calls 24/7. It qualifies each lead with a 0–100 score, handles objections, logs every call in your CRM and transfers the call to a person or another AI agent when the lead is ready."
+        ]
+      },
+      {
+        "q": "Can an AI voice bot work for customer support or a call centre?",
+        "a": [
+          "Yes. It takes incoming calls as well as making them, around the clock, writes an AI summary of every call into your CRM and hands over to a person when needed."
+        ]
+      },
+      {
+        "q": "Does it work for callers in India?",
+        "a": [
+          "Yes. CRM Voice Agent is optimised for Indian English telephony."
+        ]
+      },
+      {
+        "q": "What does an AI calling agent cost in India?",
+        "a": [
+          "FutureAcad quotes the price at a demo. You can start with a pilot of 500 leads, measuring the contact-rate uplift and the qualified-lead yield before you commit."
+        ]
+      }
+    ]
+  },
+  "transform/ai-bos": {
+    "title": "Business automation software for small companies",
+    "items": [
+      {
+        "q": "Is AI-BOS business automation software for small companies?",
+        "a": [
+          "Yes. AI-BOS is 25 business apps on one login, including HRMS, Recruit, CRM, Voice Agent, Social, Project Management and AI-CFO, with AI agents that work across them. FutureAcad sets it up for you and trains your team."
+        ]
+      },
+      {
+        "q": "Can AI-BOS replace an ERP for a small business in India?",
+        "a": [
+          "It covers what a small business usually wants from one system: people, hiring, sales, projects and finance, with one login and one set of records, so a customer, an employee or an invoice exists only once. We switch on only the apps you need."
+        ]
+      },
+      {
+        "q": "How can a small business owner start using AI?",
+        "a": [
+          "Start with the free, 5-minute AI Readiness Score. Then, on a call, we map how your sales, people, finance and operations run, switch on the apps you need, move your data and build your first AI agents."
+        ]
+      }
+    ]
+  },
+  "build/startup-varsity": {
+    "title": "AI startup incubator in India",
+    "items": [
+      {
+        "q": "Is StartupVarsity an AI startup incubator in India?",
+        "a": [
+          "Yes. StartupVarsity is FutureAcad's six-month incubator for AI-first startups. Each founder gets an 11-member team, ₹10 lakh seed funding released against milestones and 100+ industry mentors."
+        ]
+      },
+      {
+        "q": "How is an AI startup accelerator different from StartupVarsity?",
+        "a": [
+          "Most accelerators fund a team you already have. StartupVarsity forms the team for you: you bring the idea, and FutureAcad gives you engineers, seed funding and mentors, working in two-week sprints towards a launch."
         ]
       }
     ]
