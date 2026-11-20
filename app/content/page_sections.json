@@ -1,0 +1,309 @@
+{
+  "_note": "Extra page sections drafted by SAIOM's AI actions (20 Nov 2026), checked against facts already on futureacad.ae. Kept apart from imported.json so the importer does not overwrite them. Inserted before the page's closing form, ahead of any page_faq.json FAQ.",
+  "gcc-services": [
+    {
+      "id": "in-house-vs-pods",
+      "dark": false,
+      "eyebrow": "Build vs partner",
+      "title": "In-house GCC, staffing partner or managed pods?",
+      "blocks": [
+        {
+          "t": "lede",
+          "html": "If you are a mid-sized or startup company in Bengaluru and have not yet proven what your India team will build, start with a managed pod and keep the option to own it. A traditional in-house GCC takes 12–18 months, a local entity, leased space and a leadership team before the first line of code. A FutureAcad pod of 3–6 engineers can reach its first production ship 8 weeks after a signed SoW."
+        },
+        {
+          "t": "p",
+          "html": "FutureAcad is a GCC-as-a-Service provider with delivery hubs in Bengaluru, Dubai and Singapore. Every contract includes a Build–Operate–Transfer path, so you move to your own captive centre when the numbers justify it. The transfer covers the team, the entity, the office and the IP, and the terms are fixed at signing."
+        },
+        {
+          "t": "cards",
+          "ordered": false,
+          "items": [
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Build an in-house GCC from scratch"
+                },
+                {
+                  "k": "text",
+                  "html": "Full control and your own brand from day one. You carry the setup yourself: a local entity, leased space, a leadership team and hiring. That means 12–18 months before first code, and a large upfront commitment before you know the model works. It fits companies that already know their long-term headcount."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Staffing partner"
+                },
+                {
+                  "k": "text",
+                  "html": "Quick access to pre-vetted engineers through permanent placement, contract hiring or employer-of-record. It suits you when you need individual roles filled and will manage the team and the knowledge yourself."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "FutureAcad managed pods with Build–Operate–Transfer"
+                },
+                {
+                  "k": "text",
+                  "html": "A dedicated pod on a monthly bill: Pod-S (3), Pod-M (6) or Pod-L (12) engineers with a named lead, badged to you and working in your repos and standups. FutureAcad handles hiring, payroll, infrastructure, attrition and the bench. Start with a 6-month trial pod, add pods each quarter, then convert over 24–36 months."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Who each route is for"
+                },
+                {
+                  "k": "text",
+                  "html": "In-house: committed scale and leadership already in place. Staffing: individual roles inside a team you already run. Managed pods with BOT: startups, SMEs and mid-market companies that want a dedicated team now, with an exit into ownership written into the contract."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "choose-provider",
+      "dark": false,
+      "eyebrow": "Choosing a provider",
+      "title": "How to size up a GCC-as-a-Service provider.",
+      "blocks": [
+        {
+          "t": "cards",
+          "ordered": false,
+          "items": [
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Is there a real path to ownership?"
+                },
+                {
+                  "k": "text",
+                  "html": "Ask whether Build–Operate–Transfer is in the first contract, and what transfers: team, entity, office and IP. FutureAcad fixes transfer terms at signing."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Can you start small and exit?"
+                },
+                {
+                  "k": "text",
+                  "html": "Look for a trial with agreed success measures and an exit clause. FutureAcad's trial pod runs 6 months on one use case, with weekly demos."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Are the controls evidenced?"
+                },
+                {
+                  "k": "text",
+                  "html": "FutureAcad states ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3 in every hub. Ask any provider for the evidence pack, not just the claim."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Do engineers arrive ready?"
+                },
+                {
+                  "k": "text",
+                  "html": "FutureAcad's GCC-Ready Finishing School trains every engineer on your stack, standards, tools and domain for 200–400 hours before day one."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "What does it cost?"
+                },
+                {
+                  "k": "text",
+                  "html": "FutureAcad shares commercials after a 30-minute pod sizing call, once the use case, outcome, time zone and language needs are clear."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "build/product/edu-erp": [
+    {
+      "id": "accreditation-reporting",
+      "dark": false,
+      "eyebrow": "NAAC and AICTE reporting",
+      "title": "Cloud campus management software with NAAC and AICTE reporting.",
+      "blocks": [
+        {
+          "t": "lede",
+          "html": "FutureAcad's Edu ERP is cloud campus management software built for the Indian education sector. It exports NAAC and AICTE report formats in one click. It runs admissions, academics, assessment, finance, outreach and centre networks on one fully managed SaaS platform, with a 99.9% uptime SLA."
+        },
+        {
+          "t": "cards",
+          "ordered": false,
+          "items": [
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Report formats built in"
+                },
+                {
+                  "k": "text",
+                  "html": "Edu ERP exports NAAC and AICTE report formats in one click, so reports aren't rebuilt by hand in spreadsheets each cycle."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "One platform, one set of records"
+                },
+                {
+                  "k": "text",
+                  "html": "Admissions, academics, assessment and finance live in the same system, so the data behind your reports is already in one place."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Cloud, fully managed"
+                },
+                {
+                  "k": "text",
+                  "html": "No servers to buy or run. FutureAcad manages the platform with a 99.9% uptime SLA, 24/7 support and named account managers."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Migration of existing data"
+                },
+                {
+                  "k": "text",
+                  "html": "A dedicated implementation team moves your data in under 48 hours, so you don't restart your records from zero."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Access by role"
+                },
+                {
+                  "k": "text",
+                  "html": "Every role gets an interface with only what it needs, which keeps day-to-day data entry clean."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Adaptable to your workflow"
+                },
+                {
+                  "k": "text",
+                  "html": "If your process differs from the standard product, Custom Build adapts it to your workflow."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "who-for",
+      "dark": false,
+      "eyebrow": "Who it's for",
+      "title": "Who Edu ERP is for.",
+      "blocks": [
+        {
+          "t": "cards",
+          "ordered": false,
+          "items": [
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Colleges and universities"
+                },
+                {
+                  "k": "text",
+                  "html": "Admissions, academics, assessment and finance in one system, with accreditation reports ready to export."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Training centres"
+                },
+                {
+                  "k": "text",
+                  "html": "Batches, sessions, tests and certification alongside fee collection."
+                }
+              ]
+            },
+            {
+              "href": "",
+              "atoms": [
+                {
+                  "k": "title",
+                  "text": "Franchise and centre networks"
+                },
+                {
+                  "k": "text",
+                  "html": "Centres, franchisees, tickets and MIS visible in one place."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
