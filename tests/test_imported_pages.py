@@ -197,3 +197,10 @@ def test_low_difficulty_keywords_are_on_their_pages(client):
     assert "staffing companies in the UAE" in staffing
     voice = client.get("/build/product/crm-voice-agent").get_data(as_text=True)
     assert "<title>AI Voice Agent India: Conversational AI Calling — FutureAcad</title>" in voice
+
+
+def test_home_links_the_futureacad_linkedin_page(client):
+    html = client.get("/").get_data(as_text=True)
+    assert 'href="https://www.linkedin.com/company/futureacaduae/"' in html
+    assert '"sameAs": ["https://www.linkedin.com/company/futureacaduae/"' in html
+    assert 'aria-label="FutureAcad on Instagram"' in html
