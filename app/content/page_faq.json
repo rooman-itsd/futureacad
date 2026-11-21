@@ -289,6 +289,13 @@
         ]
       },
       {
+        "q": "What is the build operate transfer model?",
+        "a": [
+          "Build–Operate–Transfer (BOT) is a model where a partner builds a team or centre for you, runs it for an agreed period, and then hands ownership to you.",
+          "With FutureAcad, the build and operate phases run for 24–36 months under your brand and governance. At the end, the team, the entity, the office and the IP transfer to you, on terms fixed when you sign. You can start small, with a 6-month trial pod, before committing to the full model."
+        ]
+      },
+      {
         "q": "Should a Bengaluru mid-sized company build an in-house GCC team or use a staffing partner with managed engineering pods?",
         "a": [
           "If you have not yet proven the model, use managed pods first. An in-house GCC means a local entity, leased space and a leadership team, and takes 12–18 months before first code. A managed pod from FutureAcad starts with 3–6 engineers on a monthly bill and aims for a first production ship 8 weeks from a signed SoW. Because Build–Operate–Transfer is in the contract, you can still end up owning the centre."
@@ -440,6 +447,18 @@
   "staffing-gcc": {
     "title": "Hiring engineers in Dubai and India",
     "items": [
+      {
+        "q": "Is FutureAcad one of the staffing companies in the UAE?",
+        "a": [
+          "Yes. FutureAcad is a Dubai-based IT staffing company. It places pre-vetted engineers from a pool of 1.3M+ as permanent or contract hires, or as dedicated pods, and its Dubai hub serves Gulf clients and European companies that need time-zone overlap."
+        ]
+      },
+      {
+        "q": "Do you staff IT roles in Bengaluru?",
+        "a": [
+          "Yes. FutureAcad's Bengaluru hub delivers permanent and contract IT hires for roles across India, as well as dedicated engineering pods."
+        ]
+      },
       {
         "q": "Can I hire AI engineers in Dubai through FutureAcad?",
         "a": [
