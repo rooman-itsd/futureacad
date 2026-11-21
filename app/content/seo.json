@@ -17,8 +17,8 @@
     "description": "AI Tutor is a study AI and AI homework helper: voice-first AI study tools in 50+ languages, with microlearning, Socratic dialogue and spaced repetition."
   },
   "build/product/crm-voice-agent": {
-    "title": "Conversational AI Voice Agent for CRM",
-    "description": "CRM Voice Agent is conversational AI that calls your leads, qualifies them, handles objections and transfers calls to your team, in Indian English."
+    "title": "AI Voice Agent India: Conversational AI Calling",
+    "description": "An AI voice agent for India: conversational AI calling that qualifies your leads, handles objections and transfers calls to your team, in Indian English."
   },
   "build/startup-varsity": {
     "title": "StartupVarsity: AI Startup Incubator",
@@ -50,7 +50,8 @@
     "title": "International Delivery: India, Dubai, Singapore"
   },
   "staffing-gcc": {
-    "title": "IT Staffing: Permanent and Contract Hiring"
+    "title": "IT Staffing Company in UAE and India",
+    "description": "FutureAcad is an IT staffing company for the UAE and India: permanent and contract hires and dedicated pods from 1.3M+ engineers, from Dubai and Bengaluru."
   },
   "staffing-gcc/domestic": {
     "title": "Domestic IT Staffing Across India"

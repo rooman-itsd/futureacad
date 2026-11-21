@@ -188,3 +188,12 @@ def test_gcc_page_targets_micro_gcc(client):
     html = client.get("/gcc-services").get_data(as_text=True)
     assert "<title>Micro GCC Setup in India: GCC-as-a-Service — FutureAcad</title>" in html
     assert "What is a micro GCC" in html
+
+
+def test_low_difficulty_keywords_are_on_their_pages(client):
+    assert "What is the build operate transfer model?" in client.get("/gcc-services").get_data(as_text=True)
+    staffing = client.get("/staffing-gcc").get_data(as_text=True)
+    assert "<title>IT Staffing Company in UAE and India — FutureAcad</title>" in staffing
+    assert "staffing companies in the UAE" in staffing
+    voice = client.get("/build/product/crm-voice-agent").get_data(as_text=True)
+    assert "<title>AI Voice Agent India: Conversational AI Calling — FutureAcad</title>" in voice
