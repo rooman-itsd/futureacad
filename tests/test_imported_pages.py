@@ -204,3 +204,10 @@ def test_home_links_the_futureacad_linkedin_page(client):
     assert 'href="https://www.linkedin.com/company/futureacaduae/"' in html
     assert '"sameAs": ["https://www.linkedin.com/company/futureacaduae/"' in html
     assert 'aria-label="FutureAcad on Instagram"' in html
+
+
+def test_hireai_links_go_to_hiresolution(client):
+    for path in ("/", "/services", "/about", "/build/hireai", "/build/products"):
+        html = client.get(path).get_data(as_text=True)
+        assert "hireai.rooman.com" not in html, path
+    assert client.get("/hireai").headers["Location"] == "https://hiresolution.ai/"
