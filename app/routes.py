@@ -107,7 +107,7 @@ def healthz():
 # Platform redirects — forwards local routes to their respective live platform websites
 PLATFORM_REDIRECTS = {
     "omnis": "https://rooman.com/omnis/",
-    "hireai": "https://hireai.rooman.com/",
+    "hireai": "https://hiresolution.ai/",
     "ai-tutor": "https://rooman.com/ai-tutor/",
     "bluelinked": "https://rooman.com/bluelinked/",
     "crm": "https://crm.rooman.net/",

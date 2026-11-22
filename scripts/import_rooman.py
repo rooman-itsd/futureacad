@@ -685,7 +685,9 @@ def main():
     use_product_shots(pages)
     use_assessments(pages)
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(pages, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
+    # HireAI moved to its own domain; rooman.com still links the old one.
+    text = json.dumps(pages, ensure_ascii=False, indent=2).replace("hireai.rooman.com", "hiresolution.ai")
+    args.out.write_text(text, encoding="utf-8", newline="\n")
     print(f"wrote {args.out} ({len(pages)} pages) and {len(imp.images)} images", file=sys.stderr)
 
 

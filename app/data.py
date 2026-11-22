@@ -19,7 +19,7 @@ PROJECTS = [
     {"name": "AI Tutor",       "host": "lms.rooman.com",        "url": "https://lms.rooman.com/",
      "desc": "Adaptive, AI-powered learning companion",
      "img": "img/platforms/ai-tutor.jpg"},
-    {"name": "HireAI",         "host": "hireai.rooman.com",     "url": "https://hireai.rooman.com/",
+    {"name": "HireAI",         "host": "hiresolution.ai",     "url": "https://hiresolution.ai/",
      "desc": "AI-powered recruitment & interview platform",
      "img": "img/platforms/hireai.jpg"},
 ]
