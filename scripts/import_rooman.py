@@ -685,8 +685,9 @@ def main():
     use_product_shots(pages)
     use_assessments(pages)
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    # HireAI moved to its own domain; rooman.com still links the old one.
-    text = json.dumps(pages, ensure_ascii=False, indent=2).replace("hireai.rooman.com", "hiresolution.ai")
+    # Present every page as FutureAcad's own (see scripts/debrand.py).
+    from debrand import debrand
+    text = json.dumps(debrand(pages), ensure_ascii=False, indent=2)
     args.out.write_text(text, encoding="utf-8", newline="\n")
     print(f"wrote {args.out} ({len(pages)} pages) and {len(imp.images)} images", file=sys.stderr)
 

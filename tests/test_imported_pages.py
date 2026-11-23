@@ -211,3 +211,21 @@ def test_hireai_links_go_to_hiresolution(client):
         html = client.get(path).get_data(as_text=True)
         assert "hireai.rooman.com" not in html, path
     assert client.get("/hireai").headers["Location"] == "https://hiresolution.ai/"
+
+
+def test_no_page_shows_rooman_branding_or_its_phone_numbers(client):
+    """Copied Rooman branding on futureacad.ae got the site flagged as deceptive by Google."""
+    import re
+    xml = client.get("/sitemap.xml").get_data(as_text=True)
+    paths = [u.replace("https://futureacad.ae", "") or "/" for u in re.findall(r"<loc>([^<]+)</loc>", xml)]
+    paths += ["/build/omnis", "/build/bluelinked"]
+    for path in paths:
+        html = client.get(path).get_data(as_text=True)
+        visible = re.sub(r'(?:src|href)="[^"]*rooman-brand-poster[^"]*"', "", html)
+        for bad in ("Rooman", "ROOMAN", "rooman.com", "rooman.net", "tel:", "wa.me/", "6945 1000", "97390"):
+            assert bad not in visible, (path, bad)
+
+
+def test_admin_login_is_kept_out_of_search(client):
+    r = client.get("/admin/login")
+    assert r.headers.get("X-Robots-Tag") == "noindex, nofollow"
