@@ -95,7 +95,7 @@ jobs:
           done
 
           fail=0
-          for path in / /about /services /work /contact /healthz /admin/login; do
+          for path in / /about /services /work /contact /healthz /fa-team-portal/login; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:8000$path")
             printf '%-16s %s\n' "$path" "$code"
             [ "$code" = "200" ] || fail=1

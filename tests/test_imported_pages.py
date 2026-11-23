@@ -229,3 +229,13 @@ def test_no_page_shows_rooman_branding_or_its_phone_numbers(client):
 def test_admin_login_is_kept_out_of_search(client):
     r = client.get("/admin/login")
     assert r.headers.get("X-Robots-Tag") == "noindex, nofollow"
+
+
+def test_admin_lives_at_an_unlisted_address():
+    """No public /admin password page, and robots.txt does not advertise one."""
+    from pathlib import Path
+
+    from config import Config
+    assert Config.ADMIN_URL_PREFIX != "/admin"
+    robots = (Path(__file__).parent.parent / "app" / "static" / "robots.txt").read_text(encoding="utf-8")
+    assert "admin" not in robots.lower()

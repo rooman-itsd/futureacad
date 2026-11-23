@@ -70,7 +70,7 @@ Parameters:
     Default: ''
     Description: >-
       SES SMTP endpoint, e.g. email-smtp.ap-south-1.amazonaws.com. Leave blank
-      to disable lead notification email; leads are still stored and shown at /admin.
+      to disable lead notification email; leads are still stored and shown at /fa-team-portal.
 
   SmtpPort:
     Type: String
