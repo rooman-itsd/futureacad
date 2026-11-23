@@ -221,7 +221,7 @@ def test_no_page_shows_rooman_branding_or_its_phone_numbers(client):
     paths += ["/build/omnis", "/build/bluelinked"]
     for path in paths:
         html = client.get(path).get_data(as_text=True)
-        visible = re.sub(r'(?:src|href)="[^"]*rooman-brand-poster[^"]*"', "", html)
+        visible = html
         for bad in ("Rooman", "ROOMAN", "rooman.com", "rooman.net", "tel:", "wa.me/", "6945 1000", "97390"):
             assert bad not in visible, (path, bad)
 
