@@ -43,7 +43,7 @@
       "aside": [
         {
           "t": "img",
-          "src": "img/imported/rooman-brand-poster.webp",
+          "src": "img/imported/brand-poster.webp",
           "alt": "A glowing brain linked by light to a city of data"
         },
         {
@@ -13319,7 +13319,7 @@
                 "atoms": [
                   {
                     "k": "img",
-                    "src": "img/imported/rooman-brand-poster.webp",
+                    "src": "img/imported/brand-poster.webp",
                     "alt": "A glowing brain linked by light to a city of data"
                   },
                   {
