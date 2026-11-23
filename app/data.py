@@ -7,16 +7,16 @@ own URL, so the ecosystem grid shows the real thing rather than icons.
 from pathlib import Path
 
 PROJECTS = [
-    {"name": "CRM",            "host": "crm.rooman.net",        "url": "https://crm.rooman.net/",
+    {"name": "CRM",            "host": "futureacad.ae",         "url": "/transform/ai-bos",
      "desc": "Customer relationship platform",
      "img": "img/platforms/crm.jpg"},
-    {"name": "ERP",            "host": "erp.rooman.net",        "url": "https://erp.rooman.net/",
+    {"name": "ERP",            "host": "futureacad.ae",         "url": "/build/product/edu-erp",
      "desc": "Enterprise resource planning system",
      "img": "img/platforms/erp.jpg"},
     {"name": "Startup Varsity","host": "startupvarsity.com",    "url": "https://www.startupvarsity.com/",
      "desc": "Learn startup skills, launch companies",
      "img": "img/platforms/startup-varsity.jpg"},
-    {"name": "AI Tutor",       "host": "lms.rooman.com",        "url": "https://lms.rooman.com/",
+    {"name": "AI Tutor",       "host": "futureacad.ae",         "url": "/build/product/ai-tutor",
      "desc": "Adaptive, AI-powered learning companion",
      "img": "img/platforms/ai-tutor.jpg"},
     {"name": "HireAI",         "host": "hiresolution.ai",     "url": "https://hiresolution.ai/",

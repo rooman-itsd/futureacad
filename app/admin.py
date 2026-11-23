@@ -22,6 +22,13 @@ from .utils import valid_csrf
 admin = Blueprint("admin", __name__)
 
 
+@admin.after_request
+def _keep_out_of_search(response):
+    """The admin login is private: keep it out of search results and Safe Browsing scans."""
+    response.headers["X-Robots-Tag"] = "noindex, nofollow"
+    return response
+
+
 def _utf8(value):
     """Encode to bytes for constant-time comparison (accepts non-ASCII input)."""
     return str(value).encode("utf-8")

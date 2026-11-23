@@ -57,7 +57,7 @@
   /* ---- Self-assessments (AI Readiness Score) ----
      One step at a time: team size first, then each question. Every answer
      scores 0-3; an area scores its points out of its maximum, the total is
-     all points out of all maximums, both as percentages (Rooman's formula).
+     all points out of all maximums, both as percentages.
      The result fills the report form's hidden fields, so the lead carries
      the score, the plan and every answer. */
   document.querySelectorAll('[data-rs]').forEach((rs) => {
