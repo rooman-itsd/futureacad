@@ -204,6 +204,7 @@ def test_home_links_the_futureacad_linkedin_page(client):
     assert 'href="https://www.linkedin.com/company/futureacaduae/"' in html
     assert '"sameAs": ["https://www.linkedin.com/company/futureacaduae/"' in html
     assert 'aria-label="FutureAcad on Instagram"' in html
+    assert 'aria-label="FutureAcad on Facebook"' in html
 
 
 def test_hireai_links_go_to_hiresolution(client):
