@@ -36,6 +36,7 @@ def config_class(tmp_path):
         SMTP_HOST = None          # email disabled by default
         MAIL_SYNC = True          # deliver inline when it *is* enabled
         SESSION_COOKIE_SECURE = False
+        ADMIN_URL_PREFIX = "/admin"  # tests keep the short path
 
     return TestConfig
 

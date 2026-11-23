@@ -29,6 +29,9 @@ class Config:
     # Admin dashboard credentials.
     ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin")
     ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", DEV_ADMIN_PASSWORD)
+    # The leads dashboard lives at an unlisted address: a public /admin password
+    # page got the site flagged by Google ("possible phishing on user login").
+    ADMIN_URL_PREFIX = os.environ.get("ADMIN_URL_PREFIX", "/fa-team-portal")
 
     # Optional SMTP — if SMTP_HOST is set, new leads trigger an email notification.
     SMTP_HOST = os.environ.get("SMTP_HOST")

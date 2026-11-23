@@ -48,7 +48,7 @@ def create_app(config_class=Config):
     from .admin import admin
     from .routes import main
     app.register_blueprint(main)
-    app.register_blueprint(admin, url_prefix="/admin")
+    app.register_blueprint(admin, url_prefix=app.config["ADMIN_URL_PREFIX"])
 
     # Inject shared template values
     @app.context_processor

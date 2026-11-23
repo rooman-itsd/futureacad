@@ -67,7 +67,7 @@ else
   ROTATE_KEY=1
 fi
 
-echo "--- Admin dashboard login (/admin) ---"
+echo "--- Admin dashboard login (/fa-team-portal) ---"
 prompt_plain  ADMIN_USERNAME "ADMIN_USERNAME" "ceo@rooman.net"
 prompt_secret ADMIN_PASSWORD "ADMIN_PASSWORD (hidden)"
 
