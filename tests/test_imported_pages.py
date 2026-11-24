@@ -255,7 +255,7 @@ def test_guides_are_listed_linked_and_in_the_sitemap(client):
     index = client.get("/guides").get_data(as_text=True)
     assert "/guides/cost-to-build-an-ai-app" in index
     guide = client.get("/guides/cost-to-build-an-ai-app").get_data(as_text=True)
-    assert "How much does it cost to build an AI app?" in guide
+    assert "What does an AI app cost to build?" in guide
     assert '"@type": "FAQPage"' in guide
     assert "Rooman" not in guide and "Rooman" not in index
     assert 'href="/guides"' in client.get("/").get_data(as_text=True)
