@@ -74,5 +74,15 @@
   },
   "build/product/edu-erp": {
     "title": "Education ERP Software for Colleges: Edu ERP"
+  },
+  "partner/franchise": {
+    "title": "Franchise Programme: Bring FutureAcad",
+    "description": "Bring FutureAcad to your city: hybrid delivery, Train-the-Trainer, an AI-based LMS and a placement-linked pipeline, with 198+ centres behind it."
+  },
+  "build/startup-varsity/founders-track": {
+    "description": "Tech veterans with 10 to 20 years' experience: lead a team of AI-native engineers for six months, with an office, mentors and a path to seed funding."
+  },
+  "transform/case-study/ajsk-service-centres": {
+    "description": "Atalji Janasnehi Directorate: 777 centres in 19 days. Beat MNC competitors by months at 60% lower cost, with 5+ years of ongoing maintenance."
   }
 }
