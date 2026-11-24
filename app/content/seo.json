@@ -71,5 +71,8 @@
   },
   "transform/managed-ai-functions": {
     "title": "Managed AI Functions: Service and Finance Ops"
+  },
+  "build/product/edu-erp": {
+    "title": "Education ERP Software for Colleges: Edu ERP"
   }
 }
