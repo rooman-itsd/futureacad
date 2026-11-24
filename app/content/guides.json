@@ -69,6 +69,20 @@
             ]
           },
           {
+            "t": "h3",
+            "text": "Questions these guides help with"
+          },
+          {
+            "t": "list",
+            "items": [
+              "How much will an AI app, chatbot or AI agent cost, and what changes the price?",
+              "Should we build something custom, buy a ready product, or run a small pilot first?",
+              "How long does an AI project take, and what should we have at each stage?",
+              "What should we ask an AI development company before we sign anything?",
+              "How do we know our team and data are ready for AI?"
+            ]
+          },
+          {
             "t": "p",
             "html": "If a guide leaves a question open, <a href=\"/contact\">tell us</a> and we will answer it directly, then add it to the guide so the next reader benefits."
           }
