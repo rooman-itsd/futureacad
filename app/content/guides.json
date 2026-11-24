@@ -32,7 +32,7 @@
                 "atoms": [
                   {
                     "k": "title",
-                    "text": "How much does it cost to build an AI app?"
+                    "text": "What does an AI app cost to build?"
                   },
                   {
                     "k": "text",
@@ -130,7 +130,7 @@
       ],
       "eyebrow": "Guides · Build",
       "h1": {
-        "main": "How much does it cost to build an AI app?",
+        "main": "What does an AI app cost to build?",
         "accent": "A plain guide."
       },
       "aside": [
