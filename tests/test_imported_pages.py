@@ -240,3 +240,12 @@ def test_admin_lives_at_an_unlisted_address():
     assert Config.ADMIN_URL_PREFIX != "/admin"
     robots = (Path(__file__).parent.parent / "app" / "static" / "robots.txt").read_text(encoding="utf-8")
     assert "admin" not in robots.lower()
+
+
+def test_home_page_says_it_is_a_dubai_company(client):
+    html = client.get("/").get_data(as_text=True)
+    assert "<title>FutureAcad — Dubai AI Startup" in html
+    assert "a Dubai-based deep tech startup" in html
+    assert '"alternateName": ["FutureAcad Dubai"' in html
+    assert '"foundingLocation"' in html
+    assert "Rooman" not in html
