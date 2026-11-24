@@ -254,3 +254,12 @@ def test_guides_are_listed_linked_and_in_the_sitemap(client):
     assert 'href="/guides"' in client.get("/").get_data(as_text=True)
     sitemap = client.get("/sitemap.xml").get_data(as_text=True)
     assert "/guides/cost-to-build-an-ai-app" in sitemap
+
+
+def test_home_page_says_it_is_a_dubai_company(client):
+    html = client.get("/").get_data(as_text=True)
+    assert "<title>FutureAcad — Dubai AI Startup" in html
+    assert "a Dubai-based deep tech startup" in html
+    assert '"alternateName": ["FutureAcad Dubai"' in html
+    assert '"foundingLocation"' in html
+    assert "Rooman" not in html
