@@ -653,6 +653,36 @@
         "a": [
           "Start with the free, 5-minute AI Readiness Score. Then, on a call, we map how your sales, people, finance and operations run, switch on the apps you need, move your data and build your first AI agents."
         ]
+      },
+      {
+        "q": "Is there an AI CRM for small business?",
+        "a": [
+          "Yes. The CRM app keeps leads, customers and follow-ups in one place, and it works with the AI agents so you can ask for what you need in chat or by voice."
+        ]
+      },
+      {
+        "q": "What is an AI operating system for small business?",
+        "a": [
+          "It is one set of connected business apps, with AI agents that act across them. AI-BOS includes HRMS, Recruit, CRM, Voice Agent, Social, Project Management and an AI-CFO, and you switch on only the apps you need."
+        ]
+      },
+      {
+        "q": "What does an AI CFO do?",
+        "a": [
+          "The AI-CFO tracks cash, receivables and payables and sends collection reminders. It supports accounting work, and it does not replace your accountant."
+        ]
+      },
+      {
+        "q": "Is AI-BOS all-in-one business management software?",
+        "a": [
+          "It covers people, hiring, sales, social media, projects and finance in one place, and more apps are in development. It is built for small and mid-sized companies, and you can ask us about availability in Dubai and the UAE."
+        ]
+      },
+      {
+        "q": "Can AI agents run business operations across these apps?",
+        "a": [
+          "Yes. You can ask in chat or voice, for example to show overdue invoices or shortlist candidates, and the agent acts across the apps you have switched on."
+        ]
       }
     ]
   },
@@ -825,6 +855,29 @@
         "q": "Is FutureAcad an AI managed services provider?",
         "a": [
           "Yes. FutureAcad is a Dubai-based deep tech startup that offers managed AI services, from a single AI function to a full outcome-based arrangement."
+        ]
+      }
+    ]
+  },
+  "build/products": {
+    "title": "Good to know",
+    "items": [
+      {
+        "q": "What AI products does FutureAcad offer for business?",
+        "a": [
+          "FutureAcad is a Dubai-based deep tech startup with four AI products for business: HireAI for AI interviews and hiring, CRM Voice Agent for AI calling, AI Tutor for learning, and Edu ERP for colleges and schools."
+        ]
+      },
+      {
+        "q": "Are there AI products for small business in Dubai and the UAE?",
+        "a": [
+          "Yes. The voice agent and HireAI suit small teams that want to handle calls or hiring with less manual work. Tell us your size and we will suggest the right product, or build one for you."
+        ]
+      },
+      {
+        "q": "Can I get AI software products in the UAE that fit my own process?",
+        "a": [
+          "If none of the four products fits, we build AI software and AI tools for your business to order, and our Custom Build page explains how that works."
         ]
       }
     ]
