@@ -224,7 +224,8 @@ def test_no_page_shows_rooman_branding_or_its_phone_numbers(client):
     paths += ["/build/omnis", "/build/bluelinked"]
     for path in paths:
         html = client.get(path).get_data(as_text=True)
-        visible = html
+        # the one phone number FutureAcad itself publishes in the footer
+        visible = html.replace("tel:+919071079878", "").replace("+91 90710 79878", "")
         for bad in ("Rooman", "ROOMAN", "rooman.com", "rooman.net", "tel:", "wa.me/", "6945 1000", "97390"):
             assert bad not in visible, (path, bad)
 
@@ -244,6 +245,12 @@ def test_admin_lives_at_an_unlisted_address():
     assert "admin" not in robots.lower()
 
 
+def test_footer_shows_the_phone_number(client):
+    html = client.get("/").get_data(as_text=True)
+    assert 'href="tel:+919071079878"' in html
+    assert "+91 90710 79878" in html
+
+
 def test_guides_are_listed_linked_and_in_the_sitemap(client):
     index = client.get("/guides").get_data(as_text=True)
     assert "/guides/cost-to-build-an-ai-app" in index
@@ -254,6 +261,8 @@ def test_guides_are_listed_linked_and_in_the_sitemap(client):
     assert 'href="/guides"' in client.get("/").get_data(as_text=True)
     sitemap = client.get("/sitemap.xml").get_data(as_text=True)
     assert "/guides/cost-to-build-an-ai-app" in sitemap
+
+
 
 
 def test_home_page_says_it_is_a_dubai_company(client):
