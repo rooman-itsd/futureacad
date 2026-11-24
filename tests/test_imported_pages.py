@@ -44,6 +44,8 @@ OFF_MENU = {
     "careers", "privacy", "terms",
 }
 OFF_MENU |= {p for p in PATHS if p.startswith("transform/case-study/")}
+# Guides sit in the footer and on the /guides page, not in the menu.
+OFF_MENU |= {p for p in PATHS if p == "guides" or p.startswith("guides/")}
 UNLINKED = {"build/omnis", "build/bluelinked"}
 
 
@@ -247,3 +249,26 @@ def test_footer_shows_the_phone_number(client):
     html = client.get("/").get_data(as_text=True)
     assert 'href="tel:+919071079878"' in html
     assert "+91 90710 79878" in html
+
+
+def test_guides_are_listed_linked_and_in_the_sitemap(client):
+    index = client.get("/guides").get_data(as_text=True)
+    assert "/guides/cost-to-build-an-ai-app" in index
+    guide = client.get("/guides/cost-to-build-an-ai-app").get_data(as_text=True)
+    assert "How much does it cost to build an AI app?" in guide
+    assert '"@type": "FAQPage"' in guide
+    assert "Rooman" not in guide and "Rooman" not in index
+    assert 'href="/guides"' in client.get("/").get_data(as_text=True)
+    sitemap = client.get("/sitemap.xml").get_data(as_text=True)
+    assert "/guides/cost-to-build-an-ai-app" in sitemap
+
+
+
+
+def test_home_page_says_it_is_a_dubai_company(client):
+    html = client.get("/").get_data(as_text=True)
+    assert "<title>FutureAcad — Dubai AI Startup" in html
+    assert "a Dubai-based deep tech startup" in html
+    assert '"alternateName": ["FutureAcad Dubai"' in html
+    assert '"foundingLocation"' in html
+    assert "Rooman" not in html

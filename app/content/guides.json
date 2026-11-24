@@ -1,0 +1,370 @@
+{
+ "guides": {
+  "path": "guides",
+  "title": "AI Guides for Businesses and Founders",
+  "description": "Plain-language guides from FutureAcad, a Dubai-based deep tech startup: what AI apps cost, how to choose, and what to ask before you build.",
+  "hero": {
+   "id": "",
+   "dark": false,
+   "blocks": [
+    {
+     "t": "lede",
+     "html": "Plain-language guides from FutureAcad, a Dubai-based deep tech startup, on building and using AI in your business."
+    }
+   ],
+   "eyebrow": "Guides",
+   "h1": {
+    "main": "Guides for businesses and founders.",
+    "accent": ""
+   }
+  },
+  "sections": [
+   {
+    "id": "all",
+    "dark": false,
+    "blocks": [
+     {
+      "t": "cards",
+      "ordered": false,
+      "items": [
+       {
+        "href": "/guides/cost-to-build-an-ai-app",
+        "atoms": [
+         {
+          "k": "title",
+          "text": "How much does it cost to build an AI app?"
+         },
+         {
+          "k": "text",
+          "html": "What decides the price, the common ways to pay, and how Custom Build works."
+         },
+         {
+          "k": "badge",
+          "text": "Cost"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "eyebrow": "All guides",
+    "title": "Start here."
+   }
+  ]
+ },
+ "guides/cost-to-build-an-ai-app": {
+  "path": "guides/cost-to-build-an-ai-app",
+  "title": "Cost to Build an AI App: A Plain Guide",
+  "description": "What decides the cost of building an AI app, the common ways to pay for it, and how FutureAcad's Custom Build works.",
+  "hero": {
+   "id": "",
+   "dark": false,
+   "blocks": [
+    {
+     "t": "lede",
+     "html": "There is no single price for an AI app. The cost depends on what it must do, how much data it needs, how many people will use it, and who builds and hosts it. This guide explains each factor, the common ways to pay, and how FutureAcad, a Dubai-based deep tech startup, charges for a Custom Build."
+    },
+    {
+     "t": "buttons",
+     "items": [
+      {
+       "text": "Submit a problem",
+       "href": "/build/submit-a-problem",
+       "primary": true
+      },
+      {
+       "text": "See Custom Build pricing",
+       "href": "/build/custom-ai-builds/pricing",
+       "primary": false
+      }
+     ]
+    },
+    {
+     "t": "chips",
+     "items": [
+      "Plain language",
+      "Six cost factors explained",
+      "6 to 8 weeks to a first version"
+     ]
+    }
+   ],
+   "eyebrow": "Guides · Build",
+   "h1": {
+    "main": "How much does it cost to build an AI app?",
+    "accent": "A plain guide."
+   },
+   "aside": [
+    {
+     "t": "h3",
+     "text": "Custom Build at a glance"
+    },
+    {
+     "t": "kv",
+     "rows": [
+      [
+       "Development",
+       "Free, for a standard build"
+      ],
+      [
+       "After go-live",
+       "Monthly hosting and usage"
+      ],
+      [
+       "Unique to you",
+       "A basic development fee"
+      ],
+      [
+       "First version",
+       "6 to 8 weeks"
+      ]
+     ]
+    }
+   ]
+  },
+  "sections": [
+   {
+    "id": "short-answer",
+    "dark": false,
+    "blocks": [
+     {
+      "t": "p",
+      "html": "Two apps that look alike on screen can cost very different amounts to build and to run. What matters is what the app has to do, the data behind it, the systems it connects to, and how heavily it is used."
+     },
+     {
+      "t": "p",
+      "html": "The sections below show what moves the cost up or down, so you can compare quotes fairly."
+     }
+    ],
+    "eyebrow": "The short answer",
+    "title": "There is no single price."
+   },
+   {
+    "id": "factors",
+    "dark": false,
+    "blocks": [
+     {
+      "t": "cards",
+      "ordered": true,
+      "items": [
+       {
+        "atoms": [
+         {
+          "k": "title",
+          "text": "What the app must do"
+         },
+         {
+          "k": "text",
+          "html": "A simple assistant that answers questions from your documents is smaller than an app that makes calls, reads files, updates your CRM and reports on results."
+         }
+        ]
+       },
+       {
+        "atoms": [
+         {
+          "k": "title",
+          "text": "Your data"
+         },
+         {
+          "k": "text",
+          "html": "Clean, organised data makes the work faster. Scattered or missing data has to be sorted first, and that takes time."
+         }
+        ]
+       },
+       {
+        "atoms": [
+         {
+          "k": "title",
+          "text": "Connections to other systems"
+         },
+         {
+          "k": "text",
+          "html": "Linking the app to your CRM, ERP, email or WhatsApp adds work for each connection."
+         }
+        ]
+       },
+       {
+        "atoms": [
+         {
+          "k": "title",
+          "text": "Who uses it, and how much"
+         },
+         {
+          "k": "text",
+          "html": "More users, more calls and more data mean a larger running cost, such as hosting and AI usage."
+         }
+        ]
+       },
+       {
+        "atoms": [
+         {
+          "k": "title",
+          "text": "Security and rules"
+         },
+         {
+          "k": "text",
+          "html": "Apps that handle customer or financial data need more careful design and checks."
+         }
+        ]
+       },
+       {
+        "atoms": [
+         {
+          "k": "title",
+          "text": "Costs after launch"
+         },
+         {
+          "k": "text",
+          "html": "Many people budget only for the build. Hosting, AI usage and updates continue every month."
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "eyebrow": "What decides the cost",
+    "title": "Six things that change the price."
+   },
+   {
+    "id": "ways-to-pay",
+    "dark": false,
+    "blocks": [
+     {
+      "t": "table",
+      "caption": "Common ways to pay",
+      "head": [
+       "Way to pay",
+       "What you pay",
+       "What you get"
+      ],
+      "rows": [
+       [
+        "Pay for the build up front",
+        "A development fee, then running costs",
+        "A finished app, built to your specification"
+       ],
+       [
+        "Pay a monthly fee only",
+        "A fee for use, with no large build fee",
+        "The app, while you keep paying for it"
+       ],
+       [
+        "Buy the source code",
+        "A price for the code and the rights",
+        "Ownership, and the choice of who hosts it"
+       ]
+      ]
+     }
+    ],
+    "eyebrow": "Ways to pay",
+    "title": "Three common ways to pay for an AI app."
+   },
+   {
+    "id": "custom-build",
+    "dark": false,
+    "blocks": [
+     {
+      "t": "p",
+      "html": "For a solution FutureAcad can also offer to other organisations, <strong>development is free</strong>. After go-live you pay monthly for hosting and usage, based on the number of users, the number of voice-agent calls and the cloud cost of your own instance. When you stop using it, the charges stop."
+     },
+     {
+      "t": "list",
+      "items": [
+       "<strong>Unique to you:</strong> a product that cannot be offered to others carries a basic development fee.",
+       "<strong>Buy-out:</strong> you can buy the source code and the rights at any time.",
+       "<strong>Timeline:</strong> a working first version takes 6 to 8 weeks.",
+       "<strong>Rates:</strong> we quote them on a scoping call, before anything is built."
+      ]
+     },
+     {
+      "t": "link",
+      "text": "Read the full Custom Build pricing",
+      "href": "/build/custom-ai-builds/pricing"
+     }
+    ],
+    "eyebrow": "How FutureAcad works",
+    "title": "How FutureAcad's Custom Build charges."
+   },
+   {
+    "id": "ask",
+    "dark": false,
+    "blocks": [
+     {
+      "t": "list",
+      "items": [
+       "What exactly is in the first version, and by when?",
+       "What will I pay every month after launch?",
+       "Who owns the code and my data?",
+       "What happens if I want to stop?"
+      ]
+     }
+    ],
+    "eyebrow": "Before you sign",
+    "title": "Questions to ask any AI developer."
+   },
+   {
+    "id": "faq",
+    "dark": false,
+    "blocks": [
+     {
+      "t": "faq",
+      "items": [
+       {
+        "q": "Is it really free to build?",
+        "a": [
+         "For a standard solution FutureAcad can also offer to others, yes. You pay for hosting and usage once it is live."
+        ]
+       },
+       {
+        "q": "Who owns the app?",
+        "a": [
+         "FutureAcad owns a standard build, and you have the right to use it. You can buy the source code and the rights at any time."
+        ]
+       },
+       {
+        "q": "How long does the first version take?",
+        "a": [
+         "A working first version takes 6 to 8 weeks."
+        ]
+       },
+       {
+        "q": "What if my app is unique to my business?",
+        "a": [
+         "A product that cannot be offered to others carries a basic development fee. We quote it on the scoping call."
+        ]
+       }
+      ]
+     }
+    ],
+    "eyebrow": "Good to know",
+    "title": "Questions about cost."
+   },
+   {
+    "id": "next",
+    "dark": false,
+    "blocks": [
+     {
+      "t": "p",
+      "html": "Describe what you need in plain words. We book a free scoping call within 5 business days to agree what the first version must do."
+     },
+     {
+      "t": "buttons",
+      "items": [
+       {
+        "text": "Submit a problem",
+        "href": "/build/submit-a-problem",
+        "primary": true
+       },
+       {
+        "text": "Everything on Build",
+        "href": "/build",
+        "primary": false
+       }
+      ]
+     }
+    ],
+    "eyebrow": "Next step",
+    "title": "Tell us the problem."
+   }
+  ]
+ }
+}

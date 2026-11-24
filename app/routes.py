@@ -135,16 +135,27 @@ def handle_platform_redirect():
 # imported from the Rooman site by scripts/import_rooman.py into
 # app/content/imported.json and rendered in the FutureAcad theme.
 IMPORTED_FILE = Path(__file__).parent / "content" / "imported.json"
-IMPORTED = json.loads(IMPORTED_FILE.read_text(encoding="utf-8"))
-_imported_mtime = IMPORTED_FILE.stat().st_mtime
+# Guides (futureacad.ae/guides) live in their own file so a re-run of the importer
+# does not overwrite them.
+GUIDES_FILE = IMPORTED_FILE.parent / "guides.json"
+
+
+def _load_pages():
+    pages = json.loads(IMPORTED_FILE.read_text(encoding="utf-8"))
+    pages.update(json.loads(GUIDES_FILE.read_text(encoding="utf-8")))
+    return pages
+
+
+IMPORTED = _load_pages()
+_imported_mtime = (IMPORTED_FILE.stat().st_mtime, GUIDES_FILE.stat().st_mtime)
 
 
 def _imported(path):
-    """The page's content, re-read if the importer has rewritten the file."""
+    """The page's content, re-read if the importer has rewritten a content file."""
     global IMPORTED, _imported_mtime
-    mtime = IMPORTED_FILE.stat().st_mtime
+    mtime = (IMPORTED_FILE.stat().st_mtime, GUIDES_FILE.stat().st_mtime)
     if mtime != _imported_mtime:
-        IMPORTED, _imported_mtime = json.loads(IMPORTED_FILE.read_text(encoding="utf-8")), mtime
+        IMPORTED, _imported_mtime = _load_pages(), mtime
     return IMPORTED[path]
 
 
