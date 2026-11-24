@@ -582,5 +582,22 @@
         ]
       }
     ]
+  },
+  "transform/ai-workforce-readiness": {
+    "title": "Good to know",
+    "items": [
+      {
+        "q": "What is AI upskilling for employees?",
+        "a": [
+          "It is training your people to use AI in their daily work, such as drafting, analysis, customer replies and reporting, so the team gets more done with the same hours. Our programme starts by assessing where your team is today, then trains each role on the tools that fit it."
+        ]
+      },
+      {
+        "q": "How long does AI upskilling for employees take?",
+        "a": [
+          "Our workforce programme runs 12 to 24 weeks, depending on team size. You see measurable change in the first weeks and a productivity read-out at the end."
+        ]
+      }
+    ]
   }
 }
