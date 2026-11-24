@@ -240,3 +240,9 @@ def test_admin_lives_at_an_unlisted_address():
     assert Config.ADMIN_URL_PREFIX != "/admin"
     robots = (Path(__file__).parent.parent / "app" / "static" / "robots.txt").read_text(encoding="utf-8")
     assert "admin" not in robots.lower()
+
+
+def test_footer_shows_the_phone_number(client):
+    html = client.get("/").get_data(as_text=True)
+    assert 'href="tel:+919071079878"' in html
+    assert "+91 90710 79878" in html
