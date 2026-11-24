@@ -33,7 +33,7 @@
     "description": "AI for business, by sector: enterprise AI transformation for BFSI, healthcare, retail and manufacturing in the UAE and India, starting with a 4-week audit."
   },
   "transform/ai-workforce-readiness": {
-    "title": "AI Training: AI Workforce Upskilling",
+    "title": "AI Upskilling for Employees: 24-Week Programme",
     "description": "AI training for your workforce: a 12–24 week programme to assess AI maturity, upskill your team, embed FutureAcad AI pods and measure the productivity uplift."
   },
   "staffing-gcc/staffing": {
@@ -74,5 +74,15 @@
   },
   "build/product/edu-erp": {
     "title": "Education ERP Software for Colleges: Edu ERP"
+  },
+  "partner/franchise": {
+    "title": "Franchise Programme: Bring FutureAcad",
+    "description": "Bring FutureAcad to your city: hybrid delivery, Train-the-Trainer, an AI-based LMS and a placement-linked pipeline, with 198+ centres behind it."
+  },
+  "build/startup-varsity/founders-track": {
+    "description": "Tech veterans with 10 to 20 years' experience: lead a team of AI-native engineers for six months, with an office, mentors and a path to seed funding."
+  },
+  "transform/case-study/ajsk-service-centres": {
+    "description": "Atalji Janasnehi Directorate: 777 centres in 19 days. Beat MNC competitors by months at 60% lower cost, with 5+ years of ongoing maintenance."
   }
 }

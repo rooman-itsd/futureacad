@@ -441,6 +441,18 @@
         "a": [
           "A production AI capability integrated with up to 3 of your systems, with monitoring, runbooks and 30 days of hypercare. After that we hand it over to your team, or run it for you as a Managed AI Function."
         ]
+      },
+      {
+        "q": "Do you build AI chatbots and automation for businesses in Dubai?",
+        "a": [
+          "Yes. Chatbots, workflow automation, AI agents and full AI apps are all built as fixed-scope projects with a fixed timeline."
+        ]
+      },
+      {
+        "q": "What is the difference between an AI automation company and an AI development company?",
+        "a": [
+          "Automation focuses on taking over repeat tasks inside your current process. Development builds new AI products or apps. We do both, and many projects combine the two."
+        ]
       }
     ]
   },
@@ -511,6 +523,18 @@
         "a": [
           "HireAI is SOC 2 Type II, ISO 27001 and GDPR compliant, with AES-256 encryption at rest."
         ]
+      },
+      {
+        "q": "Can AI recruitment software also screen resumes?",
+        "a": [
+          "Yes. HireAI reads resumes against the role, ranks candidates, and moves the best ones into an AI interview, so recruiters spend their time on people, not piles."
+        ]
+      },
+      {
+        "q": "Is HireAI used for AI recruitment in Dubai and the UAE?",
+        "a": [
+          "HireAI works for companies hiring in India, the UAE and other markets. Ask us about your region and the languages you need."
+        ]
       }
     ]
   },
@@ -539,6 +563,18 @@
         "q": "What does an AI calling agent cost in India?",
         "a": [
           "FutureAcad quotes the price at a demo. You can start with a pilot of 500 leads, measuring the contact-rate uplift and the qualified-lead yield before you commit."
+        ]
+      },
+      {
+        "q": "Can an AI receptionist answer calls for a small business?",
+        "a": [
+          "Yes. The voice agent can answer, handle common questions, take messages or bookings, and pass the call to a person when needed."
+        ]
+      },
+      {
+        "q": "Does the AI voice agent support Arabic?",
+        "a": [
+          "Language support depends on the setup. Tell us the languages you need, including Arabic, and we will confirm what we can offer before you commit."
         ]
       }
     ]
@@ -579,6 +615,138 @@
         "q": "How is an AI startup accelerator different from StartupVarsity?",
         "a": [
           "Most accelerators fund a team you already have. StartupVarsity forms the team for you: you bring the idea, and FutureAcad gives you engineers, seed funding and mentors, working in two-week sprints towards a launch."
+        ]
+      },
+      {
+        "q": "Is there a startup incubator or accelerator programme in Dubai and the UAE?",
+        "a": [
+          "StartupVarsity is run by FutureAcad, a Dubai-based startup. It is a six-month programme where one founder leads a team of AI-native engineers, with mentors and a path to seed funding."
+        ]
+      },
+      {
+        "q": "How do I turn my idea into a startup?",
+        "a": [
+          "Apply as a founder with your idea at any stage. We form the team around you, and you spend six months building and testing it with mentors."
+        ]
+      }
+    ]
+  },
+  "transform/ai-workforce-readiness": {
+    "title": "Good to know",
+    "items": [
+      {
+        "q": "What is AI upskilling for employees?",
+        "a": [
+          "It is training your people to use AI in their daily work, such as drafting, analysis, customer replies and reporting, so the team gets more done with the same hours. Our programme starts by assessing where your team is today, then trains each role on the tools that fit it."
+        ]
+      },
+      {
+        "q": "How long does AI upskilling for employees take?",
+        "a": [
+          "Our workforce programme runs 12 to 24 weeks, depending on team size. You see measurable change in the first weeks and a productivity read-out at the end."
+        ]
+      }
+    ]
+  },
+  "transform/ai-readiness-audit": {
+    "title": "Good to know",
+    "items": [
+      {
+        "q": "What is an AI readiness assessment for a business in the UAE?",
+        "a": [
+          "It is a short, structured review of where your company stands on data, tools, skills and processes before you spend on AI. You get a scored picture, the few places AI will pay off first, and a plan in order of priority."
+        ]
+      },
+      {
+        "q": "Do you offer AI consulting services for small businesses in Dubai?",
+        "a": [
+          "Yes. The audit is sized for teams that cannot afford a long consulting project. A small senior team runs it, and the fee is credited if you go on to build with us."
+        ]
+      },
+      {
+        "q": "Is there an AI readiness training or workshop?",
+        "a": [
+          "The audit can finish with a working session for your leaders. Team-wide training is covered by our AI Workforce Readiness programme."
+        ]
+      }
+    ]
+  },
+  "staffing-gcc/staffing": {
+    "title": "Good to know",
+    "items": [
+      {
+        "q": "What is IT staff augmentation?",
+        "a": [
+          "It means adding skilled engineers to your team for a project or a longer period without hiring them yourself. You direct the work, and we handle sourcing, screening and the contract."
+        ]
+      },
+      {
+        "q": "Does FutureAcad offer IT staff augmentation services in Dubai, the UAE and India?",
+        "a": [
+          "Yes. We place IT staff for companies in the UAE and India, on contract or contract-to-hire, from one shared talent pool."
+        ]
+      },
+      {
+        "q": "How much does it cost to hire a software developer?",
+        "a": [
+          "It depends on the role, the seniority and the engagement model. Tell us the role and we will share a range and the bench depth for it."
+        ]
+      }
+    ]
+  },
+  "transform/enterprise": {
+    "title": "Good to know",
+    "items": [
+      {
+        "q": "What does an AI transformation company do?",
+        "a": [
+          "It helps a large organisation move from AI pilots to AI running inside real work: choosing where AI fits, building it, training the people who use it and measuring the result."
+        ]
+      },
+      {
+        "q": "Do you do AI training for companies and employees?",
+        "a": [
+          "Yes. Training for your people sits inside the transformation programme, and the AI Workforce Readiness programme covers it in more detail."
+        ]
+      },
+      {
+        "q": "Can FutureAcad support AI transformation in Dubai and the UAE?",
+        "a": [
+          "FutureAcad is a Dubai-based deep tech startup and works with organisations in the UAE and India. Government and regulated sectors are covered in the sector section above."
+        ]
+      }
+    ]
+  },
+  "build/product/ai-tutor": {
+    "title": "Good to know",
+    "items": [
+      {
+        "q": "Is AI Tutor an AI homework helper app?",
+        "a": [
+          "It helps students understand a topic step by step and check their own answers, rather than just handing over the answer."
+        ]
+      },
+      {
+        "q": "Is AI Tutor an AI learning app for students and college students?",
+        "a": [
+          "Yes. It is built as a study companion for school and college students. Institutions can also roll it out to a whole class or campus."
+        ]
+      }
+    ]
+  },
+  "transform/managed-ai": {
+    "title": "Good to know",
+    "items": [
+      {
+        "q": "What are AI managed services?",
+        "a": [
+          "We run the AI for you: we build it, host it, watch it, fix it and improve it, so your team uses the result and does not maintain the system."
+        ]
+      },
+      {
+        "q": "Is FutureAcad an AI managed services provider?",
+        "a": [
+          "Yes. FutureAcad is a Dubai-based deep tech startup that offers managed AI services, from a single AI function to a full outcome-based arrangement."
         ]
       }
     ]
