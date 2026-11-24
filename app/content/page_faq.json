@@ -879,6 +879,29 @@
         "a": [
           "If none of the four products fits, we build AI software and AI tools for your business to order, and our Custom Build page explains how that works."
         ]
+      },
+      {
+        "q": "Which AI platforms does FutureAcad offer?",
+        "a": [
+          "FutureAcad offers AI platforms for hiring (HireAI), calling (CRM Voice Agent), learning (AI Tutor) and campus management (Edu ERP). Each runs as a ready-made product, and we build a custom one if none fits."
+        ]
+      }
+    ]
+  },
+  "transform/with-our-products": {
+    "title": "Good to know",
+    "items": [
+      {
+        "q": "What is an AI assistant for business?",
+        "a": [
+          "An AI assistant answers questions and does routine work for your team, in chat or by voice. FutureAcad's assistants connect to your own business apps, so they can act on your data, not just chat."
+        ]
+      },
+      {
+        "q": "Is this an AI assistant platform or a single tool?",
+        "a": [
+          "It is a platform of ready-made apps with AI built in. You switch on the ones you need and add more later."
+        ]
       }
     ]
   }
