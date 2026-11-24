@@ -272,3 +272,14 @@ def test_home_page_says_it_is_a_dubai_company(client):
     assert '"alternateName": ["FutureAcad Dubai"' in html
     assert '"foundingLocation"' in html
     assert "Rooman" not in html
+
+
+def test_geo_pages_have_breadcrumbs_dates_and_llms_txt(client):
+    guide = client.get("/guides/cost-to-build-an-ai-app").get_data(as_text=True)
+    assert '"@type": "BreadcrumbList"' in guide and '"@type": "Article"' in guide
+    assert '"dateModified": "2026-11-24"' in guide
+    assert '"@type": "WebPage"' in client.get("/gcc-services").get_data(as_text=True)
+    assert "<lastmod>2026-11-24</lastmod>" in client.get("/sitemap.xml").get_data(as_text=True)
+    llms = client.get("/llms.txt")
+    assert llms.mimetype == "text/plain" and "Dubai-based deep tech startup" in llms.get_data(as_text=True)
+    assert "Rooman" not in llms.get_data(as_text=True)

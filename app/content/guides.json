@@ -88,7 +88,9 @@
           }
         ]
       }
-    ]
+    ],
+    "published": "2026-11-24",
+    "updated": "2026-11-24"
   },
   "guides/cost-to-build-an-ai-app": {
     "path": "guides/cost-to-build-an-ai-app",
@@ -403,6 +405,8 @@
         "eyebrow": "Next step",
         "title": "Tell us the problem."
       }
-    ]
+    ],
+    "published": "2026-11-24",
+    "updated": "2026-11-24"
   }
 }
