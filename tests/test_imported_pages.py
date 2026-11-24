@@ -222,7 +222,8 @@ def test_no_page_shows_rooman_branding_or_its_phone_numbers(client):
     paths += ["/build/omnis", "/build/bluelinked"]
     for path in paths:
         html = client.get(path).get_data(as_text=True)
-        visible = html
+        # the one phone number FutureAcad itself publishes in the footer
+        visible = html.replace("tel:+919071079878", "").replace("+91 90710 79878", "")
         for bad in ("Rooman", "ROOMAN", "rooman.com", "rooman.net", "tel:", "wa.me/", "6945 1000", "97390"):
             assert bad not in visible, (path, bad)
 
