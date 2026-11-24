@@ -231,14 +231,58 @@ def _faq_schema(page):
     return {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": questions}
 
 
+def _page_schema(path, page):
+    """WebPage (or Article, for dated guides) plus a breadcrumb, as JSON-LD."""
+    url = f"{SITE_URL}/{path}"
+    node = {"@type": "Article" if page.get("published") else "WebPage", "@id": f"{url}#page",
+            "url": url, "name": page["title"], "description": page["description"],
+            "isPartOf": {"@id": f"{SITE_URL}/#site"}, "publisher": {"@id": f"{SITE_URL}/#org"},
+            "inLanguage": "en"}
+    if page.get("published"):
+        node.update(headline=page["title"], datePublished=page["published"],
+                    dateModified=page.get("updated", page["published"]),
+                    author={"@id": f"{SITE_URL}/#org"})
+    crumbs = [("FutureAcad", f"{SITE_URL}/")]
+    if path.startswith("guides/"):
+        crumbs.append(("Guides", f"{SITE_URL}/guides"))
+    crumbs.append((page["title"], url))
+    trail = {"@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": i, "name": n, "item": u}
+        for i, (n, u) in enumerate(crumbs, 1)]}
+    return {"@context": "https://schema.org", "@graph": [node, trail]}
+
+
 def imported_page(path):
     page = _with_faq(path, _with_seo(path, _imported(path)))
     return render_template("imported.html", page=page, active=_nav_section(path),
-                           assessment=_assessment, faq_schema=_faq_schema(page))
+                           assessment=_assessment, faq_schema=_faq_schema(page),
+                           page_schema=_page_schema(path, page))
 
 
 for _path in IMPORTED:
     main.add_url_rule(f"/{_path}", "imported", imported_page, defaults={"path": _path})
+
+
+@main.route("/llms.txt")
+def llms():
+    """A plain-text summary of the site for AI assistants."""
+    lines = [
+        "# FutureAcad", "",
+        "> FutureAcad (futureacad.ae) is a Dubai-based deep tech startup. It builds AI applications "
+        "and AI agents, runs AI transformation and managed AI services, and provides IT staffing "
+        "and GCC services for companies in the UAE and India.", "",
+        "## Main pages", ""]
+    keys = ["build/ai-project-builds", "build/custom-ai-builds", "build/hireai",
+            "build/product/crm-voice-agent", "build/product/ai-tutor", "build/product/edu-erp",
+            "build/startup-varsity", "transform/ai-readiness-audit",
+            "transform/ai-workforce-readiness", "transform/managed-ai", "transform/enterprise",
+            "staffing-gcc/staffing", "gcc-services", "guides/cost-to-build-an-ai-app"]
+    for k in keys:
+        if k in IMPORTED:
+            lines.append(f"- [{IMPORTED[k]['title']}]({SITE_URL}/{k}): {IMPORTED[k]['description']}")
+    lines += ["", "## Company", "", f"- [About FutureAcad]({SITE_URL}/about)",
+              f"- [Contact]({SITE_URL}/contact)", f"- [Guides]({SITE_URL}/guides)", ""]
+    return "\n".join(lines), 200, {"Content-Type": "text/plain; charset=utf-8"}
 
 
 # Pages no other page links to (SAIOM audit); they stay reachable but are not listed.
@@ -250,7 +294,11 @@ def sitemap():
     """Every public page, for search engines (listed in robots.txt)."""
     paths = ["/", "/about", "/services", "/work", "/contact"] + [
         f"/{p}" for p in IMPORTED if p not in SITEMAP_SKIP]
-    urls = "".join(f"<url><loc>{SITE_URL}{p}</loc></url>" for p in paths)
+    def lastmod(p):
+        # Only pages that carry a real "updated" date get one; no guessed dates.
+        day = IMPORTED.get(p.lstrip("/"), {}).get("updated")
+        return f"<lastmod>{day}</lastmod>" if day else ""
+    urls = "".join(f"<url><loc>{SITE_URL}{p}</loc>{lastmod(p)}</url>" for p in paths)
     xml = ('<?xml version="1.0" encoding="UTF-8"?>'
            f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>')
     return xml, 200, {"Content-Type": "application/xml; charset=utf-8"}
