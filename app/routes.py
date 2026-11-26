@@ -249,7 +249,25 @@ def _page_schema(path, page):
     trail = {"@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": i, "name": n, "item": u}
         for i, (n, u) in enumerate(crumbs, 1)]}
-    return {"@context": "https://schema.org", "@graph": [node, trail]}
+    graph = [node, trail]
+    if _is_service(path):
+        graph.append({"@type": "Service", "@id": f"{url}#service", "name": page["title"].split(" | ")[0],
+                      "description": page["description"], "url": url,
+                      "provider": {"@id": f"{SITE_URL}/#org"},
+                      "areaServed": [{"@type": "Country", "name": "United Arab Emirates"},
+                                     {"@type": "Country", "name": "India"}]})
+        node["mainEntity"] = {"@id": f"{url}#service"}
+    return {"@context": "https://schema.org", "@graph": graph}
+
+
+# Section roots whose sub-pages describe something FutureAcad sells.
+_SERVICE_ROOTS = ("build/", "transform/", "staffing-gcc", "gcc-services")
+_NOT_SERVICE = ("case-stud", "apply-", "submit-a-problem", "how-to-choose", "/examples", "/pricing")
+
+
+def _is_service(path):
+    return path.startswith(_SERVICE_ROOTS) and not any(x in path for x in _NOT_SERVICE) \
+        and path not in ("build", "transform", "build/products")
 
 
 def imported_page(path):
