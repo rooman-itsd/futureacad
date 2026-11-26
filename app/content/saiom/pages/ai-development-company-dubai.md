@@ -7,7 +7,7 @@ updated: "2026-11-26"
 author: "FutureAcad"
 keyword: "ai development company"
 source: "SAIOM"
-faq: [{"question": "Is FutureAcad based in Dubai?", "answer": "Yes. FutureAcad is a deep tech startup established in 2025 and based in Meydan Free Zone, Dubai, UAE. We also run delivery hubs in Bengaluru and Singapore."}, {"question": "How long does an AI build take?", "answer": "AI Project Builds run for 4, 8 or 24 weeks, depending on scope. For Custom Build, we aim to have a working first version in 6 to 8 weeks."}, {"question": "What happens after the build goes live?", "answer": "AI Project Builds include 30 days of hypercare after launch. For longer-term support, we can run an AI function for you under SLAs through Managed AI Functions."}, {"question": "How much does it cost?", "answer": "It depends on the route. A standard Custom Build is free to build, and you pay for hosting and usage once live. An exclusive build carries a basic development fee. See the [Custom Build pricing page](/build/custom-ai-builds/pricing) for details, or submit your problem for a scoped answer."}, {"question": "What if I don't know which AI use case to start with?", "answer": "Start with the [AI Readiness Audit](/transform/ai-readiness-audit). In 4 weeks you get a maturity score, a gap report, three ranked use cases and a costed 12-month roadmap."}, {"question": "Which security and quality standards do you follow?", "answer": "FutureAcad states ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3 compliance in every delivery hub."}]
+faq: [{"question": "Is FutureAcad based in Dubai?", "answer": "Yes. FutureAcad is a deep tech startup established in 2025 and based in Meydan Free Zone, Dubai, UAE. We also run delivery hubs in Bengaluru and Singapore."}, {"question": "How long does an AI build take?", "answer": "AI Project Builds run for 4, 8 or 24 weeks, depending on scope. For Custom Build, we aim to have a working first version in 6 to 8 weeks."}, {"question": "What happens after the build goes live?", "answer": "AI Project Builds include 30 days of hypercare after launch. For longer-term support, we can run an AI function for you under SLAs through Managed AI Functions."}, {"question": "How much does it cost?", "answer": "It depends on the route. A standard Custom Build is free to build, and you pay for hosting and usage once live. An exclusive build carries a basic development fee. See the [Custom Build pricing page](/build/custom-ai-builds/pricing) for details, or submit your problem for a scoped answer."}, {"question": "What if I don't know which AI use case to start with?", "answer": "Start with the [AI Readiness Audit](/transform/ai-readiness-audit). In 4 weeks you get a maturity score, a gap report, three ranked use cases and a costed 12-month roadmap."}, {"question": "Which security and quality standards do you follow?", "answer": "Our delivery follows ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3."}]
 ---
 
 ## An *AI development company* in Dubai that ships to production
@@ -19,7 +19,7 @@ FutureAcad builds AI applications, voice agents and custom systems for organisat
 - Builds of 4, 8 or 24 weeks
 - Named delivery lead on every build
 - 30 days of hypercare after launch
-- ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3 in every hub
+- ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3 delivery standards
 
 ## What does an AI development company in Dubai actually do?
 
@@ -103,10 +103,7 @@ We run a complete AI function, such as customer service, finance, document proce
 
 - **7** live platforms shipped
 - **3** continents served
-- **13** markets in 4 regions, served from three delivery hubs (Benga
-- **1.3M+** alumni/engineer pool of engineers
-
-*Source: futureacad.ae/about and futureacad.ae/transform/international.*
+- **1.3M+** engineers in our alumni network
 
 ## Is FutureAcad the right fit?
 
@@ -150,10 +147,10 @@ Start with the [AI Readiness Audit](/transform/ai-readiness-audit). In 4 weeks y
 
 ### Which security and quality standards do you follow?
 
-FutureAcad states ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3 compliance in every delivery hub.
+Our delivery follows ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3.
 
 ## Got a problem AI should solve? Tell us.
 
-Submit it today. We reply within 5 business days and offer a free scoping call. Prefer to talk first? Email info@futureacad.ae or call 080 6945 1000.
+Submit it today. We reply within 5 business days and offer a free scoping call. Prefer to talk first? Email info@futureacad.ae.
 
 [Submit a problem](/build/submit-a-problem)
