@@ -6,7 +6,7 @@ from pathlib import Path
 
 from flask import Blueprint, jsonify, redirect, render_template, request
 
-from . import db
+from . import db, saiom_content
 from .data import PROJECTS, get_journey_icons, get_partners
 from .utils import send_lead_email, valid_csrf
 
@@ -143,17 +143,18 @@ GUIDES_FILE = IMPORTED_FILE.parent / "guides.json"
 def _load_pages():
     pages = json.loads(IMPORTED_FILE.read_text(encoding="utf-8"))
     pages.update(json.loads(GUIDES_FILE.read_text(encoding="utf-8")))
+    saiom_content.add_to_index(pages, saiom_content.load_pages())
     return pages
 
 
 IMPORTED = _load_pages()
-_imported_mtime = (IMPORTED_FILE.stat().st_mtime, GUIDES_FILE.stat().st_mtime)
+_imported_mtime = (IMPORTED_FILE.stat().st_mtime, GUIDES_FILE.stat().st_mtime, saiom_content.stamp())
 
 
 def _imported(path):
     """The page's content, re-read if the importer has rewritten a content file."""
     global IMPORTED, _imported_mtime
-    mtime = (IMPORTED_FILE.stat().st_mtime, GUIDES_FILE.stat().st_mtime)
+    mtime = (IMPORTED_FILE.stat().st_mtime, GUIDES_FILE.stat().st_mtime, saiom_content.stamp())
     if mtime != _imported_mtime:
         IMPORTED, _imported_mtime = _load_pages(), mtime
     return IMPORTED[path]
