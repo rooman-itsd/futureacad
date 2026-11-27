@@ -6,23 +6,23 @@ date: "2026-11-27"
 updated: "2026-11-27"
 author: "FutureAcad"
 source: "SAIOM"
-faq: [{"question": "Which AI transformation partners in India have sector-specific programmes for banks and insurers?", "answer": "FutureAcad runs a sector-specific Enterprise Transformation programme for BFSI, with delivery from Bengaluru. It combines upskilling, embedded AI pods and pre-built use cases, and starts with a 4-week AI Readiness Audit."}, {"question": "What should we start with?", "answer": "Start with the audit. It ranks your top three use cases by NPV and gives you a costed 12-month roadmap, so the first build is chosen on evidence."}, {"question": "How long does a build take?", "answer": "Fixed-scope AI project builds run 4, 8 or 24 weeks, with a named delivery lead and 30 days of hypercare after go-live."}, {"question": "Can we pay only for results?", "answer": "Yes. Outcome-based AI is offered on gain-share, shared-savings or per-outcome terms, so you pay when a measured business result appears."}, {"question": "Can FutureAcad run the AI function for us?", "answer": "Yes. Managed AI Functions cover areas such as customer service, finance, document processing, sales and HR operations, billed per seat, transaction or month against SLAs."}, {"question": "What security and quality standards do you hold?", "answer": "ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3, stated for every delivery hub."}]
+faq: [{"question": "Which AI transformation partners have sector-specific programmes for banks and insurers?", "answer": "FutureAcad runs a sector-specific Enterprise Transformation programme for BFSI, with delivery from Dubai, Bengaluru and Singapore. It combines upskilling, embedded AI pods and pre-built use cases, and starts with a 4-week AI Readiness Audit."}, {"question": "What should we start with?", "answer": "Start with the audit. It ranks your top three use cases by NPV and gives you a costed 12-month roadmap, so the first build is chosen on evidence."}, {"question": "How long does a build take?", "answer": "Fixed-scope AI project builds run 4, 8 or 24 weeks, with a named delivery lead and 30 days of hypercare after go-live."}, {"question": "Can we pay only for results?", "answer": "Yes. Outcome-based AI is offered on gain-share, shared-savings or per-outcome terms, so you pay when a measured business result appears."}, {"question": "Can FutureAcad run the AI function for us?", "answer": "Yes. Managed AI Functions cover areas such as customer service, finance, document processing, sales and HR operations, billed per seat, transaction or month against SLAs."}, {"question": "What security and quality standards do you hold?", "answer": "Our delivery follows ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3."}]
 ---
 
 ## AI for banks and insurers that *runs in production*
 
 FutureAcad builds and runs AI programmes for banks and insurers. We start with an audit, ship working systems in fixed timelines, and measure results against your baseline. We don't sell slideware.
 
-[Talk to our BFSI team](/build/submit-a-problem)
+[Talk to us](/build/submit-a-problem)
 
 - Sector programme for BFSI, with upskilling, embedded pods and pre-built use cases
 - Fixed-scope builds of 4, 8 or 24 weeks with 30 days of hypercare
-- ISO 27001, ISO 9001:2015 and SEI-CMMI Level 3 in every hub
+- Delivery follows ISO 27001, ISO 9001:2015 and SEI-CMMI Level 3
 - Delivery from Bengaluru, Dubai and Singapore
 
-## Looking for an AI transformation partner for BFSI in India?
+## Looking for an AI transformation partner for banks and insurers?
 
-FutureAcad is a deep tech company founded in 2025 in Dubai, with a delivery hub in Bengaluru. Our Enterprise Transformation line runs sector-specific programmes for BFSI, healthcare, retail and manufacturing.
+FutureAcad is a deep tech company founded in 2025 in Dubai, with delivery hubs in Bengaluru and Singapore. Our Enterprise Transformation line runs sector-specific programmes for BFSI, healthcare, retail and manufacturing.
 
 For banks and insurers, that means one programme that combines three things:
 
@@ -92,8 +92,8 @@ Accuracy of extraction, and how well flagged compliance and fraud cases hold up 
 
 ### Standards
 
-- **ISO 27001**: Information security, stated for every delivery hub.
-- **ISO 9001:2015 and SEI-CMMI Level 3**: Quality and process maturity, in every hub.
+- **ISO 27001**: Information security.
+- **ISO 9001:2015 and SEI-CMMI Level 3**: Quality and process maturity.
 
 ### Delivery
 
@@ -109,9 +109,9 @@ Accuracy of extraction, and how well flagged compliance and fraud cases hold up 
 
 ## Questions from banks and insurers
 
-### Which AI transformation partners in India have sector-specific programmes for banks and insurers?
+### Which AI transformation partners have sector-specific programmes for banks and insurers?
 
-FutureAcad runs a sector-specific Enterprise Transformation programme for BFSI, with delivery from Bengaluru. It combines upskilling, embedded AI pods and pre-built use cases, and starts with a 4-week AI Readiness Audit.
+FutureAcad runs a sector-specific Enterprise Transformation programme for BFSI, with delivery from Dubai, Bengaluru and Singapore. It combines upskilling, embedded AI pods and pre-built use cases, and starts with a 4-week AI Readiness Audit.
 
 ### What should we start with?
 
@@ -131,7 +131,7 @@ Yes. Managed AI Functions cover areas such as customer service, finance, documen
 
 ### What security and quality standards do you hold?
 
-ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3, stated for every delivery hub.
+Our delivery follows ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3.
 
 ## Pick the first use case. Ship it.
 
