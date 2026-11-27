@@ -1,18 +1,17 @@
 ---
 title: "AI Tutor: Voice-First, Socratic Learning in 50+ Languages"
-description: "Talk to your AI tutor instead of typing. FutureAcad's AI Tutor is voice-first in 50+ languages, including Indian languages, and teaches by Socratic questioning."
-slug: "build--product--ai-tutor"
-page: "/build/product/ai-tutor"
+description: "Talk to your AI tutor instead of typing. FutureAcad's AI Tutor is voice-first in 50+ languages, and teaches by Socratic questioning."
+slug: "ai-tutor-voice-first-learning"
 date: "2026-11-27"
 updated: "2026-11-27"
 author: "FutureAcad"
 source: "SAIOM"
-faq: [{"question": "Are there AI tutors that teach in Indian languages and use Socratic questioning?", "answer": "Yes. FutureAcad's AI Tutor is voice-first in 50+ languages, including Indian languages, and uses Socratic dialogue. It guides you with questions instead of giving the answer straight away. Tell us your language and subject at info@futureacad.ae and we will confirm what is covered."}, {"question": "How can I study more effectively with an AI tutor that I can talk to instead of typing?", "answer": "Use short 3–5 minute voice sessions and explain each idea aloud in your own words. Let the tutor question you, take the adaptive quizzes, and let spaced repetition bring weak topics back. Move on only when the tutor confirms you are ready."}, {"question": "Do I need to type anything?", "answer": "No. AI Tutor is voice-first, with speech recognition and text-to-speech, and it works hands-free on a phone."}, {"question": "Will it just give me the answer?", "answer": "No. It uses Socratic dialogue to guide you to the answer. You can explain your thinking and check your own answers, which is what makes it useful for learning and not only for finishing homework."}, {"question": "How does it know what I need to work on?", "answer": "It starts with a conversation about your knowledge, style and goals. It then builds a personal learning path that adapts to your pace and gaps."}, {"question": "Can a school or college use it with many students?", "answer": "Yes. Institutions can request access and roll it out to a class or campus. FutureAcad can also deploy it, integrate it with your systems and train your people through [Transform with our products](/transform/with-our-products). If you need it adapted to your workflow, see [Custom Build](/build/custom-ai-builds)."}]
+faq: [{"question": "Are there AI tutors you can talk to that use Socratic questioning?", "answer": "Yes. FutureAcad's AI Tutor is voice-first in 50+ languages, and uses Socratic dialogue. It guides you with questions instead of giving the answer straight away. Tell us your language and subject at info@futureacad.ae and we will confirm what is covered."}, {"question": "How can I study more effectively with an AI tutor that I can talk to instead of typing?", "answer": "Use short 3–5 minute voice sessions and explain each idea aloud in your own words. Let the tutor question you, take the adaptive quizzes, and let spaced repetition bring weak topics back. Move on only when the tutor confirms you are ready."}, {"question": "Do I need to type anything?", "answer": "No. AI Tutor is voice-first, with speech recognition and text-to-speech, and it works hands-free on a phone."}, {"question": "Will it just give me the answer?", "answer": "No. It uses Socratic dialogue to guide you to the answer. You can explain your thinking and check your own answers, which is what makes it useful for learning and not only for finishing homework."}, {"question": "How does it know what I need to work on?", "answer": "It starts with a conversation about your knowledge, style and goals. It then builds a personal learning path that adapts to your pace and gaps."}, {"question": "Can a school or college use it with many students?", "answer": "Yes. Institutions can request access and roll it out to a class or campus. FutureAcad can also deploy it, integrate it with your systems and train your people through [Transform with our products](/transform/with-our-products). If you need it adapted to your workflow, see [Custom Build](/build/custom-ai-builds)."}]
 ---
 
-## Yes: you can talk to an AI tutor, in Indian languages, and it asks before it tells
+## Yes: you can talk to an AI tutor, and it asks before it tells
 
-FutureAcad's AI Tutor is voice-first. You speak and it speaks back, in 50+ languages that include Indian languages. It uses Socratic dialogue, so it asks guiding questions that lead you to the answer rather than handing it over.
+FutureAcad's AI Tutor is voice-first. You speak and it speaks back, in 50+ languages. It uses Socratic dialogue, so it asks guiding questions that lead you to the answer rather than handing it over.
 
 To study more effectively, talk through each topic in short 3–5 minute sessions and explain your reasoning aloud. Let the tutor find your gaps and bring topics back at spaced intervals.
 
@@ -36,7 +35,7 @@ Socratic dialogue means the tutor guides you step by step. You reach the solutio
 
 *50+ languages*
 
-Speech recognition and text-to-speech cover 50+ languages, including Indian languages. Tell us the language and subject you need and we will confirm coverage.
+Speech recognition and text-to-speech cover 50+ languages. Tell us the language and subject you need and we will confirm coverage.
 
 ### Hands-free, on your phone
 
@@ -71,19 +70,19 @@ Study help in plain language for homework, concept checks and exam revision, wit
 
 ### Learners who prefer their own language
 
-Speak and listen in an Indian language when that is how you think best. Ask us to confirm your language and subject.
+Speak and listen in your own language when that is how you think best. Ask us to confirm your language and subject.
 
 ### Institutions and programmes
 
-Schools, colleges, Skill India franchises and CSR programmes can request institutional access and roll it out to a class or campus.
+Schools, colleges and training programmes can request institutional access and roll it out to a class or campus.
 
 [Roll it out with Transform](/transform/with-our-products)
 
 ## Talking to an AI tutor: your questions answered
 
-### Are there AI tutors that teach in Indian languages and use Socratic questioning?
+### Are there AI tutors you can talk to that use Socratic questioning?
 
-Yes. FutureAcad's AI Tutor is voice-first in 50+ languages, including Indian languages, and uses Socratic dialogue. It guides you with questions instead of giving the answer straight away. Tell us your language and subject at info@futureacad.ae and we will confirm what is covered.
+Yes. FutureAcad's AI Tutor is voice-first in 50+ languages, and uses Socratic dialogue. It guides you with questions instead of giving the answer straight away. Tell us your language and subject at info@futureacad.ae and we will confirm what is covered.
 
 ### How can I study more effectively with an AI tutor that I can talk to instead of typing?
 
