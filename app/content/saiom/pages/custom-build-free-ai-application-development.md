@@ -1,12 +1,12 @@
 ---
 title: "Custom Build: Zero Upfront Cost AI Application Development"
 description: "FutureAcad builds your custom AI application with no upfront development fee. Submit a problem, get a reply in 5 business days and a first version in 6 to 8 weeks."
-slug: "page"
+slug: "custom-build-free-ai-application-development"
 date: "2026-11-27"
 updated: "2026-11-27"
 author: "FutureAcad"
 source: "SAIOM"
-faq: [{"question": "Is a Custom Build really free?", "answer": "For a standard build, yes. There is no upfront development fee. We build it because the solution is reusable and FutureAcad can offer it to others. You pay for hosting and usage after go-live. An exclusive build carries a basic development fee."}, {"question": "Who owns the intellectual property and source code?", "answer": "On a standard build, the solution is built on a reusable architecture that FutureAcad can offer to others. If you want full ownership, you can ask to buy out the source code and IP rights. We'll agree the terms in writing during scoping."}, {"question": "What will hosting cost?", "answer": "You pay monthly for hosting and usage once your application is live. The amount depends on what we build and how much it is used. We'll give you a clear figure on the free scoping call, before you commit."}, {"question": "How is my data kept private?", "answer": "FutureAcad states ISO 27001 compliance in every delivery hub. How your data is stored, who can reach it and where it is hosted are agreed with you during scoping and documented."}, {"question": "What support do I get after go-live?", "answer": "Support terms and response targets are agreed during scoping and written down, so you know what to expect from day one. Ask about them on the scoping call."}, {"question": "How fast will I hear back?", "answer": "We reply to every submitted problem within 5 business days. A free scoping call follows, and a working first version is typically ready in 6 to 8 weeks."}, {"question": "What kind of problem should I submit?", "answer": "Any operational bottleneck you think software or AI could fix, such as manual processes, missed follow-ups, slow reporting or disconnected systems. Describe what's going wrong and we'll work out whether it fits a Custom Build."}, {"question": "Can FutureAcad build something that isn't a good fit for the free model?", "answer": "Yes. If your needs are very specific or exclusive, we'll tell you plainly and discuss an exclusive build. Fixed-scope [AI Project Builds](/build/ai-project-builds) are another route."}]
+faq: [{"question": "Is a Custom Build really free?", "answer": "For a standard build, yes. There is no upfront development fee. We build it because the solution is reusable and FutureAcad can offer it to others. You pay for hosting and usage after go-live. An exclusive build carries a basic development fee."}, {"question": "Who owns the intellectual property and source code?", "answer": "On a standard build, the solution is built on a reusable architecture that FutureAcad can offer to others. If you want full ownership, you can ask to buy out the source code and IP rights. We'll agree the terms in writing during scoping."}, {"question": "What will hosting cost?", "answer": "You pay monthly for hosting and usage once your application is live. The amount depends on what we build and how much it is used. We'll give you a clear figure on the free scoping call, before you commit."}, {"question": "How is my data kept private?", "answer": "Our delivery follows ISO 27001. How your data is stored, who can reach it and where it is hosted are agreed with you during scoping and documented."}, {"question": "What support do I get after go-live?", "answer": "Support terms and response targets are agreed during scoping and written down, so you know what to expect from day one. Ask about them on the scoping call."}, {"question": "How fast will I hear back?", "answer": "We reply to every submitted problem within 5 business days. A free scoping call follows, and a working first version is typically ready in 6 to 8 weeks."}, {"question": "What kind of problem should I submit?", "answer": "Any operational bottleneck you think software or AI could fix, such as manual processes, missed follow-ups, slow reporting or disconnected systems. Describe what's going wrong and we'll work out whether it fits a Custom Build."}, {"question": "Can FutureAcad build something that isn't a good fit for the free model?", "answer": "Yes. If your needs are very specific or exclusive, we'll tell you plainly and discuss an exclusive build. Fixed-scope [AI Project Builds](/build/ai-project-builds) are another route."}]
 ---
 
 ## We Build Your *AI Application Free*. You Pay Only When It Runs
@@ -42,9 +42,9 @@ We build for live use, with real users and real data, not for a demo. FutureAcad
 
 Your application is deployed and hosted on cloud infrastructure that FutureAcad sets up and runs, so you don't manage servers.
 
-### Certified security practices
+### Security practices
 
-ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3 are stated compliance standards in every FutureAcad hub.
+Our delivery follows ISO 9001:2015, ISO 27001 and SEI-CMMI Level 3.
 
 ### AI built in where it helps
 
@@ -89,7 +89,7 @@ You pay monthly for hosting and usage once your application is live. The amount 
 
 ### How is my data kept private?
 
-FutureAcad states ISO 27001 compliance in every delivery hub. How your data is stored, who can reach it and where it is hosted are agreed with you during scoping and documented.
+Our delivery follows ISO 27001. How your data is stored, who can reach it and where it is hosted are agreed with you during scoping and documented.
 
 ### What support do I get after go-live?
 
