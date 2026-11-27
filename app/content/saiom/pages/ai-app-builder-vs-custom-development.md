@@ -48,7 +48,7 @@ A fair look at the five things buyers ask about most.
 
 **AI app builder:** security is shared with the platform. Check where data is stored, who can access it and what the vendor's terms say.
 
-**Custom development:** you can set access, data handling and integration rules to match your own policies. FutureAcad runs ISO 27001 compliance in every delivery hub.
+**Custom development:** you can set access, data handling and integration rules to match your own policies. FutureAcad's delivery follows ISO 27001.
 
 ### Scale
 
