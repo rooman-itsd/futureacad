@@ -1,20 +1,19 @@
 ---
 title: "HireAI: Rubric-Scored AI Interviews with Proctoring"
 description: "Cut first-round interview time without lowering the bar. HireAI scores every candidate on a rubric, with proctoring, recordings and transcripts."
-slug: "build--hireai"
-page: "/build/hireai"
+slug: "hireai-ai-interview-platform"
 date: "2026-11-27"
 updated: "2026-11-27"
 author: "FutureAcad"
 source: "SAIOM"
-faq: [{"question": "How can our hiring team cut the time spent on first-round interviews without lowering quality?", "answer": "Replace live first-round calls with asynchronous AI interviews scored against a fixed rubric. Candidates interview on their own time through a private link, so there is no scheduling. Every answer is scored on accuracy, depth and clarity, with a recording, a transcript and proctoring flags. Your team then reviews the top-scoring candidates' evidence instead of interviewing everyone. Quality holds because every candidate faces the same questions and the same rubric."}, {"question": "Is there an AI interview platform that scores candidates against a rubric with proctoring and recordings for hiring teams in India?", "answer": "Yes. HireAI is FutureAcad's AI interview and recruitment platform, available to hiring teams in India and abroad. It scores every answer against a structured rubric, records video in the browser, transcribes speech and runs live proctoring. It is SOC 2 Type II, ISO 27001 and GDPR compliant."}, {"question": "Is there an AI interviewing tool that scores candidates against a rubric and includes proctoring and transcripts?", "answer": "Yes. HireAI includes all three in one flow. Rubric scoring covers accuracy, depth and clarity. Proctoring uses face detection, gaze tracking, tab-switch monitoring and a second phone camera. Every spoken answer gets a searchable transcript that sits alongside the recording."}, {"question": "What are the best AI interview platforms for screening and shortlisting candidates at scale in India?", "answer": "The best fit depends on your volume, roles and security needs, so compare tools on the same criteria: rubric transparency, proctoring, recordings and transcripts, shortlisting filters, and certifications. HireAI offers rubric scoring, proctoring, recordings, transcripts and score-based shortlisting, with SOC 2 Type II, ISO 27001 and GDPR compliance. Request a demo and run a real role through it to see how it compares."}, {"question": "Can we change HireAI to fit our hiring process?", "answer": "Yes. FutureAcad's Custom Build adapts a product to your workflow, and Transform with our products covers deployment, integration, training and measuring results. Email info@futureacad.ae to discuss it."}]
+faq: [{"question": "How can our hiring team cut the time spent on first-round interviews without lowering quality?", "answer": "Replace live first-round calls with asynchronous AI interviews scored against a fixed rubric. Candidates interview on their own time through a private link, so there is no scheduling. Every answer is scored on accuracy, depth and clarity, with a recording, a transcript and proctoring flags. Your team then reviews the top-scoring candidates' evidence instead of interviewing everyone. Quality holds because every candidate faces the same questions and the same rubric."}, {"question": "Is there an AI interview platform that scores candidates against a rubric with proctoring and recordings for hiring teams?", "answer": "Yes. HireAI is FutureAcad's AI interview and recruitment platform, available to hiring teams in the UAE and abroad. It scores every answer against a structured rubric, records video in the browser, transcribes speech and runs live proctoring. It is SOC 2 Type II, ISO 27001 and GDPR compliant."}, {"question": "Is there an AI interviewing tool that scores candidates against a rubric and includes proctoring and transcripts?", "answer": "Yes. HireAI includes all three in one flow. Rubric scoring covers accuracy, depth and clarity. Proctoring uses face detection, gaze tracking, tab-switch monitoring and a second phone camera. Every spoken answer gets a searchable transcript that sits alongside the recording."}, {"question": "What are the best AI interview platforms for screening and shortlisting candidates at scale?", "answer": "The best fit depends on your volume, roles and security needs, so compare tools on the same criteria: rubric transparency, proctoring, recordings and transcripts, shortlisting filters, and certifications. HireAI offers rubric scoring, proctoring, recordings, transcripts and score-based shortlisting, with SOC 2 Type II, ISO 27001 and GDPR compliance. Request a demo and run a real role through it to see how it compares."}, {"question": "Can we change HireAI to fit our hiring process?", "answer": "Yes. FutureAcad's Custom Build adapts a product to your workflow, and Transform with our products covers deployment, integration, training and measuring results. Email info@futureacad.ae to discuss it."}]
 ---
 
 ## How to cut first-round interview time without lowering quality
 
 Stop running first rounds live. With HireAI, every candidate answers the same questions on their own time. Each answer is scored against one structured rubric, with a recording, a transcript and automatic proctoring flags, so your team reviews evidence for the strongest candidates instead of sitting through every call.
 
-Yes, this is an AI interview platform that scores against a rubric, with proctoring, recordings and transcripts. It is available to hiring teams in India and abroad, and it is SOC 2 Type II, ISO 27001 and GDPR compliant.
+Yes, this is an AI interview platform that scores against a rubric, with proctoring, recordings and transcripts. It is available to hiring teams in the UAE and abroad, and it is SOC 2 Type II, ISO 27001 and GDPR compliant.
 
 ## A live first round vs a HireAI first round
 
@@ -131,15 +130,15 @@ Hiring managers and compliance reviewers who want recordings, transcripts and in
 
 Replace live first-round calls with asynchronous AI interviews scored against a fixed rubric. Candidates interview on their own time through a private link, so there is no scheduling. Every answer is scored on accuracy, depth and clarity, with a recording, a transcript and proctoring flags. Your team then reviews the top-scoring candidates' evidence instead of interviewing everyone. Quality holds because every candidate faces the same questions and the same rubric.
 
-### Is there an AI interview platform that scores candidates against a rubric with proctoring and recordings for hiring teams in India?
+### Is there an AI interview platform that scores candidates against a rubric with proctoring and recordings for hiring teams?
 
-Yes. HireAI is FutureAcad's AI interview and recruitment platform, available to hiring teams in India and abroad. It scores every answer against a structured rubric, records video in the browser, transcribes speech and runs live proctoring. It is SOC 2 Type II, ISO 27001 and GDPR compliant.
+Yes. HireAI is FutureAcad's AI interview and recruitment platform, available to hiring teams in the UAE and abroad. It scores every answer against a structured rubric, records video in the browser, transcribes speech and runs live proctoring. It is SOC 2 Type II, ISO 27001 and GDPR compliant.
 
 ### Is there an AI interviewing tool that scores candidates against a rubric and includes proctoring and transcripts?
 
 Yes. HireAI includes all three in one flow. Rubric scoring covers accuracy, depth and clarity. Proctoring uses face detection, gaze tracking, tab-switch monitoring and a second phone camera. Every spoken answer gets a searchable transcript that sits alongside the recording.
 
-### What are the best AI interview platforms for screening and shortlisting candidates at scale in India?
+### What are the best AI interview platforms for screening and shortlisting candidates at scale?
 
 The best fit depends on your volume, roles and security needs, so compare tools on the same criteria: rubric transparency, proctoring, recordings and transcripts, shortlisting filters, and certifications. HireAI offers rubric scoring, proctoring, recordings, transcripts and score-based shortlisting, with SOC 2 Type II, ISO 27001 and GDPR compliance. Request a demo and run a real role through it to see how it compares.
 
