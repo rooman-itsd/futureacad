@@ -14,15 +14,15 @@
   var WELCOME = "Hi! I'm Fu, your friendly FutureAcad guide. Welcome! Let me take you on a quick tour and show you what we do.";
   // pos = [x, y] anchor of Fu on screen: 0 = left/top edge, 1 = right/bottom edge.
   var STEPS = [
-    { id: 'scene2', pos: [0.03, 0.70], text: "FutureAcad is a deep tech company, based in Dubai and established in 2025. We pair frontier AI with enterprise engineering to build systems that run in production." },
-    { id: 'scene-caps', pos: [0.97, 0.18], text: "We work in three disciplines: AI applications, AI and IT solutions, and IT staffing. Three ways to work with us, and one outcome." },
-    { id: 'scene3', pos: [0.03, 0.22], text: "Behind the software is the infrastructure. We design and run the cloud, data centres and systems your applications need." },
-    { id: 'scene4', pos: [0.97, 0.70], text: "Talent has no borders. Pre-trained, industry-ready engineers help you build faster, through dedicated pods or staffing." },
-    { id: 'scene-process', pos: [0.50, 0.97], text: "Here is how it works. You share a problem, we scope it with you, then build, launch and support it. Builds run for 4, 8 or 24 weeks." },
-    { id: 'scene5', pos: [0.03, 0.95], text: "We focus on outcomes, not promises. These are the numbers behind what we have shipped." },
-    { id: 'scene-eco', pos: [0.97, 0.30], text: "These platforms are already live, including an AI interview platform, a voice agent, an AI tutor and a campus system." },
-    { id: 'scene-why', pos: [0.03, 0.45], text: "We are a team that has shipped before, with delivery hubs in Dubai, Bengaluru and Singapore." },
-    { id: 'scene6', pos: [0.97, 0.80], text: "That is the tour! Tell us the problem you want solved. We reply within 5 business days, and the scoping call is free." }
+    { id: 'scene2', pos: [0.03, 0.12], text: "FutureAcad is a deep tech company, based in Dubai and established in 2025. We pair frontier AI with enterprise engineering to build systems that run in production." },
+    { id: 'scene-caps', pos: [0.97, 0.92], text: "We work in three disciplines: AI applications, AI and IT solutions, and IT staffing. Three ways to work with us, and one outcome." },
+    { id: 'scene3', pos: [0.03, 0.92], text: "Behind the software is the infrastructure. We design and run the cloud, data centres and systems your applications need." },
+    { id: 'scene4', pos: [0.97, 0.12], text: "Talent has no borders. Pre-trained, industry-ready engineers help you build faster, through dedicated pods or staffing." },
+    { id: 'scene-process', pos: [0.97, 0.92], text: "Here is how it works. You share a problem, we scope it with you, then build, launch and support it. Builds run for 4, 8 or 24 weeks." },
+    { id: 'scene5', pos: [0.03, 0.12], text: "We focus on outcomes, not promises. These are the numbers behind what we have shipped." },
+    { id: 'scene-eco', pos: [0.97, 0.12], text: "These platforms are already live, including an AI interview platform, a voice agent, an AI tutor and a campus system." },
+    { id: 'scene-why', pos: [0.03, 0.92], text: "We are a team that has shipped before, with delivery hubs in Dubai, Bengaluru and Singapore." },
+    { id: 'scene6', pos: [0.97, 0.88], text: "That is the tour! Tell us the problem you want solved. We reply within 5 business days, and the scoping call is free." }
   ];
   var HOME = [1, 1];
 
@@ -33,6 +33,16 @@
                 token: 0, timer: null, userScrolled: false, dismissed: false, speaking: false, kick: 0,
                 px: 1, py: 1, lean: 0, moveUntil: 0 };
 
+  var ICON = {
+    mic: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4M9 21h6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
+    send: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8-6 16-2-6z" fill="currentColor"/></svg>',
+    mute: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
+    unmute: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    replay: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M4 4v4.5h4.5" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.5" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1.5" fill="currentColor"/></svg>',
+    play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5l12 7-12 7z" fill="currentColor"/></svg>'
+  };
+
   /* ---------- DOM ---------- */
   var root = document.createElement('div');
   root.className = 'fu';
@@ -42,11 +52,15 @@
     '<div class="fu__bubble" id="fuBubble" role="status" aria-live="polite" hidden>' +
       '<button class="fu__x" type="button" data-a="exit" aria-label="Close Fu">&times;</button>' +
       '<p class="fu__text" id="fuText"></p>' +
+      '<span class="fu__puff fu__puff--a" aria-hidden="true"></span><span class="fu__puff fu__puff--b" aria-hidden="true"></span>' +
       '<div class="fu__row" id="fuActions"></div>' +
+      '<form class="fu__ask" id="fuAsk" autocomplete="off"><input id="fuQ" type="text" maxlength="200" placeholder="Ask Fu…" aria-label="Ask Fu a question" />' +
+        '<button type="submit" aria-label="Send question">' + ICON.send + '</button></form>' +
       '<div class="fu__ctrl" id="fuCtrl">' +
-        '<button type="button" data-a="mute" id="fuMute" aria-label="Mute voice" title="Mute / Unmute">Mute</button>' +
-        '<button type="button" data-a="replay" aria-label="Replay narration" title="Replay">Replay</button>' +
-        '<button type="button" data-a="pause" id="fuPause" aria-label="Pause tour" title="Pause / Resume">Pause</button>' +
+        '<button type="button" data-a="mic" id="fuMic" aria-label="Talk to Fu" title="Talk to Fu">' + ICON.mic + '</button>' +
+        '<button type="button" data-a="mute" id="fuMute" aria-label="Mute voice" title="Mute / Unmute">' + ICON.mute + '</button>' +
+        '<button type="button" data-a="replay" aria-label="Replay narration" title="Replay">' + ICON.replay + '</button>' +
+        '<button type="button" data-a="pause" id="fuPause" aria-label="Pause tour" title="Pause / Resume">' + ICON.pause + '</button>' +
       '</div>' +
     '</div>' +
     '<button class="fu__bot" type="button" id="fuBot" aria-label="Open Fu, your guide"></button>';
@@ -56,7 +70,7 @@
       actions = root.querySelector('#fuActions'), muteBtn = root.querySelector('#fuMute'),
       pauseBtn = root.querySelector('#fuPause'), bot = root.querySelector('#fuBot');
   if (!synth) muteBtn.hidden = true;
-  muteBtn.textContent = state.muted ? 'Unmute' : 'Mute';
+  muteBtn.innerHTML = state.muted ? ICON.unmute : ICON.mute; muteBtn.setAttribute('aria-label', state.muted ? 'Unmute voice' : 'Mute voice');
 
   function setSpeaking(on) { state.speaking = !!on; root.classList.toggle('is-speaking', !!on); }
   function show(text, btns) {
@@ -83,178 +97,92 @@
   }
   window.addEventListener('resize', function () { place(state.px, state.py); });
 
-  /* ---------- 3D robot (Orange Robot model: rounded TV head, black screen face, glowing eyes, curved antenna, orange gauntlets & boots) ---------- */
+  /* ---------- 3D robot (modelled on the Blender reference: round head, yellow eyes, navy accents) ---------- */
   function build3D() {
     if (!window.THREE) return false;
-    var T = THREE, W = 250, H = 300, cv = document.createElement('canvas');
+    var T = THREE, W = 170, H = 210, cv = document.createElement('canvas');
     var renderer;
     try { renderer = new T.WebGLRenderer({ canvas: cv, alpha: true, antialias: true }); } catch (e) { return false; }
     if (!renderer.getContext()) return false;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); renderer.setSize(W, H, false);
-    renderer.outputEncoding = T.sRGBEncoding; renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.15;
+    renderer.outputEncoding = T.sRGBEncoding; renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
     cv.className = 'fu__cv'; cv.setAttribute('aria-hidden', 'true'); bot.appendChild(cv);
     var scene = new T.Scene(), cam = new T.PerspectiveCamera(30, W / H, 0.1, 50);
-    cam.position.set(0, 0.45, 7.2); cam.lookAt(0, 0.42, 0);
+    cam.position.set(0, 0.6, 7.4); cam.lookAt(0, 0.55, 0);
+    scene.add(new T.HemisphereLight(0xffffff, 0x9aa6c0, 1.0));
+    var key = new T.DirectionalLight(0xffffff, 1.3); key.position.set(-2.5, 4, 5); scene.add(key);
+    var fill = new T.DirectionalLight(0xe8eeff, 0.5); fill.position.set(3, 1, 3); scene.add(fill);
 
-    // Warm, studio-like lighting matching the character render
-    scene.add(new T.HemisphereLight(0xfff8f0, 0x6e523e, 1.1));
-    var key = new T.DirectionalLight(0xfff2e5, 1.5); key.position.set(3, 4.2, 5); scene.add(key);
-    var fill = new T.DirectionalLight(0xffecd6, 0.65); fill.position.set(-3.2, 1.2, 3); scene.add(fill);
-    var rim = new T.PointLight(0xff8811, 1.1, 12); rim.position.set(0, 2.2, -2.5); scene.add(rim);
-
-    function phys(c, o) { return new T.MeshPhysicalMaterial(Object.assign({ color: c, roughness: 0.35, metalness: 0.04, clearcoat: 0.25, clearcoatRoughness: 0.2 }, o || {})); }
+    function phys(c, o) { return new T.MeshPhysicalMaterial(Object.assign({ color: c, roughness: 0.18, metalness: 0.05, clearcoat: 1, clearcoatRoughness: 0.06 }, o || {})); }
     function basic(c, o) { return new T.MeshBasicMaterial(Object.assign({ color: c }, o || {})); }
-    function mesh(g, m, x, y, z) { var o = new T.Mesh(g, m); o.position.set(x || 0, y || 0, z || 0); return o; }
-    function ball(r, m, x, y, z, sx, sy, sz) { var o = mesh(new T.SphereGeometry(r, 40, 30), m, x, y, z); o.scale.set(sx || 1, sy || 1, sz || 1); return o; }
-    function glowTex() {
-      var c = document.createElement('canvas'); c.width = c.height = 128; var g = c.getContext('2d');
-      var r = g.createRadialGradient(64, 64, 0, 64, 64, 64);
-      r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(0.35, 'rgba(255,255,255,.45)'); r.addColorStop(1, 'rgba(255,255,255,0)');
-      g.fillStyle = r; g.fillRect(0, 0, 128, 128); return new T.CanvasTexture(c);
-    }
+    function ball(r, m, x, y, z, sx, sy, sz) { var o = new T.Mesh(new T.SphereGeometry(r, 40, 30), m); o.position.set(x || 0, y || 0, z || 0); o.scale.set(sx || 1, sy || 1, sz || 1); return o; }
+    function cyl(r1, r2, h, m, x, y, z) { var o = new T.Mesh(new T.CylinderGeometry(r1, r2, h, 24), m); o.position.set(x || 0, y || 0, z || 0); return o; }
+    function torus(r, t, m, x, y, z, arc) { var o = new T.Mesh(new T.TorusGeometry(r, t, 12, 40, arc || Math.PI * 2), m); o.position.set(x || 0, y || 0, z || 0); return o; }
+    function glowTex() { var c = document.createElement('canvas'); c.width = c.height = 128; var g = c.getContext('2d');
+      var r = g.createRadialGradient(64, 64, 0, 64, 64, 64); r.addColorStop(0, 'rgba(255,225,90,1)'); r.addColorStop(0.35, 'rgba(255,215,80,.4)'); r.addColorStop(1, 'rgba(255,215,80,0)');
+      g.fillStyle = r; g.fillRect(0, 0, 128, 128); return new T.CanvasTexture(c); }
     var GT = glowTex();
     function glow(size, x, y, z, op) { var s = new T.Sprite(new T.SpriteMaterial({ map: GT, blending: T.AdditiveBlending, transparent: true, depthWrite: false, opacity: op })); s.scale.set(size, size, 1); s.position.set(x, y, z); return s; }
-
-    // Color palette based directly on the reference robot
-    var orange = phys(0xf97316, { roughness: 0.34, metalness: 0.04, clearcoat: 0.3, clearcoatRoughness: 0.2 }),
-        dark = phys(0x1a1c22, { roughness: 0.48, metalness: 0.26 }),
-        screenBezel = phys(0x16181d, { roughness: 0.42, metalness: 0.2 }),
-        screenGlass = phys(0x0a0c10, { roughness: 0.06, metalness: 0.35, clearcoat: 1 }),
-        white = basic(0xffffff);
-
-    function ribs(n, r, h, y, parent) { // dark ribbed segmented joints (neck / waist / limbs)
-      for (var i = 0; i < n; i++) {
-        var rg = mesh(new T.TorusGeometry(r, h, 8, 28), dark, 0, y - i * h * 2.1, 0);
-        rg.rotation.x = Math.PI / 2; parent.add(rg);
-      }
-    }
+    var white = phys(0xe9eaee), navy = phys(0x23304f, { roughness: 0.3 }), chrome = phys(0xc9ccd3, { metalness: 0.95, roughness: 0.12 }),
+        visorM = phys(0x07080c, { roughness: 0.03, metalness: 0.3 }), yellow = basic(0xfff07a), pinkM = basic(0xf7b3b3);
 
     var root3 = new T.Group(); scene.add(root3);
+    var shadow = new T.Mesh(new T.CircleGeometry(0.85, 40), basic(0x2a3550, { transparent: true, opacity: 0.16, depthWrite: false })); shadow.rotation.x = -Math.PI / 2; shadow.position.y = -1.18; scene.add(shadow);
 
-    // Warm floor shadow + subtle amber floor ring
-    var shadow = mesh(new T.CircleGeometry(0.92, 40), basic(0x3d281a, { transparent: true, opacity: 0.22, depthWrite: false }), 0, -1.32, 0);
-    shadow.rotation.x = -Math.PI / 2; scene.add(shadow);
-    var ring = mesh(new T.TorusGeometry(0.8, 0.012, 8, 80), basic(0xf97316, { transparent: true, opacity: 0.65 }), 0, -1.31, 0);
-    ring.rotation.x = Math.PI / 2; scene.add(ring);
+    // body: rounded egg with navy belly patch and yellow chest light
+    var body = ball(0.5, white, 0, -0.1, 0, 0.92, 1.05, 0.86); root3.add(body);
+    var belly = ball(0.3, navy, 0.0, -0.3, 0.27, 1.05, 0.95, 0.5); root3.add(belly);
+    root3.add(ball(0.1, yellow, -0.06, 0.08, 0.42, 1, 1, 0.4));
+    var chestRing = torus(0.11, 0.018, chrome, -0.06, 0.08, 0.43, Math.PI * 1.4); chestRing.rotation.z = 0.6; root3.add(chestRing);
+    var chestGlow = glow(0.45, -0.06, 0.08, 0.46, 0.7); root3.add(chestGlow);
+    root3.add(ball(0.24, navy, 0, -0.6, 0, 1.25, 0.45, 1));
 
-    // Pelvis & Waist & Torso
-    root3.add(ball(0.26, orange, 0, -0.32, 0, 1.1, 0.72, 0.85));
-    ribs(3, 0.15, 0.025, -0.08, root3);
-
-    // Rounded trapezoid orange chest
-    var chest = ball(0.36, orange, 0, 0.16, 0, 1.12, 0.88, 0.82); root3.add(chest);
-
-    // Chest horizontal dark pill slot & lower groove line from reference image
-    var chestSlot = ball(0.12, dark, 0, 0.21, 0.30, 1.45, 0.52, 0.15); root3.add(chestSlot);
-    var chestSlotInner = ball(0.10, phys(0x0e1014), 0, 0.21, 0.31, 1.38, 0.48, 0.15); root3.add(chestSlotInner);
-    var chestLine = mesh(new T.BoxGeometry(0.24, 0.02, 0.02), dark, 0, 0.10, 0.30); root3.add(chestLine);
-
-    // Corrugated dark neck
-    ribs(3, 0.11, 0.024, 0.48, root3);
-
-    // Arms: shoulder ball, corrugated upper arm, elbow, chunky orange forearm gauntlet, dark robot hand
-    function arm(s) {
-      var g = new T.Group(); g.position.set(s * 0.48, 0.22, 0); root3.add(g);
-      g.add(ball(0.085, dark, 0, 0, 0));
-      g.add(mesh(new T.CylinderGeometry(0.045, 0.045, 0.14, 14), dark, 0, -0.10, 0));
-      g.add(ball(0.065, dark, 0, -0.20, 0));
-      // Orange forearm gauntlet
-      g.add(ball(0.12, orange, 0, -0.36, 0, 1.05, 1.35, 1.05));
-      g.add(mesh(new T.CylinderGeometry(0.05, 0.055, 0.05, 12), dark, 0, -0.52, 0));
-
-      // Hand with dark articulated fingers and orange backplate
-      var hand = new T.Group(); hand.position.set(0, -0.58, 0); g.add(hand);
-      hand.add(ball(0.06, dark, 0, 0, 0, 1.1, 0.9, 0.8));
-      hand.add(ball(0.05, orange, 0, 0.01, 0.03, 1, 0.8, 0.5));
-      for (var f = 0; f < 3; f++) {
-        var fg = new T.Group(); fg.position.set((f - 1) * 0.042, 0, 0.02); fg.rotation.x = 0.32; hand.add(fg);
-        fg.add(mesh(new T.CylinderGeometry(0.017, 0.019, 0.07, 8), dark, 0, -0.035, 0));
-        fg.add(ball(0.019, dark, 0, -0.075, 0));
-        fg.add(mesh(new T.CylinderGeometry(0.015, 0.017, 0.05, 8), dark, 0, -0.105, 0.01));
-      }
-      var th = mesh(new T.CylinderGeometry(0.016, 0.018, 0.07, 8), dark, -s * 0.05, -0.02, 0.04);
-      th.rotation.z = s * 0.8; hand.add(th);
-      return g;
-    }
-    var armR = arm(1), armL = arm(-1); armL.rotation.z = -0.12;
-
-    // Legs: dark hip joint, corrugated thigh, knee, shin, chunky orange boots with dark soles
+    // legs with glowing ankle rings and big round feet
     var legs = [];
     [-1, 1].forEach(function (s) {
-      var g = new T.Group(); g.position.set(s * 0.18, -0.44, 0); root3.add(g); legs.push(g);
-      g.add(ball(0.08, dark, 0, 0, 0));
-      g.add(mesh(new T.CylinderGeometry(0.055, 0.055, 0.12, 14), dark, 0, -0.10, 0));
-      g.add(ball(0.07, dark, 0, -0.20, 0));
-      g.add(mesh(new T.CylinderGeometry(0.05, 0.055, 0.10, 14), dark, 0, -0.28, 0));
-      g.add(ball(0.075, dark, 0, -0.38, 0));
-      // Chunky orange boot with dark black sole
-      g.add(ball(0.16, orange, 0, -0.50, 0.06, 1.05, 0.72, 1.4));
-      g.add(ball(0.165, dark, 0, -0.57, 0.06, 1.08, 0.24, 1.45));
+      var g = new T.Group(); g.position.set(s * 0.2, -0.62, 0); root3.add(g); legs.push(g);
+      g.add(cyl(0.11, 0.11, 0.36, white, 0, -0.2, 0));
+      g.add(ball(0.11, navy, 0, -0.03, 0, 1, 0.5, 1));
+      var ring = torus(0.13, 0.02, yellow, 0, -0.4, 0.02); ring.rotation.x = Math.PI / 2; g.add(ring);
+      g.add(glow(0.4, 0, -0.4, 0.1, 0.55));
+      g.add(ball(0.18, white, 0, -0.48, 0.08, 1, 0.55, 1.35));
     });
 
-    // Head: rounded TV monitor shape, black screen face, glowing oval eyes, curved antenna, ear cups
-    var head = new T.Group(); head.position.set(0, 1.08, 0); root3.add(head);
-
-    // Orange rounded monitor head shell
-    head.add(ball(0.68, orange, 0, 0, 0, 1.18, 0.98, 0.95));
-
-    // Subtle seam line running down the head
-    var seam = mesh(new T.TorusGeometry(0.68, 0.005, 6, 60, Math.PI), dark, 0, 0.0, 0);
-    seam.rotation.y = Math.PI / 2; seam.scale.set(0.95, 0.98, 1.18); head.add(seam);
-
-    // Dark screen bezel and glossy curved faceplate
-    var bezel = ball(0.53, screenBezel, 0, -0.02, 0.32, 1.20, 0.76, 0.58); head.add(bezel);
-    var screen = ball(0.52, screenGlass, 0, -0.02, 0.34, 1.18, 0.73, 0.56); head.add(screen);
-
-    // Screen light reflection
-    var shine = mesh(new T.PlaneGeometry(0.48, 0.08), basic(0xffffff, { transparent: true, opacity: 0.12, depthWrite: false }), -0.18, 0.22, 0.68);
-    shine.rotation.z = 0.1; head.add(shine);
-
-    // Two small speaker/screw holes on bottom right of screen bezel (from reference image)
-    head.add(ball(0.016, dark, 0.40, -0.22, 0.58));
-    head.add(ball(0.016, dark, 0.46, -0.22, 0.58));
-
-    // Two vertically oval glowing white eyes
-    var eyes = new T.Group(); eyes.position.set(0, 0.02, 0.66); head.add(eyes);
-    [-1, 1].forEach(function (s) {
-      eyes.add(ball(0.075, white, s * 0.26, 0, 0, 0.75, 1.35, 0.1));
-      eyes.add(glow(0.32, s * 0.26, 0, 0.02, 0.55));
-    });
-
-    // Subtle mouth line (lights up when speaking)
-    var mouth = mesh(new T.TorusGeometry(0.055, 0.01, 8, 20, Math.PI), white, 0, -0.15, 0.66);
-    mouth.rotation.z = Math.PI; mouth.visible = false; head.add(mouth);
-
-    // Side headphone/ear cups on left and right
-    [-1, 1].forEach(function (s) {
-      var ear = mesh(new T.CylinderGeometry(0.24, 0.24, 0.14, 32), dark, s * 0.79, -0.02, 0);
-      ear.rotation.z = Math.PI / 2; head.add(ear);
-      var earCap = ball(0.23, dark, s * 0.87, -0.02, 0, 0.35, 1, 1);
-      head.add(earCap);
-    });
-
-    // Top center curved gooseneck antenna with round ball tip (from reference image)
-    var antBase = mesh(new T.CylinderGeometry(0.05, 0.07, 0.05, 16), dark, 0, 0.66, 0); head.add(antBase);
-    if (T.CatmullRomCurve3 && T.TubeGeometry) {
-      var antCurve = new T.CatmullRomCurve3([
-        new T.Vector3(0, 0.68, 0),
-        new T.Vector3(0, 0.86, 0),
-        new T.Vector3(0.07, 0.98, -0.03),
-        new T.Vector3(0.05, 1.10, -0.02)
-      ]);
-      var antTube = mesh(new T.TubeGeometry(antCurve, 16, 0.024, 8, false), dark);
-      head.add(antTube);
-    } else {
-      var antStraight = mesh(new T.CylinderGeometry(0.022, 0.024, 0.44, 12), dark, 0.03, 0.90, -0.01);
-      head.add(antStraight);
+    // arms: navy shoulder, white tube, silver ball hand
+    function arm(s) {
+      var g = new T.Group(); g.position.set(s * 0.46, 0.12, 0); root3.add(g);
+      g.add(ball(0.13, navy, 0, 0, 0));
+      g.add(cyl(0.065, 0.065, 0.42, white, 0, -0.24, 0));
+      g.add(ball(0.1, chrome, 0, -0.5, 0));
+      return g;
     }
-    head.add(ball(0.055, dark, 0.05, 1.12, -0.02)); // Antenna ball tip
+    var armR = arm(1), armL = arm(-1);
+
+    // head: big glossy sphere, black visor, yellow eyes and smile, blush, ear rings, antenna
+    var head = new T.Group(); head.position.set(0, 0.95, 0); root3.add(head);
+    head.add(ball(0.66, white, 0, 0, 0, 1.03, 0.95, 1));
+    head.add(ball(0.5, visorM, 0, -0.02, 0.36, 1.12, 0.8, 0.66));
+    var eyes = new T.Group(); eyes.position.set(0, 0.07, 0.69); head.add(eyes);
+    var eyeBlack = basic(0x000000), eyeShine = basic(0xffffff);
+    [-1, 1].forEach(function (s) {
+      eyes.add(ball(0.13, yellow, s * 0.21, 0, -0.01, 0.84, 1.1, 0.3));      // yellow rim
+      eyes.add(ball(0.1, eyeBlack, s * 0.21, -0.005, 0.02, 0.84, 1.1, 0.3)); // black pupil
+      eyes.add(ball(0.028, eyeShine, s * 0.21 - 0.03, 0.04, 0.05));          // sparkle
+    });
+    var mouth = torus(0.08, 0.018, yellow, 0, -0.16, 0.69, Math.PI); mouth.rotation.z = Math.PI; head.add(mouth);
+    [-1, 1].forEach(function (s) { head.add(ball(0.05, pinkM, s * 0.38, -0.12, 0.54, 1.3, 0.8, 0.3)); });
+    var ears = [];
+    [-1, 1].forEach(function (s) {
+      var c = cyl(0.17, 0.17, 0.1, navy, s * 0.67, 0, 0); c.rotation.z = Math.PI / 2; head.add(c);
+      var r = torus(0.11, 0.025, yellow, s * 0.73, 0, 0); r.rotation.y = Math.PI / 2; head.add(r);
+      var gl = glow(0.45, s * 0.75, 0, 0, 0.5); head.add(gl); ears.push(gl);
+    });
+    head.add(cyl(0.012, 0.012, 0.32, chrome, 0, 0.78, 0));
+    head.add(ball(0.07, yellow, 0, 0.96, 0));
+    var antGlow = glow(0.4, 0, 0.96, 0, 0.8); head.add(antGlow);
 
     var mx = 0, my = 0;
-    window.addEventListener('pointermove', function (e) {
-      mx = (e.clientX / innerWidth - 0.5) * 2;
-      my = (e.clientY / innerHeight - 0.5) * 2;
-    }, { passive: true });
+    window.addEventListener('pointermove', function (e) { mx = (e.clientX / innerWidth - 0.5) * 2; my = (e.clientY / innerHeight - 0.5) * 2; }, { passive: true });
 
     var t0 = performance.now(), blinkAt = 2000, last = 0, born = 0;
     function frame(now) {
@@ -262,43 +190,23 @@
       if (document.hidden || !root.classList.contains('is-in')) { born = 0; return; }
       if (now - last < 24) return; last = now; if (!born) born = now;
       var t = (now - t0) / 1000, moving = now < state.moveUntil, age = (now - born) / 1000;
-      var k = Math.min(1, age / 0.9);
-      root3.scale.setScalar(k < 1 ? Math.max(0.01, (1 - Math.pow(1 - k, 3)) * (1 + Math.sin(k * Math.PI * 1.5) * 0.14 * (1 - k))) : 1);
-      root3.position.y = Math.sin(t * 2) * 0.035 + (moving ? 0.12 : 0);
-      chest.scale.y = 0.88 + Math.sin(t * 2) * 0.015; // breathing
-
-      root3.rotation.y += ((reduced ? 0 : mx * 0.38 + (moving ? state.lean * 0.5 : 0)) - root3.rotation.y) * 0.08;
-      root3.rotation.z += ((moving ? -state.lean * 0.1 : 0) - root3.rotation.z) * 0.1;
-      head.rotation.y += (mx * 0.35 - head.rotation.y) * 0.1;
-      head.rotation.x += (my * 0.15 - head.rotation.x) * 0.1;
-      head.rotation.z = Math.sin(t * 1.3) * 0.03 + (state.speaking ? Math.sin(t * 5) * 0.04 : 0);
-
+      var k = Math.min(1, age / 0.9); root3.scale.setScalar(k < 1 ? Math.max(0.01, (1 - Math.pow(1 - k, 3)) * (1 + Math.sin(k * Math.PI * 1.5) * 0.14 * (1 - k))) : 1);
+      root3.position.y = Math.sin(t * 2.2) * 0.05 + (moving ? 0.15 : 0);
+      root3.rotation.y += ((reduced ? 0 : -0.35 + mx * 0.35 + (moving ? state.lean * 0.5 : 0)) - root3.rotation.y) * 0.08;
+      root3.rotation.z += ((moving ? -state.lean * 0.12 : 0) - root3.rotation.z) * 0.1;
+      head.rotation.y += (mx * 0.3 - head.rotation.y) * 0.1; head.rotation.x += (my * 0.15 - head.rotation.x) * 0.1;
+      head.rotation.z = Math.sin(t * 1.3) * 0.04 + (state.speaking ? Math.sin(t * 5) * 0.05 : 0);
       var waving = root.classList.contains('is-waving');
-      var armT = waving ? 2.4 + Math.sin(t * 9) * 0.3 : (state.speaking ? 0.9 + Math.sin(t * 3) * 0.25 : 0.12 + Math.sin(t * 1.4) * 0.03);
+      var armT = waving ? 2.4 + Math.sin(t * 9) * 0.3 : (state.speaking ? 0.8 + Math.sin(t * 3) * 0.25 : 0.35 + Math.sin(t * 1.4) * 0.04);
       armR.rotation.z += (armT - armR.rotation.z) * 0.14;
-      armL.rotation.z = -0.12 - Math.sin(t * 1.4) * 0.03;
-      armL.rotation.x = state.speaking ? Math.sin(t * 2.6) * 0.2 : 0;
-
-      legs.forEach(function (l, n) {
-        l.rotation.x += ((moving ? (n ? 0.4 : -0.4) * Math.sin(t * 8) : 0) - l.rotation.x) * 0.15;
-      });
-
+      armL.rotation.z = -0.35 - Math.sin(t * 1.4) * 0.04 - (state.speaking ? Math.abs(Math.sin(t * 2.4)) * 0.3 : 0);
+      legs.forEach(function (l, n) { l.rotation.x += ((moving ? (n ? 0.4 : -0.4) * Math.sin(t * 8) : 0) - l.rotation.x) * 0.15; });
       state.kick *= 0.82;
       var osc = Math.abs(Math.sin(t * 17));
-      mouth.visible = state.speaking;
-      if (state.speaking) {
-        mouth.scale.set(1, 1 + 1.6 * osc + state.kick, 1);
-      }
-
-      if (now > blinkAt) {
-        eyes.scale.y = 0.08;
-        if (now > blinkAt + 120) {
-          eyes.scale.y = 1;
-          blinkAt = now + 2200 + Math.random() * 2600;
-        }
-      }
-
-      ring.scale.setScalar(1 + 0.04 * Math.sin(t * 2.4));
+      mouth.scale.set(1, state.speaking ? 1 + 1.7 * osc + state.kick : 1, 1);
+      if (now > blinkAt) { eyes.scale.y = 0.1; if (now > blinkAt + 120) { eyes.scale.y = 1; blinkAt = now + 2200 + Math.random() * 2600; } }
+      var pulse = 0.7 + 0.3 * Math.sin(t * 3) + (state.speaking ? 0.2 : 0);
+      ears.forEach(function (g) { g.material.opacity = 0.25 + 0.35 * pulse; }); antGlow.material.opacity = 0.4 + 0.4 * pulse; chestGlow.material.opacity = 0.4 + 0.4 * pulse;
       renderer.render(scene, cam);
     }
     requestAnimationFrame(frame);
@@ -318,7 +226,8 @@
     if (!synth) return;
     var vs = synth.getVoices() || [];
     var en = vs.filter(function (v) { return /^en(-|_|$)/i.test(v.lang); });
-    var prefs = [/natural/i, /google uk english female/i, /google us english/i, /aria|jenny|sonia|libby/i, /samantha|karen|serena|moira/i, /female/i];
+    // child voices first (Edge ships 'Ana' and 'Maisie'), then bright female voices raised in pitch
+    var prefs = [/ana/i, /maisie/i, /child|kid/i, /jenny|aria|sonia|libby/i, /google uk english female/i, /google us english/i, /samantha|karen|serena|moira/i, /female/i, /natural/i];
     for (var i = 0; i < prefs.length; i++) { var m = en.filter(function (v) { return prefs[i].test(v.name); })[0]; if (m) { voice = m; return; } }
     voice = en[0] || null;
   }
@@ -334,7 +243,8 @@
     if (!synth || state.muted || !state.voiceUnlocked) { if (!state.muted && synth && !state.voiceUnlocked) needEnable(); silent(); return; }
     var u = new SpeechSynthesisUtterance(text);
     if (voice) { u.voice = voice; u.lang = voice.lang; } else { u.lang = 'en-US'; }
-    u.rate = 1.03; u.pitch = 1.45; u.volume = 1;
+    var kid = voice && /ana|maisie|child|kid/i.test(voice.name);
+    u.rate = kid ? 1.05 : 1.1; u.pitch = kid ? 1.2 : 1.9; u.volume = 1; // child-like: high, bright, slightly quick
     var started = false;
     u.onstart = function () { started = true; if (my === state.token) setSpeaking(true); };
     u.onboundary = function () { state.kick = 1.2; };
@@ -389,16 +299,69 @@
 
   function pauseTour(msg) {
     if (!state.running && state.step < 0) return;
-    state.paused = true; stopVoice(); clearTimeout(state.timer); pauseBtn.textContent = 'Resume'; pauseBtn.setAttribute('aria-label', 'Resume tour');
+    state.paused = true; stopVoice(); clearTimeout(state.timer); pauseBtn.innerHTML = ICON.play; pauseBtn.setAttribute('aria-label', 'Resume tour');
     if (msg) show(msg, [{ a: 'resume', t: 'Continue tour' }, { a: 'exit', t: "I'll explore myself", alt: true }]);
   }
   function resumeTour() {
-    state.paused = false; pauseBtn.textContent = 'Pause'; pauseBtn.setAttribute('aria-label', 'Pause tour');
+    state.paused = false; pauseBtn.innerHTML = ICON.pause; pauseBtn.setAttribute('aria-label', 'Pause tour');
     runStep(Math.max(0, state.step));
   }
   function exitTour() {
     state.dismissed = true; state.running = false; stopVoice(); clearTimeout(state.timer);
     bubble.hidden = true; root.classList.add('is-min'); place(HOME[0], HOME[1], true);
+  }
+
+  /* ---------- talk to Fu: answers come only from FutureAcad's own facts ---------- */
+  var KB = [
+    { k: ['what is futureacad', 'who are you', 'about', 'company', 'what do you do', 'futureacad'], a: "FutureAcad is a deep tech company based in Meydan Free Zone, Dubai, established in 2025. We build AI applications, provide AI and IT solutions, and supply IT staffing to businesses.", u: '/about' },
+    { k: ['where', 'located', 'based', 'office', 'dubai', 'address'], a: "We are headquartered in Meydan Free Zone, Dubai, with delivery hubs in Bengaluru and Singapore.", u: '/contact' },
+    { k: ['service', 'offer', 'sell', 'products', 'what can you build'], a: "We offer three things: AI applications such as AI Project Builds, Custom Build, HireAI, CRM Voice Agent, AI Tutor and Edu ERP; AI and IT solutions; and IT staffing.", u: '/services' },
+    { k: ['cost', 'price', 'pricing', 'how much', 'fee', 'free', 'budget', 'afford'], a: "A standard Custom Build has no upfront development fee. You pay for hosting and usage once it is live. An exclusive build carries a basic development fee.", u: '/build/custom-ai-builds/pricing' },
+    { k: ['custom build', 'custom app', 'build an app', 'application'], a: "With Custom Build we reply to your problem within 5 business days, offer a free scoping call, and aim for a working first version in 6 to 8 weeks.", u: '/build/custom-ai-builds' },
+    { k: ['how long', 'timeline', 'weeks', 'project build', 'ai project', 'fixed scope'], a: "AI Project Builds run for 4, 8 or 24 weeks, with a fixed scope, a named delivery lead and 30 days of hypercare after launch.", u: '/build/ai-project-builds' },
+    { k: ['agent', 'agentic', 'chatbot', 'automation'], a: "We build AI agents that plan steps, use your tools like your CRM or calendar, and complete tasks, with a person approving the steps you choose.", u: '/guides/what-is-agentic-ai' },
+    { k: ['hire', 'hiring', 'interview', 'recruit', 'candidate', 'hireai'], a: "HireAI runs AI interviews. Each answer is scored against a rubric, with proctoring, recording, transcripts and automatic shortlisting.", u: '/build/hireai' },
+    { k: ['voice', 'call', 'calling', 'phone', 'lead', 'crm', 'sales'], a: "Our CRM Voice Agent makes and receives calls around the clock, scores leads from 0 to 100, logs every call in your CRM and hands over to a person when needed.", u: '/build/product/crm-voice-agent' },
+    { k: ['tutor', 'student', 'learn', 'study', 'language'], a: "AI Tutor is a voice-first learning companion in more than 50 languages, with personal learning paths and Socratic questions.", u: '/build/product/ai-tutor' },
+    { k: ['erp', 'campus', 'college', 'school', 'university', 'admission'], a: "Edu ERP is cloud campus management covering admissions, academics, assessment and finance.", u: '/build/product/edu-erp' },
+    { k: ['audit', 'readiness', 'where to start', 'roadmap', 'use case'], a: "The AI Readiness Audit takes 4 weeks and gives you a maturity score, a gap report, your top three use cases ranked by value, and a costed 12-month roadmap.", u: '/transform/ai-readiness-audit' },
+    { k: ['managed', 'run it for us', 'operate', 'sla'], a: "With Managed AI Functions we run a complete function such as customer service or document processing for you, billed against agreed service levels.", u: '/transform/managed-ai' },
+    { k: ['engineer', 'staff', 'team', 'gcc', 'pod', 'talent', 'developer'], a: "We supply pre-trained engineers through staffing, and dedicated pods of 3 to 6 engineers with a Build–Operate–Transfer option.", u: '/staffing-gcc' },
+    { k: ['contact', 'talk', 'email', 'reach', 'meeting', 'call you', 'demo', 'start'], a: "The quickest way is to submit your problem. We reply within 5 business days and the scoping call is free. You can also email info@futureacad.ae.", u: '/build/submit-a-problem' },
+    { k: ['job', 'career', 'work at', 'vacancy', 'internship'], a: "You can see open roles on our careers page.", u: '/careers' },
+    { k: ['hello', 'hi', 'hey'], a: "Hi there! Ask me about our AI services, pricing, timelines or how to get started." }
+  ];
+  function answer(q) {
+    var s = ' ' + q.toLowerCase().replace(/[^a-z0-9 ]/g, ' ') + ' ', best = null, score = 0;
+    KB.forEach(function (e) {
+      var n = 0; e.k.forEach(function (w) { if (s.indexOf(' ' + w) > -1 || s.indexOf(w + ' ') > -1) n += w.split(' ').length; });
+      if (n > score) { score = n; best = e; }
+    });
+    return best || { a: "I'm not sure about that one yet. Tell our team your question and they will reply within 5 business days.", u: '/build/submit-a-problem' };
+  }
+  function ask(q) {
+    q = (q || '').trim(); if (!q) return;
+    if (state.running && !state.paused) { state.paused = true; clearTimeout(state.timer); pauseBtn.innerHTML = ICON.play; }
+    var r = answer(q);
+    show(r.a, (r.u ? [{ a: 'go', t: 'Open page', u: r.u }] : []).concat([{ a: 'start', t: 'Take the tour', alt: true }]));
+    if (r.u) actions.querySelector('[data-a="go"]').dataset.u = r.u;
+    say(r.a, null);
+  }
+  var askForm = root.querySelector('#fuAsk'), askIn = root.querySelector('#fuQ'), micBtn = root.querySelector('#fuMic');
+  askForm.addEventListener('submit', function (e) { e.preventDefault(); unlock(); ask(askIn.value); askIn.value = ''; });
+  var Rec = window.SpeechRecognition || window.webkitSpeechRecognition, rec = null;
+  if (!Rec) { micBtn.hidden = true; }
+  function listen() {
+    if (!Rec) return;
+    stopVoice();
+    try {
+      rec = new Rec(); rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1;
+      root.classList.add('is-listening'); show('Listening… ask me anything about FutureAcad.', []);
+      rec.onresult = function (e) { var q = e.results[0][0].transcript; askIn.value = q; ask(q); askIn.value = ''; };
+      rec.onerror = function () { show("I couldn't hear that. You can type your question below.", []); };
+      rec.onend = function () { root.classList.remove('is-listening'); };
+      rec.start();
+    } catch (x) { root.classList.remove('is-listening'); }
   }
 
   /* ---------- events ---------- */
@@ -420,9 +383,11 @@
     else if (a === 'resume') { resumeTour(); }
     else if (a === 'pause') { if (state.paused) resumeTour(); else pauseTour(textEl.textContent); }
     else if (a === 'replay') { say(state.step < 0 ? WELCOME : STEPS[state.step].text, null); }
-    else if (a === 'mute') { state.muted = !state.muted; SS.set('fu-muted', state.muted ? '1' : '0'); muteBtn.textContent = state.muted ? 'Unmute' : 'Mute'; if (state.muted) stopVoice(); else { state.voiceUnlocked = true; } }
+    else if (a === 'mute') { state.muted = !state.muted; SS.set('fu-muted', state.muted ? '1' : '0'); muteBtn.innerHTML = state.muted ? ICON.unmute : ICON.mute; muteBtn.setAttribute('aria-label', state.muted ? 'Unmute voice' : 'Mute voice'); if (state.muted) stopVoice(); else { state.voiceUnlocked = true; } }
     else if (a === 'contact') { window.location.href = '/build/submit-a-problem'; }
     else if (a === 'exit') { exitTour(); }
+    else if (a === 'mic') { listen(); }
+    else if (a === 'go') { window.location.href = t.dataset.u || '/'; }
   });
 
   function userTook(ev) {
@@ -432,7 +397,7 @@
   }
   window.addEventListener('wheel', userTook, { passive: true });
   window.addEventListener('touchstart', userTook, { passive: true });
-  window.addEventListener('keydown', function (e) { if (/^(ArrowDown|ArrowUp|PageDown|PageUp|Home|End| )$/.test(e.key)) userTook(e); });
+  window.addEventListener('keydown', function (e) { if (e.target && e.target.id === 'fuQ') return; if (/^(ArrowDown|ArrowUp|PageDown|PageUp|Home|End| )$/.test(e.key)) userTook(e); });
   ['pointerdown', 'keydown'].forEach(function (n) { window.addEventListener(n, function (ev) { if (!root.contains(ev.target) || n === 'pointerdown') unlock(); }, { passive: true }); });
   window.addEventListener('pagehide', stopVoice);
   document.addEventListener('visibilitychange', function () { if (document.hidden) { if (state.running && !state.paused) pauseTour('Tour paused. Want me to carry on?'); else stopVoice(); } });
