@@ -1,4 +1,4 @@
-/* Fu — the FutureAcad guide robot (home page only).
+/* Fu — the FutureAcad guide robot (home page, then About: see PAGES).
    - 3D robot drawn with three.js (already loaded by the site). Falls back to a flat image if WebGL is unavailable.
    - Voice uses the browser's built-in speechSynthesis: no libraries, no paid APIs.
    - The spoken text is always exactly the text shown in the speech bubble.
@@ -11,19 +11,40 @@
   var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var synth = ('speechSynthesis' in window && 'SpeechSynthesisUtterance' in window) ? window.speechSynthesis : null;
 
+  function SS0(k) { try { var v = sessionStorage.getItem(k); sessionStorage.removeItem(k); return v; } catch (e) { return null; } }
+
   var WELCOME = "Hi! I'm Fu, your friendly FutureAcad guide. Welcome! Let me take you on a quick tour and show you what we do.";
+  // One tour per page. When a page's tour ends, Fu opens `next` and carries on there.
   // pos = [x, y] anchor of Fu on screen: 0 = left/top edge, 1 = right/bottom edge.
-  var STEPS = [
-    { id: 'scene2', pos: [0.03, 0.12], text: "FutureAcad is a deep tech company, based in Dubai and established in 2025. We pair frontier AI with enterprise engineering to build systems that run in production." },
-    { id: 'scene-caps', pos: [0.97, 0.92], text: "We work in three disciplines: AI applications, AI and IT solutions, and IT staffing. Three ways to work with us, and one outcome." },
-    { id: 'scene3', pos: [0.03, 0.92], text: "Behind the software is the infrastructure. We design and run the cloud, data centres and systems your applications need." },
-    { id: 'scene4', pos: [0.97, 0.12], text: "Talent has no borders. Pre-trained, industry-ready engineers help you build faster, through dedicated pods or staffing." },
-    { id: 'scene-process', pos: [0.97, 0.92], text: "Here is how it works. You share a problem, we scope it with you, then build, launch and support it. Builds run for 4, 8 or 24 weeks." },
-    { id: 'scene5', pos: [0.03, 0.12], text: "We focus on outcomes, not promises. These are the numbers behind what we have shipped." },
-    { id: 'scene-eco', pos: [0.97, 0.12], text: "These platforms are already live, including an AI interview platform, a voice agent, an AI tutor and a campus system." },
-    { id: 'scene-why', pos: [0.03, 0.92], text: "We are a team that has shipped before, with delivery hubs in Dubai, Bengaluru and Singapore." },
-    { id: 'scene6', pos: [0.97, 0.88], text: "That is the tour! Tell us the problem you want solved. We reply within 5 business days, and the scoping call is free." }
-  ];
+  var PAGES = {
+    '/': { next: '/about', nextName: 'About', steps: [
+      { id: 'scene2', pos: [0.03, 0.12], text: "FutureAcad is a deep tech company, based in Dubai and established in 2025. We pair frontier AI with enterprise engineering to build systems that run in production." },
+      { id: 'scene-caps', pos: [0.97, 0.92], text: "We work in three disciplines: AI applications, AI and IT solutions, and IT staffing. Three ways to work with us, and one outcome." },
+      { id: 'scene3', pos: [0.03, 0.92], text: "Behind the software is the infrastructure. We design and run the cloud, data centres and systems your applications need." },
+      { id: 'scene4', pos: [0.97, 0.12], text: "Talent has no borders. Pre-trained, industry-ready engineers help you build faster, through dedicated pods or staffing." },
+      { id: 'scene-process', pos: [0.97, 0.92], text: "Here is how it works. You share a problem, we scope it with you, then build, launch and support it. Builds run for 4, 8 or 24 weeks." },
+      { id: 'scene5', pos: [0.03, 0.12], text: "We focus on outcomes, not promises. These are the numbers behind what we have shipped." },
+      { id: 'scene-eco', pos: [0.97, 0.12], text: "These platforms are already live, including an AI interview platform, a voice agent, an AI tutor and a campus system." },
+      { id: 'scene-why', pos: [0.03, 0.92], text: "We are a team that has shipped before, with delivery hubs in Dubai, Bengaluru and Singapore." },
+      { id: 'scene6', pos: [0.97, 0.88], text: "That's our home page! Next, let me show you who we are. Off to the About page!" }
+    ] },
+    '/about': { steps: [
+      { id: 'storyHeading', pos: [0.97, 0.12], text: "Welcome to our About page! FutureAcad is a startup built for what comes next, launching production-grade platforms for mission-critical problems." },
+      { id: 'foundationHeading', pos: [0.03, 0.92], text: "Everything we ship is built for real production trust, for global enterprises and for tech talent." },
+      { id: 'teamHeading', pos: [0.97, 0.92], text: "These are the people behind the systems: teams across AI, research, product, quality, delivery and operations." },
+      { id: 'capHeading', pos: [0.03, 0.12], text: "We combine artificial intelligence, software engineering, research and product thinking into technology built for real-world impact." },
+      { id: 'buildHeading', pos: [0.97, 0.12], text: "This is how we turn ideas into intelligent systems, products and platforms that people really use." },
+      { id: 'workHeading', pos: [0.03, 0.92], text: "Four operating principles guide our architecture, our engineering teams and our partnerships." },
+      { id: 'beliefsHeading', pos: [0.97, 0.92], text: "And four convictions shape everything we build, from every technical choice to every client engagement." },
+      { id: 'visionHeading', pos: [0.03, 0.12], text: "Anchored in Dubai and working globally, this is our roadmap for deep tech impact." },
+      { sel: '.about-cta-section', clip: 'cta', pos: [0.97, 0.88], text: "That is the tour! Tell us the problem you want solved. We reply within 5 business days, and the scoping call is free." }
+    ] }
+  };
+  var PATH = location.pathname.replace(/\/+$/, '') || '/';
+  var PAGE = PAGES[PATH];
+  if (!PAGE) return;
+  var STEPS = PAGE.steps;
+  var CONTINUING = SS0('fu-tour') === PATH; // arrived here from the previous page's tour
   var HOME = [1, 1];
 
   var SS = { get: function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
@@ -233,14 +254,54 @@
   }
   if (synth) { pickVoice(); if (synth.addEventListener) synth.addEventListener('voiceschanged', pickVoice); }
 
-  function stopVoice() { state.token++; if (synth) { try { synth.cancel(); } catch (e) {} } setSpeaking(false); }
+  // Pre-recorded ElevenLabs clips (voice "Fu"); lines without a clip use the browser voice.
+  var CLIP_DIR = '/static/audio/fu/';
+  var CLIPS = {};
+  CLIPS[WELCOME] = 'welcome';
+  var QA_FALLBACK = "I'm not sure about that one yet. Tell our team your question and they will reply within 5 business days.";
+  CLIPS[QA_FALLBACK] = 'qa-fallback';
+  // Clip file per step: home = <id>.mp3, other pages = <page>-<id>.mp3 (e.g. about-teamHeading.mp3)
+  Object.keys(PAGES).forEach(function (path) {
+    var pre = path === '/' ? '' : path.slice(1).replace(/\//g, '-') + '-';
+    PAGES[path].steps.forEach(function (s) { CLIPS[s.text] = pre + (s.id || s.clip); });
+  });
+  var clip = null;
+
+  function stopVoice() {
+    state.token++;
+    if (synth) { try { synth.cancel(); } catch (e) {} }
+    if (clip) { try { clip.pause(); } catch (e) {} clip = null; }
+    setSpeaking(false);
+  }
 
   function say(text, cb) {
     stopVoice(); var my = state.token;
     clearTimeout(state.timer);
     var wait = Math.max(2800, text.length * 62);
     var silent = function () { setSpeaking(false); state.timer = setTimeout(function () { if (my === state.token && cb) cb(); }, wait); };
-    if (!synth || state.muted || !state.voiceUnlocked) { if (!state.muted && synth && !state.voiceUnlocked) needEnable(); silent(); return; }
+    if (state.muted) { silent(); return; }
+    if (!state.voiceUnlocked) { blocked(); return; }
+    if (CLIPS[text] && window.Audio) { playClip(text, cb, my, silent); return; }
+    silent(); // one voice only: no recording yet -> show the text, keep the tour moving
+  }
+
+  function playClip(text, cb, my, silent) {
+    var a = new Audio(CLIP_DIR + CLIPS[text] + '.mp3'); clip = a;
+    var fallback = function () { if (my !== state.token) return; clip = null; silent(); };
+    a.onplaying = function () { if (my === state.token) setSpeaking(true); };
+    a.ontimeupdate = function () { if (my === state.token) state.kick = 0.6 + Math.random() * 0.8; };
+    a.onended = function () { setSpeaking(false); clip = null; if (my === state.token && cb) state.timer = setTimeout(function () { if (my === state.token) cb(); }, 900); };
+    a.onerror = fallback; // missing file -> browser voice
+    var p = a.play();
+    if (p && p.catch) p.catch(function (err) {
+      if (my !== state.token) return;
+      if (err && err.name === 'NotAllowedError') blocked();
+      else fallback();
+    });
+  }
+
+  function speakTTS(text, cb, my, silent) {
+    if (!synth) { silent(); return; }
     var u = new SpeechSynthesisUtterance(text);
     if (voice) { u.voice = voice; u.lang = voice.lang; } else { u.lang = 'en-US'; }
     var kid = voice && /ana|maisie|child|kid/i.test(voice.name);
@@ -252,7 +313,7 @@
     u.onerror = function () { setSpeaking(false); if (my === state.token) { state.voiceUnlocked = false; needEnable(); silent(); } };
     try { synth.speak(u); } catch (e) { silent(); return; }
     setTimeout(function () { // autoplay can be blocked silently
-      if (my === state.token && !started && !synth.speaking) { state.voiceUnlocked = false; needEnable(); synth.cancel(); silent(); }
+      if (my === state.token && !started && !synth.speaking) blocked();
     }, 1500);
   }
 
@@ -275,26 +336,54 @@
   function runStep(i) {
     if (state.paused || state.dismissed) return;
     state.step = i; state.running = true;
-    var s = STEPS[i], el = document.getElementById(s.id);
+    var s = STEPS[i], el = s.sel ? document.querySelector(s.sel) : document.getElementById(s.id);
     if (el) scrollToEl(el);
     var last = i === STEPS.length - 1;
-    show(s.text, last ? [{ a: 'contact', t: 'Submit a problem' }, { a: 'exit', t: 'Finish', alt: true }] :
-                       (reduced ? [{ a: 'next', t: 'Next' }] : []));
+    show(s.text, !last ? [{ a: 'next', t: 'Skip', alt: true }] :
+                 PAGE.next ? [{ a: 'nextpage', t: 'Go to ' + PAGE.nextName }, { a: 'exit', t: 'Finish here', alt: true }] :
+                             [{ a: 'contact', t: 'Submit a problem' }, { a: 'exit', t: 'Finish', alt: true }]);
     place(s.pos[0], s.pos[1], true); wave();
     if (enableShown && !state.voiceUnlocked) needEnable();
     setTimeout(function () {
-      say(s.text, function () { if (last) { state.running = false; } else if (!reduced) { runStep(i + 1); } });
+      say(s.text, function () { if (last) { state.running = false; if (PAGE.next && !state.paused && !state.dismissed) goNextPage(); } else if (!state.paused && !state.dismissed) { runStep(i + 1); } });
     }, 900);
   }
 
+  function goTop() {
+    if (window.__faLenis && window.__faLenis.scrollTo) window.__faLenis.scrollTo(0, { duration: 1.2 });
+    else window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+  }
+  // Home: welcome line at the top of the page first, then each section in order.
+  function startTour() {
+    state.paused = false; state.dismissed = false; state.step = -1; state.running = true;
+    if (PATH !== '/') { runStep(0); return; }
+    goTop(); place(HOME[0], HOME[1], true); wave();
+    show(WELCOME, [{ a: 'next', t: 'Skip', alt: true }]);
+    say(WELCOME, function () { if (!state.paused && !state.dismissed) runStep(0); });
+  }
+  // Sound got blocked: hold on this line until the visitor taps, instead of skipping it silently.
+  function blocked() {
+    state.voiceUnlocked = false; stopVoice(); clearTimeout(state.timer);
+    var cur = state.step < 0 ? WELCOME : STEPS[state.step].text;
+    show(cur, [{ a: 'enable', t: 'Tap to hear Fu' }, { a: 'exit', t: 'Finish', alt: true }]);
+  }
+
+  function goNextPage() {
+    stopVoice(); SS.set('fu-tour', PAGE.next);
+    window.location.href = PAGE.next;
+  }
+
   function welcome() {
+    if (CONTINUING) { // keep the tour going straight away on this page
+      root.classList.add('is-in'); state.voiceUnlocked = !!synth || !!window.Audio;
+      runStep(0); return;
+    }
     place(HOME[0], HOME[1]);
     root.classList.add('is-in'); wave();
+    goTop();
     show(WELCOME, [{ a: 'start', t: 'Start tour' }, { a: 'exit', t: 'No thanks', alt: true }]);
-    say(WELCOME, function () {
-      if (!state.userScrolled && !state.dismissed && !state.paused) { runStep(0); }
-    });
-    if (synth && !state.muted) { setTimeout(function () { if (!state.voiceUnlocked) needEnable(); }, 400); }
+    // Browsers block sound until the first click, so wait for "Start tour" rather than touring silently.
+    if (state.voiceUnlocked && !state.muted) startTour();
   }
 
   function pauseTour(msg) {
@@ -313,31 +402,41 @@
 
   /* ---------- talk to Fu: answers come only from FutureAcad's own facts ---------- */
   var KB = [
-    { k: ['what is futureacad', 'who are you', 'about', 'company', 'what do you do', 'futureacad'], a: "FutureAcad is a deep tech company based in Meydan Free Zone, Dubai, established in 2025. We build AI applications, provide AI and IT solutions, and supply IT staffing to businesses.", u: '/about' },
-    { k: ['where', 'located', 'based', 'office', 'dubai', 'address'], a: "We are headquartered in Meydan Free Zone, Dubai, with delivery hubs in Bengaluru and Singapore.", u: '/contact' },
-    { k: ['service', 'offer', 'sell', 'products', 'what can you build'], a: "We offer three things: AI applications such as AI Project Builds, Custom Build, HireAI, CRM Voice Agent, AI Tutor and Edu ERP; AI and IT solutions; and IT staffing.", u: '/services' },
-    { k: ['cost', 'price', 'pricing', 'how much', 'fee', 'free', 'budget', 'afford'], a: "A standard Custom Build has no upfront development fee. You pay for hosting and usage once it is live. An exclusive build carries a basic development fee.", u: '/build/custom-ai-builds/pricing' },
-    { k: ['custom build', 'custom app', 'build an app', 'application'], a: "With Custom Build we reply to your problem within 5 business days, offer a free scoping call, and aim for a working first version in 6 to 8 weeks.", u: '/build/custom-ai-builds' },
-    { k: ['how long', 'timeline', 'weeks', 'project build', 'ai project', 'fixed scope'], a: "AI Project Builds run for 4, 8 or 24 weeks, with a fixed scope, a named delivery lead and 30 days of hypercare after launch.", u: '/build/ai-project-builds' },
-    { k: ['agent', 'agentic', 'chatbot', 'automation'], a: "We build AI agents that plan steps, use your tools like your CRM or calendar, and complete tasks, with a person approving the steps you choose.", u: '/guides/what-is-agentic-ai' },
-    { k: ['hire', 'hiring', 'interview', 'recruit', 'candidate', 'hireai'], a: "HireAI runs AI interviews. Each answer is scored against a rubric, with proctoring, recording, transcripts and automatic shortlisting.", u: '/build/hireai' },
-    { k: ['voice', 'call', 'calling', 'phone', 'lead', 'crm', 'sales'], a: "Our CRM Voice Agent makes and receives calls around the clock, scores leads from 0 to 100, logs every call in your CRM and hands over to a person when needed.", u: '/build/product/crm-voice-agent' },
-    { k: ['tutor', 'student', 'learn', 'study', 'language'], a: "AI Tutor is a voice-first learning companion in more than 50 languages, with personal learning paths and Socratic questions.", u: '/build/product/ai-tutor' },
-    { k: ['erp', 'campus', 'college', 'school', 'university', 'admission'], a: "Edu ERP is cloud campus management covering admissions, academics, assessment and finance.", u: '/build/product/edu-erp' },
-    { k: ['audit', 'readiness', 'where to start', 'roadmap', 'use case'], a: "The AI Readiness Audit takes 4 weeks and gives you a maturity score, a gap report, your top three use cases ranked by value, and a costed 12-month roadmap.", u: '/transform/ai-readiness-audit' },
-    { k: ['managed', 'run it for us', 'operate', 'sla'], a: "With Managed AI Functions we run a complete function such as customer service or document processing for you, billed against agreed service levels.", u: '/transform/managed-ai' },
-    { k: ['engineer', 'staff', 'team', 'gcc', 'pod', 'talent', 'developer'], a: "We supply pre-trained engineers through staffing, and dedicated pods of 3 to 6 engineers with a Build–Operate–Transfer option.", u: '/staffing-gcc' },
-    { k: ['contact', 'talk', 'email', 'reach', 'meeting', 'call you', 'demo', 'start'], a: "The quickest way is to submit your problem. We reply within 5 business days and the scoping call is free. You can also email info@futureacad.ae.", u: '/build/submit-a-problem' },
-    { k: ['job', 'career', 'work at', 'vacancy', 'internship'], a: "You can see open roles on our careers page.", u: '/careers' },
-    { k: ['hello', 'hi', 'hey'], a: "Hi there! Ask me about our AI services, pricing, timelines or how to get started." }
+    { c: 'qa-about', k: ['what is futureacad', 'who are you', 'about', 'company', 'what do you do', 'futureacad'], a: "FutureAcad is a deep tech company based in Meydan Free Zone, Dubai, established in 2025. We build AI applications, provide AI and IT solutions, and supply IT staffing to businesses.", u: '/about' },
+    { c: 'qa-where', k: ['where', 'located', 'based', 'office', 'dubai', 'address'], a: "We are headquartered in Meydan Free Zone, Dubai, with delivery hubs in Bengaluru and Singapore.", u: '/contact' },
+    { c: 'qa-services', k: ['service', 'offer', 'sell', 'products', 'what can you build'], a: "We offer three things: AI applications such as AI Project Builds, Custom Build, HireAI, CRM Voice Agent, AI Tutor and Edu ERP; AI and IT solutions; and IT staffing.", u: '/services' },
+    { c: 'qa-pricing', k: ['cost', 'price', 'pricing', 'how much', 'fee', 'free', 'budget', 'afford'], a: "A standard Custom Build has no upfront development fee. You pay for hosting and usage once it is live. An exclusive build carries a basic development fee.", u: '/build/custom-ai-builds/pricing' },
+    { c: 'qa-custom', k: ['custom build', 'custom app', 'build an app', 'application'], a: "With Custom Build we reply to your problem within 5 business days, offer a free scoping call, and aim for a working first version in 6 to 8 weeks.", u: '/build/custom-ai-builds' },
+    { c: 'qa-timeline', k: ['how long', 'timeline', 'weeks', 'project build', 'ai project', 'fixed scope'], a: "AI Project Builds run for 4, 8 or 24 weeks, with a fixed scope, a named delivery lead and 30 days of hypercare after launch.", u: '/build/ai-project-builds' },
+    { c: 'qa-agents', k: ['agent', 'agentic', 'chatbot', 'automation'], a: "We build AI agents that plan steps, use your tools like your CRM or calendar, and complete tasks, with a person approving the steps you choose.", u: '/guides/what-is-agentic-ai' },
+    { c: 'qa-hireai', k: ['hire', 'hiring', 'interview', 'recruit', 'candidate', 'hireai'], a: "HireAI runs AI interviews. Each answer is scored against a rubric, with proctoring, recording, transcripts and automatic shortlisting.", u: '/build/hireai' },
+    { c: 'qa-voiceagent', k: ['voice', 'call', 'calling', 'phone', 'lead', 'crm', 'sales'], a: "Our CRM Voice Agent makes and receives calls around the clock, scores leads from 0 to 100, logs every call in your CRM and hands over to a person when needed.", u: 'https://crm.rooman.net' },
+    { c: 'qa-tutor', k: ['tutor', 'student', 'learn', 'study', 'language'], a: "AI Tutor is a voice-first learning companion in more than 50 languages, with personal learning paths and Socratic questions.", u: 'https://lms.rooman.com' },
+    { c: 'qa-erp', k: ['erp', 'campus', 'college', 'school', 'university', 'admission'], a: "Edu ERP is cloud campus management covering admissions, academics, assessment and finance.", u: '/build/product/edu-erp' },
+    { c: 'qa-audit', k: ['audit', 'readiness', 'where to start', 'roadmap', 'use case'], a: "The AI Readiness Audit takes 4 weeks and gives you a maturity score, a gap report, your top three use cases ranked by value, and a costed 12-month roadmap.", u: '/transform/ai-readiness-audit' },
+    { c: 'qa-managed', k: ['managed', 'run it for us', 'operate', 'sla'], a: "With Managed AI Functions we run a complete function such as customer service or document processing for you, billed against agreed service levels.", u: '/transform/managed-ai' },
+    { c: 'qa-staffing', k: ['engineer', 'staff', 'team', 'gcc', 'pod', 'talent', 'developer'], a: "We supply pre-trained engineers through staffing, and dedicated pods of 3 to 6 engineers with a Build–Operate–Transfer option.", u: '/staffing-gcc' },
+    { c: 'qa-contact', k: ['contact', 'talk', 'email', 'reach', 'meeting', 'call you', 'demo', 'start'], a: "The quickest way is to submit your problem. We reply within 5 business days and the scoping call is free. You can also email info@futureacad.ae.", u: '/build/submit-a-problem' },
+    { c: 'qa-careers', k: ['job', 'jobs', 'career', 'careers', 'work at', 'work for you', 'vacancy', 'internship', 'intern', 'are you hiring', 'join your team', 'apply'], a: "We welcome founders and interns. You can apply as a founder or as an intern on our careers pages.", u: '/build/apply-intern' },
+    { c: 'qa-partner', k: ['partner', 'partnership', 'reseller', 'collaborate', 'alliance'], a: "We partner with companies, universities and resellers. Our partner page explains the ways we can work together.", u: '/partner' },
+    { c: 'qa-cases', k: ['case study', 'case studies', 'clients', 'customers', 'examples', 'portfolio', 'past work'], a: "Our case studies show the systems we have shipped for real clients, and the results they delivered.", u: '/transform/case-studies' },
+    { c: 'qa-security', k: ['security', 'secure', 'privacy', 'data', 'confidential', 'gdpr', 'compliance'], a: "Your data stays protected. We build with secure cloud hosting, access controls and clear data agreements, and we can sign an NDA before scoping.", u: '/contact' },
+    { c: 'qa-industries', k: ['industry', 'industries', 'sector', 'healthcare', 'bank', 'finance', 'retail', 'education', 'government'], a: "We work across industries, including education, finance, healthcare, retail and the public sector.", u: '/services' },
+    { c: 'qa-whatai', k: ['what is ai', 'artificial intelligence', 'machine learning', 'llm', 'genai', 'generative'], a: "AI lets software understand language, spot patterns and make decisions. We use it to automate real work for businesses.", u: '/guides/what-is-agentic-ai' },
+    { c: 'qa-thanks', k: ['thank', 'thanks', 'great', 'awesome', 'cool', 'bye'], a: "You're welcome! I'm here whenever you need me. Just tap the mic and ask." },
+    { c: 'qa-hello', k: ['hello', 'hi', 'hey', 'good morning', 'good evening'], a: "Hi there! Ask me about our AI services, pricing, timelines or how to get started." }
   ];
+  KB.forEach(function (e) { CLIPS[e.a] = e.c; });
   function answer(q) {
     var s = ' ' + q.toLowerCase().replace(/[^a-z0-9 ]/g, ' ') + ' ', best = null, score = 0;
     KB.forEach(function (e) {
-      var n = 0; e.k.forEach(function (w) { if (s.indexOf(' ' + w) > -1 || s.indexOf(w + ' ') > -1) n += w.split(' ').length; });
+      var n = 0; e.k.forEach(function (w) {
+        var hit = s.indexOf(' ' + w + ' ') > -1 || (w.length >= 4 && s.indexOf(' ' + w) > -1);
+        if (hit) n += w.split(' ').length * 2 + (w.length >= 6 ? 1 : 0);
+      });
       if (n > score) { score = n; best = e; }
     });
-    return best || { a: "I'm not sure about that one yet. Tell our team your question and they will reply within 5 business days.", u: '/build/submit-a-problem' };
+    return best || { c: 'qa-fallback', a: "I'm not sure about that one yet. Tell our team your question and they will reply within 5 business days.", u: '/build/submit-a-problem' };
   }
   function ask(q) {
     q = (q || '').trim(); if (!q) return;
@@ -358,7 +457,13 @@
       rec = new Rec(); rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1;
       root.classList.add('is-listening'); show('Listening… ask me anything about FutureAcad.', []);
       rec.onresult = function (e) { var q = e.results[0][0].transcript; askIn.value = q; ask(q); askIn.value = ''; };
-      rec.onerror = function () { show("I couldn't hear that. You can type your question below.", []); };
+      rec.onerror = function (e) {
+        var why = e && e.error;
+        show(why === 'not-allowed' || why === 'service-not-allowed' ? "I need permission to use your microphone. Allow it in your browser, or type your question below." :
+             why === 'no-speech' ? "I didn't hear anything. Tap the mic and speak, or type your question below." :
+             why === 'network' ? "Voice questions need an internet connection. You can type your question below." :
+             "I couldn't hear that. You can type your question below.", []);
+      };
       rec.onend = function () { root.classList.remove('is-listening'); };
       rec.start();
     } catch (x) { root.classList.remove('is-listening'); }
@@ -366,9 +471,9 @@
 
   /* ---------- events ---------- */
   function unlock() {
-    if (!synth || state.voiceUnlocked) return;
+    if (state.voiceUnlocked) return;
     state.voiceUnlocked = true; var e = document.getElementById('fuEnable'); if (e) e.remove(); enableShown = false;
-    try { var u = new SpeechSynthesisUtterance(' '); u.volume = 0; synth.speak(u); } catch (x) {}
+    if (synth) { try { var u = new SpeechSynthesisUtterance(' '); u.volume = 0; synth.speak(u); } catch (x) {} }
   }
 
   root.addEventListener('click', function (ev) {
@@ -377,9 +482,10 @@
     if (!t) return;
     unlock();
     var a = t.dataset.a;
-    if (a === 'enable') { if (state.step < 0) { say(WELCOME, function () { if (!state.userScrolled && !state.dismissed) runStep(0); }); } else { var cur = STEPS[state.step]; say(cur.text, function () { if (!reduced) runStep(state.step + 1); }); } }
-    else if (a === 'start') { state.paused = false; state.dismissed = false; runStep(0); }
-    else if (a === 'next') { runStep(Math.min(STEPS.length - 1, state.step + 1)); }
+    if (a === 'enable') { if (state.step < 0) startTour(); else { state.paused = false; state.dismissed = false; runStep(state.step); } }
+    else if (a === 'start') { startTour(); }
+    else if (a === 'nextpage') { goNextPage(); }
+    else if (a === 'next') { runStep(state.step < 0 ? 0 : Math.min(STEPS.length - 1, state.step + 1)); }
     else if (a === 'resume') { resumeTour(); }
     else if (a === 'pause') { if (state.paused) resumeTour(); else pauseTour(textEl.textContent); }
     else if (a === 'replay') { say(state.step < 0 ? WELCOME : STEPS[state.step].text, null); }
@@ -387,7 +493,7 @@
     else if (a === 'contact') { window.location.href = '/build/submit-a-problem'; }
     else if (a === 'exit') { exitTour(); }
     else if (a === 'mic') { listen(); }
-    else if (a === 'go') { window.location.href = t.dataset.u || '/'; }
+    else if (a === 'go') { var gu = t.dataset.u || '/'; if (/^https?:/.test(gu)) window.open(gu, '_blank', 'noopener'); else window.location.href = gu; }
   });
 
   function userTook(ev) {
