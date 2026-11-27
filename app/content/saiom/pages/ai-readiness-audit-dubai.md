@@ -73,14 +73,13 @@ We run a complete AI function for you, billed against SLAs.
 
 - **7** live platforms shipped
 - **3** continents served
-- **13** markets served across 4 regions from three delivery hubs (Be
+- **13** markets served across 4 regions
 - **1.3M+** engineers in our alumni and engineer pool
 
-*Source: futureacad.ae/about and futureacad.ae/transform/international.*
 
 ## Held to recognised standards
 
-Every FutureAcad hub is stated as compliant with **ISO 9001:2015**, **ISO 27001** and **SEI-CMMI Level 3**. We also run OEM training partnerships with Microsoft, AWS, Google, Cisco, Red Hat and NVIDIA.
+Our delivery follows **ISO 9001:2015**, **ISO 27001** and **SEI-CMMI Level 3**. We also run OEM training partnerships with Microsoft, AWS, Google, Cisco, Red Hat and NVIDIA.
 
 ## Questions CIOs ask before booking
 
@@ -110,6 +109,6 @@ FutureAcad is based in Meydan Free Zone, Dubai, with delivery hubs in Bengaluru,
 
 ## The future doesn't wait. Start with a plan.
 
-Book a free scoping call and we'll tell you what the audit would cover for your company. Or reach us directly at info@futureacad.ae or 080 6945 1000.
+Book a free scoping call and we'll tell you what the audit would cover for your company. Or email us at info@futureacad.ae.
 
 [Book a free scoping call](mailto:info@futureacad.ae?subject=AI%20Readiness%20Audit%20scoping%20call)
