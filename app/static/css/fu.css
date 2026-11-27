@@ -1,0 +1,37 @@
+/* Fu — 3D guide robot (home page). Positioned by JS via --x / --y, so Fu can glide between sections. */
+.fu{position:fixed;left:0;top:0;z-index:9000;display:flex;flex-direction:row;align-items:flex-end;gap:6px;font-family:inherit;
+  translate:var(--x,0px) var(--y,0px);opacity:0;pointer-events:none;
+  transition:translate 1.4s cubic-bezier(.65,0,.25,1),opacity .6s}
+.fu.is-in{opacity:1;pointer-events:auto}
+.fu__bot{order:1;position:relative;width:250px;height:300px;flex:none;padding:0;border:0;background:none;cursor:pointer;
+  filter:drop-shadow(0 12px 18px rgba(40,50,160,.30))}
+.fu__cv{width:100%;height:100%;display:block}
+.fu__img{width:100%;height:100%;object-fit:contain;display:block}
+.fu--flat .fu__bot{width:150px;height:180px;animation:fuFloat 3.4s ease-in-out infinite}
+.fu__bubble{order:0;position:relative;width:min(320px,calc(100vw - 36px));margin-bottom:80px;background:#fff;color:#0b2e38;border:2px solid #006078;border-radius:18px;
+  padding:14px 16px 12px;box-shadow:0 14px 40px rgba(0,60,80,.22);font-size:14.5px;line-height:1.45}
+.fu__bubble::after{content:"";position:absolute;right:-9px;bottom:34px;width:16px;height:16px;background:#fff;border-top:2px solid #006078;border-right:2px solid #006078;transform:rotate(45deg)}
+/* Fu on the left of the screen: bubble sits to its right */
+.fu:not(.fu--r) .fu__bot{order:0}
+.fu:not(.fu--r) .fu__bubble{order:1}
+.fu:not(.fu--r) .fu__bubble::after{right:auto;left:-9px;border:0;border-bottom:2px solid #006078;border-left:2px solid #006078}
+.fu__bubble[hidden]{display:none}
+.fu__text{margin:0 18px 8px 0}
+.fu__x{position:absolute;top:6px;right:8px;border:0;background:none;font-size:22px;line-height:1;color:#006078;cursor:pointer}
+.fu__row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.fu__row:empty{display:none}
+.fu__btn{border:0;border-radius:999px;padding:8px 14px;font:600 13px inherit;background:#006078;color:#fff;cursor:pointer}
+.fu__btn--alt{background:#E4F0F3;color:#006078}
+.fu__ctrl{display:flex;gap:6px;border-top:1px solid #d6e6ea;padding-top:8px}
+.fu__ctrl button{flex:1;border:1px solid #cfe1e6;background:#f5fafb;color:#006078;border-radius:8px;padding:5px 4px;font:600 12px inherit;cursor:pointer}
+.fu__ctrl button[hidden]{display:none}
+.fu button:focus-visible{outline:3px solid #FFC400;outline-offset:2px}
+.fu.is-min .fu__bot{width:160px;height:192px}
+@keyframes fuFloat{50%{transform:translateY(-6px)}}
+@media (max-width:640px){
+  .fu{flex-direction:column;align-items:flex-end;gap:0}
+  .fu__bot,.fu:not(.fu--r) .fu__bot{order:1;width:150px;height:180px}
+  .fu__bubble,.fu:not(.fu--r) .fu__bubble{order:0;margin-bottom:-4px;font-size:13.5px}
+  .fu__bubble::after,.fu:not(.fu--r) .fu__bubble::after{right:44px;left:auto;bottom:-9px;border:0;border-right:2px solid #006078;border-bottom:2px solid #006078}
+}
+@media (prefers-reduced-motion:reduce){.fu{transition:none}.fu--flat .fu__bot{animation:none}}
