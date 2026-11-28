@@ -480,7 +480,8 @@
          "I couldn't hear that. Tap the mic and try again, or type your question below.", []);
   }
   function startRec() {
-    var got = false, heard = '';
+    var got = false, heard = '', idle = 0, done = false;
+    var finish = function () { if (done) return; done = true; clearTimeout(idle); try { rec.abort(); } catch (x) {} listening = false; root.classList.remove('is-listening'); if (heard.trim()) ask(heard); };
     rec = new Rec();
     rec.lang = (navigator.language && /^en/i.test(navigator.language)) ? navigator.language : 'en-IN';
     rec.interimResults = true; rec.continuous = false; rec.maxAlternatives = 1;
@@ -489,10 +490,13 @@
       heard = '';
       for (var i = 0; i < e.results.length; i++) heard += e.results[i][0].transcript;
       textEl.textContent = '“' + heard + '”';
-      if (e.results[e.results.length - 1].isFinal) { got = true; try { rec.stop(); } catch (x) {} }
+      clearTimeout(idle);
+      if (e.results[e.results.length - 1].isFinal) { got = true; finish(); }
+      else idle = setTimeout(finish, 900); // answer as soon as the visitor pauses
     };
-    rec.onerror = function (e) { got = true; micMsg(e && e.error); };
+    rec.onerror = function (e) { if (done) return; got = true; clearTimeout(idle); micMsg(e && e.error); };
     rec.onend = function () {
+      if (done) return; done = true; clearTimeout(idle);
       listening = false; root.classList.remove('is-listening');
       if (heard.trim()) ask(heard); else if (!got) micMsg('no-speech');
     };
