@@ -23,11 +23,10 @@ def test_imported_page_renders_its_content(client, path):
     ("build/products", "build"), ("transform/managed-ai", "transform"),
     ("transform/ai-bos", "transform"),
     ("staffing-gcc/domestic", "staffing"), ("gcc-services", "gcc"),
-    ("build/apply-intern", "careers"),
 ])
 def test_imported_page_highlights_its_nav_dropdown(client, path, section):
     ids = {"build": "navBuild", "transform": "navTransform", "staffing": "navStaffing",
-           "gcc": "navGcc", "careers": "navCareers"}
+           "gcc": "navGcc"}
     body = client.get(f"/{path}").get_data(as_text=True)
     drop = body.split(f'id="{ids[section]}"', 1)[1]
     assert 'nav__drop-btn is-active' in drop.split("</button>", 1)[0]
@@ -41,7 +40,7 @@ OFF_MENU = {
     "build", "build/custom-ai-builds/pricing", "build/custom-ai-builds/examples",
     "build/startup-varsity/founders-track", "build/startup-varsity/partners",
     "build/how-to-choose", "transform/managed-ai-functions", "transform/outcome-based-ai",
-    "careers", "privacy", "terms",
+    "careers", "privacy", "terms", "build/apply-founder", "build/apply-intern",
 }
 OFF_MENU |= {p for p in PATHS if p.startswith("transform/case-study/")}
 # Guides sit in the footer and on the /guides page, not in the menu.
@@ -226,6 +225,9 @@ def test_no_page_shows_rooman_branding_or_its_phone_numbers(client):
         html = client.get(path).get_data(as_text=True)
         # the one phone number FutureAcad itself publishes in the footer
         visible = html.replace("tel:+919071079878", "").replace("+91 90710 79878", "")
+        # product links that must redirect to the live apps (CRM and AI Tutor); any other Rooman text still fails
+        for allowed in ("https://crm.rooman.net", "crm.rooman.net", "https://lms.rooman.com", "lms.rooman.com"):
+            visible = visible.replace(allowed, "")
         for bad in ("Rooman", "ROOMAN", "rooman.com", "rooman.net", "tel:", "wa.me/", "6945 1000", "97390"):
             assert bad not in visible, (path, bad)
 

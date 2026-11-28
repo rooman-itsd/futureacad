@@ -449,24 +449,48 @@
   var askForm = root.querySelector('#fuAsk'), askIn = root.querySelector('#fuQ'), micBtn = root.querySelector('#fuMic');
   askForm.addEventListener('submit', function (e) { e.preventDefault(); unlock(); ask(askIn.value); askIn.value = ''; });
   var Rec = window.SpeechRecognition || window.webkitSpeechRecognition, rec = null;
-  if (!Rec) { micBtn.hidden = true; }
+  var listening = false;
+  function micMsg(why) {
+    show(why === 'not-allowed' || why === 'service-not-allowed' ? "I need permission to use your microphone. Click the lock icon next to the address, allow Microphone, then tap the mic again." :
+         why === 'no-speech' ? "I didn't hear anything. Tap the mic, wait for 'Listening', then speak." :
+         why === 'audio-capture' ? "I can't find a microphone. Check it is plugged in and not used by another app." :
+         why === 'network' ? "Voice questions need an internet connection. You can type your question below." :
+         why === 'insecure' ? "The mic only works on the secure (https) site. You can type your question below." :
+         "I couldn't hear that. Tap the mic and try again, or type your question below.", []);
+  }
+  function startRec() {
+    var got = false, heard = '';
+    rec = new Rec();
+    rec.lang = (navigator.language && /^en/i.test(navigator.language)) ? navigator.language : 'en-IN';
+    rec.interimResults = true; rec.continuous = false; rec.maxAlternatives = 1;
+    rec.onstart = function () { listening = true; root.classList.add('is-listening'); show('Listening… ask me anything about FutureAcad.', []); };
+    rec.onresult = function (e) {
+      heard = '';
+      for (var i = 0; i < e.results.length; i++) heard += e.results[i][0].transcript;
+      textEl.textContent = '“' + heard + '”';
+      if (e.results[e.results.length - 1].isFinal) { got = true; try { rec.stop(); } catch (x) {} }
+    };
+    rec.onerror = function (e) { got = true; micMsg(e && e.error); };
+    rec.onend = function () {
+      listening = false; root.classList.remove('is-listening');
+      if (heard.trim()) ask(heard); else if (!got) micMsg('no-speech');
+    };
+    rec.start();
+  }
   function listen() {
-    if (!Rec) return;
+    if (!Rec) { show("Voice questions work in Chrome or Edge. You can type your question below.", []); return; }
+    if (listening) { try { rec.stop(); } catch (x) {} return; }
+    if (!window.isSecureContext) { micMsg('insecure'); return; }
     stopVoice();
-    try {
-      rec = new Rec(); rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1;
-      root.classList.add('is-listening'); show('Listening… ask me anything about FutureAcad.', []);
-      rec.onresult = function (e) { var q = e.results[0][0].transcript; askIn.value = q; ask(q); askIn.value = ''; };
-      rec.onerror = function (e) {
-        var why = e && e.error;
-        show(why === 'not-allowed' || why === 'service-not-allowed' ? "I need permission to use your microphone. Allow it in your browser, or type your question below." :
-             why === 'no-speech' ? "I didn't hear anything. Tap the mic and speak, or type your question below." :
-             why === 'network' ? "Voice questions need an internet connection. You can type your question below." :
-             "I couldn't hear that. You can type your question below.", []);
-      };
-      rec.onend = function () { root.classList.remove('is-listening'); };
-      rec.start();
-    } catch (x) { root.classList.remove('is-listening'); }
+    show('Allow the microphone if your browser asks…', []);
+    var go = function () { setTimeout(function () { try { startRec(); } catch (x) { micMsg(''); } }, 250); };
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(function (st) {
+        st.getTracks().forEach(function (t) { t.stop(); }); go();
+      }).catch(function (err) {
+        micMsg(err && (err.name === 'NotAllowedError' || err.name === 'SecurityError') ? 'not-allowed' : 'audio-capture');
+      });
+    } else { go(); }
   }
 
   /* ---------- events ---------- */
