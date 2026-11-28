@@ -268,7 +268,7 @@
   var clip = null;
 
   function stopVoice() {
-    state.token++;
+    state.token++; stopGlide();
     if (synth) { try { synth.cancel(); } catch (e) {} }
     if (clip) { try { clip.pause(); } catch (e) {} clip = null; }
     setSpeaking(false);
@@ -278,7 +278,7 @@
     stopVoice(); var my = state.token;
     clearTimeout(state.timer);
     var wait = Math.max(2800, text.length * 62);
-    var silent = function () { setSpeaking(false); state.timer = setTimeout(function () { if (my === state.token && cb) cb(); }, wait); };
+    var silent = function () { setSpeaking(false); if (cb) glide(wait); state.timer = setTimeout(function () { if (my === state.token && cb) cb(); }, wait); };
     if (state.muted) { silent(); return; }
     if (!state.voiceUnlocked) { blocked(); return; }
     if (CLIPS[text] && window.Audio) { playClip(text, cb, my, silent); return; }
@@ -288,7 +288,7 @@
   function playClip(text, cb, my, silent) {
     var a = new Audio(CLIP_DIR + CLIPS[text] + '.mp3'); clip = a;
     var fallback = function () { if (my !== state.token) return; clip = null; silent(); };
-    a.onplaying = function () { if (my === state.token) setSpeaking(true); };
+    a.onplaying = function () { if (my === state.token) { setSpeaking(true); if (cb && a.duration && isFinite(a.duration)) glide((a.duration - a.currentTime) * 1000); } };
     a.ontimeupdate = function () { if (my === state.token) state.kick = 0.6 + Math.random() * 0.8; };
     a.onended = function () { setSpeaking(false); clip = null; if (my === state.token && cb) state.timer = setTimeout(function () { if (my === state.token) cb(); }, 900); };
     a.onerror = fallback; // missing file -> browser voice
@@ -325,6 +325,26 @@
   }
 
   /* ---------- tour ---------- */
+  // While Fu talks, pan slowly through the current section so the page moves with the voice.
+  var glideRaf = 0;
+  function stopGlide() { if (glideRaf) cancelAnimationFrame(glideRaf); glideRaf = 0; }
+  function glide(ms) {
+    stopGlide();
+    var el = state.glideEl; if (!el || reduced || !ms) return;
+    var r = el.getBoundingClientRect(), from = window.pageYOffset;
+    var to = Math.min(r.bottom + from - innerHeight * 0.55, document.documentElement.scrollHeight - innerHeight);
+    if (to - from < 40) return;
+    var t0 = 0, dur = Math.max(1500, ms - 600);
+    var step = function (ts) {
+      if (!t0) t0 = ts;
+      var k = Math.min(1, (ts - t0) / dur), e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      var y = from + (to - from) * e;
+      if (window.__faLenis && window.__faLenis.scrollTo) window.__faLenis.scrollTo(y, { immediate: true });
+      else window.scrollTo(0, y);
+      glideRaf = k < 1 ? requestAnimationFrame(step) : 0;
+    };
+    glideRaf = requestAnimationFrame(step);
+  }
   function scrollToEl(el) {
     var y = el.getBoundingClientRect().top + window.pageYOffset - Math.max(0, (innerHeight - el.offsetHeight) / 4);
     y = Math.max(0, y);
@@ -337,6 +357,7 @@
     if (state.paused || state.dismissed) return;
     state.step = i; state.running = true;
     var s = STEPS[i], el = s.sel ? document.querySelector(s.sel) : document.getElementById(s.id);
+    state.glideEl = el || null;
     if (el) scrollToEl(el);
     var last = i === STEPS.length - 1;
     show(s.text, !last ? [{ a: 'next', t: 'Skip', alt: true }] :
@@ -355,7 +376,7 @@
   }
   // Home: welcome line at the top of the page first, then each section in order.
   function startTour() {
-    state.paused = false; state.dismissed = false; state.step = -1; state.running = true;
+    state.paused = false; state.dismissed = false; state.step = -1; state.running = true; state.glideEl = null;
     if (PATH !== '/') { runStep(0); return; }
     goTop(); place(HOME[0], HOME[1], true); wave();
     show(WELCOME, [{ a: 'next', t: 'Skip', alt: true }]);
@@ -459,7 +480,8 @@
          "I couldn't hear that. Tap the mic and try again, or type your question below.", []);
   }
   function startRec() {
-    var got = false, heard = '';
+    var got = false, heard = '', idle = 0, done = false;
+    var finish = function () { if (done) return; done = true; clearTimeout(idle); try { rec.abort(); } catch (x) {} listening = false; root.classList.remove('is-listening'); if (heard.trim()) ask(heard); };
     rec = new Rec();
     rec.lang = (navigator.language && /^en/i.test(navigator.language)) ? navigator.language : 'en-IN';
     rec.interimResults = true; rec.continuous = false; rec.maxAlternatives = 1;
@@ -468,10 +490,13 @@
       heard = '';
       for (var i = 0; i < e.results.length; i++) heard += e.results[i][0].transcript;
       textEl.textContent = '“' + heard + '”';
-      if (e.results[e.results.length - 1].isFinal) { got = true; try { rec.stop(); } catch (x) {} }
+      clearTimeout(idle);
+      if (e.results[e.results.length - 1].isFinal) { got = true; finish(); }
+      else idle = setTimeout(finish, 900); // answer as soon as the visitor pauses
     };
-    rec.onerror = function (e) { got = true; micMsg(e && e.error); };
+    rec.onerror = function (e) { if (done) return; got = true; clearTimeout(idle); micMsg(e && e.error); };
     rec.onend = function () {
+      if (done) return; done = true; clearTimeout(idle);
       listening = false; root.classList.remove('is-listening');
       if (heard.trim()) ask(heard); else if (!got) micMsg('no-speech');
     };
@@ -522,7 +547,7 @@
 
   function userTook(ev) {
     if (ev && ev.target && root.contains(ev.target)) return;
-    state.userScrolled = true;
+    state.userScrolled = true; stopGlide();
     if (state.running && !state.paused && !state.dismissed) pauseTour('Tour paused. Want me to carry on?');
   }
   window.addEventListener('wheel', userTook, { passive: true });
